@@ -54,10 +54,10 @@ void Camera::Process()
 	}
 #endif
 
-	if (trg & PAD_INPUT_3) {   // カメラの位置を初期位置に戻す
+/*	if (trg & PAD_INPUT_3) {   // カメラの位置を初期位置に戻す
 		Initialize();
 	}
-
+*/
 	if (key & PAD_INPUT_8) {	// W
 		// カメラ位置（注目位置もXZスライド）
 			float sx = _vPos.x - _vTarg.x;
