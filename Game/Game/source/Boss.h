@@ -1,0 +1,27 @@
+#pragma once
+#include "appframe.h"
+
+class Boss
+{
+public:
+	Boss();
+	~Boss();
+
+	void Initialize();
+	void Process();
+	void Render();
+
+	static Boss* GetInstance() { return _pInstance; }
+	VECTOR GetPos() { return _vPos; }
+
+	static Boss* _pInstance;
+
+private:
+	int _mh;
+	VECTOR _vPos;
+	VECTOR _vDir;   // Œü‚«
+
+	int _attachIndex;
+	float _totalTime;
+	float _playTime;
+};
