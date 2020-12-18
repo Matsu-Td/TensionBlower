@@ -8,6 +8,6 @@ public:
 	~JsonBase();
 
 protected:
-	std::string StringFileLoad();
+	std::string StringFileLoad(std::string filePath, std::string tiledFileName);
 	int JsonLoad(std::string filePath, std::string strFileName);
 };

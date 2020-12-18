@@ -157,6 +157,56 @@ void Camera::Process()
 			break;
 		}
 		case STATE::LOCK:
+		{
+			_vTarg = VGet(bsPos.x, bsPos.y + 3.5f, bsPos.z);
+			float sx = _vPos.x - _vTarg.x;
+			float sz = _vPos.z - _vTarg.z;
+			float camrad = atan2(sz, sx);
+
+			/*
+			float sx = _vPos.x - _vTarg.x;
+			float sz = _vPos.z - _vTarg.z;
+			float camrad = atan2(sz, sx);
+			*/
+			// 移動方向を決める
+			VECTOR vec = { 0,0,0 };
+			float mvSpd = 0.3f;
+			// アナログ左スティック用
+			float length = sqrt(lx * lx + ly * ly);
+			float rad = atan2(lx, ly);
+			if (length < analogMin) {
+				// 入力が小さかったら動かなかったことにする
+				length = 0.f;
+			}
+			else {
+				length = mvSpd;
+			}
+
+			// vをrad分回転させる
+			vec.x = cos(rad + camrad) * length;
+			vec.z = sin(rad + camrad) * length;
+
+			_vPos = VAdd(_vPos, vec);
+			_vTarg = VAdd(_vTarg, vec);
+
+			// カメラ操作を行う（右スティック）
+			{
+				// Y軸回転
+				float sx = _vPos.x - _vTarg.x;
+				float sz = _vPos.z - _vTarg.z;
+				float rad = atan2(sz, sx);
+				float length = sqrt(sz * sz + sx * sx);
+				if (rx > analogMin) { rad -= 0.05f; }
+				if (rx < -analogMin) { rad += 0.05f; }
+				_vPos.x = _vTarg.x + cos(rad) * length;
+				_vPos.z = _vTarg.z + sin(rad) * length;
+
+				// Y位置
+				if (ry > analogMin) { _vPos.y -= 0.5f; }
+				if (ry < -analogMin) { _vPos.y += 0.5f; }
+			}
+			break;
+		}
 			break;
 		default:
 			break;

@@ -3,7 +3,7 @@
 
 Stage::Stage()
 {
-	_mh = MV1LoadModel("res/model/仮データ/stage_dummy01.mv1");
+	_mh = MV1LoadModel("res/model/仮データ/stage_dummy02.mv1");
 }
 
 Stage::~Stage()
