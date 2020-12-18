@@ -9,4 +9,5 @@ public:
 
 protected:
 	std::string StringFileLoad();
+	int JsonLoad(std::string filePath, std::string strFileName);
 };

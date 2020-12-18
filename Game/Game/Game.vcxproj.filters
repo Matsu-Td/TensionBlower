@@ -60,6 +60,9 @@
     <ClCompile Include="source\Stage.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
+    <ClCompile Include="source\PlayerData.cpp">
+      <Filter>ソース ファイル\Object\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ApplicationMain.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="source\Stage.h">
       <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="source\PlayerData.h">
+      <Filter>ヘッダー ファイル\Object\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
