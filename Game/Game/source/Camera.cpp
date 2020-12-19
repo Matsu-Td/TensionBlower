@@ -35,13 +35,11 @@ void Camera::Process()
 	DINPUT_JOYSTATE dinput;
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
 	float lx, ly, rx, ry;           // 左右アナログスティックの座標
-	float analogMin = 0.3f; 
+	float analogMin = 0.3f;
 	lx = static_cast<float>(dinput.X);
 	ly = static_cast<float>(dinput.Y);
 	rx = static_cast<float>(dinput.Rx);
 	ry = static_cast<float>(dinput.Ry);
-
-
 
 
 	// カメラ移動制限
@@ -54,167 +52,84 @@ void Camera::Process()
 	}
 #endif
 
+#if 1   // 0:開発用(カメラ自由)、1:ゲーム用(仕様通り)
 	if (trg & PAD_INPUT_3) {   // カメラの位置を初期位置に戻す
 		Initialize();
 	}
 
-	if (key & PAD_INPUT_8) {	// W
-		// カメラ位置（注目位置もXZスライド）
-			float sx = _vPos.x - _vTarg.x;
-			float sz = _vPos.z - _vTarg.z;
-			float camrad = atan2(sz, sx);
+	switch (_state) {
+	case STATE::NORMAL:
+	{
+		_vTarg = VGet(plPos.x, plPos.y + 3.5f, plPos.z);
+		float sx = _vPos.x - _vTarg.x;
+		float sz = _vPos.z - _vTarg.z;
+		float camrad = atan2(sz, sx);
 
-			// 移動方向を決める(左スティック)
-			{
-				VECTOR vec = { 0,0,0 };
-				float mvSpd = 1.f;
-				float length = sqrt(lx * lx + ly * ly);
-				float rad = atan2(lx, ly);
-				if (length < analogMin) {
-					// 入力が小さかったら動かなかったことにする
-					length = 0.f;
-				}
-				else {
-					length = mvSpd;
-				}
-				// vをrad分回転させる
-				vec.x = cos(rad + camrad) * length;
-				vec.z = sin(rad + camrad) * length;
-
-				// vecの分移動
-				_vPos = VAdd(_vPos, vec);
-				_vTarg = VAdd(_vTarg, vec);
-			}
-
-			// 距離、ターゲットの高さ変更（右スティック）
-			{
-				float sx = _vPos.x - _vTarg.x;
-				float sz = _vPos.z - _vTarg.z;
-				float rad = atan2(sz, sx);
-				float length = sqrt(sz * sz + sx * sx);
-				if (rx < -analogMin) { length -= 0.5f; }
-				if (rx > analogMin) { length += 0.5f; }
-				_vPos.x = _vTarg.x + cos(rad) * length;
-				_vPos.z = _vTarg.z + sin(rad) * length;
-
-				// Y位置
-				if (ry > analogMin) { _vTarg.y -= 0.5f; }
-				if (ry < -analogMin) { _vTarg.y += 0.5f; }
-			}
+		// 移動方向を決める
+		VECTOR vec = { 0,0,0 };
+		float mvSpd = 0.3f;
+		// アナログ左スティック用
+		float length = sqrt(lx * lx + ly * ly);
+		float rad = atan2(lx, ly);
+		if (length < analogMin) {
+			// 入力が小さかったら動かなかったことにする
+			length = 0.f;
 		}
-	else {
+		else {
+			length = mvSpd;
+		}
 
-		switch(_state){
-		case STATE::NORMAL:
+		// vをrad分回転させる
+		vec.x = cos(rad + camrad) * length;
+		vec.z = sin(rad + camrad) * length;
+
+		_vPos = VAdd(_vPos, vec);
+		_vTarg = VAdd(_vTarg, vec);
+
+		// カメラ操作を行う（右スティック）
 		{
-			_vTarg = VGet(plPos.x, plPos.y + 3.5f, plPos.z);
+			// Y軸回転
 			float sx = _vPos.x - _vTarg.x;
 			float sz = _vPos.z - _vTarg.z;
-			float camrad = atan2(sz, sx);
+			float rad = atan2(sz, sx);
+			float length = sqrt(sz * sz + sx * sx);
+			if (rx > analogMin) { rad -= 0.05f; }
+			if (rx < -analogMin) { rad += 0.05f; }
+			_vPos.x = _vTarg.x + cos(rad) * length;
+			_vPos.z = _vTarg.z + sin(rad) * length;
 
-			/*
-			float sx = _vPos.x - _vTarg.x;
-			float sz = _vPos.z - _vTarg.z;
-			float camrad = atan2(sz, sx);
-			*/
-			// 移動方向を決める
-			VECTOR vec = { 0,0,0 };
-			float mvSpd = 0.3f;
-			// アナログ左スティック用
-			float length = sqrt(lx * lx + ly * ly);
-			float rad = atan2(lx, ly);
-			if (length < analogMin) {
-				// 入力が小さかったら動かなかったことにする
-				length = 0.f;
-			}
-			else {
-				length = mvSpd;
-			}
-
-			// vをrad分回転させる
-			vec.x = cos(rad + camrad) * length;
-			vec.z = sin(rad + camrad) * length;
-
-			_vPos = VAdd(_vPos, vec);
-			_vTarg = VAdd(_vTarg, vec);
-
-			// カメラ操作を行う（右スティック）
-			{
-				// Y軸回転
-				float sx = _vPos.x - _vTarg.x;
-				float sz = _vPos.z - _vTarg.z;
-				float rad = atan2(sz, sx);
-				float length = sqrt(sz * sz + sx * sx);
-				if (rx > analogMin) { rad -= 0.05f; }
-				if (rx < -analogMin) { rad += 0.05f; }
-				_vPos.x = _vTarg.x + cos(rad) * length;
-				_vPos.z = _vTarg.z + sin(rad) * length;
-
-				// Y位置
-				if (ry > analogMin) { _vPos.y -= 0.5f; }
-				if (ry < -analogMin) { _vPos.y += 0.5f; }
-			}
-			break;
+			// Y位置
+			if (ry > analogMin) { _vPos.y -= 0.5f; }
+			if (ry < -analogMin) { _vPos.y += 0.5f; }
 		}
-		case STATE::LOCK:
-		{
-			_vTarg = VGet(bsPos.x, bsPos.y + 3.5f, bsPos.z);
-			float sx = _vPos.x - _vTarg.x;
-			float sz = _vPos.z - _vTarg.z;
-			float camrad = atan2(sz, sx);
-
-			/*
-			float sx = _vPos.x - _vTarg.x;
-			float sz = _vPos.z - _vTarg.z;
-			float camrad = atan2(sz, sx);
-			*/
-			// 移動方向を決める
-			VECTOR vec = { 0,0,0 };
-			float mvSpd = 0.3f;
-			// アナログ左スティック用
-			float length = sqrt(lx * lx + ly * ly);
-			float rad = atan2(lx, ly);
-			if (length < analogMin) {
-				// 入力が小さかったら動かなかったことにする
-				length = 0.f;
-			}
-			else {
-				length = mvSpd;
-			}
-
-			// vをrad分回転させる
-			vec.x = cos(rad + camrad) * length;
-			vec.z = sin(rad + camrad) * length;
-
-			_vPos = VAdd(_vPos, vec);
-			_vTarg = VAdd(_vTarg, vec);
-
-			// カメラ操作を行う（右スティック）
-			{
-				// Y軸回転
-				float sx = _vPos.x - _vTarg.x;
-				float sz = _vPos.z - _vTarg.z;
-				float rad = atan2(sz, sx);
-				float length = sqrt(sz * sz + sx * sx);
-				if (rx > analogMin) { rad -= 0.05f; }
-				if (rx < -analogMin) { rad += 0.05f; }
-				_vPos.x = _vTarg.x + cos(rad) * length;
-				_vPos.z = _vTarg.z + sin(rad) * length;
-
-				// Y位置
-				if (ry > analogMin) { _vPos.y -= 0.5f; }
-				if (ry < -analogMin) { _vPos.y += 0.5f; }
-			}
-			break;
-		}
-			break;
-		default:
-			break;
-
-		}
+		break;
 	}
 
+	//ボスロックオン時///////////////////////////////////////////////////////////////////
+	case STATE::LOCK:
+	{
+		_vTarg = VGet(bsPos.x, bsPos.y + 3.5f, bsPos.z);
+		float sx = plPos.x - _vTarg.x;
+		float sz = plPos.z - _vTarg.z;
+		float camrad = atan2(sz, sx);
 
+		// 移動方向を決める
+		VECTOR vec = { 0,0,0 };
+		float mvSpd = 0.3f;
+		// アナログ左スティック用
+		//float length = sqrt(lx * lx + ly * ly);
+		float length = sqrt(sx * sx + sz * sz) + 25.f;
+
+		// vをrad分回転させる
+		_vPos.x = cos(camrad) * (length);
+		_vPos.z = sin(camrad) * (length);
+
+		break;
+	}
+	default:
+		break;
+
+	}
 	// 敵へのカメラロックオンオフ切替
 	if (trg & PAD_INPUT_10) {           // 右アナログスティック押し込み
 		if (_state == STATE::NORMAL) {
@@ -224,6 +139,101 @@ void Camera::Process()
 			_state = STATE::NORMAL;
 		}
 	}
+
+
+#else
+	if (key & PAD_INPUT_8) {	// W
+	// カメラ位置（注目位置もXZスライド）
+		float sx = _vPos.x - _vTarg.x;
+		float sz = _vPos.z - _vTarg.z;
+		float camrad = atan2(sz, sx);
+
+		// 移動方向を決める(左スティック)
+		{
+			VECTOR vec = { 0,0,0 };
+			float mvSpd = 1.f;
+			float length = sqrt(lx * lx + ly * ly);
+			float rad = atan2(lx, ly);
+			if (length < analogMin) {
+				// 入力が小さかったら動かなかったことにする
+				length = 0.f;
+			}
+			else {
+				length = mvSpd;
+			}
+			// vをrad分回転させる
+			vec.x = cos(rad + camrad) * length;
+			vec.z = sin(rad + camrad) * length;
+
+			// vecの分移動
+			_vPos = VAdd(_vPos, vec);
+			_vTarg = VAdd(_vTarg, vec);
+		}
+
+		// 距離、ターゲットの高さ変更（右スティック）
+		{
+			float sx = _vPos.x - _vTarg.x;
+			float sz = _vPos.z - _vTarg.z;
+			float rad = atan2(sz, sx);
+			float length = sqrt(sz * sz + sx * sx);
+			if (rx < -analogMin) { length -= 0.5f; }
+			if (rx > analogMin) { length += 0.5f; }
+			_vPos.x = _vTarg.x + cos(rad) * length;
+			_vPos.z = _vTarg.z + sin(rad) * length;
+
+			// Y位置
+			if (ry > analogMin) { _vTarg.y -= 0.5f; }
+			if (ry < -analogMin) { _vTarg.y += 0.5f; }
+		}
+	}
+	else {
+		{
+			_vTarg = VGet(plPos.x, plPos.y + 3.5f, plPos.z);
+			float sx = _vPos.x - _vTarg.x;
+			float sz = _vPos.z - _vTarg.z;
+			float camrad = atan2(sz, sx);
+
+			// 移動方向を決める
+			VECTOR vec = { 0,0,0 };
+			float mvSpd = 0.3f;
+			// アナログ左スティック用
+			float length = sqrt(lx * lx + ly * ly);
+			float rad = atan2(lx, ly);
+			if (length < analogMin) {
+				// 入力が小さかったら動かなかったことにする
+				length = 0.f;
+			}
+			else {
+				length = mvSpd;
+			}
+
+			// vをrad分回転させる
+			vec.x = cos(rad + camrad) * length;
+			vec.z = sin(rad + camrad) * length;
+
+			_vPos = VAdd(_vPos, vec);
+			_vTarg = VAdd(_vTarg, vec);
+
+			// カメラ操作を行う（右スティック）
+			{
+				// Y軸回転
+				float sx = _vPos.x - _vTarg.x;
+				float sz = _vPos.z - _vTarg.z;
+				float rad = atan2(sz, sx);
+				float length = sqrt(sz * sz + sx * sx);
+				if (rx > analogMin) { rad -= 0.05f; }
+				if (rx < -analogMin) { rad += 0.05f; }
+				_vPos.x = _vTarg.x + cos(rad) * length;
+				_vPos.z = _vTarg.z + sin(rad) * length;
+
+				// Y位置
+				if (ry > analogMin) { _vPos.y -= 0.5f; }
+				if (ry < -analogMin) { _vPos.y += 0.5f; }
+			}
+		}
+	}
+#endif
+
 
 }
 

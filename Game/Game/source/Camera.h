@@ -27,7 +27,7 @@ private:
 	enum class STATE {
 		NORMAL,
 		LOCK,
-		M_LOCK,
+		MRS_LOCK,
 	};
 	STATE _state;
 };
