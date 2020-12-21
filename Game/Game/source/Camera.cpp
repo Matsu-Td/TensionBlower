@@ -20,6 +20,7 @@ Camera::~Camera()
 void Camera::Initialize()
 {
 	_vPos = VGet(0.f, 10.f, -140.f);
+	_oldvPos = _vPos;
 	_state = STATE::NORMAL;
 }
 
@@ -53,13 +54,28 @@ void Camera::Process()
 #endif
 
 #if 1   // 0:開発用(カメラ自由)、1:ゲーム用(仕様通り)
-	if (trg & PAD_INPUT_3) {   // カメラの位置を初期位置に戻す
-		Initialize();
+
+	// 敵へのカメラロックオンオフ切替
+/*	if (trg & PAD_INPUT_10) {           // 右アナログスティック押し込み
+		if (_state == STATE::NORMAL) {
+			_state = STATE::LOCK;
+		}
+		else if(_state == STATE::LOCK){
+			_state = STATE::NORMAL;
+		}
 	}
 
+	// マルチロックシステム
+	if (key & PAD_INPUT_5) {           // LBボタン押している間
+		_state = STATE::MRS_LOCK;
+	}
+	else if (!(key & PAD_INPUT_5) && !(trg & PAD_INPUT_10))
+	{
+		_state = STATE::NORMAL;
+	}*/
 	switch (_state) {
 	case STATE::NORMAL:
-	{
+	{	
 		_vTarg = VGet(plPos.x, plPos.y + 3.5f, plPos.z);
 		float sx = _vPos.x - _vTarg.x;
 		float sz = _vPos.z - _vTarg.z;
@@ -74,6 +90,7 @@ void Camera::Process()
 		if (length < analogMin) {
 			// 入力が小さかったら動かなかったことにする
 			length = 0.f;
+			_vPos = _oldvPos;
 		}
 		else {
 			length = mvSpd;
@@ -85,6 +102,7 @@ void Camera::Process()
 
 		_vPos = VAdd(_vPos, vec);
 		_vTarg = VAdd(_vTarg, vec);
+		_oldvPos = _vPos;
 
 		// カメラ操作を行う（右スティック）
 		{
@@ -102,43 +120,49 @@ void Camera::Process()
 			if (ry > analogMin) { _vPos.y -= 0.5f; }
 			if (ry < -analogMin) { _vPos.y += 0.5f; }
 		}
+
+		if (trg & PAD_INPUT_10) { _state = STATE::LOCK; }
+		if (key & PAD_INPUT_5) { _state = STATE::MRS_LOCK; }
 		break;
 	}
 
-	//ボスロックオン時///////////////////////////////////////////////////////////////////
+
 	case STATE::LOCK:
 	{
 		_vTarg = VGet(bsPos.x, bsPos.y + 3.5f, bsPos.z);
 		float sx = plPos.x - _vTarg.x;
 		float sz = plPos.z - _vTarg.z;
 		float camrad = atan2(sz, sx);
-
-		// 移動方向を決める
-		VECTOR vec = { 0,0,0 };
-		float mvSpd = 0.3f;
-		// アナログ左スティック用
-		//float length = sqrt(lx * lx + ly * ly);
 		float length = sqrt(sx * sx + sz * sz) + 25.f;
 
 		// vをrad分回転させる
-		_vPos.x = cos(camrad) * (length);
-		_vPos.z = sin(camrad) * (length);
+		_vPos.x = cos(camrad) * length;
+		_vPos.z = sin(camrad) * length;
 
+		if(trg & PAD_INPUT_10) { _state = STATE::NORMAL; }
+		break;
+	}
+
+	case STATE::MRS_LOCK:
+	{
+		_vTarg = VGet(bsPos.x, bsPos.y + 3.5f, bsPos.z);
+		float sx = plPos.x - _vTarg.x;
+		float sz = plPos.z - _vTarg.z;
+		float camrad = atan2(sz, sx);
+		float length = sqrt(sx * sx + sz * sz);
+
+		// vをrad分回転させる
+		_vPos.x = cos(camrad) * length;
+		_vPos.z = sin(camrad) * length;
+		if (!(key & PAD_INPUT_5)) { _state = STATE::_EOF_; }
 		break;
 	}
 	default:
+		_state = STATE::NORMAL;
 		break;
 
 	}
-	// 敵へのカメラロックオンオフ切替
-	if (trg & PAD_INPUT_10) {           // 右アナログスティック押し込み
-		if (_state == STATE::NORMAL) {
-			_state = STATE::LOCK;
-		}
-		else {
-			_state = STATE::NORMAL;
-		}
-	}
+
 
 
 #else

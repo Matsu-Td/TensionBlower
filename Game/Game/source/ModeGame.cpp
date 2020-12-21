@@ -26,9 +26,6 @@ bool ModeGame::Terminate() {
 bool ModeGame::Process() {
 	base::Process();
 
-	int key = ApplicationMain::GetInstance()->GetKey();
-	int trg = ApplicationMain::GetInstance()->GetTrg();
-
 	_cam.Process();
 	_pl.Process();
 	_bs.Process();

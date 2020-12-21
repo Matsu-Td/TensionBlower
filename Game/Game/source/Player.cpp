@@ -126,17 +126,16 @@ void Player::Render()
 		MV1SetRotationXYZ(_mh, vRot);
 		MV1DrawModel(_mh);
 	}
-
-	// シングルトン実装例
-	VECTOR camPos = Camera::GetInstance()->GetPos();
-	DrawFormatString(0, 100, GetColor(255, 0, 0), "  camPos.x = %5.2f", camPos.x);
-	DrawFormatString(0, 120, GetColor(255, 0, 0), "  camPos.y = %5.2f", camPos.y);
-	DrawFormatString(0, 140, GetColor(255, 0, 0), "  camPos.z = %5.2f", camPos.z);
-
 }
 
 /* 他ファイルからの変数値を持ってくる方法例
 //VECTOR _cam = Camera::GetInstance()-GetPos();
 	//ModeGame* modegame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	//printfDx("%f\n", _cam);
+
+		// シングルトン実装例
+	VECTOR camPos = Camera::GetInstance()->GetPos();
+	DrawFormatString(0, 100, GetColor(255, 0, 0), "  camPos.x = %5.2f", camPos.x);
+	DrawFormatString(0, 120, GetColor(255, 0, 0), "  camPos.y = %5.2f", camPos.y);
+	DrawFormatString(0, 140, GetColor(255, 0, 0), "  camPos.z = %5.2f", camPos.z);
 */
