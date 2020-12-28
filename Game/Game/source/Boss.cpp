@@ -33,6 +33,7 @@ void Boss::Process()
 	if (_playTime >= _totalTime) {
 		_playTime = 0.f;
 	}
+	_bsBullet.Process();
 }
 
 void Boss::Render()
@@ -43,5 +44,7 @@ void Boss::Render()
 
 	MV1SetRotationXYZ(_mh, VGet(0.f,-90.f * DX_PI_F / 180.f,0.f));
 	MV1DrawModel(_mh);
+
+	_bsBullet.Render();
 
 }

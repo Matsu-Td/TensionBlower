@@ -22,6 +22,9 @@ void Camera::Initialize()
 	_vPos = VGet(0.f, 10.f, -140.f);
 	_oldvPos = _vPos;
 	_state = STATE::NORMAL;
+	_cnt = 150;
+	_angleH = 0.f;
+	_angleV = 20.f;
 }
 
 void Camera::Process()
@@ -30,7 +33,7 @@ void Camera::Process()
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
 	VECTOR plPos = Player::GetInstance()->GetPos();   // プレイヤー位置情報取得
-	VECTOR bsPos = Boss::GetInstance()->GetPos();   // ボス位置情報取得
+	VECTOR bsPos = Boss::GetInstance()->GetPos();     // ボス位置情報取得
 
 	// アナログスティック対応
 	DINPUT_JOYSTATE dinput;
@@ -54,29 +57,39 @@ void Camera::Process()
 #endif
 
 #if 1   // 0:開発用(カメラ自由)、1:ゲーム用(仕様通り)
-
-	// 敵へのカメラロックオンオフ切替
-/*	if (trg & PAD_INPUT_10) {           // 右アナログスティック押し込み
-		if (_state == STATE::NORMAL) {
-			_state = STATE::LOCK;
-		}
-		else if(_state == STATE::LOCK){
-			_state = STATE::NORMAL;
-		}
-	}
-
-	// マルチロックシステム
-	if (key & PAD_INPUT_5) {           // LBボタン押している間
-		_state = STATE::MRS_LOCK;
-	}
-	else if (!(key & PAD_INPUT_5) && !(trg & PAD_INPUT_10))
-	{
-		_state = STATE::NORMAL;
-	}*/
 	switch (_state) {
 	case STATE::NORMAL:
 	{	
-		_vTarg = VGet(plPos.x, plPos.y + 3.5f, plPos.z);
+		VECTOR TmpPos1, TmpPos2;
+		float sinParam, cosParam;
+		_vTarg = plPos;
+		_vTarg.y = plPos.y + 3.5f;
+
+		// 垂直角度を反映した位置
+		sinParam = sin(_angleV / 180.f * DX_PI_F);
+		cosParam = cos(_angleV / 180.f * DX_PI_F);
+		TmpPos1.x = 0.f;
+		TmpPos1.y = sinParam * 25.f;
+		TmpPos1.z = -cosParam * 25.f;
+
+		// 水平角度を反映した位置
+		sinParam = sin(_angleH / 180.f * DX_PI_F);
+		cosParam = cos(_angleH / 180.f * DX_PI_F);
+		TmpPos2.x = cosParam * TmpPos1.x - sinParam * TmpPos1.z;
+		TmpPos2.y = TmpPos1.y;
+		TmpPos2.z = sinParam * TmpPos1.x + cosParam * TmpPos1.z;
+
+		// 水平角度変更
+		if (rx > analogMin) {_angleH -= 1.f; }
+		if (rx < -analogMin) { _angleH += 1.f; }
+		// 垂直角度変更
+		if (ry > analogMin) { _angleV -= 1.f; }
+		if (ry < -analogMin) { _angleV += 1.f; }
+
+		_vPos = VAdd(TmpPos2, _vTarg);
+
+/*		_vTarg = plPos;
+		_vTarg.y = plPos.y + 3.5f;
 		float sx = _vPos.x - _vTarg.x;
 		float sz = _vPos.z - _vTarg.z;
 		float camrad = atan2(sz, sx);
@@ -90,7 +103,7 @@ void Camera::Process()
 		if (length < analogMin) {
 			// 入力が小さかったら動かなかったことにする
 			length = 0.f;
-			_vPos = _oldvPos;
+			//_vPos = _oldvPos;
 		}
 		else {
 			length = mvSpd;
@@ -99,10 +112,9 @@ void Camera::Process()
 		// vをrad分回転させる
 		vec.x = cos(rad + camrad) * length;
 		vec.z = sin(rad + camrad) * length;
-
 		_vPos = VAdd(_vPos, vec);
 		_vTarg = VAdd(_vTarg, vec);
-		_oldvPos = _vPos;
+		//_vPos.y = plPos.y + 10.f;
 
 		// カメラ操作を行う（右スティック）
 		{
@@ -120,44 +132,49 @@ void Camera::Process()
 			if (ry > analogMin) { _vPos.y -= 0.5f; }
 			if (ry < -analogMin) { _vPos.y += 0.5f; }
 		}
+*/
+		_oldvPos = _vPos;
 
-		if (trg & PAD_INPUT_10) { _state = STATE::LOCK; }
+		if (trg & PAD_INPUT_10) { _state = STATE::TARG_LOCK; }
 		if (key & PAD_INPUT_5) { _state = STATE::MRS_LOCK; }
 		break;
 	}
 
-
-	case STATE::LOCK:
+	case STATE::TARG_LOCK:
 	{
-		_vTarg = VGet(bsPos.x, bsPos.y + 3.5f, bsPos.z);
+		_vTarg = bsPos;
+		_vTarg.y = bsPos.y + 3.5f;
 		float sx = plPos.x - _vTarg.x;
 		float sz = plPos.z - _vTarg.z;
 		float camrad = atan2(sz, sx);
 		float length = sqrt(sx * sx + sz * sz) + 25.f;
 
-		// vをrad分回転させる
 		_vPos.x = cos(camrad) * length;
 		_vPos.z = sin(camrad) * length;
+		_vPos.y = 10.f; // カメラ高さ固定
 
 		if(trg & PAD_INPUT_10) { _state = STATE::NORMAL; }
+		if (key & PAD_INPUT_5) { _state = STATE::MRS_LOCK; }
 		break;
 	}
 
 	case STATE::MRS_LOCK:
 	{
-		_vTarg = VGet(bsPos.x, bsPos.y + 3.5f, bsPos.z);
+		_vTarg = bsPos;
+		_vTarg.y = bsPos.y + 3.5f;
 		float sx = plPos.x - _vTarg.x;
 		float sz = plPos.z - _vTarg.z;
 		float camrad = atan2(sz, sx);
 		float length = sqrt(sx * sx + sz * sz);
 
-		// vをrad分回転させる
 		_vPos.x = cos(camrad) * length;
 		_vPos.z = sin(camrad) * length;
+
 		if (!(key & PAD_INPUT_5)) { _state = STATE::_EOF_; }
 		break;
 	}
 	default:
+		_vPos = _oldvPos;
 		_state = STATE::NORMAL;
 		break;
 
@@ -267,7 +284,7 @@ void Camera::Render()
 	SetCameraPositionAndTarget_UpVecY(_vPos, _vTarg);
 	SetCameraNearFar(0.1f, 5000.f);
 
-#ifdef _DEBUG
+#if 1
 	// カメラターゲットを中心に短い線を引く
 	{
 		float linelength = 2.f;

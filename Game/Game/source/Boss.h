@@ -1,5 +1,6 @@
 #pragma once
 #include "appframe.h"
+#include "BossBullet.h"
 
 class Boss
 {
@@ -24,4 +25,6 @@ private:
 	int _attachIndex;
 	float _totalTime;
 	float _playTime;
+
+	BossBullet _bsBullet;
 };

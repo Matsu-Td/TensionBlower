@@ -9,6 +9,8 @@ Player::Player()
 {
 	_pInstance = this;
 	_mh = MV1LoadModel("res/model/仮データ/SDChar/SDChar.mv1");
+	_mhMap = MV1LoadModel("res/model/仮データ/stage_dummy02.mv1");
+	MV1SetupCollInfo(_mhMap, -1, 16, 16, 16);
 	Initialize();
 }
 
@@ -24,15 +26,22 @@ void Player::Initialize()
 
 	_attachIndex = -1;
 	_totalTime = 0;
-
 	_playTime = 0.0f;
+
+	_vel = 0.f;
+	_isCanJump = true;
+	_hit = false;
 }
 
 void Player::Process()
 {
+	_oldPos = _vPos;
 	// キーの取得
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
+
+	_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
+	_capsulePos2 = VGet(_vPos.x, _vPos.y + 4.f, _vPos.z);
 
 	// アナログスティック対応
 	DINPUT_JOYSTATE dinput;
@@ -48,6 +57,7 @@ void Player::Process()
 	// カメラデータ取得
 	VECTOR camPos = Camera::GetInstance()->GetPos();
 	VECTOR camTarg = Camera::GetInstance()->GetTarg();
+	int camState = Camera::GetInstance()->GetCameraState();
 
 	// カメラの向いている角度取得
 	float disX = camPos.x - camTarg.x;
@@ -67,13 +77,14 @@ void Player::Process()
 		length = mvSpd;
 	}
 
-	// vecをrad分回転させる
-	vec.x = cos(rad + camRad) * length;
-	vec.z = sin(rad + camRad) * length;
+	if (camState != 2) {
+		// vecをrad分回転させる
+		vec.x = cos(rad + camRad) * length;
+		vec.z = sin(rad + camRad) * length;
 
-	// vecの分移動
-	_vPos = VAdd(_vPos, vec);
-
+		// vecの分移動
+		_vPos = VAdd(_vPos, vec);
+	}
 	// 移動量をそのままキャラの向きにする
 	if (VSize(vec) > 0.f) {		// 移動していない時は無視するため
 		_vDir = vec;
@@ -83,9 +94,53 @@ void Player::Process()
 		_state = STATE::WAIT;
 	}
 
+	// ジャンプ ///////////////////////////////////////////////////
+	if (trg & PAD_INPUT_1 && _isCanJump) {
+		_state = STATE::JUMP;
+		_isCanJump = false;
+	}
+
+	if (_state == STATE::JUMP) {
+		_vel = 1.5f;
+	}
+
+	float acc = 0.05f;
+	_vel -= acc;
+	_vPos.y += _vel;
+
+	if (_vPos.y < GROUND_Y){
+		_vPos.y = GROUND_Y;
+		_vel = 0.f;
+		_isCanJump = true;
+	}
+	////////////////////////////////////////////////////////////////
+
+	// 当たり判定 //////////////////////////////////////////////////
+	//MV1_COLL_RESULT_POLY_DIM hitPoly;
+	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
+	_hitPolyDim = MV1CollCheck_Capsule(_mhMap, -1, _capsulePos1, _capsulePos1, 2.f);
+	
+	if (_hitPolyDim.HitNum >= 1) {
+		/*
+		VECTOR slideVec;
+		VECTOR vec = { 0.f,0.f,0.f };
+		vec.x = cos(rad + camRad) * length;
+		vec.z = sin(rad + camRad) * length;
+		slideVec = VCross(vec, _vDir);
+		slideVec = VCross(_vDir, slideVec);
+		_vPos = VAdd(_oldPos, slideVec);
+		//_vPos = _oldPos;
+		*/
+		_hit = true;
+	}
+	else {
+		_hit = false;
+	}
+
+	/////////////////////////////////////////////////////////////
+	
 	// ステータスが変わっていないか？
 	if (oldState == _state) {
-		// 再生時間を進める
 		_playTime += 0.5f;
 	}
 	else {
@@ -102,6 +157,8 @@ void Player::Process()
 		case STATE::WALK:
 			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "run"), -1, FALSE);
 			break;
+		case STATE::JUMP:
+			break;
 		}
 		// アタッチしたアニメーションの総再生時間を取得する
 		_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
@@ -111,7 +168,8 @@ void Player::Process()
 	if (_playTime >= _totalTime) {
 		_playTime = 0.0f;
 	}
-	
+
+	MV1CollResultPolyDimTerminate(_hitPolyDim);
 }
 
 void Player::Render()
@@ -126,6 +184,19 @@ void Player::Render()
 		MV1SetRotationXYZ(_mh, vRot);
 		MV1DrawModel(_mh);
 	}
+
+#if 1
+	if (_hit) {
+		DrawString(0, 400, "壁に当たり", GetColor(255, 0, 0), GetColor(255, 0, 0));
+	}
+	int y = 100;
+	int size = 16;
+	SetFontSize(size);
+	DrawFormatString(0, y, GetColor(255, 0, 0), "Player:"); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  dir    = (%5.2f, %5.2f, %5.2f)", _vDir.x, _vDir.y, _vDir.z);
+	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+#endif
 }
 
 /* 他ファイルからの変数値を持ってくる方法例

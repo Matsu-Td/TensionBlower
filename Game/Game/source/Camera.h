@@ -27,13 +27,16 @@ private:
 	VECTOR _vPos;    // カメラの位置
 	VECTOR _oldvPos; // カメラ位置保存
 	VECTOR _vTarg;   // カメラの注視点
+	float _angleH;
+	float _angleV;
 
 	enum STATE { // カメラの状態
-		NORMAL,   // 通常状態(TPS視点)
-		LOCK,     // 敵へカメラロック状態
-		MRS_LOCK, // マルチロックシステム発動(FPS視点)
+		NORMAL,      // 通常状態(TPS視点)
+		TARG_LOCK,   // 敵ターゲットロック状態
+		MRS_LOCK,    // マルチロックシステム発動状態(FPS視点)
 		_EOF_,
 	};
+	int _cnt;
 	int _state;
 
 };
