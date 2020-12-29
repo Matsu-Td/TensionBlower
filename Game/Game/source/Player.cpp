@@ -40,6 +40,7 @@ void Player::Process()
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
+	// 当たり判定用カプセル情報
 	_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
 	_capsulePos2 = VGet(_vPos.x, _vPos.y + 4.f, _vPos.z);
 
@@ -57,7 +58,7 @@ void Player::Process()
 	// カメラデータ取得
 	VECTOR camPos = Camera::GetInstance()->GetPos();
 	VECTOR camTarg = Camera::GetInstance()->GetTarg();
-	int camState = Camera::GetInstance()->GetCameraState();
+	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
 
 	// カメラの向いている角度取得
 	float disX = camPos.x - camTarg.x;
@@ -66,7 +67,7 @@ void Player::Process()
 
 	// 移動方向を決める
 	VECTOR vec = { 0.f,0.f,0.f };
-	float mvSpd = 0.3f;
+	float mvSpd = 0.4f;
 	float length = sqrt(lx * lx + ly * ly);
 	float rad = atan2(lx, ly);
 	if (length < analogMin) {
@@ -77,67 +78,65 @@ void Player::Process()
 		length = mvSpd;
 	}
 
-	if (camState != 2) {
+	if (camState != Camera::GetInstance()->STATE::MLS_LOCK) {
 		// vecをrad分回転させる
 		vec.x = cos(rad + camRad) * length;
 		vec.z = sin(rad + camRad) * length;
 
 		// vecの分移動
 		_vPos = VAdd(_vPos, vec);
-	}
-	// 移動量をそのままキャラの向きにする
-	if (VSize(vec) > 0.f) {		// 移動していない時は無視するため
-		_vDir = vec;
-		_state = STATE::WALK;
-	}
-	else {
-		_state = STATE::WAIT;
-	}
 
-	// ジャンプ ///////////////////////////////////////////////////
-	if (trg & PAD_INPUT_1 && _isCanJump) {
-		_state = STATE::JUMP;
-		_isCanJump = false;
+		// 移動量をそのままキャラの向きにする
+		if (VSize(vec) > 0.f) {		// 移動していない時は無視するため
+			_vDir = vec;
+			_state = STATE::WALK;
+		}
+		else {
+			_state = STATE::WAIT;
+		}
+
+		// ジャンプ ///////////////////////////////////////////////////
+		if (trg & PAD_INPUT_1 && _isCanJump) {
+			_state = STATE::JUMP;
+			_isCanJump = false;
+		}
+
+		if (_state == STATE::JUMP) {
+			_vel = 1.2f;
+		}
+
+		float acc = 0.05f;
+		_vel -= acc;
+		_vPos.y += _vel;
+
+		if (_vPos.y < GROUND_Y) {
+			_vPos.y = GROUND_Y;
+			_vel = 0.f;
+			_isCanJump = true;
+		}
+
+		// ダッシュ ///////////////////////////////////////////////////
+		if (trg & PAD_INPUT_6) {
+			_vPos = VAdd(_vPos, VScale(_vDir, 20.f));
+		}
 	}
-
-	if (_state == STATE::JUMP) {
-		_vel = 1.5f;
-	}
-
-	float acc = 0.05f;
-	_vel -= acc;
-	_vPos.y += _vel;
-
-	if (_vPos.y < GROUND_Y){
-		_vPos.y = GROUND_Y;
-		_vel = 0.f;
-		_isCanJump = true;
-	}
-	////////////////////////////////////////////////////////////////
-
-	// 当たり判定 //////////////////////////////////////////////////
-	//MV1_COLL_RESULT_POLY_DIM hitPoly;
+	// 壁との当たり判定、壁ずり //////////////////////////////////////////////////
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
 	_hitPolyDim = MV1CollCheck_Capsule(_mhMap, -1, _capsulePos1, _capsulePos1, 2.f);
 	
 	if (_hitPolyDim.HitNum >= 1) {
-		/*
+		
 		VECTOR slideVec;
-		VECTOR vec = { 0.f,0.f,0.f };
-		vec.x = cos(rad + camRad) * length;
-		vec.z = sin(rad + camRad) * length;
-		slideVec = VCross(vec, _vDir);
-		slideVec = VCross(_vDir, slideVec);
+		slideVec = VCross(vec, _hitPolyDim.Dim->Normal);
+		slideVec = VCross(_hitPolyDim.Dim->Normal, slideVec);
 		_vPos = VAdd(_oldPos, slideVec);
-		//_vPos = _oldPos;
-		*/
+		_vPos = VAdd(_vPos, VScale(_hitPolyDim.Dim->Normal, 0.04f));
+	
 		_hit = true;
 	}
 	else {
 		_hit = false;
 	}
-
-	/////////////////////////////////////////////////////////////
 	
 	// ステータスが変わっていないか？
 	if (oldState == _state) {

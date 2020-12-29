@@ -9,6 +9,7 @@ Camera* Camera::_pInstance = NULL;
 Camera::Camera()
 {
 	_pInstance = this;
+	_reticle.cg = ResourceServer::LoadGraph("res/ui/mls_reticle.png");
 	Initialize();
 }
 
@@ -25,12 +26,17 @@ void Camera::Initialize()
 	_cnt = 150;
 	_angleH = 0.f;
 	_angleV = 20.f;
+	_reticle.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
+	_reticle.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
 }
 
 void Camera::Process()
 {
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
+
+	int dispSizeW = ApplicationMain::GetInstance()->DispSizeW();  // 画面横幅サイズ
+	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();  // 画面縦幅サイズ
 
 	VECTOR plPos = Player::GetInstance()->GetPos();   // プレイヤー位置情報取得
 	VECTOR bsPos = Boss::GetInstance()->GetPos();     // ボス位置情報取得
@@ -45,6 +51,7 @@ void Camera::Process()
 	rx = static_cast<float>(dinput.Rx);
 	ry = static_cast<float>(dinput.Ry);
 
+	float camDis = 25.f;
 
 	// カメラ移動制限
 #if TEST
@@ -69,8 +76,8 @@ void Camera::Process()
 		sinParam = sin(_angleV / 180.f * DX_PI_F);
 		cosParam = cos(_angleV / 180.f * DX_PI_F);
 		TmpPos1.x = 0.f;
-		TmpPos1.y = sinParam * 25.f;
-		TmpPos1.z = -cosParam * 25.f;
+		TmpPos1.y = sinParam * camDis;
+		TmpPos1.z = -cosParam * camDis;
 
 		// 水平角度を反映した位置
 		sinParam = sin(_angleH / 180.f * DX_PI_F);
@@ -88,55 +95,10 @@ void Camera::Process()
 
 		_vPos = VAdd(TmpPos2, _vTarg);
 
-/*		_vTarg = plPos;
-		_vTarg.y = plPos.y + 3.5f;
-		float sx = _vPos.x - _vTarg.x;
-		float sz = _vPos.z - _vTarg.z;
-		float camrad = atan2(sz, sx);
-
-		// 移動方向を決める
-		VECTOR vec = { 0,0,0 };
-		float mvSpd = 0.3f;
-		// アナログ左スティック用
-		float length = sqrt(lx * lx + ly * ly);
-		float rad = atan2(lx, ly);
-		if (length < analogMin) {
-			// 入力が小さかったら動かなかったことにする
-			length = 0.f;
-			//_vPos = _oldvPos;
-		}
-		else {
-			length = mvSpd;
-		}
-
-		// vをrad分回転させる
-		vec.x = cos(rad + camrad) * length;
-		vec.z = sin(rad + camrad) * length;
-		_vPos = VAdd(_vPos, vec);
-		_vTarg = VAdd(_vTarg, vec);
-		//_vPos.y = plPos.y + 10.f;
-
-		// カメラ操作を行う（右スティック）
-		{
-			// Y軸回転
-			float sx = _vPos.x - _vTarg.x;
-			float sz = _vPos.z - _vTarg.z;
-			float rad = atan2(sz, sx);
-			float length = sqrt(sz * sz + sx * sx);
-			if (rx > analogMin) { rad -= 0.05f; }
-			if (rx < -analogMin) { rad += 0.05f; }
-			_vPos.x = _vTarg.x + cos(rad) * length;
-			_vPos.z = _vTarg.z + sin(rad) * length;
-
-			// Y位置
-			if (ry > analogMin) { _vPos.y -= 0.5f; }
-			if (ry < -analogMin) { _vPos.y += 0.5f; }
-		}
-*/
 		_oldvPos = _vPos;
 
 		if (trg & PAD_INPUT_10) { _state = STATE::TARG_LOCK; }
-		if (key & PAD_INPUT_5) { _state = STATE::MRS_LOCK; }
+		if (key & PAD_INPUT_5) { _state = STATE::MLS_LOCK; }
 		break;
 	}
 
@@ -147,19 +109,20 @@ void Camera::Process()
 		float sx = plPos.x - _vTarg.x;
 		float sz = plPos.z - _vTarg.z;
 		float camrad = atan2(sz, sx);
-		float length = sqrt(sx * sx + sz * sz) + 25.f;
+		float length = sqrt(sx * sx + sz * sz) + camDis;
 
 		_vPos.x = cos(camrad) * length;
 		_vPos.z = sin(camrad) * length;
 		_vPos.y = 10.f; // カメラ高さ固定
 
 		if(trg & PAD_INPUT_10) { _state = STATE::NORMAL; }
-		if (key & PAD_INPUT_5) { _state = STATE::MRS_LOCK; }
+		if (key & PAD_INPUT_5) { _state = STATE::MLS_LOCK; }
 		break;
 	}
 
-	case STATE::MRS_LOCK:
+	case STATE::MLS_LOCK:
 	{
+		_reticle.spd = 5;
 		_vTarg = bsPos;
 		_vTarg.y = bsPos.y + 3.5f;
 		float sx = plPos.x - _vTarg.x;
@@ -169,6 +132,17 @@ void Camera::Process()
 
 		_vPos.x = cos(camrad) * length;
 		_vPos.z = sin(camrad) * length;
+		_vPos.y = 10.f; // カメラ高さ固定
+
+		if (lx < analogMin) { _reticle.x -= _reticle.spd; }
+		if (lx > -analogMin) { _reticle.x += _reticle.spd; }
+		if (ly < analogMin) { _reticle.y -= _reticle.spd; }
+		if (ly > -analogMin) { _reticle.y += _reticle.spd; }
+
+		if (_reticle.x < 0) { _reticle.x = 0; }
+		if (_reticle.x + 100 > dispSizeW) { _reticle.x = dispSizeW - 100; }
+		if (_reticle.y < 0) { _reticle.y = 0; }
+		if (_reticle.y + 100 > dispSizeH) { _reticle.y = dispSizeH - 100; }
 
 		if (!(key & PAD_INPUT_5)) { _state = STATE::_EOF_; }
 		break;
@@ -176,6 +150,8 @@ void Camera::Process()
 	default:
 		_vPos = _oldvPos;
 		_state = STATE::NORMAL;
+		_reticle.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
+		_reticle.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
 		break;
 
 	}
@@ -229,7 +205,6 @@ void Camera::Process()
 	}
 	else {
 		{
-			_vTarg = VGet(plPos.x, plPos.y + 3.5f, plPos.z);
 			float sx = _vPos.x - _vTarg.x;
 			float sz = _vPos.z - _vTarg.z;
 			float camrad = atan2(sz, sx);
@@ -281,9 +256,14 @@ void Camera::Process()
 
 void Camera::Render()
 {
+
+
 	SetCameraPositionAndTarget_UpVecY(_vPos, _vTarg);
 	SetCameraNearFar(0.1f, 5000.f);
-
+	if (_state == STATE::MLS_LOCK) {
+		DrawGraph(_reticle.x, _reticle.y, _reticle.cg, TRUE);
+	}
+	
 #if 1
 	// カメラターゲットを中心に短い線を引く
 	{
@@ -305,6 +285,60 @@ void Camera::Render()
 		float rad = atan2(disZ, disX);
 		float deg = RAD2DEG(rad);
 		DrawFormatString(x, y, GetColor(255, 0, 0), "  len = %5.2f, rad = %5.2f, deg = %5.2f", rLength, rad, deg); y += size;
+		switch (_state) {
+		case STATE::NORMAL:
+			DrawString(x, y, "　状態：NORMAL", GetColor(255, 0, 0)); break;
+		case STATE::TARG_LOCK:
+			DrawString(x, y, "　状態：TARGET_LOCK", GetColor(255, 0, 0)); break;
+		case STATE::MLS_LOCK:
+			DrawString(x, y, "　状態：MLS_LOCK", GetColor(255, 0, 0)); break;
+		}
 	}
 #endif
 }
+
+/*		_vTarg = plPos;
+		_vTarg.y = plPos.y + 3.5f;
+		float sx = _vPos.x - _vTarg.x;
+		float sz = _vPos.z - _vTarg.z;
+		float camrad = atan2(sz, sx);
+
+		// 移動方向を決める
+		VECTOR vec = { 0,0,0 };
+		float mvSpd = 0.3f;
+		// アナログ左スティック用
+		float length = sqrt(lx * lx + ly * ly);
+		float rad = atan2(lx, ly);
+		if (length < analogMin) {
+			// 入力が小さかったら動かなかったことにする
+			length = 0.f;
+			//_vPos = _oldvPos;
+		}
+		else {
+			length = mvSpd;
+		}
+
+		// vをrad分回転させる
+		vec.x = cos(rad + camrad) * length;
+		vec.z = sin(rad + camrad) * length;
+		_vPos = VAdd(_vPos, vec);
+		_vTarg = VAdd(_vTarg, vec);
+		//_vPos.y = plPos.y + 10.f;
+
+		// カメラ操作を行う（右スティック）
+		{
+			// Y軸回転
+			float sx = _vPos.x - _vTarg.x;
+			float sz = _vPos.z - _vTarg.z;
+			float rad = atan2(sz, sx);
+			float length = sqrt(sz * sz + sx * sx);
+			if (rx > analogMin) { rad -= 0.05f; }
+			if (rx < -analogMin) { rad += 0.05f; }
+			_vPos.x = _vTarg.x + cos(rad) * length;
+			_vPos.z = _vTarg.z + sin(rad) * length;
+
+			// Y位置
+			if (ry > analogMin) { _vPos.y -= 0.5f; }
+			if (ry < -analogMin) { _vPos.y += 0.5f; }
+		}
+*/

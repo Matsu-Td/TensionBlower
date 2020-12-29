@@ -18,14 +18,14 @@ public:
 	static Player* _pInstance;
 
 private:
-	const float GROUND_Y = 0.f;
+	const float GROUND_Y = 0.f;  // 床のY座標
 
 	int _mh;
 	int _mhMap;
 	VECTOR _vPos;   // 位置
 	VECTOR _oldPos;
 	VECTOR _vDir;   // 向き
-	VECTOR _capsulePos1, _capsulePos2;
+	VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
 	//MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
 
 	int _attachIndex;
@@ -33,7 +33,7 @@ private:
 	float _playTime;
 	float _vel;
 	bool _isCanJump;
-	bool _hit;
+	bool _hit;     // デバッグのみ
 
 	enum class STATE {
 		NONE,
@@ -42,5 +42,5 @@ private:
 		DASH,
 		JUMP,
 	};
-	STATE _state;
+	STATE _state; // プレイヤーの状態
 };

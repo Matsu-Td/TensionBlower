@@ -42,10 +42,9 @@ bool ModeGame::Render() {
 	SetUseBackCulling(TRUE);
 
 	_stg.Render();
-	_cam.Render();
 	_pl.Render();
 	_bs.Render();
-
+	_cam.Render();
 	return true;
 }
 

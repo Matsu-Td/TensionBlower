@@ -21,7 +21,7 @@ void BossBullet::Initialize()
 
 void BossBullet::Process()
 {
-	 _screenPos = ConvWorldPosToScreenPos(_vPos);
+	 _scrnPos = ConvWorldPosToScreenPos(_vPos);
 }
 
 void BossBullet::Render()
@@ -37,7 +37,7 @@ void BossBullet::Render()
 	SetFontSize(size);
 	DrawFormatString(0, y, GetColor(255, 0, 0), "BossBullet:"); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  screenPos    = (%5.2f, %5.2f, %5.2f)", _screenPos.x, _screenPos.y, _screenPos.z);
-	DrawBox(_screenPos.x - 5, _screenPos.y - 5, _screenPos.x + 5, _screenPos.y + 5, GetColor(255, 0, 0), TRUE);
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  screenPos    = (%5.2f, %5.2f, %5.2f)", _scrnPos.x, _scrnPos.y, _scrnPos.z);
+	DrawBox(_scrnPos.x - 5.f, _scrnPos.y - 5.f, _scrnPos.x + 5, _scrnPos.y + 5.f, GetColor(255, 0, 0), TRUE);
 #endif
 }
