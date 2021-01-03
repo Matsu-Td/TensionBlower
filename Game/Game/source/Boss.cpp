@@ -12,7 +12,7 @@ Boss::Boss()
 
 Boss::~Boss()
 {
-
+	
 }
 
 void Boss::Initialize()

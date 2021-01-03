@@ -1,7 +1,7 @@
 
 #include "ApplicationMain.h"
 #include "Player.h"
-#include "ModeGame.h"
+#include "Camera.h"
 
 Player* Player::_pInstance = NULL;
 
@@ -26,7 +26,7 @@ void Player::Initialize()
 
 	_attachIndex = -1;
 	_totalTime = 0;
-	_playTime = 0.0f;
+	_playTime = 0.f;
 
 	_vel = 0.f;
 	_isCanJump = true;
