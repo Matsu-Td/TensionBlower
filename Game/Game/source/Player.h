@@ -17,10 +17,11 @@ public:
 
 	static Player* _pInstance;
 
+	int _mh;
 private:
 	const float GROUND_Y = 0.f;  // è∞ÇÃYç¿ïW
 
-	int _mh;
+	
 	int _mhMap;
 	VECTOR _vPos;   // à íu
 	VECTOR _oldPos;

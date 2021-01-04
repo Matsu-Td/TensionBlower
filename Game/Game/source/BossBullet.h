@@ -1,5 +1,6 @@
 #pragma once
 #include "appframe.h"
+#include <forward_list>
 
 class BossBullet {
 public:
@@ -7,30 +8,34 @@ public:
 	virtual ~BossBullet();
 
 	void Initialize();
-	void Shot();
-	void EnterShot();
 	void Process();
 	void Render();
-/*
+	void Shot();
+	void ShotStart();
+
 	static BossBullet* GetInstance() { return _pInstance; }
 	VECTOR GetPos() { return _vPos; }
 	VECTOR GetScrnPos(){ return _scrnPos; }
 
 	static BossBullet* _pInstance;
-*/
 
-
+private:
 	int _mh;
-	int _cnt;
+	int _mhMap;
+	int _mhPl;
+	int _shotCnt;
 	int _pattern;
 	float _angle;
-	float _vAngle;
+	float _setAngle;
 	float _bltSpd;
+	float shotInterval;
+	VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
 	VECTOR _vPos;   // 位置
 	float _vx, _vz;
 	VECTOR _vDir;   // 向き
 	VECTOR _scrnPos;
-
+	MV1_COLL_RESULT_POLY_DIM _hitPolyDimStg;
+	MV1_COLL_RESULT_POLY_DIM _hitPolyDimPl;
 	std::list<BossBullet> _lsBlt;
 
 };

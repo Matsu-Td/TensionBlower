@@ -1,8 +1,11 @@
 #include "Stage.h"
 #include "ApplicationMain.h"
 
+Stage* Stage::_pInstance = NULL;
+
 Stage::Stage()
 {
+	_pInstance = this;
 	_mh = MV1LoadModel("res/model/âºÉfÅ[É^/stage_dummy02.mv1");
 }
 

@@ -12,6 +12,7 @@ public:
 	void Process();
 	void Render();
 
-private:
+	static Stage* GetInstance() { return _pInstance; }
+	static Stage* _pInstance;
 	int _mh;
 };

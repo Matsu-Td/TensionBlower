@@ -122,7 +122,7 @@ void Player::Process()
 	}
 	// •Ç‚Æ‚Ì“–‚½‚è”»’èA•Ç‚¸‚è //////////////////////////////////////////////////
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
-	_hitPolyDim = MV1CollCheck_Capsule(_mhMap, -1, _capsulePos1, _capsulePos1, 2.f);
+	_hitPolyDim = MV1CollCheck_Capsule(_mhMap, -1, _capsulePos1, _capsulePos2, 2.f);
 	
 	if (_hitPolyDim.HitNum >= 1) {
 		
@@ -130,7 +130,7 @@ void Player::Process()
 		slideVec = VCross(vec, _hitPolyDim.Dim->Normal);
 		slideVec = VCross(_hitPolyDim.Dim->Normal, slideVec);
 		_vPos = VAdd(_oldPos, slideVec);
-		_vPos = VAdd(_vPos, VScale(_hitPolyDim.Dim->Normal, 0.04f));
+		_vPos = VAdd(_vPos, VScale(_hitPolyDim.Dim->Normal, 0.03f));
 	
 		_hit = true;
 	}
