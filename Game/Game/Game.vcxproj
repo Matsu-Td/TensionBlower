@@ -163,6 +163,7 @@
     <ClCompile Include="source\ModeMenu.cpp" />
     <ClCompile Include="source\ModeTitle.cpp" />
     <ClCompile Include="source\Player.cpp" />
+    <ClCompile Include="source\PlayerBullet.cpp" />
     <ClCompile Include="source\PlayerData.cpp" />
     <ClCompile Include="source\Stage.cpp" />
   </ItemGroup>
@@ -175,6 +176,7 @@
     <ClInclude Include="source\ModeMenu.h" />
     <ClInclude Include="source\ModeTitle.h" />
     <ClInclude Include="source\Player.h" />
+    <ClInclude Include="source\PlayerBullet.h" />
     <ClInclude Include="source\PlayerData.h" />
     <ClInclude Include="source\Stage.h" />
   </ItemGroup>

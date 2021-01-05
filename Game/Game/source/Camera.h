@@ -15,12 +15,12 @@ public:
 	void Render();
 
 	static Camera* GetInstance() { return _pInstance; }
-	VECTOR GetPos() { return _vPos; }
-	VECTOR GetTarg() { return _vTarg; }
+	VECTOR GetPos() const { return _vPos; }
+	VECTOR GetTarg() const { return _vTarg; }
 
 	enum STATE { // カメラの状態
 		NORMAL,      // 通常状態(TPS視点)
-		TARG_LOCK,   // 敵ターゲットロック状態
+		TARG_LOCK_ON,   // 敵ターゲットロック状態
 		MLS_LOCK,    // マルチロックシステム発動状態(FPS視点)
 		_EOF_,
 	};
@@ -40,12 +40,18 @@ private:
 	STATE _state;    // カメラ状態
 
 	struct RETICLE { // 構造体：マルチロックオンシステム
-		int x;
-		int y;
+		int x, y;
 		int spd;
 		int cg;
 	};
+
+	struct LOCK_ON { // 構造体：ロックオン状態
+		int x, y;
+		int cg;
+	};
+
 	RETICLE _reticle; // マルチロックオンシステム照準
+	LOCK_ON _lockOn;
 
 	int _cnt;
 };

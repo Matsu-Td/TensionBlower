@@ -12,32 +12,43 @@ public:
 	void Render();
 	void Shot();
 	void ShotStart();
-
+/*
 	static BossBullet* GetInstance() { return _pInstance; }
-	VECTOR GetPos() { return _vPos; }
-	VECTOR GetScrnPos(){ return _scrnPos; }
+	VECTOR GetPos() const { return _vPos; }
+	VECTOR GetScrnPos() const { return _scrnPos; }
 
 	static BossBullet* _pInstance;
-
+*/
 private:
 	int _mh;
 	int _mhMap;
 	int _mhPl;
 	int _shotCnt;
 	int _pattern;
-	float _angle;
+//	float _angle;
 	float _setAngle;
 	float _bltSpd;
 	float shotInterval;
-	VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
-	VECTOR _vPos;   // 位置
-	float _vx, _vz;
+//	VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
+//	VECTOR _vPos;   // 位置
+//	float _vx, _vz;
 	VECTOR _vDir;   // 向き
-	VECTOR _scrnPos;
+//	VECTOR _scrnPos;
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDimStg;
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDimPl;
-	std::list<BossBullet> _lsBlt;
+	//std::list<BossBullet> _lsBlt;
 
+	typedef struct SHOT {
+		VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
+		VECTOR _vPos;   // 位置
+		float _vx, _vz;
+		float _angle;
+		VECTOR _scrnPos;
+	}SHOT;
+
+	std::list<SHOT> _lsBlt;
+
+	SHOT _shot;
 };
 
 /*

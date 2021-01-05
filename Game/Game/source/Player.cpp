@@ -31,6 +31,8 @@ void Player::Initialize()
 	_vel = 0.f;
 	_isCanJump = true;
 	_hit = false;
+
+	//_blt.shotflg = false;
 }
 
 void Player::Process()
@@ -67,7 +69,7 @@ void Player::Process()
 
 	// ˆÚ“®•ûŒü‚ðŒˆ‚ß‚é
 	VECTOR vec = { 0.f,0.f,0.f };
-	float mvSpd = 0.4f;
+	float mvSpd = 0.8f;
 	float length = sqrt(lx * lx + ly * ly);
 	float rad = atan2(lx, ly);
 	if (length < analogMin) {
@@ -169,6 +171,9 @@ void Player::Process()
 	}
 
 	MV1CollResultPolyDimTerminate(_hitPolyDim);
+
+	// ŽËŒ‚
+	_bullet.Process();
 }
 
 void Player::Render()
@@ -183,17 +188,22 @@ void Player::Render()
 		MV1SetRotationXYZ(_mh, vRot);
 		MV1DrawModel(_mh);
 	}
+	// ŽËŒ‚
+	_bullet.Render();
 
 #if 1
 	if (_hit) {
 		DrawString(0, 400, "•Ç‚É“–‚½‚è", GetColor(255, 0, 0), GetColor(255, 0, 0));
 	}
+	float angle = atan2(_vDir.x * -1, _vDir.z * -1);
+	float deg = angle * 180.f / DX_PI_F;
 	int y = 100;
 	int size = 16;
 	SetFontSize(size);
 	DrawFormatString(0, y, GetColor(255, 0, 0), "Player:"); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  dir    = (%5.2f, %5.2f, %5.2f)", _vDir.x, _vDir.y, _vDir.z);
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  dir    = (%5.2f, %5.2f, %5.2f)", _vDir.x, _vDir.y, _vDir.z); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  deg    = %f", deg);
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
 }

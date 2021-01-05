@@ -13,7 +13,7 @@ public:
 	void Render();
 
 	static Boss* GetInstance() { return _pInstance; }
-	VECTOR GetPos() { return _vPos; }
+	VECTOR GetPos() const { return _vPos; }
 
 	static Boss* _pInstance;
 

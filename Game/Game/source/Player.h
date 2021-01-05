@@ -1,6 +1,6 @@
 #pragma once
 #include "appframe.h"
-
+#include "PlayerBullet.h"
 
 class Player
 {
@@ -13,7 +13,8 @@ public:
 	void Render();
 
 	static Player* GetInstance() { return _pInstance; }
-	VECTOR GetPos() { return _vPos; }
+	VECTOR GetPos() const { return _vPos; }
+	VECTOR GetDir() const { return _vDir; }
 
 	static Player* _pInstance;
 
@@ -21,7 +22,6 @@ public:
 private:
 	const float GROUND_Y = 0.f;  // 床のY座標
 
-	
 	int _mhMap;
 	VECTOR _vPos;   // 位置
 	VECTOR _oldPos;
@@ -44,4 +44,6 @@ private:
 		JUMP,
 	};
 	STATE _state; // プレイヤーの状態
+
+	PlayerBullet _bullet;
 };

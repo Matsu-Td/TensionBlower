@@ -10,6 +10,7 @@ Camera::Camera()
 {
 	_pInstance = this;
 	_reticle.cg = ResourceServer::LoadGraph("res/ui/mls_reticle.png");
+	_lockOn.cg = ResourceServer::LoadGraph("res/ui/lockon.png");
 	Initialize();
 }
 
@@ -28,6 +29,8 @@ void Camera::Initialize()
 	_angleV = 20.f;
 	_reticle.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
 	_reticle.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
+	_lockOn.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
+	_lockOn.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
 }
 
 void Camera::Process()
@@ -97,12 +100,12 @@ void Camera::Process()
 
 		_oldvPos = _vPos;
 
-		if (trg & PAD_INPUT_10) { _state = STATE::TARG_LOCK; }
+		if (trg & PAD_INPUT_10) { _state = STATE::TARG_LOCK_ON; }
 		if (key & PAD_INPUT_5) { _state = STATE::MLS_LOCK; }
 		break;
 	}
 
-	case STATE::TARG_LOCK:
+	case STATE::TARG_LOCK_ON:
 	{
 		_vTarg = bsPos;
 		_vTarg.y = bsPos.y + 3.5f;
@@ -256,13 +259,16 @@ void Camera::Process()
 
 void Camera::Render()
 {
-
-
 	SetCameraPositionAndTarget_UpVecY(_vPos, _vTarg);
 	SetCameraNearFar(0.1f, 5000.f);
-	if (_state == STATE::MLS_LOCK) {
-		DrawGraph(_reticle.x, _reticle.y, _reticle.cg, TRUE);
+
+	switch (_state) {
+	case STATE::TARG_LOCK_ON:
+		DrawGraph(_lockOn.x, _lockOn.y, _lockOn.cg, TRUE); break;
+	case STATE::MLS_LOCK:
+		DrawGraph(_reticle.x, _reticle.y, _reticle.cg, TRUE); break;
 	}
+	
 	
 #if 1
 	// カメラターゲットを中心に短い線を引く
@@ -288,7 +294,7 @@ void Camera::Render()
 		switch (_state) {
 		case STATE::NORMAL:
 			DrawString(x, y, "　状態：NORMAL", GetColor(255, 0, 0)); break;
-		case STATE::TARG_LOCK:
+		case STATE::TARG_LOCK_ON:
 			DrawString(x, y, "　状態：TARGET_LOCK", GetColor(255, 0, 0)); break;
 		case STATE::MLS_LOCK:
 			DrawString(x, y, "　状態：MLS_LOCK", GetColor(255, 0, 0)); break;

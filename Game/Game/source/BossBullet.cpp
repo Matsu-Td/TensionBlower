@@ -4,15 +4,12 @@
 #include "Stage.h"
 #include "Player.h"
 
-BossBullet* BossBullet::_pInstance = NULL;
+//BossBullet* BossBullet::_pInstance = NULL;
 
 BossBullet::BossBullet()
 {
-	_pInstance = this;
-	//_mh = MV1LoadModel("res/model/仮データ/Wolf/Wolf.mv1");
+	//_pInstance = this;
 	_mh = MV1LoadModel("res/model/仮データ/karinotama.mv1");
-	//_mhMap = MV1LoadModel("res/model/仮データ/stage_dummy02.mv1");
-	//_mhPl = MV1LoadModel("res/model/仮データ/SDChar/SDChar.mv1");
 
 	Initialize();
 }
@@ -25,30 +22,29 @@ BossBullet::~BossBullet()
 void BossBullet::Initialize()
 {
 
-	_vPos = VGet(0.f, 5.f, 0.f);
+	_shot._vPos = VGet(0.f, 5.f, 0.f);
 	
-	_angle = -90.f;
+	_shot._angle = -90.f;
 	_setAngle = 45.f;
-	_bltSpd = 1.2f;
+	_bltSpd = 1.f;
 	_shotCnt = 0;
-	_vx = _vz = 0.f;
+	_shot._vx = _shot._vz = 0.f;
 	_pattern = 0;
-//	_vPos.x = cos(_angle / 180.f * DX_PI_F) * 20.f;
-//	_vPos.z = sin(_angle / 180.f * DX_PI_F) * 20.f;
-//	_vPos.y = 0.5f;
 }
 
 void BossBullet::Shot()
 {
+	_shotCnt++;
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
-	_shotCnt++;
-
-	ShotStart();
+	//if (key & PAD_INPUT_2) { 
+		ShotStart();
+	//}
+	
 
 	for (auto itr = _lsBlt.begin(); itr != _lsBlt.end();) {
-		itr->_vx = cos(itr->_angle / 180.f * DX_PI_F) * itr->_bltSpd;
-		itr->_vz = sin(itr->_angle / 180.f * DX_PI_F) * itr->_bltSpd;
+		itr->_vx = cos(itr->_angle / 180.f * DX_PI_F) * _bltSpd;
+		itr->_vz = sin(itr->_angle / 180.f * DX_PI_F) * _bltSpd;
 		itr->_vPos.x += itr->_vx;
 		itr->_vPos.z += itr->_vz;
 		itr++;
@@ -57,38 +53,46 @@ void BossBullet::Shot()
 
 void BossBullet::ShotStart()
 {
-	BossBullet tmp;
+	//auto tmp = std::make_unique<BossBullet>();
+	//BossBullet tmp;
+	SHOT tmp;
 	switch (_pattern) {
 	case 0:
 		if (_shotCnt % 5 == 0 && _shotCnt != 1) {
+		//if (_shotCnt== 1) {
 			for (int i = 0; i < 8; i++) {
-				_vPos.x = cos(_angle / 180.f * DX_PI_F) * 10.f;
-				_vPos.z = sin(_angle / 180.f * DX_PI_F) * 10.f;
-				tmp._vPos = this->_vPos;
-				tmp._angle = this->_angle;
+				_shot._vPos.x = cos(_shot._angle / 180.f * DX_PI_F) * 10.f;
+				_shot._vPos.z = sin(_shot._angle / 180.f * DX_PI_F) * 10.f;
+			    tmp._vPos = _shot._vPos;
+		    	tmp._angle = _shot._angle;
 				_lsBlt.push_back(tmp);
-				this->_angle += _setAngle;
+				_shot._angle += _setAngle;
 			}
-			
 		}
-		this->_angle += 2.f;
+		_shot._angle += 2.f;
 		break;
 
 	case 1:
 		//BossBullet tmp;
-		tmp._vPos = this->_vPos;
-		tmp._angle = this->_angle;
-		_lsBlt.push_back(tmp);
-		this->_angle += _setAngle;
+		_shot._vPos = VGet(0.f, 5.f, 0.f);
+	//	tmp._vPos = _vPos;
+	//	tmp._angle = _angle;
+	//	_lsBlt.push_back(tmp);
+		_shot._angle += _setAngle;
 		break;
 	}
-
 }
 
 void BossBullet::Process()
 {
+	int key = ApplicationMain::GetInstance()->GetKey();
+	int trg = ApplicationMain::GetInstance()->GetTrg();
+
 	int mhStg = Stage::GetInstance()->_mh;
 	int mhpl = Player::GetInstance()->_mh;
+
+	Shot();
+
 	MV1SetupCollInfo(mhStg, -1, 16, 16, 16);
 	MV1SetupCollInfo(mhpl, -1, 16, 16, 16);
 	 for (auto itr = _lsBlt.begin(); itr != _lsBlt.end();) {
@@ -101,24 +105,26 @@ void BossBullet::Process()
 		 itr->_capsulePos2.z = itr->_vPos.z + 1.f;
 		 
 		 itr->_scrnPos = ConvWorldPosToScreenPos(itr->_vPos);
-
+		
 		 // ステージに当たったら削除
-		 itr->_hitPolyDimStg = MV1CollCheck_Capsule(mhStg, -1, itr->_capsulePos1, itr->_capsulePos2, 2.f);
-		 itr->_hitPolyDimPl = MV1CollCheck_Capsule(mhpl, -1, itr->_capsulePos1, itr->_capsulePos2, 2.f);
-		 if (itr->_hitPolyDimStg.HitNum >= 1) {
+		 _hitPolyDimStg = MV1CollCheck_Capsule(mhStg, -1, itr->_capsulePos1, itr->_capsulePos2, 2.f);
+		_hitPolyDimPl = MV1CollCheck_Capsule(mhpl, -1, itr->_capsulePos1, itr->_capsulePos2, 2.f);
+		if (_hitPolyDimStg.HitNum >= 1) {
 			 itr = _lsBlt.erase(itr);
 		 }
-		 else if (itr->_hitPolyDimPl.HitNum >= 1) {
+		 else if (_hitPolyDimPl.HitNum >= 1) {
 			 itr = _lsBlt.erase(itr);
 		 }
 		 else {
 			 itr++;
 		 }
-
+		 
 	 }
 
+	 if (trg & PAD_INPUT_7) { _pattern = 1; }
+	 if (trg & PAD_INPUT_8) { _pattern = 0; }
 	 // 弾の発生処理
-	 Shot();
+	
 	// MV1CollResultPolyDimTerminate(_hitPolyDimStg);
 }
 
@@ -134,8 +140,8 @@ void BossBullet::Render()
 		//DrawBox(itr->_scrnPos.x - 5.f, itr->_scrnPos.y - 5.f, itr->_scrnPos.x + 5, itr->_scrnPos.y + 5.f, GetColor(255, 0, 0), TRUE);
 		itr++;
 	}
-	
-#if 1
+	DrawFormatString(0, 500, GetColor(255, 0, 0), "  出現した弾の数(size())  = %d", _lsBlt.size());
+#if 0
 	int y = 160;
 	int size = 16;
 	SetFontSize(size);
