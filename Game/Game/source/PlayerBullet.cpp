@@ -5,6 +5,7 @@
 PlayerBullet::PlayerBullet()
 {
 	_mh = MV1LoadModel("res/model/仮データ/karinotama.mv1");
+	Initialize();
 }
 
 PlayerBullet::~PlayerBullet()
@@ -22,14 +23,18 @@ void PlayerBullet::Process()
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	VECTOR plPos = Player::GetInstance()->GetPos();
-	VECTOR plDir = Player::GetInstance()->GetDir();
+	DINPUT_JOYSTATE dinput;
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
+	int rt = dinput.Z;    // ゲームパッド「RT」
+	
+	VECTOR plPos = Player::GetInstance()->GetPos(); // プレイヤー座標取得
+	VECTOR plDir = Player::GetInstance()->GetDir(); // プレイヤー正面角度取得
 
-	float plAngle = atan2(plDir.z, plDir.x);
-	float mvSpd = 10.f;
+	float plAngle = atan2(plDir.z, plDir.x); // プレイヤー正面の方向角度
+	float mvSpd = 4.f;   // 弾の速度
 
 
-	if (key & PAD_INPUT_2) {
+	if (rt < -50) {
 		_shotFlag = true;
 	}
 	else {
@@ -56,4 +61,4 @@ void PlayerBullet::Render()
 		MV1SetPosition(_mh, _vPos);
 		MV1DrawModel(_mh);
 	}
-}
+};

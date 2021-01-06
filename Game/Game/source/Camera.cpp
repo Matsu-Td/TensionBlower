@@ -90,18 +90,24 @@ void Camera::Process()
 		TmpPos2.z = sinParam * TmpPos1.x + cosParam * TmpPos1.z;
 
 		// 水平角度変更
-		if (rx > analogMin) {_angleH -= 1.f; }
-		if (rx < -analogMin) { _angleH += 1.f; }
+		if (rx > analogMin) {_angleH -= 4.f; }
+		if (rx < -analogMin) { _angleH += 4.f; }
 		// 垂直角度変更
-		if (ry > analogMin) { _angleV -= 1.f; }
-		if (ry < -analogMin) { _angleV += 1.f; }
+		if (ry > analogMin) { _angleV -= 4.f; }
+		if (ry < -analogMin) { _angleV += 4.f; }
 
 		_vPos = VAdd(TmpPos2, _vTarg);
 
 		_oldvPos = _vPos;
 
-		if (trg & PAD_INPUT_10) { _state = STATE::TARG_LOCK_ON; }
-		if (key & PAD_INPUT_5) { _state = STATE::MLS_LOCK; }
+		if (trg & PAD_INPUT_10) { 
+			_state = STATE::TARG_LOCK_ON; 
+		}
+		if (key & PAD_INPUT_5) {
+			if (plPos.y == Player::GetInstance()->GROUND_Y) {           // プレイヤーが地上にいる時、マルチロックシステム発動可能
+				_state = STATE::MLS_LOCK;
+			}
+		}
 		break;
 	}
 
@@ -118,14 +124,20 @@ void Camera::Process()
 		_vPos.z = sin(camrad) * length;
 		_vPos.y = 10.f; // カメラ高さ固定
 
-		if(trg & PAD_INPUT_10) { _state = STATE::NORMAL; }
-		if (key & PAD_INPUT_5) { _state = STATE::MLS_LOCK; }
+		if(trg & PAD_INPUT_10) {
+			_state = STATE::NORMAL;
+		}
+		if (key & PAD_INPUT_5) { 
+			if (plPos.y == Player::GetInstance()->GROUND_Y) {       // プレイヤーが地上にいる時、マルチロックシステム発動可能
+				_state = STATE::MLS_LOCK;
+			}
+		}
 		break;
 	}
 
 	case STATE::MLS_LOCK:
 	{
-		_reticle.spd = 5;
+		_reticle.spd = 16;
 		_vTarg = bsPos;
 		_vTarg.y = bsPos.y + 3.5f;
 		float sx = plPos.x - _vTarg.x;

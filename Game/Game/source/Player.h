@@ -19,9 +19,10 @@ public:
 	static Player* _pInstance;
 
 	int _mh;
-private:
-	const float GROUND_Y = 0.f;  // 床のY座標
 
+	static constexpr float GROUND_Y = 0.f;  // 地上のY座標
+
+private:
 	int _mhMap;
 	VECTOR _vPos;   // 位置
 	VECTOR _oldPos;
@@ -32,9 +33,14 @@ private:
 	int _attachIndex;
 	float _totalTime;
 	float _playTime;
-	float _vel;
-	bool _isCanJump;
+	float _mvSpd;
+	bool _isCharging;
 	bool _hit;     // デバッグのみ
+
+	// ジャンプ関係
+	float _inVel;      // 初速度
+	float  _jumpTime;  // ジャンプ時間制御
+	bool _isCanJump;   // ジャンプ可否(true:可, false:不可)
 
 	enum class STATE {
 		NONE,
@@ -42,6 +48,7 @@ private:
 		WALK,
 		DASH,
 		JUMP,
+		CHARGE,
 	};
 	STATE _state; // プレイヤーの状態
 

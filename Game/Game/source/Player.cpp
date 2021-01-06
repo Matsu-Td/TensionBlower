@@ -23,13 +23,15 @@ void Player::Initialize()
 {
 	_vPos = VGet(0.f, 0.f, -115.f);
 	_vDir = VGet(0, 0, 1);
-
+	_mvSpd = 0.8f;
 	_attachIndex = -1;
 	_totalTime = 0;
 	_playTime = 0.f;
-
-	_vel = 0.f;
+	_jumpTime = 0.f;
+	//_state = STATE::WAIT;
+	_inVel = 0.f;
 	_isCanJump = true;
+	_isCharging = false;
 	_hit = false;
 
 	//_blt.shotflg = false;
@@ -69,7 +71,6 @@ void Player::Process()
 
 	// 移動方向を決める
 	VECTOR vec = { 0.f,0.f,0.f };
-	float mvSpd = 0.8f;
 	float length = sqrt(lx * lx + ly * ly);
 	float rad = atan2(lx, ly);
 	if (length < analogMin) {
@@ -77,7 +78,7 @@ void Player::Process()
 		length = 0.f;
 	}
 	else {
-		length = mvSpd;
+		length = _mvSpd;
 	}
 
 	if (camState != Camera::GetInstance()->STATE::MLS_LOCK) {
@@ -88,40 +89,129 @@ void Player::Process()
 		// vecの分移動
 		_vPos = VAdd(_vPos, vec);
 
-		// 移動量をそのままキャラの向きにする
+#if 0
 		if (VSize(vec) > 0.f) {		// 移動していない時は無視するため
 			_vDir = vec;
 			_state = STATE::WALK;
+			
 		}
-		else {
+		switch (_state) {
+		case STATE::WAIT:
+			if (VSize(vec) > 0.f) {
+				_state = STATE::WALK;
+			}
+			if (key & PAD_INPUT_3) {
+				_state = STATE::CHARGE;
+			}
+			if (trg & PAD_INPUT_1 && _isCanJump) {
+				_state = STATE::JUMP;
+				_vel = 1.2f;
+			}
+			if (trg & PAD_INPUT_6) {
+				_state = STATE::DASH;
+			}
+			break;
+		case STATE::WALK:
+			if (VSize(vec) == 0.f) {
+				_state = STATE::WAIT;
+			}
+			break;
+		case STATE::DASH:
+			if (key & PAD_INPUT_6) {
+				_mvSpd = 1.2f;
+			}
+			else {
+				_state = STATE::WALK;
+			}
+			break;
+		case STATE::JUMP:
+			
+			break;
+		case STATE::CHARGE:
+			_mvSpd = 0.4f;
+			if (!(key & PAD_INPUT_3)) {
+				_state = STATE::WAIT;
+			}
+			break;
+		default:
+			_state = STATE::WAIT;
+			_mvSpd = 0.8f;
+		}
+#else
+		// 移動量をそのままキャラの向きにする
+		if (VSize(vec) > 0.f) {		// 移動していない時は無視するため
+			_vDir = vec;
+			_mvSpd = 0.8f;
+		//	if (_vPos.y == GROUND_Y) {
+			if (_isCanJump) {
+				_state = STATE::WALK;
+			}
+		}
+		//else if(_vPos.y == GROUND_Y){
+		else if (_isCanJump) {
 			_state = STATE::WAIT;
 		}
 
 		// ジャンプ ///////////////////////////////////////////////////
-		if (trg & PAD_INPUT_1 && _isCanJump) {
+		if (trg & PAD_INPUT_1 && _isCanJump && !_isCharging) {
 			_state = STATE::JUMP;
 			_isCanJump = false;
+			_mvSpd = 0.8f;
+			_inVel = 1.2f;      // ジャンプ1
+			_jumpTime = 0.f;    // ジャンプ2
 		}
 
-		if (_state == STATE::JUMP) {
-			_vel = 1.2f;
+		// 溜め //////////////////////////////////////////////////////
+		if (key & PAD_INPUT_3) {
+			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
+				_mvSpd = 0.4f;
+				_isCharging = true;
+			}
 		}
+		else {
+			_isCharging = false;
+		}
+		// ダッシュ ///////////////////////////////////////////////////
+		if (key & PAD_INPUT_6) {
+			
+			if (_isCanJump) {
+				_mvSpd = 1.2f;
+				_state = STATE::DASH;
+				_isCharging = false;    // ダッシュ中は溜め不可
+			}
+		}
+		//	if (trg & PAD_INPUT_6) {
+		//		_vPos = VAdd(_vPos, VScale(_vDir, 20.f));
+		//	}
+#endif
 
+#if 0
+		// ジャンプ1
 		float acc = 0.05f;
-		_vel -= acc;
-		_vPos.y += _vel;
+		_inVel -= acc;
+		_vPos.y += _inVel;
+		
+#else
+		// ジャンプ2
+		if (!_isCanJump) {
+			float gravity = 0.9f;
+			float inVel = 4.f;
+			_vPos.y = inVel * _jumpTime - 0.5 * gravity * _jumpTime * _jumpTime;
+		}
+		_jumpTime += 0.2f;
+#endif
 
 		if (_vPos.y < GROUND_Y) {
 			_vPos.y = GROUND_Y;
-			_vel = 0.f;
-			_isCanJump = true;
+			_inVel = 0.f;
+			if (_isCharging == false) {
+				_isCanJump = true;
+			}
 		}
-
-		// ダッシュ ///////////////////////////////////////////////////
-		if (trg & PAD_INPUT_6) {
-			_vPos = VAdd(_vPos, VScale(_vDir, 20.f));
-		}
+		
 	}
+
+
 	// 壁との当たり判定、壁ずり //////////////////////////////////////////////////
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
 	_hitPolyDim = MV1CollCheck_Capsule(_mhMap, -1, _capsulePos1, _capsulePos2, 2.f);
@@ -203,7 +293,21 @@ void Player::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "Player:"); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  dir    = (%5.2f, %5.2f, %5.2f)", _vDir.x, _vDir.y, _vDir.z); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  deg    = %f", deg);
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  deg    = %5.1f", deg); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  spd    = %3.1f", _mvSpd); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  溜め    = %d", _isCharging); y += size;
+	switch (_state) {
+	case STATE::WAIT:
+		DrawString(0, y, "　状態：WAIT", GetColor(255, 0, 0)); break;
+	case STATE::WALK:
+		DrawString(0, y, "　状態：WALK", GetColor(255, 0, 0)); break;
+	case STATE::DASH:
+		DrawString(0, y, "　状態：DASH", GetColor(255, 0, 0)); break;
+	case STATE::JUMP:
+		DrawString(0, y, "　状態：JUMP", GetColor(255, 0, 0)); break;
+	case STATE::CHARGE:
+		DrawString(0, y, "　状態：CHARGE", GetColor(255, 0, 0)); break;
+	}
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
 }

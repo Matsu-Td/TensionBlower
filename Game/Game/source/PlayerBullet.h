@@ -11,10 +11,10 @@ public:
 	void Render();
 
 private:
-	int _mh;
-	VECTOR _vPos;
-	//float _moveSpd;
-	float _shotAngle;
-	float _vx, _vz;
-	bool _shotFlag;
+	int    _mh;           // モデルハンドル
+	VECTOR _vPos;         // 座標
+	float  _shotAngle;    // 弾を発射する角度
+	bool   _shotFlag;     // 発射フラグ
+
+	static constexpr int MAX_BULLETS = 100; // 装弾数最大
 };
