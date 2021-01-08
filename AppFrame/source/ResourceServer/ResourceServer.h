@@ -15,6 +15,7 @@ public:
 		int XSize, int YSize, int* HandleBuf);
 
 	static	int		LoadSoundMem(const TCHAR* FileName);
+	static int MV1LoadModel(const TCHAR* FileName);
 
 private:
 	static std::unordered_map<std::string, int>	_mapGraph;
@@ -25,5 +26,6 @@ private:
 	static std::unordered_map<std::string, DIVGRAPH>	_mapDivGraph;
 
 	static std::unordered_map<std::string, int>	_mapSound;
+	static std::unordered_map<std::string, int>	_mapModel;
 };
 

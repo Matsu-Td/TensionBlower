@@ -26,9 +26,17 @@ bool ModeGame::Terminate() {
 bool ModeGame::Process() {
 	base::Process();
 
+	int trg = ApplicationMain::GetInstance()->GetTrg();
+
 	_cam.Process();
 	_pl.Process();
 	_bs.Process();
+
+	if (trg & PAD_INPUT_8) {
+		ModeOption* modeOption = new ModeOption();
+
+		ModeServer::GetInstance()->Add(modeOption, 99, "option");
+	}
 
 	return true;
 }

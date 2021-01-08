@@ -4,6 +4,7 @@
 #include "Stage.h"
 #include "Player.h"
 #include "Boss.h"
+#include "ModeOption.h"
 
 
 class ModeGame : public ModeBase

@@ -15,7 +15,7 @@ bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 
 	// DXライブラリの初期化
 	if(AppWindowed()){
-		ChangeWindowMode(true);							// ウィンドウモードに指定する
+		ChangeWindowMode(false);							// ウィンドウモードに指定する
 	}
 	SetGraphMode(DispSizeW(), DispSizeH(), 32);
 

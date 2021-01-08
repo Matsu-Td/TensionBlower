@@ -8,7 +8,7 @@ Player* Player::_pInstance = NULL;
 Player::Player()
 {
 	_pInstance = this;
-	_mh = MV1LoadModel("res/model/仮データ/SDChar/SDChar.mv1");
+	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/SDChar/SDChar.mv1");
 	_mhMap = MV1LoadModel("res/model/仮データ/stage_dummy02.mv1");
 	MV1SetupCollInfo(_mhMap, -1, 16, 16, 16);
 	Initialize();

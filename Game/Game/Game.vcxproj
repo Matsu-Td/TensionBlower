@@ -160,7 +160,7 @@
     <ClCompile Include="source\BossBullet.cpp" />
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\ModeGame.cpp" />
-    <ClCompile Include="source\ModeMenu.cpp" />
+    <ClCompile Include="source\ModeOption.cpp" />
     <ClCompile Include="source\ModeTitle.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\PlayerBullet.cpp" />
@@ -173,7 +173,7 @@
     <ClInclude Include="source\BossBullet.h" />
     <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\ModeGame.h" />
-    <ClInclude Include="source\ModeMenu.h" />
+    <ClInclude Include="source\ModeOption.h" />
     <ClInclude Include="source\ModeTitle.h" />
     <ClInclude Include="source\Player.h" />
     <ClInclude Include="source\PlayerBullet.h" />

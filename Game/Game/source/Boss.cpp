@@ -5,7 +5,7 @@ Boss* Boss::_pInstance = NULL;
 Boss::Boss()
 {
 	_pInstance = this;
-	_mh = MV1LoadModel("res/model/仮データ/nasuidou.mv1");
+	_mh = ResourceServer:: MV1LoadModel("res/model/仮データ/nasuidou.mv1");
 
 	Initialize();
 }

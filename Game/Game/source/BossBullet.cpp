@@ -9,7 +9,7 @@
 BossBullet::BossBullet()
 {
 	//_pInstance = this;
-	_mh = MV1LoadModel("res/model/仮データ/karinotama.mv1");
+	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/karinotama.mv1");
 
 	Initialize();
 }
@@ -22,7 +22,7 @@ BossBullet::~BossBullet()
 void BossBullet::Initialize()
 {
 
-	_shot._vPos = VGet(0.f, 5.f, 0.f);
+	_shot._vPos = VGet(0.f, 3.5f, 0.f);
 	
 	_shot._angle = -90.f;
 	_setAngle = 45.f;
@@ -55,10 +55,11 @@ void BossBullet::ShotStart()
 {
 	//auto tmp = std::make_unique<BossBullet>();
 	//BossBullet tmp;
-	SHOT tmp;
-	switch (_pattern) {
-	case 0:
-		if (_shotCnt % 5 == 0 && _shotCnt != 1) {
+	
+//	switch (_pattern) {
+//	case 0:
+		if (_shotCnt % 17 == 0 && _shotCnt != 1) {
+			SHOT tmp;
 		//if (_shotCnt== 1) {
 			for (int i = 0; i < 8; i++) {
 				_shot._vPos.x = cos(_shot._angle / 180.f * DX_PI_F) * 10.f;
@@ -70,17 +71,9 @@ void BossBullet::ShotStart()
 			}
 		}
 		_shot._angle += 2.f;
-		break;
+//		break;
 
-	case 1:
-		//BossBullet tmp;
-		_shot._vPos = VGet(0.f, 5.f, 0.f);
-	//	tmp._vPos = _vPos;
-	//	tmp._angle = _angle;
-	//	_lsBlt.push_back(tmp);
-		_shot._angle += _setAngle;
-		break;
-	}
+	//}
 }
 
 void BossBullet::Process()

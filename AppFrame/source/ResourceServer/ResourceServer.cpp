@@ -9,7 +9,7 @@
 std::unordered_map<std::string, int>	ResourceServer::_mapGraph;
 std::unordered_map<std::string, ResourceServer::DIVGRAPH>	ResourceServer::_mapDivGraph;
 std::unordered_map<std::string, int>	ResourceServer::_mapSound;
-
+std::unordered_map<std::string, int>	ResourceServer::_mapModel;
 
 void    ResourceServer::Init()
 {
@@ -46,6 +46,11 @@ void	ResourceServer::ClearGraph()
         DeleteSoundMem(itr->second);
     }
     _mapSound.clear();
+
+    for (auto itr = _mapModel.begin(); itr != _mapModel.end(); itr++)
+    {
+        MV1DeleteModel(itr->second);
+    }
 
 }
 
@@ -116,5 +121,18 @@ int		ResourceServer::LoadSoundMem(const TCHAR* FileName) {
     _mapSound[FileName] = snd;
 
     return snd;
+}
+
+int ResourceServer::MV1LoadModel(const TCHAR* FileName)
+{
+    auto itr = _mapModel.find(FileName);
+    if (itr != _mapModel.end()) {
+        return itr->second;
+    }
+    int mh = ::MV1LoadModel(FileName);  // DxLib‚ÌAPI‚ğŒÄ‚Ño‚·
+
+    _mapModel[FileName] = mh;
+
+    return mh;
 }
 

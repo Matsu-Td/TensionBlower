@@ -66,11 +66,11 @@
     <ClCompile Include="source\BossBullet.cpp">
       <Filter>ソース ファイル\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="source\ModeMenu.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
     <ClCompile Include="source\PlayerBullet.cpp">
       <Filter>ソース ファイル\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModeOption.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,11 +101,11 @@
     <ClInclude Include="source\BossBullet.h">
       <Filter>ヘッダー ファイル\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="source\ModeMenu.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
     <ClInclude Include="source\PlayerBullet.h">
       <Filter>ヘッダー ファイル\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModeOption.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 #pragma once
 #include "appframe.h"
-#include <forward_list>
+#include <list>
 
 class BossBullet {
 public:
