@@ -24,6 +24,7 @@ private:
 	int _mhMap;
 	int _mhPl;
 	int _shotCnt;
+	int _mlsCnt;
 	int _pattern;
 //	float _angle;
 	float _setAngle;
@@ -49,6 +50,8 @@ private:
 	std::list<SHOT> _lsBlt;
 
 	SHOT _shot;
+
+	static constexpr float NOR_SPD = 1.f;
 };
 
 /*

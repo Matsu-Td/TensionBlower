@@ -8,8 +8,9 @@ Player* Player::_pInstance = NULL;
 Player::Player()
 {
 	_pInstance = this;
-	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/SDChar/SDChar.mv1");
+	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/SDChar/SDChar.mv1");;
 	_mhMap = MV1LoadModel("res/model/仮データ/stage_dummy02.mv1");
+
 	MV1SetupCollInfo(_mhMap, -1, 16, 16, 16);
 	Initialize();
 }
@@ -28,13 +29,11 @@ void Player::Initialize()
 	_totalTime = 0;
 	_playTime = 0.f;
 	_jumpTime = 0.f;
-	//_state = STATE::WAIT;
 	_inVel = 0.f;
 	_isCanJump = true;
 	_isCharging = false;
+	_isShortDash = false;
 	_hit = false;
-
-	//_blt.shotflg = false;
 }
 
 void Player::Process()
@@ -78,10 +77,15 @@ void Player::Process()
 		length = 0.f;
 	}
 	else {
-		length = _mvSpd;
+		if (!_isShortDash) {
+			length = _mvSpd;
+		}
+		else {
+			length = 0.f;
+		}
 	}
 
-	if (camState != Camera::GetInstance()->STATE::MLS_LOCK) {
+	if (camState != Camera::GetInstance()->STATE::MLS_LOCK) {  // マルチロックシステムが発動していないときは移動可能
 		// vecをrad分回転させる
 		vec.x = cos(rad + camRad) * length;
 		vec.z = sin(rad + camRad) * length;
@@ -89,55 +93,6 @@ void Player::Process()
 		// vecの分移動
 		_vPos = VAdd(_vPos, vec);
 
-#if 0
-		if (VSize(vec) > 0.f) {		// 移動していない時は無視するため
-			_vDir = vec;
-			_state = STATE::WALK;
-			
-		}
-		switch (_state) {
-		case STATE::WAIT:
-			if (VSize(vec) > 0.f) {
-				_state = STATE::WALK;
-			}
-			if (key & PAD_INPUT_3) {
-				_state = STATE::CHARGE;
-			}
-			if (trg & PAD_INPUT_1 && _isCanJump) {
-				_state = STATE::JUMP;
-				_vel = 1.2f;
-			}
-			if (trg & PAD_INPUT_6) {
-				_state = STATE::DASH;
-			}
-			break;
-		case STATE::WALK:
-			if (VSize(vec) == 0.f) {
-				_state = STATE::WAIT;
-			}
-			break;
-		case STATE::DASH:
-			if (key & PAD_INPUT_6) {
-				_mvSpd = 1.2f;
-			}
-			else {
-				_state = STATE::WALK;
-			}
-			break;
-		case STATE::JUMP:
-			
-			break;
-		case STATE::CHARGE:
-			_mvSpd = 0.4f;
-			if (!(key & PAD_INPUT_3)) {
-				_state = STATE::WAIT;
-			}
-			break;
-		default:
-			_state = STATE::WAIT;
-			_mvSpd = 0.8f;
-		}
-#else
 		// 移動量をそのままキャラの向きにする
 		if (VSize(vec) > 0.f) {		// 移動していない時は無視するため
 			_vDir = vec;
@@ -160,38 +115,6 @@ void Player::Process()
 			_inVel = 1.2f;      // ジャンプ1
 			_jumpTime = 0.f;    // ジャンプ2
 		}
-
-		// 溜め //////////////////////////////////////////////////////
-		if (key & PAD_INPUT_3) {
-			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
-				_mvSpd = 0.4f;
-				_isCharging = true;
-			}
-		}
-		else {
-			_isCharging = false;
-		}
-		// ダッシュ ///////////////////////////////////////////////////
-		if (key & PAD_INPUT_6) {
-			
-			if (_isCanJump) {
-				_mvSpd = 1.2f;
-				_state = STATE::DASH;
-				_isCharging = false;    // ダッシュ中は溜め不可
-			}
-		}
-		//	if (trg & PAD_INPUT_6) {
-		//		_vPos = VAdd(_vPos, VScale(_vDir, 20.f));
-		//	}
-#endif
-
-#if 0
-		// ジャンプ1
-		float acc = 0.05f;
-		_inVel -= acc;
-		_vPos.y += _inVel;
-		
-#else
 		// ジャンプ2
 		if (!_isCanJump) {
 			float gravity = 0.9f;
@@ -199,7 +122,6 @@ void Player::Process()
 			_vPos.y = inVel * _jumpTime - 0.5 * gravity * _jumpTime * _jumpTime;
 		}
 		_jumpTime += 0.2f;
-#endif
 
 		if (_vPos.y < GROUND_Y) {
 			_vPos.y = GROUND_Y;
@@ -208,6 +130,57 @@ void Player::Process()
 				_isCanJump = true;
 			}
 		}
+
+		// 短押しダッシュ ///////////////////////////////////////////////////
+		float nowAngle = atan2(_vDir.z, _vDir.x);
+		VECTOR vDash{ 0.f,0.f,0.f };
+		if (trg & PAD_INPUT_6 && (_state != STATE::JUMP)) {
+			_mvSpd = 1.2f;
+			_isShortDash = true;
+			_dashCnt = 10;
+		}
+		if (_isShortDash) {
+			_dashCnt--;
+			if (_dashCnt > 0) {
+				_state = STATE::DASH;
+				
+				vDash.x = cos(nowAngle) * _mvSpd;
+				vDash.z = sin(nowAngle) * _mvSpd;
+				_vPos.x += vDash.x;
+				_vPos.z += vDash.z;
+				_isCharging = false;
+			}
+			else {
+				_dashCnt = 0;
+				_isShortDash = false;
+			}
+		}
+		// 長押しダッシュ ////////////////////////////////////////////////////
+		if (key & PAD_INPUT_6) {
+			
+			if (_isCanJump && !_isShortDash) {
+				_state = STATE::DASH;
+				vDash.x = cos(nowAngle) * _mvSpd;
+				vDash.z = sin(nowAngle) * _mvSpd;
+				_vPos.x += vDash.x;
+				_vPos.z += vDash.z;
+				_isCharging = false;
+			}
+		}
+		// 溜め //////////////////////////////////////////////////////
+		if (key & PAD_INPUT_3) {
+			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
+				if (_state != STATE::DASH) {
+					_mvSpd = 0.4f;
+					_isCharging = true;
+				}
+			}
+		}
+		else {
+			_isCharging = false;
+		}
+
+
 		
 	}
 
@@ -249,10 +222,21 @@ void Player::Process()
 			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "run"), -1, FALSE);
 			break;
 		case STATE::JUMP:
+//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::L_SIDE_DASH:
+//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::R_SIDE_DASH:
+//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::BACK_DASH:
+//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
 			break;
 		}
 		// アタッチしたアニメーションの総再生時間を取得する
 		_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
+	
 		_playTime = 0.0f;
 	}
 
@@ -287,8 +271,8 @@ void Player::Render()
 	}
 	float angle = atan2(_vDir.x * -1, _vDir.z * -1);
 	float deg = angle * 180.f / DX_PI_F;
-	int y = 100;
-	int size = 16;
+	int y = 125;
+	int size = 24;
 	SetFontSize(size);
 	DrawFormatString(0, y, GetColor(255, 0, 0), "Player:"); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += size;
@@ -305,8 +289,6 @@ void Player::Render()
 		DrawString(0, y, "　状態：DASH", GetColor(255, 0, 0)); break;
 	case STATE::JUMP:
 		DrawString(0, y, "　状態：JUMP", GetColor(255, 0, 0)); break;
-	case STATE::CHARGE:
-		DrawString(0, y, "　状態：CHARGE", GetColor(255, 0, 0)); break;
 	}
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif

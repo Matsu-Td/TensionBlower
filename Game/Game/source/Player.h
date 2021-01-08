@@ -28,7 +28,6 @@ private:
 	VECTOR _oldPos;
 	VECTOR _vDir;   // 向き
 	VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
-	//MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
 
 	int _attachIndex;
 	float _totalTime;
@@ -37,20 +36,33 @@ private:
 	bool _isCharging;
 	bool _hit;     // デバッグのみ
 
-	// ジャンプ関係
+
 	float _inVel;      // 初速度
 	float  _jumpTime;  // ジャンプ時間制御
 	bool _isCanJump;   // ジャンプ可否(true:可, false:不可)
 
-	enum class STATE {
+	bool _isShortDash;      // 短押しダッシュ中か(true:ダッシュ中)
+	int _dashCnt;      // 短押しダッシュカウント
+
+	// プレイヤー状態(モーション)管理
+	enum class STATE {  
 		NONE,
-		WAIT,
-		WALK,
-		DASH,
-		JUMP,
-		CHARGE,
+		WAIT,            // 待機
+		WALK,            // 通常移動
+		DASH,            // ダッシュ移動
+		JUMP,            // ジャンプ
+		L_SIDE_DASH,     // 左向きダッシュ移動
+		R_SIDE_DASH,     // 右向きダッシュ移動
+		BACK_DASH,       // 後向きダッシュ移動
 	};
 	STATE _state; // プレイヤーの状態
 
 	PlayerBullet _bullet;
 };
+
+/*
+// ジャンプ1
+float acc = 0.05f;
+_inVel -= acc;
+_vPos.y += _inVel;
+*/

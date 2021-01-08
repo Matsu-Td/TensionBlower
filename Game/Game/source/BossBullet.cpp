@@ -3,6 +3,7 @@
 #include "ApplicationMain.h"
 #include "Stage.h"
 #include "Player.h"
+#include "Camera.h"
 
 //BossBullet* BossBullet::_pInstance = NULL;
 
@@ -26,20 +27,37 @@ void BossBullet::Initialize()
 	
 	_shot._angle = -90.f;
 	_setAngle = 45.f;
-	_bltSpd = 1.f;
 	_shotCnt = 0;
+	_mlsCnt = 0;
 	_shot._vx = _shot._vz = 0.f;
 	_pattern = 0;
 }
 
 void BossBullet::Shot()
 {
-	_shotCnt++;
+	
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
+
+	int camState = Camera::GetInstance()->GetCameraState();
+
 	//if (key & PAD_INPUT_2) { 
-		ShotStart();
+		
 	//}
+	if(camState == Camera::STATE::MLS_LOCK){
+		_mlsCnt++;
+		_bltSpd = NOR_SPD * 0.1f; // マルチロックオンシステム中は速度0.1倍
+		if (_mlsCnt % 10 == 0) {
+			_shotCnt++;
+			ShotStart();
+		}
+	}
+	else {
+		_bltSpd = NOR_SPD;   // 通常時の弾の速度
+		_shotCnt++;
+		ShotStart();
+	}
+	
 	
 
 	for (auto itr = _lsBlt.begin(); itr != _lsBlt.end();) {

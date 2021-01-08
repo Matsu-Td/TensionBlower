@@ -79,7 +79,7 @@ void Camera::Process()
 		sinParam = sin(_angleV / 180.f * DX_PI_F);
 		cosParam = cos(_angleV / 180.f * DX_PI_F);
 		TmpPos1.x = 0.f;
-		TmpPos1.y = sinParam * camDis;
+		TmpPos1.y = 8.5f;       // sinParam * camDis;
 		TmpPos1.z = -cosParam * camDis;
 
 		// 水平角度を反映した位置
@@ -93,8 +93,8 @@ void Camera::Process()
 		if (rx > analogMin) {_angleH -= 4.f; }
 		if (rx < -analogMin) { _angleH += 4.f; }
 		// 垂直角度変更
-		if (ry > analogMin) { _angleV -= 4.f; }
-		if (ry < -analogMin) { _angleV += 4.f; }
+	//	if (ry > analogMin) { _angleV -= 4.f; }
+	//	if (ry < -analogMin) { _angleV += 4.f; }
 
 		_vPos = VAdd(TmpPos2, _vTarg);
 
@@ -104,9 +104,7 @@ void Camera::Process()
 			_state = STATE::TARG_LOCK_ON; 
 		}
 		if (key & PAD_INPUT_5) {
-			if (plPos.y == Player::GetInstance()->GROUND_Y) {           // プレイヤーが地上にいる時、マルチロックシステム発動可能
 				_state = STATE::MLS_LOCK;
-			}
 		}
 		break;
 	}
@@ -147,7 +145,7 @@ void Camera::Process()
 
 		_vPos.x = cos(camrad) * length;
 		_vPos.z = sin(camrad) * length;
-		_vPos.y = 10.f; // カメラ高さ固定
+		//_vPos.y = 10.f; // カメラ高さ固定
 
 		if (lx < analogMin) { _reticle.x -= _reticle.spd; }
 		if (lx > -analogMin) { _reticle.x += _reticle.spd; }
@@ -292,7 +290,7 @@ void Camera::Render()
 		DrawLine3D(VAdd(vec, VGet(0, 0, -linelength)), VAdd(vec, VGet(0, 0, linelength)), GetColor(0, 0, 255));
 	}
 	{
-		int x = 0, y = 0, size = 16;
+		int x = 0, y = 0, size = 24;
 		SetFontSize(size);
 		DrawFormatString(x, y, GetColor(255, 0, 0), "Camera:"); y += size;
 		DrawFormatString(x, y, GetColor(255, 0, 0), "  target = (%5.2f, %5.2f, %5.2f)", _vTarg.x, _vTarg.y, _vTarg.z); y += size;
