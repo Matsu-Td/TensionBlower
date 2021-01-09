@@ -4,7 +4,6 @@
 #include "Boss.h"
 
 Camera* Camera::_pInstance = NULL;
-#define TEST 0
 
 Camera::Camera()
 {
@@ -56,18 +55,15 @@ void Camera::Process()
 
 	float camDis = 25.f;
 
-	// カメラ移動制限
-#if TEST
-	if (_vPos.y >= 20.f) {
-		_vPos.y = 20.f;
-	}
-	if (_vPos.y < 2.5f) {
-		_vPos.y = 2.5f;
-	}
-#endif
+#if 1   // 0:開発用(カメラ自由)、1:本番用
 
-#if 1   // 0:開発用(カメラ自由)、1:ゲーム用(仕様通り)
+/**
+* カメラ切替
+*/
 	switch (_state) {
+	/**
+　　* 通常状態
+　　*/
 	case STATE::NORMAL:
 	{	
 		VECTOR TmpPos1, TmpPos2;
@@ -104,11 +100,14 @@ void Camera::Process()
 			_state = STATE::TARG_LOCK_ON; 
 		}
 		if (key & PAD_INPUT_5) {
-				_state = STATE::MLS_LOCK;
+			_state = STATE::MLS_LOCK;
 		}
 		break;
 	}
 
+	/**
+　　* ボスへカメラロックオン状態
+　　*/
 	case STATE::TARG_LOCK_ON:
 	{
 		_vTarg = bsPos;
@@ -131,6 +130,9 @@ void Camera::Process()
 		break;
 	}
 
+	/**
+	* マルチロックオンシステム発動状態
+	*/
 	case STATE::MLS_LOCK:
 	{
 		_reticle.spd = 16;
@@ -165,7 +167,6 @@ void Camera::Process()
 		break;
 
 	}
-
 
 
 #else

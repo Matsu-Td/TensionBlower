@@ -17,6 +17,7 @@ public:
 	void JumpAction();
 	void Charging();
 	void MortionSwitch();
+	void LeftAnalogDeg();
 
 	static Player* GetInstance() { return _pInstance; }
 	VECTOR GetPos() const { return _vPos; }
@@ -42,7 +43,8 @@ private:
 	float _mvSpd;
 	bool _isCharging;
 	float _bsAngle;
-	float _lfAnalogDeg;
+	int _lfAnalogDeg;
+	bool _isDash;
 
 	float  _jumpTime;  // ジャンプ時間制御
 	bool _isCanJump;   // ジャンプ可否(true:可, false:不可)
@@ -51,12 +53,15 @@ private:
 	int _dashCnt;      // 短押しダッシュカウント
 
 	// プレイヤー状態(モーション)管理
-	enum class STATE {  
+	enum class STATE {
 		NONE,
 		WAIT,            // 待機
 		WALK,            // 通常移動
 		DASH,            // ダッシュ移動
 		JUMP,            // ジャンプ
+		L_SIDE_MOVE,     // 左向き移動
+		R_SIDE_MOVE,     // 右向き移動
+		BACK_MOVE,       // 後向き移動
 		L_SIDE_DASH,     // 左向きダッシュ移動
 		R_SIDE_DASH,     // 右向きダッシュ移動
 		BACK_DASH,       // 後向きダッシュ移動

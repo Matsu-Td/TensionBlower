@@ -33,6 +33,7 @@ void Player::Initialize()
 	_isCanJump = true;
 	_isCharging = false;
 	_isShortDash = false;
+	_isDash = false;
 }
 
 void Player::JumpAction() 
@@ -57,6 +58,40 @@ void Player::JumpAction()
 		_vPos.y = GROUND_Y;
 		if (_isCharging == false) {
 			_isCanJump = true;
+		}
+	}
+}
+
+void Player::LeftAnalogDeg()
+{
+	if (_isDash) {
+		_mvSpd = DASH_MV_SPD;
+		if (_lfAnalogDeg >= 120 || _lfAnalogDeg <= -120) {
+			_state = STATE::DASH;
+		}
+		else if (_lfAnalogDeg < -45 && _lfAnalogDeg > -120) {
+			_state = STATE::L_SIDE_DASH;
+		}
+		else if (_lfAnalogDeg > 45 && _lfAnalogDeg < 120) {
+			_state = STATE::R_SIDE_DASH;
+		}
+		else if (_lfAnalogDeg >= -45 && _lfAnalogDeg <= 45) {
+			_state = STATE::BACK_DASH;
+		}
+	}
+	else {
+		_mvSpd = NOR_MV_SPD;
+		if (_lfAnalogDeg >= 120 || _lfAnalogDeg <= -120) {
+			_state = STATE::WALK;
+		}
+		else if (_lfAnalogDeg < -45 && _lfAnalogDeg > -120) {
+			_state = STATE::L_SIDE_MOVE;
+		}
+		else if (_lfAnalogDeg > 45 && _lfAnalogDeg < 120) {
+			_state = STATE::R_SIDE_MOVE;
+		}
+		else if (_lfAnalogDeg >= -45 && _lfAnalogDeg <= 45) {
+			_state = STATE::BACK_MOVE;
 		}
 	}
 }
@@ -94,8 +129,6 @@ void Player::Process()
 		float dx = _vPos.x - bsPos.x;
 		float dz = _vPos.z - bsPos.z;
 		_bsAngle = atan2(dz, dx);
-	//	_vDir.x = -cos(_bsAngle);
-	//	_vDir.z = -sin(_bsAngle);
 	}
 
 	// カメラの向いている角度取得
@@ -107,7 +140,8 @@ void Player::Process()
 	VECTOR vec = { 0.f,0.f,0.f };
 	float length = sqrt(lx * lx + ly * ly);
 	float rad = atan2(lx, ly);
-	_lfAnalogDeg = rad * 180.0f / DX_PI_F;
+	_lfAnalogDeg = static_cast<int>(rad * 180.0f / DX_PI_F);
+
 	if (length < analogMin) {
 		length = 0.f;
 	}
@@ -115,7 +149,7 @@ void Player::Process()
 		length = _mvSpd;
 	}
 
-	if (camState != Camera::GetInstance()->STATE::MLS_LOCK) {  // マルチロックシステムが発動していないときは移動可能
+	if (camState != Camera::STATE::MLS_LOCK) {  // マルチロックシステムが発動していないときは移動可能
 		// vecをrad分回転させる
 		vec.x = cos(rad + camRad) * length;
 		vec.z = sin(rad + camRad) * length;
@@ -125,13 +159,27 @@ void Player::Process()
 
 		// 移動量をそのままキャラの向きにする
 		if (VSize(vec) > 0.f) {		// 移動していない時は無視するため
-			_vDir = vec;
-			if (_state != STATE::DASH) {
-				_mvSpd = NOR_MV_SPD;
+			if (camState == Camera::STATE::TARG_LOCK_ON){
+				_vDir.x = -cos(_bsAngle);
+                _vDir.z = -sin(_bsAngle);
+				LeftAnalogDeg();
+				
+				if (!_isDash) {
+					_mvSpd = NOR_MV_SPD;
+				}
+				
 			}
-			if (_isCanJump) {
-				_state = STATE::WALK;
+			else {
+				_vDir = vec;
+				if (_state != STATE::DASH) {
+					_mvSpd = NOR_MV_SPD;
+				}
+				if (_isCanJump) {
+					_state = STATE::WALK;
+				}
 			}
+			
+
 		}
 		else if (_isCanJump) {
 			_state = STATE::WAIT;
@@ -140,6 +188,7 @@ void Player::Process()
 		* ジャンプ
 		*/
 		JumpAction();
+
 		/**
         * 短押しダッシュ
         */
@@ -153,14 +202,16 @@ void Player::Process()
 		if (_isShortDash) {
 			_dashCnt--;
 			if (_dashCnt > 0) {
-				_state = STATE::DASH;
+				_isDash = true;
+				if (camState != Camera::STATE::TARG_LOCK_ON) {
+					_state = STATE::DASH;
+				}
 				_isCharging = false;
 				if (length < analogMin) {
 					if (camState == Camera::STATE::TARG_LOCK_ON) {
+						LeftAnalogDeg();
 						vDash.x = -cos(_bsAngle) * _mvSpd;
 						vDash.z = -sin(_bsAngle) * _mvSpd;
-						_vDir.x = -cos(_bsAngle);
-						_vDir.z = -sin(_bsAngle);
 					}
 					else {
 						vDash.x = cos(nowAngle) * _mvSpd;
@@ -173,6 +224,7 @@ void Player::Process()
 			else {
 				_dashCnt = 0;
 				_isShortDash = false;
+				_isDash = false;
 			}
 		}
 		/**
@@ -180,16 +232,18 @@ void Player::Process()
 		*/
 		if (key & PAD_INPUT_6) {		
 			if (_isCanJump && !_isShortDash) {
-				_state = STATE::DASH;
+				_isDash = true;
+				if (camState != Camera::STATE::TARG_LOCK_ON) {
+					_state = STATE::DASH;
+				}
 				_isCharging = false;
 				if (length < analogMin) {
 					if (camState == Camera::STATE::TARG_LOCK_ON) {
+						LeftAnalogDeg();
 						vDash.x = -cos(_bsAngle) * _mvSpd;
 						vDash.z = -sin(_bsAngle) * _mvSpd;
 						_vPos.x += vDash.x;
 						_vPos.z += vDash.z;
-						_vDir.x = -cos(_bsAngle);
-						_vDir.z = -sin(_bsAngle);
 					}
 					else {
 						vDash.x = cos(nowAngle) * _mvSpd;
@@ -199,6 +253,9 @@ void Player::Process()
 					}
 				}
 			}
+		}
+		else {
+			_isDash = false;
 		}
 		/**
 		* エネルギー溜め
@@ -245,6 +302,18 @@ void Player::Process()
 			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "run"), -1, FALSE);
 			break;
 		case STATE::JUMP:
+//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::DASH:
+//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::L_SIDE_MOVE:
+//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::R_SIDE_MOVE:
+//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::BACK_MOVE:
 //			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
 			break;
 		case STATE::L_SIDE_DASH:
@@ -300,7 +369,8 @@ void Player::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  deg    = %5.1f", deg); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  spd    = %3.1f", _mvSpd); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  charge = %d", _isCharging); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  左ST角度 = %f", _lfAnalogDeg); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  dash   = %d", _isDash); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  左ST角度 = %d", _lfAnalogDeg); y += size;
 	switch (_state) {
 	case STATE::WAIT:
 		DrawString(0, y, "　状態：WAIT", GetColor(255, 0, 0)); break;
@@ -310,12 +380,18 @@ void Player::Render()
 		DrawString(0, y, "　状態：DASH", GetColor(255, 0, 0)); break;
 	case STATE::JUMP:
 		DrawString(0, y, "　状態：JUMP", GetColor(255, 0, 0)); break;
+	case STATE::L_SIDE_MOVE:
+		DrawString(0, y, "　状態：LEFT MOVE", GetColor(255, 0, 0)); break;
+	case STATE::R_SIDE_MOVE:
+		DrawString(0, y, "　状態：RIGHT MOVE", GetColor(255, 0, 0)); break;
+	case STATE::BACK_MOVE:
+		DrawString(0, y, "　状態：BACK MOVE", GetColor(255, 0, 0)); break;
 	case STATE::L_SIDE_DASH:
-		DrawString(0, y, "　状態：LEFT", GetColor(255, 0, 0)); break;
+		DrawString(0, y, "　状態：LEFT DASH", GetColor(255, 0, 0)); break;
 	case STATE::R_SIDE_DASH:
-		DrawString(0, y, "　状態：RIGHT", GetColor(255, 0, 0)); break;
+		DrawString(0, y, "　状態：RIGHT DASH", GetColor(255, 0, 0)); break;
 	case STATE::BACK_DASH:
-		DrawString(0, y, "　状態：BACK", GetColor(255, 0, 0)); break;
+		DrawString(0, y, "　状態：BACK DASH", GetColor(255, 0, 0)); break;
 	}
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
