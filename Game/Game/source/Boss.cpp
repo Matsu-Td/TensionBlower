@@ -34,6 +34,7 @@ void Boss::Process()
 		_playTime = 0.f;
 	}
 	_bsBullet.Process();
+	//_vPos.x += 0.1f;
 }
 
 void Boss::Render()

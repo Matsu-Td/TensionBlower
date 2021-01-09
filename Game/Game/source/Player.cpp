@@ -2,6 +2,7 @@
 #include "ApplicationMain.h"
 #include "Player.h"
 #include "Camera.h"
+#include "Boss.h"
 
 Player* Player::_pInstance = NULL;
 
@@ -32,7 +33,32 @@ void Player::Initialize()
 	_isCanJump = true;
 	_isCharging = false;
 	_isShortDash = false;
-	_hit = false;
+}
+
+void Player::JumpAction() 
+{
+	int key = ApplicationMain::GetInstance()->GetKey();
+	int trg = ApplicationMain::GetInstance()->GetTrg();
+
+	if (trg & PAD_INPUT_1 && _isCanJump && !_isCharging) {
+		_state = STATE::JUMP;
+		_isCanJump = false;
+		_mvSpd = NOR_MV_SPD;
+		_jumpTime = 0.f;
+	}
+	if (!_isCanJump) {
+		float gravity = 0.9f;
+		float inVel = 4.f;
+		_vPos.y = inVel * _jumpTime - 0.5 * gravity * _jumpTime * _jumpTime;
+	}
+	_jumpTime += 0.2f;
+
+	if (_vPos.y < GROUND_Y) {
+		_vPos.y = GROUND_Y;
+		if (_isCharging == false) {
+			_isCanJump = true;
+		}
+	}
 }
 
 void Player::Process()
@@ -49,7 +75,7 @@ void Player::Process()
 	// アナログスティック対応
 	DINPUT_JOYSTATE dinput;
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
-	float lx, ly;           // 左右アナログスティックの座標
+	float lx, ly;           // 左アナログスティックの座標
 	float analogMin = 0.3f;
 	lx = static_cast<float>(dinput.X);
 	ly = static_cast<float>(dinput.Y);
@@ -62,6 +88,16 @@ void Player::Process()
 	VECTOR camTarg = Camera::GetInstance()->GetTarg();
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
 
+	// ボスデータ取得
+	VECTOR bsPos = Boss::GetInstance()->GetPos();
+	{
+		float dx = _vPos.x - bsPos.x;
+		float dz = _vPos.z - bsPos.z;
+		_bsAngle = atan2(dz, dx);
+	//	_vDir.x = -cos(_bsAngle);
+	//	_vDir.z = -sin(_bsAngle);
+	}
+
 	// カメラの向いている角度取得
 	float disX = camPos.x - camTarg.x;
 	float disZ = camPos.z - camTarg.z;
@@ -71,8 +107,8 @@ void Player::Process()
 	VECTOR vec = { 0.f,0.f,0.f };
 	float length = sqrt(lx * lx + ly * ly);
 	float rad = atan2(lx, ly);
+	_lfAnalogDeg = rad * 180.0f / DX_PI_F;
 	if (length < analogMin) {
-		// 入力が小さかったら動かなかったことにする
 		length = 0.f;
 	}
 	else {
@@ -103,25 +139,7 @@ void Player::Process()
 		/**
 		* ジャンプ
 		*/
-		if (trg & PAD_INPUT_1 && _isCanJump && !_isCharging) {
-			_state = STATE::JUMP;
-			_isCanJump = false;
-			_mvSpd = NOR_MV_SPD;
-			_jumpTime = 0.f;
-		}
-		if (!_isCanJump) {
-			float gravity = 0.9f;
-			float inVel = 4.f;
-			_vPos.y = inVel * _jumpTime - 0.5 * gravity * _jumpTime * _jumpTime;
-		}
-		_jumpTime += 0.2f;
-
-		if (_vPos.y < GROUND_Y) {
-			_vPos.y = GROUND_Y;
-			if (_isCharging == false) {
-				_isCanJump = true;
-			}
-		}
+		JumpAction();
 		/**
         * 短押しダッシュ
         */
@@ -130,18 +148,27 @@ void Player::Process()
 		if (trg & PAD_INPUT_6 && (_state != STATE::JUMP)) {
 			_mvSpd = DASH_MV_SPD;
 			_isShortDash = true;
-			_dashCnt = 20;
+			_dashCnt = 10;
 		}
 		if (_isShortDash) {
 			_dashCnt--;
 			if (_dashCnt > 0) {
 				_state = STATE::DASH;
-				
-				vDash.x = cos(nowAngle) * _mvSpd;
-				vDash.z = sin(nowAngle) * _mvSpd;
-				_vPos.x += vDash.x;
-				_vPos.z += vDash.z;
 				_isCharging = false;
+				if (length < analogMin) {
+					if (camState == Camera::STATE::TARG_LOCK_ON) {
+						vDash.x = -cos(_bsAngle) * _mvSpd;
+						vDash.z = -sin(_bsAngle) * _mvSpd;
+						_vDir.x = -cos(_bsAngle);
+						_vDir.z = -sin(_bsAngle);
+					}
+					else {
+						vDash.x = cos(nowAngle) * _mvSpd;
+						vDash.z = sin(nowAngle) * _mvSpd;
+					}
+					_vPos.x += vDash.x;
+					_vPos.z += vDash.z;
+				}
 			}
 			else {
 				_dashCnt = 0;
@@ -156,10 +183,20 @@ void Player::Process()
 				_state = STATE::DASH;
 				_isCharging = false;
 				if (length < analogMin) {
-					vDash.x = cos(nowAngle) * _mvSpd;
-					vDash.z = sin(nowAngle) * _mvSpd;
-					_vPos.x += vDash.x;
-					_vPos.z += vDash.z;
+					if (camState == Camera::STATE::TARG_LOCK_ON) {
+						vDash.x = -cos(_bsAngle) * _mvSpd;
+						vDash.z = -sin(_bsAngle) * _mvSpd;
+						_vPos.x += vDash.x;
+						_vPos.z += vDash.z;
+						_vDir.x = -cos(_bsAngle);
+						_vDir.z = -sin(_bsAngle);
+					}
+					else {
+						vDash.x = cos(nowAngle) * _mvSpd;
+						vDash.z = sin(nowAngle) * _mvSpd;
+						_vPos.x += vDash.x;
+						_vPos.z += vDash.z;
+					}
 				}
 			}
 		}
@@ -184,31 +221,22 @@ void Player::Process()
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
 	_hitPolyDim = MV1CollCheck_Capsule(_mhMap, -1, _capsulePos1, _capsulePos2, 2.f);
 	
-	if (_hitPolyDim.HitNum >= 1) {
-		
+	if (_hitPolyDim.HitNum >= 1) {	
 		VECTOR slideVec;
 		slideVec = VCross(vec, _hitPolyDim.Dim->Normal);
 		slideVec = VCross(_hitPolyDim.Dim->Normal, slideVec);
 		_vPos = VAdd(_oldPos, slideVec);
 		_vPos = VAdd(_vPos, VScale(_hitPolyDim.Dim->Normal, 0.03f));
-	
-		_hit = true;
 	}
-	else {
-		_hit = false;
-	}
-	
-	// ステータスが変わっていないか？
+
 	if (oldState == _state) {
 		_playTime += 0.5f;
 	}
 	else {
-		// アニメーションがアタッチされていたら、デタッチする
 		if (_attachIndex != -1) {
 			MV1DetachAnim(_mh, _attachIndex);
 			_attachIndex = -1;
 		}
-		// ステータスに合わせてアニメーションのアタッチ
 		switch (_state) {
 		case STATE::WAIT:
 			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "idle"), -1, FALSE);
@@ -261,9 +289,6 @@ void Player::Render()
 	_bullet.Render();
 
 #if 1
-	if (_hit) {
-		DrawString(0, 400, "壁に当たり", GetColor(255, 0, 0), GetColor(255, 0, 0));
-	}
 	float angle = atan2(_vDir.x * -1, _vDir.z * -1);
 	float deg = angle * 180.f / DX_PI_F;
 	int y = 125;
@@ -274,7 +299,8 @@ void Player::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  dir    = (%5.2f, %5.2f, %5.2f)", _vDir.x, _vDir.y, _vDir.z); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  deg    = %5.1f", deg); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  spd    = %3.1f", _mvSpd); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  溜め    = %d", _isCharging); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  charge = %d", _isCharging); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  左ST角度 = %f", _lfAnalogDeg); y += size;
 	switch (_state) {
 	case STATE::WAIT:
 		DrawString(0, y, "　状態：WAIT", GetColor(255, 0, 0)); break;
@@ -284,6 +310,12 @@ void Player::Render()
 		DrawString(0, y, "　状態：DASH", GetColor(255, 0, 0)); break;
 	case STATE::JUMP:
 		DrawString(0, y, "　状態：JUMP", GetColor(255, 0, 0)); break;
+	case STATE::L_SIDE_DASH:
+		DrawString(0, y, "　状態：LEFT", GetColor(255, 0, 0)); break;
+	case STATE::R_SIDE_DASH:
+		DrawString(0, y, "　状態：RIGHT", GetColor(255, 0, 0)); break;
+	case STATE::BACK_DASH:
+		DrawString(0, y, "　状態：BACK", GetColor(255, 0, 0)); break;
 	}
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif

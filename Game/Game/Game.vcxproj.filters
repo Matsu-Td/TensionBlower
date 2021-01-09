@@ -60,9 +60,6 @@
     <ClCompile Include="source\Stage.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="source\PlayerData.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
     <ClCompile Include="source\BossBullet.cpp">
       <Filter>ソース ファイル\Object\Enemy</Filter>
     </ClCompile>
@@ -71,6 +68,12 @@
     </ClCompile>
     <ClCompile Include="source\ModeOption.cpp">
       <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\PlayerStatus.cpp">
+      <Filter>ソース ファイル\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BossStatus.cpp">
+      <Filter>ソース ファイル\Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,9 +98,6 @@
     <ClInclude Include="source\Stage.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="source\PlayerData.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
     <ClInclude Include="source\BossBullet.h">
       <Filter>ヘッダー ファイル\Object\Enemy</Filter>
     </ClInclude>
@@ -106,6 +106,12 @@
     </ClInclude>
     <ClInclude Include="source\ModeOption.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\PlayerStatus.h">
+      <Filter>ヘッダー ファイル\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BossStatus.h">
+      <Filter>ヘッダー ファイル\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

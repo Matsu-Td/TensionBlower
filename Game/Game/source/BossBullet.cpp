@@ -23,7 +23,6 @@ BossBullet::~BossBullet()
 void BossBullet::Initialize()
 {
 
-	_shot._vPos = VGet(0.f, 3.5f, 0.f);
 	
 	_shot._angle = -90.f;
 	_setAngle = 45.f;
@@ -40,6 +39,8 @@ void BossBullet::Shot()
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
 	int camState = Camera::GetInstance()->GetCameraState();
+
+	
 
 	//if (key & PAD_INPUT_2) { 
 		
@@ -76,12 +77,16 @@ void BossBullet::ShotStart()
 	
 //	switch (_pattern) {
 //	case 0:
+	VECTOR bsPos = Boss::GetInstance()->GetPos();
+	_shot._vPos = bsPos;
+	_shot._vPos.y = 3.5f;
 		if (_shotCnt % 17 == 0 && _shotCnt != 1) {
 			SHOT tmp;
 		//if (_shotCnt== 1) {
 			for (int i = 0; i < 8; i++) {
-				_shot._vPos.x = cos(_shot._angle / 180.f * DX_PI_F) * 10.f;
-				_shot._vPos.z = sin(_shot._angle / 180.f * DX_PI_F) * 10.f;
+
+				_shot._vPos.x = bsPos.x + cos(_shot._angle / 180.f * DX_PI_F) * 10.f;
+				_shot._vPos.z = bsPos.z + sin(_shot._angle / 180.f * DX_PI_F) * 10.f;
 			    tmp._vPos = _shot._vPos;
 		    	tmp._angle = _shot._angle;
 				_lsBlt.push_back(tmp);

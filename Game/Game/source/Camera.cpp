@@ -118,17 +118,15 @@ void Camera::Process()
 		float camrad = atan2(sz, sx);
 		float length = sqrt(sx * sx + sz * sz) + camDis;
 
-		_vPos.x = cos(camrad) * length;
-		_vPos.z = sin(camrad) * length;
+		_vPos.x = bsPos.x + cos(camrad) * length;
+		_vPos.z = bsPos.z + sin(camrad) * length;
 		_vPos.y = 10.f; // カメラ高さ固定
 
 		if(trg & PAD_INPUT_10) {
 			_state = STATE::NORMAL;
 		}
 		if (key & PAD_INPUT_5) { 
-			if (plPos.y == Player::GetInstance()->GROUND_Y) {       // プレイヤーが地上にいる時、マルチロックシステム発動可能
-				_state = STATE::MLS_LOCK;
-			}
+			_state = STATE::MLS_LOCK;
 		}
 		break;
 	}
@@ -145,7 +143,6 @@ void Camera::Process()
 
 		_vPos.x = cos(camrad) * length;
 		_vPos.z = sin(camrad) * length;
-		//_vPos.y = 10.f; // カメラ高さ固定
 
 		if (lx < analogMin) { _reticle.x -= _reticle.spd; }
 		if (lx > -analogMin) { _reticle.x += _reticle.spd; }

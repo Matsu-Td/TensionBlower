@@ -1,7 +1,7 @@
 #pragma once
 #include "appframe.h"
 
-class PlayerData : public JsonBase{
+class PlayerData{
 public:
 	PlayerData();
 	~PlayerData();

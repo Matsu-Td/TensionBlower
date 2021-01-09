@@ -12,9 +12,16 @@ public:
 	void Process();
 	void Render();
 
+	void ShortDash();
+	void NormDash();
+	void JumpAction();
+	void Charging();
+	void MortionSwitch();
+
 	static Player* GetInstance() { return _pInstance; }
 	VECTOR GetPos() const { return _vPos; }
 	VECTOR GetDir() const { return _vDir; }
+	int GetStatusAttack() const { return _status.nowAtck; }
 
 	static Player* _pInstance;
 
@@ -34,7 +41,8 @@ private:
 	float _playTime;
 	float _mvSpd;
 	bool _isCharging;
-	bool _hit;     // デバッグのみ
+	float _bsAngle;
+	float _lfAnalogDeg;
 
 	float  _jumpTime;  // ジャンプ時間制御
 	bool _isCanJump;   // ジャンプ可否(true:可, false:不可)
@@ -60,6 +68,19 @@ private:
 	static constexpr float NOR_MV_SPD = 0.8f;
 	static constexpr float DASH_MV_SPD = 1.2f;
 	static constexpr float CHARGE_MV_SPD = 0.4f;
+
+	static constexpr int MAX_HP = 1000;
+	static constexpr int MAX_ENERGY = 6000;
+
+	struct STATUS {
+		int hitpoint;
+		int energy;
+		int nowAtck;
+		int wkAtck[4];
+		int stAtck[4];
+		int shooting;
+	};
+	STATUS _status;
 };
 
 /*
