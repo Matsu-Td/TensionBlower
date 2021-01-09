@@ -24,12 +24,11 @@ void Player::Initialize()
 {
 	_vPos = VGet(0.f, 0.f, -115.f);
 	_vDir = VGet(0, 0, 1);
-	_mvSpd = 0.8f;
+	_mvSpd = NOR_MV_SPD;
 	_attachIndex = -1;
 	_totalTime = 0;
 	_playTime = 0.f;
 	_jumpTime = 0.f;
-	_inVel = 0.f;
 	_isCanJump = true;
 	_isCharging = false;
 	_isShortDash = false;
@@ -77,12 +76,7 @@ void Player::Process()
 		length = 0.f;
 	}
 	else {
-		if (_state != STATE::DASH) {
-			length = _mvSpd;
-		}
-		else {
-			length = -0.4f;
-		}
+		length = _mvSpd;
 	}
 
 	if (camState != Camera::GetInstance()->STATE::MLS_LOCK) {  // マルチロックシステムが発動していないときは移動可能
@@ -96,24 +90,24 @@ void Player::Process()
 		// 移動量をそのままキャラの向きにする
 		if (VSize(vec) > 0.f) {		// 移動していない時は無視するため
 			_vDir = vec;
-			_mvSpd = 0.8f;
-		//	if (_vPos.y == GROUND_Y) {
+			if (_state != STATE::DASH) {
+				_mvSpd = NOR_MV_SPD;
+			}
 			if (_isCanJump) {
 				_state = STATE::WALK;
 			}
 		}
-		//else if(_vPos.y == GROUND_Y){
 		else if (_isCanJump) {
 			_state = STATE::WAIT;
 		}
-
-		// ジャンプ ///////////////////////////////////////////////////
+		/**
+		* ジャンプ
+		*/
 		if (trg & PAD_INPUT_1 && _isCanJump && !_isCharging) {
 			_state = STATE::JUMP;
 			_isCanJump = false;
-			_mvSpd = 0.8f;
-			_inVel = 1.2f;      // ジャンプ1
-			_jumpTime = 0.f;    // ジャンプ2
+			_mvSpd = NOR_MV_SPD;
+			_jumpTime = 0.f;
 		}
 		if (!_isCanJump) {
 			float gravity = 0.9f;
@@ -124,17 +118,17 @@ void Player::Process()
 
 		if (_vPos.y < GROUND_Y) {
 			_vPos.y = GROUND_Y;
-			_inVel = 0.f;
 			if (_isCharging == false) {
 				_isCanJump = true;
 			}
 		}
-
-		// 短押しダッシュ ///////////////////////////////////////////////////
-		float nowAngle = atan2(_vDir.z, _vDir.x);
-		VECTOR vDash{ 0.f,0.f,0.f };
+		/**
+        * 短押しダッシュ
+        */
+		float nowAngle = atan2(_vDir.z, _vDir.x);  // 現在のプレイヤーの正面角度
+		VECTOR vDash{ 0.f,0.f,0.f };               // ダッシュする方向
 		if (trg & PAD_INPUT_6 && (_state != STATE::JUMP)) {
-			_mvSpd = 1.2f;
+			_mvSpd = DASH_MV_SPD;
 			_isShortDash = true;
 			_dashCnt = 20;
 		}
@@ -154,23 +148,28 @@ void Player::Process()
 				_isShortDash = false;
 			}
 		}
-		// 長押しダッシュ ////////////////////////////////////////////////////
-		if (key & PAD_INPUT_6) {
-			
+		/**
+		* 長押しダッシュ
+		*/
+		if (key & PAD_INPUT_6) {		
 			if (_isCanJump && !_isShortDash) {
 				_state = STATE::DASH;
-				vDash.x = cos(nowAngle) * _mvSpd;
-				vDash.z = sin(nowAngle) * _mvSpd;
-				_vPos.x += vDash.x;
-				_vPos.z += vDash.z;
 				_isCharging = false;
+				if (length < analogMin) {
+					vDash.x = cos(nowAngle) * _mvSpd;
+					vDash.z = sin(nowAngle) * _mvSpd;
+					_vPos.x += vDash.x;
+					_vPos.z += vDash.z;
+				}
 			}
 		}
-		// 溜め //////////////////////////////////////////////////////
+		/**
+		* エネルギー溜め
+		*/
 		if (key & PAD_INPUT_3) {
 			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
 				if (_state != STATE::DASH) {
-					_mvSpd = 0.4f;
+					_mvSpd = CHARGE_MV_SPD;
 					_isCharging = true;
 				}
 			}
@@ -178,13 +177,10 @@ void Player::Process()
 		else {
 			_isCharging = false;
 		}
-
-
-		
 	}
-
-
-	// 壁との当たり判定、壁ずり //////////////////////////////////////////////////
+	/**
+	* 壁との当たり判定、壁ずり
+	*/
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
 	_hitPolyDim = MV1CollCheck_Capsule(_mhMap, -1, _capsulePos1, _capsulePos2, 2.f);
 	

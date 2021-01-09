@@ -36,8 +36,6 @@ private:
 	bool _isCharging;
 	bool _hit;     // デバッグのみ
 
-
-	float _inVel;      // 初速度
 	float  _jumpTime;  // ジャンプ時間制御
 	bool _isCanJump;   // ジャンプ可否(true:可, false:不可)
 
@@ -58,6 +56,10 @@ private:
 	STATE _state; // プレイヤーの状態
 
 	PlayerBullet _bullet;
+
+	static constexpr float NOR_MV_SPD = 0.8f;
+	static constexpr float DASH_MV_SPD = 1.2f;
+	static constexpr float CHARGE_MV_SPD = 0.4f;
 };
 
 /*
