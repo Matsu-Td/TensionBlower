@@ -77,11 +77,11 @@ void Player::Process()
 		length = 0.f;
 	}
 	else {
-		if (!_isShortDash) {
+		if (_state != STATE::DASH) {
 			length = _mvSpd;
 		}
 		else {
-			length = 0.f;
+			length = -0.4f;
 		}
 	}
 
@@ -115,7 +115,6 @@ void Player::Process()
 			_inVel = 1.2f;      // ジャンプ1
 			_jumpTime = 0.f;    // ジャンプ2
 		}
-		// ジャンプ2
 		if (!_isCanJump) {
 			float gravity = 0.9f;
 			float inVel = 4.f;
@@ -137,7 +136,7 @@ void Player::Process()
 		if (trg & PAD_INPUT_6 && (_state != STATE::JUMP)) {
 			_mvSpd = 1.2f;
 			_isShortDash = true;
-			_dashCnt = 10;
+			_dashCnt = 20;
 		}
 		if (_isShortDash) {
 			_dashCnt--;
