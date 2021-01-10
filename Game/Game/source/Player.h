@@ -17,7 +17,13 @@ public:
 	void JumpAction();
 	void Charging();
 	void MortionSwitch();
-	void LeftAnalogDeg();
+
+	/**
+	* カメラロック中の移動、ダッシュモーション切替処理／
+	* 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移
+	* @param length  := sqrt(lx * lx + ly * ly) 左アナログスティックの入力値
+	*/
+	void LeftAnalogDeg(float length);
 
 	static Player* GetInstance() { return _pInstance; }
 	VECTOR GetPos() const { return _vPos; }
@@ -46,25 +52,34 @@ private:
 	int _lfAnalogDeg;
 	bool _isDash;
 
-	float  _jumpTime;  // ジャンプ時間制御
-	bool _isCanJump;   // ジャンプ可否(true:可, false:不可)
+	float  _jumpTime;    // ジャンプ時間制御
+	bool _isCanJump;     // ジャンプ可否(true:可, false:不可)
 
-	bool _isShortDash;      // 短押しダッシュ中か(true:ダッシュ中)
-	int _dashCnt;      // 短押しダッシュカウント
+	bool _isShortDash;   // 短押しダッシュ中か(true:ダッシュ中)
+	int _dashCnt;        // 短押しダッシュカウント
 
 	// プレイヤー状態(モーション)管理
 	enum class STATE {
 		NONE,
 		WAIT,            // 待機
 		WALK,            // 通常移動
-		DASH,            // ダッシュ移動
 		JUMP,            // ジャンプ
-		L_SIDE_MOVE,     // 左向き移動
-		R_SIDE_MOVE,     // 右向き移動
-		BACK_MOVE,       // 後向き移動
-		L_SIDE_DASH,     // 左向きダッシュ移動
-		R_SIDE_DASH,     // 右向きダッシュ移動
-		BACK_DASH,       // 後向きダッシュ移動
+		LEFT_MOVE,       // 左方移動(カメラロック中のみ)
+		RIGHT_MOVE,      // 右方移動(カメラロック中のみ)
+		BACK_MOVE,       // 後方移動(カメラロック中のみ)
+		FOR_DASH,        // 前方ダッシュ移動
+		LEFT_DASH,       // 左方ダッシュ移動(カメラロック中のみ)
+		RIGHT_DASH,      // 右方ダッシュ移動(カメラロック中のみ)
+		BACK_DASH,       // 後方ダッシュ移動(カメラロック中のみ)
+		WEAK_ATCK1,      // 弱近接攻撃1
+		WEAK_ATCK2,      // 弱近接攻撃2
+		WEAK_ATCK3,      // 弱近接攻撃3
+		WEAK_ATCK4,      // 弱近接攻撃4
+		STRG_ATCK1,      // 強近接攻撃1
+		STRG_ATCK2,      // 強近接攻撃2
+		STRG_ATCK3,      // 強近接攻撃3
+		STRG_ATCK4,      // 強近接攻撃4
+		SHOT_ATCK,       // 射撃攻撃
 	};
 	STATE _state; // プレイヤーの状態
 

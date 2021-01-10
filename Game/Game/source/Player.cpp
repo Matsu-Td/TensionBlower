@@ -50,7 +50,7 @@ void Player::JumpAction()
 	if (!_isCanJump) {
 		float gravity = 0.9f;
 		float inVel = 4.f;
-		_vPos.y = inVel * _jumpTime - 0.5 * gravity * _jumpTime * _jumpTime;
+		_vPos.y = inVel * _jumpTime - 0.5f * gravity * _jumpTime * _jumpTime;
 	}
 	_jumpTime += 0.2f;
 
@@ -62,36 +62,41 @@ void Player::JumpAction()
 	}
 }
 
-void Player::LeftAnalogDeg()
+void Player::LeftAnalogDeg(float length)
 {
-	if (_isDash) {
-		_mvSpd = DASH_MV_SPD;
-		if (_lfAnalogDeg >= 120 || _lfAnalogDeg <= -120) {
-			_state = STATE::DASH;
+	if (_isCanJump) {
+		if (_isDash) {
+			_mvSpd = DASH_MV_SPD;
+			if (_lfAnalogDeg >= 120 || _lfAnalogDeg <= -120) {
+				_state = STATE::FOR_DASH;
+			}
+			else if (_lfAnalogDeg < -45 && _lfAnalogDeg > -120) {
+				_state = STATE::LEFT_DASH;
+			}
+			else if (_lfAnalogDeg > 45 && _lfAnalogDeg < 120) {
+				_state = STATE::RIGHT_DASH;
+			}
+			else if (_lfAnalogDeg >= -45 && _lfAnalogDeg <= 45 && length >= 0.3f) {
+				_state = STATE::BACK_DASH;
+			}
+			else {
+				_state = STATE::FOR_DASH;  // 入力がRBのみ
+			}
 		}
-		else if (_lfAnalogDeg < -45 && _lfAnalogDeg > -120) {
-			_state = STATE::L_SIDE_DASH;
-		}
-		else if (_lfAnalogDeg > 45 && _lfAnalogDeg < 120) {
-			_state = STATE::R_SIDE_DASH;
-		}
-		else if (_lfAnalogDeg >= -45 && _lfAnalogDeg <= 45) {
-			_state = STATE::BACK_DASH;
-		}
-	}
-	else {
-		_mvSpd = NOR_MV_SPD;
-		if (_lfAnalogDeg >= 120 || _lfAnalogDeg <= -120) {
-			_state = STATE::WALK;
-		}
-		else if (_lfAnalogDeg < -45 && _lfAnalogDeg > -120) {
-			_state = STATE::L_SIDE_MOVE;
-		}
-		else if (_lfAnalogDeg > 45 && _lfAnalogDeg < 120) {
-			_state = STATE::R_SIDE_MOVE;
-		}
-		else if (_lfAnalogDeg >= -45 && _lfAnalogDeg <= 45) {
-			_state = STATE::BACK_MOVE;
+		else {
+			_mvSpd = NOR_MV_SPD;
+			if (_lfAnalogDeg >= 120 || _lfAnalogDeg <= -120) {
+				_state = STATE::WALK;
+			}
+			else if (_lfAnalogDeg < -45 && _lfAnalogDeg > -120) {
+				_state = STATE::LEFT_MOVE;
+			}
+			else if (_lfAnalogDeg > 45 && _lfAnalogDeg < 120) {
+				_state = STATE::RIGHT_MOVE;
+			}
+			else if (_lfAnalogDeg >= -45 && _lfAnalogDeg <= 45) {
+				_state = STATE::BACK_MOVE;
+			}
 		}
 	}
 }
@@ -162,7 +167,7 @@ void Player::Process()
 			if (camState == Camera::STATE::TARG_LOCK_ON){
 				_vDir.x = -cos(_bsAngle);
                 _vDir.z = -sin(_bsAngle);
-				LeftAnalogDeg();
+				LeftAnalogDeg(length);
 				
 				if (!_isDash) {
 					_mvSpd = NOR_MV_SPD;
@@ -171,19 +176,19 @@ void Player::Process()
 			}
 			else {
 				_vDir = vec;
-				if (_state != STATE::DASH) {
+				if (_state != STATE::FOR_DASH) {
 					_mvSpd = NOR_MV_SPD;
 				}
 				if (_isCanJump) {
 					_state = STATE::WALK;
 				}
 			}
-			
-
 		}
 		else if (_isCanJump) {
 			_state = STATE::WAIT;
+
 		}
+
 		/**
 		* ジャンプ
 		*/
@@ -204,12 +209,12 @@ void Player::Process()
 			if (_dashCnt > 0) {
 				_isDash = true;
 				if (camState != Camera::STATE::TARG_LOCK_ON) {
-					_state = STATE::DASH;
+					_state = STATE::FOR_DASH;
 				}
 				_isCharging = false;
 				if (length < analogMin) {
 					if (camState == Camera::STATE::TARG_LOCK_ON) {
-						LeftAnalogDeg();
+						LeftAnalogDeg(length);
 						vDash.x = -cos(_bsAngle) * _mvSpd;
 						vDash.z = -sin(_bsAngle) * _mvSpd;
 					}
@@ -234,12 +239,12 @@ void Player::Process()
 			if (_isCanJump && !_isShortDash) {
 				_isDash = true;
 				if (camState != Camera::STATE::TARG_LOCK_ON) {
-					_state = STATE::DASH;
+					_state = STATE::FOR_DASH;
 				}
 				_isCharging = false;
 				if (length < analogMin) {
 					if (camState == Camera::STATE::TARG_LOCK_ON) {
-						LeftAnalogDeg();
+						LeftAnalogDeg(length);
 						vDash.x = -cos(_bsAngle) * _mvSpd;
 						vDash.z = -sin(_bsAngle) * _mvSpd;
 						_vPos.x += vDash.x;
@@ -262,7 +267,7 @@ void Player::Process()
 		*/
 		if (key & PAD_INPUT_3) {
 			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
-				if (_state != STATE::DASH) {
+				if (_state != STATE::FOR_DASH) {
 					_mvSpd = CHARGE_MV_SPD;
 					_isCharging = true;
 				}
@@ -304,22 +309,22 @@ void Player::Process()
 		case STATE::JUMP:
 //			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
 			break;
-		case STATE::DASH:
+		case STATE::FOR_DASH:
 //			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
 			break;
-		case STATE::L_SIDE_MOVE:
+		case STATE::LEFT_MOVE:
 //			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
 			break;
-		case STATE::R_SIDE_MOVE:
+		case STATE::RIGHT_MOVE:
 //			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
 			break;
 		case STATE::BACK_MOVE:
 //			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
 			break;
-		case STATE::L_SIDE_DASH:
+		case STATE::LEFT_DASH:
 //			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
 			break;
-		case STATE::R_SIDE_DASH:
+		case STATE::RIGHT_DASH:
 //			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
 			break;
 		case STATE::BACK_DASH:
@@ -376,19 +381,19 @@ void Player::Render()
 		DrawString(0, y, "　状態：WAIT", GetColor(255, 0, 0)); break;
 	case STATE::WALK:
 		DrawString(0, y, "　状態：WALK", GetColor(255, 0, 0)); break;
-	case STATE::DASH:
-		DrawString(0, y, "　状態：DASH", GetColor(255, 0, 0)); break;
+	case STATE::FOR_DASH:
+		DrawString(0, y, "　状態：FOR DASH", GetColor(255, 0, 0)); break;
 	case STATE::JUMP:
 		DrawString(0, y, "　状態：JUMP", GetColor(255, 0, 0)); break;
-	case STATE::L_SIDE_MOVE:
+	case STATE::LEFT_MOVE:
 		DrawString(0, y, "　状態：LEFT MOVE", GetColor(255, 0, 0)); break;
-	case STATE::R_SIDE_MOVE:
+	case STATE::RIGHT_MOVE:
 		DrawString(0, y, "　状態：RIGHT MOVE", GetColor(255, 0, 0)); break;
 	case STATE::BACK_MOVE:
 		DrawString(0, y, "　状態：BACK MOVE", GetColor(255, 0, 0)); break;
-	case STATE::L_SIDE_DASH:
+	case STATE::LEFT_DASH:
 		DrawString(0, y, "　状態：LEFT DASH", GetColor(255, 0, 0)); break;
-	case STATE::R_SIDE_DASH:
+	case STATE::RIGHT_DASH:
 		DrawString(0, y, "　状態：RIGHT DASH", GetColor(255, 0, 0)); break;
 	case STATE::BACK_DASH:
 		DrawString(0, y, "　状態：BACK DASH", GetColor(255, 0, 0)); break;
