@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Boss.h"
+#include "BulletServer.h"
+#include "ModeGame.h"
 
 Player* Player::_pInstance = NULL;
 
@@ -34,6 +36,16 @@ void Player::Initialize()
 	_isCharging = false;
 	_isShortDash = false;
 	_isDash = false;
+
+	// 以下ステータス等
+	_status.bulletNum = MAX_BULLET;
+	_canShotFlag = true;
+	_shotCnt = 5;
+	_reloadTime = 90;
+
+	_status.energy = MAX_ENERGY;
+	_atChargeFlag = true;
+	_atChargeCnt = 30;
 }
 
 void Player::JumpAction() 
@@ -41,17 +53,20 @@ void Player::JumpAction()
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	if (trg & PAD_INPUT_1 && _isCanJump && !_isCharging) {
-		_state = STATE::JUMP;
-		_isCanJump = false;
-		_mvSpd = NOR_MV_SPD;
-		_jumpTime = 0.f;
+	if (_status.energy >= JUMP_ENERGY) {
+		if (trg & PAD_INPUT_1 && _isCanJump && !_isCharging) {
+			_state = STATE::JUMP;
+			_isCanJump = false;
+			_mvSpd = NOR_MV_SPD;
+			_jumpTime = 0.f;
+		}
 	}
 	if (!_isCanJump) {
 		float gravity = 0.9f;
 		float inVel = 4.f;
 		_vPos.y = inVel * _jumpTime - 0.5f * gravity * _jumpTime * _jumpTime;
 	}
+	
 	_jumpTime += 0.2f;
 
 	if (_vPos.y < GROUND_Y) {
@@ -101,21 +116,113 @@ void Player::LeftAnalogDeg(float length)
 	}
 }
 
-void Player::Process()
+void Player::EnergyManager(STATE oldState)
+{
+	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+
+	if (oldState != _state) { 
+		// ジャンプ(消費)
+		if (_state == STATE::JUMP) {
+			_atChargeFlag = false;
+			_atChargeCnt = AT_CHARGE_CNT;
+			_status.energy = _status.energy - JUMP_ENERGY;
+		}
+		// 短押しダッシュ(消費)
+		if (_isShortDash) {
+			_atChargeFlag = false;
+			_atChargeCnt = AT_CHARGE_CNT;
+			_status.energy = _status.energy - DASH_ENERGY;
+		}
+
+	}
+
+	// 長押しダッシュ(消費)
+	if(!_isShortDash && _isDash) {
+		_atChargeFlag = false;
+		_atChargeCnt = AT_CHARGE_CNT;
+		_status.energy--;
+	}
+
+	// マルチロックオンシステム
+	if (camState == Camera::STATE::MLS_LOCK) {
+		_atChargeFlag = false;
+		_atChargeCnt = AT_CHARGE_CNT;
+		_status.energy -= 12.5;
+	}
+	//　溜め(回復)
+	if (_isCharging) {
+		_atChargeFlag = false;
+		_atChargeCnt = AT_CHARGE_CNT;
+		_status.energy += AT_CHARGE * 2.5;
+	}
+
+
+	// 自動回復開始のインターバル
+	if (!_atChargeFlag) {
+		_atChargeCnt--;
+		if (_atChargeCnt <= 0){
+			_atChargeCnt = 0;
+			_atChargeFlag = true;
+		}
+	}
+	// 自動回復
+	else {
+		_status.energy += AT_CHARGE;
+	}
+
+/*	switch (_state) {
+	case STATE::WAIT:
+
+		break;
+	case STATE::WALK:
+
+		break;
+	case STATE::JUMP:
+		_status.energy = _status.energy - 600;
+		break;
+	case STATE::FOR_DASH:
+		;
+		break;
+	case STATE::LEFT_MOVE:
+
+		break;
+	case STATE::RIGHT_MOVE:
+
+		break;
+	case STATE::BACK_MOVE:
+
+		break;
+	case STATE::LEFT_DASH:
+
+		break;
+	case STATE::RIGHT_DASH:
+
+		break;
+	case STATE::BACK_DASH:
+
+		break;
+	}*/
+
+}
+
+void Player::Update()
 {
 	_oldPos = _vPos;
+
+
 	// キーの取得
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
 	// 当たり判定用カプセル情報
 	_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
-	_capsulePos2 = VGet(_vPos.x, _vPos.y + 4.f, _vPos.z);
+	_capsulePos2 = VGet(_vPos.x, _vPos.y + 5.f, _vPos.z);
 
 	// アナログスティック対応
 	DINPUT_JOYSTATE dinput;
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
 	float lx, ly;           // 左アナログスティックの座標
+	int rt = dinput.Z;    // ゲームパッド「RT」
 	float analogMin = 0.3f;
 	lx = static_cast<float>(dinput.X);
 	ly = static_cast<float>(dinput.Y);
@@ -124,6 +231,7 @@ void Player::Process()
 	STATE oldState = _state;
 
 	// カメラデータ取得
+
 	VECTOR camPos = Camera::GetInstance()->GetPos();
 	VECTOR camTarg = Camera::GetInstance()->GetTarg();
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
@@ -146,6 +254,7 @@ void Player::Process()
 	float length = sqrt(lx * lx + ly * ly);
 	float rad = atan2(lx, ly);
 	_lfAnalogDeg = static_cast<int>(rad * 180.0f / DX_PI_F);
+
 
 	if (length < analogMin) {
 		length = 0.f;
@@ -192,21 +301,24 @@ void Player::Process()
 		/**
 		* ジャンプ
 		*/
+
 		JumpAction();
+		
+		
 
 		/**
         * 短押しダッシュ
         */
 		float nowAngle = atan2(_vDir.z, _vDir.x);  // 現在のプレイヤーの正面角度
 		VECTOR vDash{ 0.f,0.f,0.f };               // ダッシュする方向
-		if (trg & PAD_INPUT_6 && (_state != STATE::JUMP)) {
+		if (trg & PAD_INPUT_6 && (_state != STATE::JUMP) && _status.energy > DASH_ENERGY) {
 			_mvSpd = DASH_MV_SPD;
 			_isShortDash = true;
-			_dashCnt = 10;
+			_shortDashCnt = SHORT_DASH_CNT;
 		}
 		if (_isShortDash) {
-			_dashCnt--;
-			if (_dashCnt > 0) {
+			_shortDashCnt--;
+			if (_shortDashCnt > 0) {
 				_isDash = true;
 				if (camState != Camera::STATE::TARG_LOCK_ON) {
 					_state = STATE::FOR_DASH;
@@ -227,7 +339,7 @@ void Player::Process()
 				}
 			}
 			else {
-				_dashCnt = 0;
+				_shortDashCnt = 0;
 				_isShortDash = false;
 				_isDash = false;
 			}
@@ -236,7 +348,7 @@ void Player::Process()
 		* 長押しダッシュ
 		*/
 		if (key & PAD_INPUT_6) {		
-			if (_isCanJump && !_isShortDash) {
+			if (_isCanJump && !_isShortDash && _status.energy > 0) {
 				_isDash = true;
 				if (camState != Camera::STATE::TARG_LOCK_ON) {
 					_state = STATE::FOR_DASH;
@@ -263,7 +375,7 @@ void Player::Process()
 			_isDash = false;
 		}
 		/**
-		* エネルギー溜め
+		* エネルギーチャージ
 		*/
 		if (key & PAD_INPUT_3) {
 			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
@@ -277,6 +389,44 @@ void Player::Process()
 			_isCharging = false;
 		}
 	}
+
+	/**
+    * 射撃攻撃
+    */
+	if (rt < -100) {
+		if (_status.bulletNum > 0) {
+			if (_canShotFlag) {
+				_reloadTime = 90;
+				_canShotFlag = false;
+				_status.bulletNum--;
+				ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+				PlayerBullet* bullet = new PlayerBullet();
+				//		bullet->SetPosition(_vPos);
+				modeGame->_bltServer.Add(bullet);
+				//		_bltServer.Add(bullet);
+//				for (auto itr = modeGame->_bltServer.List()->begin(); itr != modeGame->_bltServer.List()->end(); itr++) {
+//					VECTOR bltPos = (*itr)->GetPos();
+//				}
+			}
+			else {
+				_shotCnt--;
+				if (_shotCnt == 0) {
+					_canShotFlag = true;
+					_shotCnt = 10;
+				}
+			}
+
+		}
+	}
+	else {
+		_reloadTime--;
+		if (_reloadTime <= 0) {
+			if (_status.bulletNum < MAX_BULLET) {
+				_status.bulletNum++;
+			}
+		}
+	}
+
 	/**
 	* 壁との当たり判定、壁ずり
 	*/
@@ -289,6 +439,16 @@ void Player::Process()
 		slideVec = VCross(_hitPolyDim.Dim->Normal, slideVec);
 		_vPos = VAdd(_oldPos, slideVec);
 		_vPos = VAdd(_vPos, VScale(_hitPolyDim.Dim->Normal, 0.03f));
+	}
+
+	if (_status.energy > 0 || _status.energy < MAX_ENERGY) {
+		EnergyManager(oldState);
+	}
+	if(_status.energy < 0){
+		_status.energy = 0;
+	}
+	if (_status.energy > MAX_ENERGY) {
+		_status.energy = MAX_ENERGY;
 	}
 
 	if (oldState == _state) {
@@ -341,15 +501,14 @@ void Player::Process()
 		_playTime = 0.0f;
 	}
 
-	MV1CollResultPolyDimTerminate(_hitPolyDim);
 
-	// 射撃
-	_bullet.Process();
+
 }
 
 void Player::Render()
 {
-	MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
+//	_bltServer.Render();
+    MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
 	MV1SetScale(_mh, VGet(0.05f, 0.05f, 0.05f));
 	{
 		MV1SetPosition(_mh, _vPos);
@@ -360,9 +519,11 @@ void Player::Render()
 		MV1DrawModel(_mh);
 	}
 	// 射撃
-	_bullet.Render();
+//	_bullet.Render();
 
 #if 1
+//	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+//	VECTOR pl = modeGame->_pl->GetPos();
 	float angle = atan2(_vDir.x * -1, _vDir.z * -1);
 	float deg = angle * 180.f / DX_PI_F;
 	int y = 125;
@@ -376,6 +537,8 @@ void Player::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  charge = %d", _isCharging); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  dash   = %d", _isDash); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  左ST角度 = %d", _lfAnalogDeg); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  energy = %d", _status.energy); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  装弾数 = %d", _status.bulletNum); y += size;
 	switch (_state) {
 	case STATE::WAIT:
 		DrawString(0, y, "　状態：WAIT", GetColor(255, 0, 0)); break;
@@ -398,7 +561,7 @@ void Player::Render()
 	case STATE::BACK_DASH:
 		DrawString(0, y, "　状態：BACK DASH", GetColor(255, 0, 0)); break;
 	}
-	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+	DrawCapsule3D(_capsulePos1, _capsulePos2, 1.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
 }
 

@@ -41,6 +41,8 @@ void Camera::Process()
 	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();  // 画面縦幅サイズ
 
 	VECTOR plPos = Player::GetInstance()->GetPos();   // プレイヤー位置情報取得
+	int plEnergy = Player::GetInstance()->GetEnergy();
+
 	VECTOR bsPos = Boss::GetInstance()->GetPos();     // ボス位置情報取得
 
 	// アナログスティック対応
@@ -99,7 +101,7 @@ void Camera::Process()
 		if (trg & PAD_INPUT_10) { 
 			_state = STATE::TARG_LOCK_ON; 
 		}
-		if (key & PAD_INPUT_5) {
+		if (key & PAD_INPUT_5 && plEnergy > 12.5) {
 			_state = STATE::MLS_LOCK;
 		}
 		break;
@@ -124,7 +126,7 @@ void Camera::Process()
 		if(trg & PAD_INPUT_10) {
 			_state = STATE::NORMAL;
 		}
-		if (key & PAD_INPUT_5) { 
+		if (key & PAD_INPUT_5 && plEnergy > 12.5) {
 			_state = STATE::MLS_LOCK;
 		}
 		break;
@@ -157,10 +159,11 @@ void Camera::Process()
 		if (_reticle.y + 100 > dispSizeH) { _reticle.y = dispSizeH - 100; }
 
 		if (!(key & PAD_INPUT_5)) { _state = STATE::_EOF_; }
+		if (plEnergy < 12.5) { _state = STATE::_EOF_; }
 		break;
 	}
 	default:
-		_vPos = _oldvPos;
+	//	_vPos = _oldvPos;
 		_state = STATE::NORMAL;
 		_reticle.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
 		_reticle.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;

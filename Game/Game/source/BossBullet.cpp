@@ -34,17 +34,11 @@ void BossBullet::Initialize()
 
 void BossBullet::Shot()
 {
-	
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
 	int camState = Camera::GetInstance()->GetCameraState();
 
-	
-
-	//if (key & PAD_INPUT_2) { 
-		
-	//}
 	if(camState == Camera::STATE::MLS_LOCK){
 		_mlsCnt++;
 		_bltSpd = NOR_SPD * 0.1f; // マルチロックオンシステム中は速度0.1倍
@@ -59,8 +53,6 @@ void BossBullet::Shot()
 		ShotStart();
 	}
 	
-	
-
 	for (auto itr = _lsBlt.begin(); itr != _lsBlt.end();) {
 		itr->_vx = cos(itr->_angle / 180.f * DX_PI_F) * _bltSpd;
 		itr->_vz = sin(itr->_angle / 180.f * DX_PI_F) * _bltSpd;
@@ -84,7 +76,6 @@ void BossBullet::ShotStart()
 			SHOT tmp;
 		//if (_shotCnt== 1) {
 			for (int i = 0; i < 8; i++) {
-
 				_shot._vPos.x = bsPos.x + cos(_shot._angle / 180.f * DX_PI_F) * 10.f;
 				_shot._vPos.z = bsPos.z + sin(_shot._angle / 180.f * DX_PI_F) * 10.f;
 			    tmp._vPos = _shot._vPos;
@@ -141,7 +132,6 @@ void BossBullet::Process()
 	 if (trg & PAD_INPUT_8) { _pattern = 0; }
 	 // 弾の発生処理
 	
-	// MV1CollResultPolyDimTerminate(_hitPolyDimStg);
 }
 
 void BossBullet::Render()

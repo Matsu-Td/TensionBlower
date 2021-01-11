@@ -159,6 +159,12 @@
     <ClCompile Include="source\Boss.cpp" />
     <ClCompile Include="source\BossBullet.cpp" />
     <ClCompile Include="source\BossStatus.cpp" />
+    <ClCompile Include="source\BulletBase.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\BulletServer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\ModeGame.cpp" />
     <ClCompile Include="source\ModeOption.cpp" />
@@ -173,6 +179,12 @@
     <ClInclude Include="source\Boss.h" />
     <ClInclude Include="source\BossBullet.h" />
     <ClInclude Include="source\BossStatus.h" />
+    <ClInclude Include="source\BulletBase.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="source\BulletServer.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\ModeGame.h" />
     <ClInclude Include="source\ModeOption.h" />

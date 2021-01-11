@@ -27,7 +27,7 @@ void Boss::Initialize()
 	_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
 }
 
-void Boss::Process()
+void Boss::Update()
 {
 	_playTime++;
 	if (_playTime >= _totalTime) {

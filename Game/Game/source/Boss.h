@@ -9,7 +9,7 @@ public:
 	~Boss();
 
 	void Initialize();
-	void Process();
+	void Update();
 	void Render();
 
 	static Boss* GetInstance() { return _pInstance; }

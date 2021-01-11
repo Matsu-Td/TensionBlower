@@ -10,8 +10,11 @@
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-
 	SetBackgroundColor(0, 255, 255);
+	_stg = std::make_unique<Stage>();
+	_pl = std::make_unique<Player>();
+	_bs = std::make_unique<Boss>();
+
 	return true;
 }
 
@@ -29,9 +32,9 @@ bool ModeGame::Process() {
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
 	_cam.Process();
-	_pl.Process();
-	_bs.Process();
-
+	_pl->Update();
+	_bs->Update();
+	_bltServer.Update();
 	if (trg & PAD_INPUT_8) {
 		ModeOption* modeOption = new ModeOption();
 
@@ -49,10 +52,12 @@ bool ModeGame::Render() {
 	SetWriteZBuffer3D(TRUE);
 	SetUseBackCulling(TRUE);
 
-	_stg.Render();
-	_pl.Render();
-	_bs.Render();
+	_stg->Render();
+	_pl->Render();
+	_bs->Render();
 	_cam.Render();
+	_bltServer.Render();
+
 	return true;
 }
 
