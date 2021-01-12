@@ -28,7 +28,6 @@ bool ModeGame::Process() {
 
 	_cam.Process();
 
-	_bltServer.Update();
 	_objServer.Process();
 
 	if (trg & PAD_INPUT_8) {
@@ -47,9 +46,9 @@ bool ModeGame::Render() {
 	SetUseBackCulling(TRUE);
 
 	_stg->Render();
-	_bltServer.Render();
 	_objServer.Render();
 	_cam.Render();
+
 	return true;
 }
 

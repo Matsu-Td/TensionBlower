@@ -37,6 +37,8 @@ protected:
 	VECTOR _vPos;      // ˆÊ’u
 	VECTOR _vDir;      // Œü‚«
 
+	float _vx, _vz;
+	float _angle;
 	float _mvSpd;        // ˆÚ“®‘¬“x
 	float _r;            // ”¼Œa(“–‚½‚è”»’è—p)
 };

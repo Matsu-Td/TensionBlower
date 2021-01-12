@@ -24,8 +24,10 @@ void PlayerBullet::Initialize()
 	_shotAngle = atan2(plDir.z, plDir.x); // プレイヤー正面の方向角度
 }
 
-void PlayerBullet::Update()
+void PlayerBullet::Process()
 {
+	ObjectBase::Process();
+
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
@@ -39,38 +41,21 @@ void PlayerBullet::Update()
 	float plAngle = atan2(plDir.z, plDir.x); // プレイヤー正面の方向角度
 	float mvSpd = 4.f;   // 弾の速度
 
-/*
-	if (rt < -50) {
-		_shotFlag = true;
-	}
-	else {
-		_shotFlag = false;
-	}
-*/
 	float vx, vz;
-//	if (_shotFlag) {
-		vx = cos(_shotAngle) * mvSpd;
-		vz = sin(_shotAngle) * mvSpd;
-		_vPos.x += vx;
-		_vPos.y = plPos.y + 3.5f;
-		_vPos.z += vz;
 
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	vx = cos(_shotAngle) * mvSpd;
+	vz = sin(_shotAngle) * mvSpd;
+	_vPos.x += vx;
+	_vPos.y = plPos.y + 3.5f;
+	_vPos.z += vz;
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		
-//		for (auto itr = modeGame->_bltServer.List()->begin(); itr != modeGame->_bltServer.List()->end(); itr++) {
-//
-//		}
-//	}
-//	else {
-//		_vPos = plPos;
-//		_vPos.y = plPos.y + 2.f;
-//		_shotAngle = plAngle;
-//	}
+
 }
 
 void PlayerBullet::Render()
 {
-//	if (_shotFlag) {
-		BulletBase::Render();
-//	}
+	MV1SetPosition(_mh, _vPos);
+	MV1DrawModel(_mh);
 };

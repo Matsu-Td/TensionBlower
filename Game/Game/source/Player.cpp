@@ -151,7 +151,7 @@ void Player::EnergyManager(STATE oldState)
 	}
 	//Å@ó≠Çﬂ(âÒïú)
 	if (_isCharging) {
-		_atChargeFlag = false;
+		//_atChargeFlag = false;
 		_atChargeCnt = AT_CHARGE_CNT;
 		_status.energy += AT_CHARGE * 2.5;
 	}
@@ -166,7 +166,7 @@ void Player::EnergyManager(STATE oldState)
 		}
 	}
 	// é©ìÆâÒïú
-	else {
+	else if (!_isCharging){
 		_status.energy += AT_CHARGE;
 	}
 
@@ -388,50 +388,51 @@ void Player::Process()
 		else {
 			_isCharging = false;
 		}
-	}
 
-	/**
-    * éÀåÇçUåÇ
-    */
-	if (rt < -100) {
-		if (_status.bulletNum > 0) {
-			if (_canShotFlag) {
-				_reloadTime = 90;
-				_canShotFlag = false;
-				_status.bulletNum--;
-				ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-				PlayerBullet* bullet = new PlayerBullet();
-				//bullet->SetVecPos(_vPos);
-				modeGame->_bltServer.Add(bullet);
-				//		_bltServer.Add(bullet);
-//				for (auto itr = modeGame->_bltServer.List()->begin(); itr != modeGame->_bltServer.List()->end(); itr++) {
-//					VECTOR bltPos = (*itr)->GetPos();
-//				}
+
+		/**
+		* éÀåÇçUåÇ
+		*/
+		if (rt < -100 && !_isCharging) {
+			if (_status.bulletNum > 0) {
+				if (_canShotFlag) {
+					_reloadTime = 90;
+					_canShotFlag = false;
+					_status.bulletNum--;
+					ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+					PlayerBullet* bullet = new PlayerBullet();
+					//bullet->SetPos(_vPos);
+					modeGame->_objServer.Add(bullet);
+					//				for (auto itr = modeGame->_bltServer.List()->begin(); itr != modeGame->_bltServer.List()->end(); itr++) {
+					//					VECTOR bltPos = (*itr)->GetPos();
+					//				}
+				}
+				else {
+					_shotCnt--;
+					if (_shotCnt == 0) {
+						_canShotFlag = true;
+						_shotCnt = 10;
+					}
+				}
+
 			}
-			else {
-				_shotCnt--;
-				if (_shotCnt == 0) {
-					_canShotFlag = true;
-					_shotCnt = 10;
+		}
+		else {
+			_reloadTime--;
+			if (_reloadTime <= 0) {
+				if (_status.bulletNum < MAX_BULLET) {
+					_status.bulletNum++;
 				}
 			}
+		}
+	}
 
-		}
-	}
-	else {
-		_reloadTime--;
-		if (_reloadTime <= 0) {
-			if (_status.bulletNum < MAX_BULLET) {
-				_status.bulletNum++;
-			}
-		}
-	}
 
 	/**
 	* ÉGÉlÉãÉMÅ[ä«óù
 	*/
 	if (_status.energy > 0 || _status.energy < MAX_ENERGY) {
-	//	EnergyManager(oldState);
+		EnergyManager(oldState);
 	}
 	if (_status.energy < 0) {
 		_status.energy = 0;

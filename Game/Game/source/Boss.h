@@ -21,9 +21,14 @@ private:
 	VECTOR _vPos;
 	VECTOR _vDir;   // Œü‚«
 
+
 	int _attachIndex;
 	float _totalTime;
 	float _playTime;
 
-	BossBullet _bsBullet;
+	int _shotCnt;
+	int _mlsCnt;
+	float _shotAngle;
+	float shotInterval;
+//	BossBullet _bsBullet;
 };

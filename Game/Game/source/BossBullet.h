@@ -2,16 +2,19 @@
 #include "appframe.h"
 #include <list>
 
-class BossBullet {
+class BossBullet : public ObjectBase{
 public:
 	BossBullet();
 	virtual ~BossBullet();
 
+	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_BULLET; }
 	void Initialize();
 	void Process();
 	void Render();
 	void Shot();
 	void ShotStart();
+
+	void SetAngle(float shotAngle) { _shotAngle = shotAngle; }
 /*
 	static BossBullet* GetInstance() { return _pInstance; }
 	VECTOR GetPos() const { return _vPos; }
@@ -26,19 +29,17 @@ private:
 	int _shotCnt;
 	int _mlsCnt;
 	int _pattern;
-//	float _angle;
+	float _shotAngle;
 	float _setAngle;
-	float _bltSpd;
 	float shotInterval;
-//	VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
-//	VECTOR _vPos;   // 位置
-//	float _vx, _vz;
+	VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
+	float _vx, _vz;
 	VECTOR _vDir;   // 向き
-//	VECTOR _scrnPos;
+	VECTOR _scrnPos;
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDimStg;
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDimPl;
 	//std::list<BossBullet> _lsBlt;
-
+/*
 	typedef struct SHOT {
 		VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
 		VECTOR _vPos;   // 位置
@@ -50,7 +51,7 @@ private:
 	std::list<SHOT> _lsBlt;
 
 	SHOT _shot;
-
+*/
 	static constexpr float NOR_SPD = 1.f;
 };
 

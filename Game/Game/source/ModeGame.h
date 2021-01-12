@@ -18,10 +18,8 @@ public:
 	virtual bool Render();
 
 	Camera _cam;
-	BulletServer _bltServer;
-protected:
-
-	std::unique_ptr<Stage> _stg;
-
 	ObjectServer _objServer;
+
+protected:
+	std::unique_ptr<Stage> _stg;
 }; 
