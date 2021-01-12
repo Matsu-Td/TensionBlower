@@ -3,14 +3,16 @@
 #include "PlayerBullet.h"
 #include "BulletServer.h"
 
-class Player
+class Player : public ObjectBase
 {
 public:
 	Player();
 	~Player();
 
+	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::PLAYER; }
+
 	void Initialize();
-	void Update();
+	void Process();
 	void Render();
 
 	void ShortDash();
@@ -28,8 +30,8 @@ public:
 	void LeftAnalogDeg(float length);
 
 	static Player* GetInstance() { return _pInstance; }
-	VECTOR GetPos() const { return _vPos; }
-	VECTOR GetDir() const { return _vDir; }
+//	VECTOR GetPos() const { return _vPos; }
+//	VECTOR GetDir() const { return _vDir; }
 	int GetEnergy() { return _status.energy; }
 	int GetStatusAttack() const { return _status.nowAtck; }
 
@@ -41,15 +43,15 @@ public:
 
 public:
 	int _mhMap;
-	VECTOR _vPos;   // 位置
+//	VECTOR _vPos;   // 位置
 	VECTOR _oldPos;
-	VECTOR _vDir;   // 向き
+//	VECTOR _vDir;   // 向き
 	VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
 
-	int _attachIndex;
-	float _totalTime;
-	float _playTime;
-	float _mvSpd;
+//	int _attachIndex;
+//	float _totalTime;
+//	float _playTime;
+//	float _mvSpd;
 	bool _isCharging;
 	float _bsAngle;
 	int _lfAnalogDeg;

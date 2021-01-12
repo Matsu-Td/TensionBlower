@@ -8,3 +8,4 @@
 #include "ResourceServer/ResourceServer.h"
 #include "Vector3D/Vector3D.h"
 #include "Json/JsonBase.h"
+#include "ObjectServer/ObjectServer.h"

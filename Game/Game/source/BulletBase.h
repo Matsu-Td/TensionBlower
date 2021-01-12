@@ -10,8 +10,15 @@ public:
 	virtual void Update();
 	virtual void Render();
 
-	void SetPosition(VECTOR vPos) { _vPos = vPos; }
-	VECTOR GetPos() { return _vPos; }
+	void SetVecPos(VECTOR vPos) { _vPos = vPos; }
+	void SetFPos(float vPosX, float vPosY, float vPosZ)
+	{
+		_vPos.x = vPosX;
+		_vPos.y = vPosY;
+		_vPos.z = vPosZ;
+	}
+
+	VECTOR GetPos() const { return _vPos; }
 
 protected:
 	int _mh;

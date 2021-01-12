@@ -2,14 +2,13 @@
 #include "appframe.h"
 #include "BossBullet.h"
 
-class Boss
-{
+class Boss : public ObjectBase{
 public:
 	Boss();
 	~Boss();
-
+	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS; }
 	void Initialize();
-	void Update();
+	void Process();
 	void Render();
 
 	static Boss* GetInstance() { return _pInstance; }

@@ -205,7 +205,7 @@ void Player::EnergyManager(STATE oldState)
 
 }
 
-void Player::Update()
+void Player::Process()
 {
 	_oldPos = _vPos;
 
@@ -401,7 +401,7 @@ void Player::Update()
 				_status.bulletNum--;
 				ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 				PlayerBullet* bullet = new PlayerBullet();
-				//		bullet->SetPosition(_vPos);
+				//bullet->SetVecPos(_vPos);
 				modeGame->_bltServer.Add(bullet);
 				//		_bltServer.Add(bullet);
 //				for (auto itr = modeGame->_bltServer.List()->begin(); itr != modeGame->_bltServer.List()->end(); itr++) {
@@ -428,6 +428,19 @@ void Player::Update()
 	}
 
 	/**
+	* エネルギー管理
+	*/
+	if (_status.energy > 0 || _status.energy < MAX_ENERGY) {
+	//	EnergyManager(oldState);
+	}
+	if (_status.energy < 0) {
+		_status.energy = 0;
+	}
+	if (_status.energy > MAX_ENERGY) {
+		_status.energy = MAX_ENERGY;
+	}
+
+	/**
 	* 壁との当たり判定、壁ずり
 	*/
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
@@ -441,15 +454,7 @@ void Player::Update()
 		_vPos = VAdd(_vPos, VScale(_hitPolyDim.Dim->Normal, 0.03f));
 	}
 
-	if (_status.energy > 0 || _status.energy < MAX_ENERGY) {
-		EnergyManager(oldState);
-	}
-	if(_status.energy < 0){
-		_status.energy = 0;
-	}
-	if (_status.energy > MAX_ENERGY) {
-		_status.energy = MAX_ENERGY;
-	}
+
 
 	if (oldState == _state) {
 		_playTime += 0.5f;

@@ -20,11 +20,8 @@ public:
 	Camera _cam;
 	BulletServer _bltServer;
 protected:
-	int mh;
 
 	std::unique_ptr<Stage> _stg;
-	std::unique_ptr<Player> _pl;
-	std::unique_ptr<Boss> _bs;
 
-
+	ObjectServer _objServer;
 }; 
