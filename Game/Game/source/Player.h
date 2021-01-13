@@ -43,36 +43,31 @@ public:
 
 public:
 	int _mhMap;
-//	VECTOR _vPos;   // 位置
-	VECTOR _oldPos;
-//	VECTOR _vDir;   // 向き
+	VECTOR _oldPos;     // 移動処理前の位置保存
 	VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
 
-//	int _attachIndex;
-//	float _totalTime;
-//	float _playTime;
-//	float _mvSpd;
-	bool _isCharging;
-	float _bsAngle;
-	int _lfAnalogDeg;
-	bool _isDash;
+	bool _isCharging;   // 溜め中か(true:溜め中, false:溜め未実施)
+	float _bsAngle;     // ボスの位置、角度
+	int _lfAnalogDeg;   // 左アナログスティックの倒した方向(角度)
 
-	float  _jumpTime;    // ジャンプ時間制御
 	bool _isCanJump;     // ジャンプ可否(true:可, false:不可)
+	float  _jumpTime;    // ジャンプ時間制御
 
+	bool _isDash;       // ダッシュ開始(全種類)
 	bool _isShortDash;   // 短押しダッシュ中か(true:ダッシュ中)
-	int _shortDashCnt;        // 短押しダッシュカウント
+	int _shortDashCnt;   // 短押しダッシュカウント
 
-	bool _canShotFlag;
-	int _shotCnt;
-	int _reloadTime;
+	bool _canShotFlag;   // 射撃可否(true:可能, false:不可)
+	bool _shotZeroFlag;  // 装弾数ゼロフラグ(true:装弾数「0」状態, false:装弾が「1」以上ある状態)
+	int _shotInterval;   // 弾の発射間隔
+	int _reloadTime;     // リロード開始までの時間
 
-	bool _atChargeFlag;
-	int _atChargeCnt;
+	bool _atChargeFlag;  // エネルギー自動回復開始フラグ
+	int _atChargeCnt;    // エネルギー自動回復開始インターバル
 
 	// プレイヤー状態(モーション)管理
 	enum class STATE {
-		NONE,
+		NONE,            // 無し
 		WAIT,            // 待機
 		WALK,            // 通常移動
 		FOR_DASH,        // 前方ダッシュ移動
@@ -100,14 +95,14 @@ public:
 	static constexpr float NOR_MV_SPD = 0.8f;    // 通常速度
 	static constexpr float DASH_MV_SPD = 1.2f;   // ダッシュ速度
 	static constexpr float CHARGE_MV_SPD = 0.4f; // 溜め行動中の速度
-	static constexpr int SHORT_DASH_CNT = 10;
+	static constexpr int SHORT_DASH_CNT = 10;    // 短押しダッシュ時間
 
-	static constexpr int MAX_HP = 1000;      // 最大ヒットポイント量
-	static constexpr int MAX_ENERGY = 6000;  // 最大エネルギー量
-	static constexpr int MAX_BULLET = 100;   // 最大装弾数
-	static constexpr int JUMP_ENERGY = 600;  // ジャンプのエネルギー消費量
-	static constexpr int DASH_ENERGY = 1200;
-	static constexpr int AT_CHARGE = 2;    // 1fあたりエネルギー自動回復量
+	static constexpr int MAX_HP = 1000;          // 最大ヒットポイント量
+	static constexpr int MAX_ENERGY = 6000;      // 最大エネルギー量
+	static constexpr int MAX_BULLET = 100;       // 最大装弾数
+	static constexpr int JUMP_ENERGY = 600;      // ジャンプのエネルギー消費量
+	static constexpr int DASH_ENERGY = 1200;     // 短押しダッシュ時のエネルギー消費量
+	static constexpr int AT_CHARGE = 2;          // 1fあたりエネルギー自動回復量
 	static constexpr int AT_CHARGE_CNT = 120;    // 自動回復開始カウント
 
 	struct STATUS {
@@ -120,8 +115,6 @@ public:
 		int bulletNum;
 	};
 	STATUS _status;
-
-	BulletServer _bltServer;
 };
 
 /*

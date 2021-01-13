@@ -40,8 +40,9 @@ void Player::Initialize()
 	// 以下ステータス等
 	_status.bulletNum = MAX_BULLET;
 	_canShotFlag = true;
-	_shotCnt = 5;
+	_shotInterval = 5;
 	_reloadTime = 90;
+	_shotZeroFlag = false;
 
 	_status.energy = MAX_ENERGY;
 	_atChargeFlag = true;
@@ -151,7 +152,6 @@ void Player::EnergyManager(STATE oldState)
 	}
 	//　溜め(回復)
 	if (_isCharging) {
-		//_atChargeFlag = false;
 		_atChargeCnt = AT_CHARGE_CNT;
 		_status.energy += AT_CHARGE * 2.5;
 	}
@@ -160,7 +160,7 @@ void Player::EnergyManager(STATE oldState)
 	// 自動回復開始のインターバル
 	if (!_atChargeFlag) {
 		_atChargeCnt--;
-		if (_atChargeCnt <= 0){
+		if (_atChargeCnt <= 0){   // 一定の自動回復開始間隔を設ける
 			_atChargeCnt = 0;
 			_atChargeFlag = true;
 		}
@@ -350,10 +350,10 @@ void Player::Process()
 		if (key & PAD_INPUT_6) {		
 			if (_isCanJump && !_isShortDash && _status.energy > 0) {
 				_isDash = true;
+				_isCharging = false;
 				if (camState != Camera::STATE::TARG_LOCK_ON) {
 					_state = STATE::FOR_DASH;
 				}
-				_isCharging = false;
 				if (length < analogMin) {
 					if (camState == Camera::STATE::TARG_LOCK_ON) {
 						LeftAnalogDeg(length);
@@ -391,39 +391,42 @@ void Player::Process()
 
 
 		/**
-		* 射撃攻撃
+		* 射撃攻撃 (ゲームパッドRTで射撃)
 		*/
-		if (rt < -100 && !_isCharging) {
+		if (rt < -100 && !_isCharging && !_shotZeroFlag) { // 溜め状態及び装弾数がゼロになった場合は射撃不可
+			if (_status.bulletNum == 0) {
+				_shotZeroFlag = true;      // 弾を打ち切ってしまうとフラグが立つ(= true) ⇒ 射撃不可
+			}
 			if (_status.bulletNum > 0) {
 				if (_canShotFlag) {
-					_reloadTime = 90;
+					_reloadTime = 90;	   // リロード開始時間をセット
 					_canShotFlag = false;
 					_status.bulletNum--;
 					ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 					PlayerBullet* bullet = new PlayerBullet();
 					//bullet->SetPos(_vPos);
 					modeGame->_objServer.Add(bullet);
-					//				for (auto itr = modeGame->_bltServer.List()->begin(); itr != modeGame->_bltServer.List()->end(); itr++) {
-					//					VECTOR bltPos = (*itr)->GetPos();
-					//				}
 				}
 				else {
-					_shotCnt--;
-					if (_shotCnt == 0) {
+					_shotInterval--;
+					if (_shotInterval == 0) {
 						_canShotFlag = true;
-						_shotCnt = 10;
+						_shotInterval = 10;      // 一定の射撃間隔を設ける
 					}
 				}
 
 			}
 		}
-		else {
+		else {                              // 射撃を行わずリロード開始時間ゼロになればリロード開始
 			_reloadTime--;
 			if (_reloadTime <= 0) {
 				if (_status.bulletNum < MAX_BULLET) {
 					_status.bulletNum++;
 				}
 			}
+		}
+		if (_status.bulletNum == 100) {  
+			_shotZeroFlag = false;          // リロード完了で_shotZeroFlag解除(= false)
 		}
 	}
 
@@ -507,13 +510,10 @@ void Player::Process()
 		_playTime = 0.0f;
 	}
 
-
-
 }
 
 void Player::Render()
 {
-//	_bltServer.Render();
     MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
 	MV1SetScale(_mh, VGet(0.05f, 0.05f, 0.05f));
 	{
@@ -524,8 +524,6 @@ void Player::Render()
 		MV1SetRotationXYZ(_mh, vRot);
 		MV1DrawModel(_mh);
 	}
-	// 射撃
-//	_bullet.Render();
 
 #if 1
 //	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
