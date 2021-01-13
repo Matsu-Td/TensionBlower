@@ -23,6 +23,7 @@ void Camera::Initialize()
 	_vPos = VGet(0.f, 10.f, -140.f);
 	_oldvPos = _vPos;
 	_state = STATE::NORMAL;
+	_oldState = _state;
 	_cnt = 150;
 	_angleH = 0.f;
 	_angleV = 20.f;
@@ -68,11 +69,22 @@ void Camera::Process()
 　　*/
 	case STATE::NORMAL:
 	{	
+		if (_oldState != STATE::NORMAL) {
+			_vTarg = plPos;
+			_vTarg.y = plPos.y + 3.5f;
+			float disX = _vPos.x - bsPos.x;
+			float disZ = _vPos.z - bsPos.z;
+			float rad = atan2(disZ, disX);
+			float deg = RAD2DEG(rad);
+			_angleH = deg + 90.0f;
+		}
+		_oldState = _state;
+
 		VECTOR TmpPos1, TmpPos2;
 		float sinParam, cosParam;
 		_vTarg = plPos;
 		_vTarg.y = plPos.y + 3.5f;
-
+/**/
 		// 垂直角度を反映した位置
 		sinParam = sin(_angleV / 180.f * DX_PI_F);
 		cosParam = cos(_angleV / 180.f * DX_PI_F);
@@ -96,8 +108,8 @@ void Camera::Process()
 
 		_vPos = VAdd(TmpPos2, _vTarg);
 
-		_oldvPos = _vPos;
-
+	//	_oldvPos = _vPos;
+		
 		if (trg & PAD_INPUT_10) { 
 			_state = STATE::TARG_LOCK_ON; 
 		}
@@ -112,6 +124,8 @@ void Camera::Process()
 　　*/
 	case STATE::TARG_LOCK_ON:
 	{
+		_oldState = _state;
+
 		_vTarg = bsPos;
 		_vTarg.y = bsPos.y + 3.5f;
 		float sx = plPos.x - _vTarg.x;
@@ -121,7 +135,7 @@ void Camera::Process()
 
 		_vPos.x = bsPos.x + cos(camrad) * length;
 		_vPos.z = bsPos.z + sin(camrad) * length;
-		_vPos.y = 10.f; // カメラ高さ固定
+		_vPos.y = plPos.y + 12.0f; // カメラ高さ固定
 
 		if(trg & PAD_INPUT_10) {
 			_state = STATE::NORMAL;
@@ -147,7 +161,7 @@ void Camera::Process()
 
 		_vPos.x = cos(camrad) * length;
 		_vPos.z = sin(camrad) * length;
-
+		_vPos.y = plPos.y + 7.0f;
 		if (lx < analogMin) { _reticle.x -= _reticle.spd; }
 		if (lx > -analogMin) { _reticle.x += _reticle.spd; }
 		if (ly < analogMin) { _reticle.y -= _reticle.spd; }
@@ -163,8 +177,15 @@ void Camera::Process()
 		break;
 	}
 	default:
+
 	//	_vPos = _oldvPos;
-		_state = STATE::NORMAL;
+		if (_oldState == STATE::NORMAL) {
+			_state = STATE::NORMAL;
+			_oldState = STATE::MLS_LOCK;
+		}
+		else {
+			_state = STATE::TARG_LOCK_ON;
+		}
 		_reticle.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
 		_reticle.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
 		break;
@@ -296,6 +317,7 @@ void Camera::Render()
 		DrawFormatString(x, y, GetColor(255, 0, 0), "Camera:"); y += size;
 		DrawFormatString(x, y, GetColor(255, 0, 0), "  target = (%5.2f, %5.2f, %5.2f)", _vTarg.x, _vTarg.y, _vTarg.z); y += size;
 		DrawFormatString(x, y, GetColor(255, 0, 0), "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += size;
+		DrawFormatString(x, y, GetColor(255, 0, 0), "  angleH    = (%5.2f)", _angleH); y += size;
 		float disX = _vPos.x - _vTarg.x;
 		float disZ = _vPos.z - _vTarg.z;
 		float rLength = sqrt(disZ * disZ + disX * disX);

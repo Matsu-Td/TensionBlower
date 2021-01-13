@@ -38,6 +38,7 @@ private:
 	int _cg;
 
 	STATE _state;    // カメラ状態
+	STATE _oldState;
 
 	struct RETICLE { // 構造体：マルチロックオンシステム
 		int x, y;

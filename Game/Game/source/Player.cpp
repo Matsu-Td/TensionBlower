@@ -35,6 +35,7 @@ void Player::Initialize()
 	_isCanJump = true;
 	_isCharging = false;
 	_isShortDash = false;
+	_isCanLongDash = false;
 	_isDash = false;
 
 	// 以下ステータス等
@@ -169,40 +170,6 @@ void Player::EnergyManager(STATE oldState)
 	else if (!_isCharging){
 		_status.energy += AT_CHARGE;
 	}
-
-/*	switch (_state) {
-	case STATE::WAIT:
-
-		break;
-	case STATE::WALK:
-
-		break;
-	case STATE::JUMP:
-		_status.energy = _status.energy - 600;
-		break;
-	case STATE::FOR_DASH:
-		;
-		break;
-	case STATE::LEFT_MOVE:
-
-		break;
-	case STATE::RIGHT_MOVE:
-
-		break;
-	case STATE::BACK_MOVE:
-
-		break;
-	case STATE::LEFT_DASH:
-
-		break;
-	case STATE::RIGHT_DASH:
-
-		break;
-	case STATE::BACK_DASH:
-
-		break;
-	}*/
-
 }
 
 void Player::Process()
@@ -313,12 +280,14 @@ void Player::Process()
 		VECTOR vDash{ 0.f,0.f,0.f };               // ダッシュする方向
 		if (trg & PAD_INPUT_6 && (_state != STATE::JUMP) && _status.energy > DASH_ENERGY) {
 			_mvSpd = DASH_MV_SPD;
-			_isShortDash = true;
-			_shortDashCnt = SHORT_DASH_CNT;
+			_isShortDash = true;             // 短押しダッシュ移動スタート
+			_isCanLongDash = true;           // 短押しダッシュ発動 ⇒ 長押しダッシュ発動可能となる
+			_shortDashTime = SHORT_DASH_CNT;  // 短押しダッシュ移動時間をセット
+			
 		}
 		if (_isShortDash) {
-			_shortDashCnt--;
-			if (_shortDashCnt > 0) {
+			_shortDashTime--;
+			if (_shortDashTime > 0) {
 				_isDash = true;
 				if (camState != Camera::STATE::TARG_LOCK_ON) {
 					_state = STATE::FOR_DASH;
@@ -339,7 +308,7 @@ void Player::Process()
 				}
 			}
 			else {
-				_shortDashCnt = 0;
+				_shortDashTime = 0;
 				_isShortDash = false;
 				_isDash = false;
 			}
@@ -348,7 +317,8 @@ void Player::Process()
 		* 長押しダッシュ
 		*/
 		if (key & PAD_INPUT_6) {		
-			if (_isCanJump && !_isShortDash && _status.energy > 0) {
+			//プレイヤーが地上にいる 、長押しダッシュ可能(短押しダッシュを行った時)、短押しダッシュ移動が終わっている、エネルギー0よりある
+			if (_vPos.y == GROUND_Y && _isCanLongDash && !_isShortDash && _status.energy > 0) {
 				_isDash = true;
 				_isCharging = false;
 				if (camState != Camera::STATE::TARG_LOCK_ON) {
@@ -373,6 +343,7 @@ void Player::Process()
 		}
 		else {
 			_isDash = false;
+			_isCanLongDash = false;
 		}
 		/**
 		* エネルギーチャージ

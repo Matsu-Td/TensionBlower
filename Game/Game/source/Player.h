@@ -55,7 +55,8 @@ public:
 
 	bool _isDash;       // ダッシュ開始(全種類)
 	bool _isShortDash;   // 短押しダッシュ中か(true:ダッシュ中)
-	int _shortDashCnt;   // 短押しダッシュカウント
+	bool _isCanLongDash; // 長押しダッシュ可否(true:可能, false:不可)
+	int _shortDashTime;   // 短押しダッシュ移動時間
 
 	bool _canShotFlag;   // 射撃可否(true:可能, false:不可)
 	bool _shotZeroFlag;  // 装弾数ゼロフラグ(true:装弾数「0」状態, false:装弾が「1」以上ある状態)
