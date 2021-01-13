@@ -1,12 +1,13 @@
 #pragma once
-
 #include "appframe.h"
 
-class Stage
-{
+class Stage : public ObjectBase{
 public:
 	Stage();
 	~Stage();
+
+	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::STAGE; }
+
 	void Initialize();
 	void Terminate();
 	void Process();
@@ -14,5 +15,5 @@ public:
 
 	static Stage* GetInstance() { return _pInstance; }
 	static Stage* _pInstance;
-	int _mh;
+
 };

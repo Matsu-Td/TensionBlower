@@ -6,7 +6,8 @@ Stage* Stage::_pInstance = NULL;
 Stage::Stage()
 {
 	_pInstance = this;
-	_mh = MV1LoadModel("res/model/仮データ/stage_dummy02.mv1");
+	_mh = ResourceServer:: MV1LoadModel("res/model/仮データ/stage_dummy02.mv1");
+	MV1SetupCollInfo(_mh, -1, 8, 8, 8);
 }
 
 Stage::~Stage()

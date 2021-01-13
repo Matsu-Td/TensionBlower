@@ -406,7 +406,7 @@ void Player::Process()
 	* ƒGƒlƒ‹ƒM[ŠÇ—
 	*/
 	if (_status.energy > 0 || _status.energy < MAX_ENERGY) {
-		EnergyManager(oldState);
+//		EnergyManager(oldState);
 	}
 	if (_status.energy < 0) {
 		_status.energy = 0;
@@ -501,7 +501,7 @@ void Player::Render()
 //	VECTOR pl = modeGame->_pl->GetPos();
 	float angle = atan2(_vDir.x * -1, _vDir.z * -1);
 	float deg = angle * 180.f / DX_PI_F;
-	int y = 125;
+	int y = 140;
 	int size = 24;
 	SetFontSize(size);
 	DrawFormatString(0, y, GetColor(255, 0, 0), "Player:"); y += size;

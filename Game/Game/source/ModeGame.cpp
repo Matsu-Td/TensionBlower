@@ -10,6 +10,7 @@ bool ModeGame::Initialize() {
 	SetBackgroundColor(0, 255, 255);
 	_stg = std::make_unique<Stage>();
 
+	_objServer.Add(new Stage());
 	_objServer.Add(new Player());
 	_objServer.Add(new Boss());
 
@@ -45,7 +46,6 @@ bool ModeGame::Render() {
 	SetWriteZBuffer3D(TRUE);
 	SetUseBackCulling(TRUE);
 
-	_stg->Render();
 	_objServer.Render();
 	_cam.Render();
 

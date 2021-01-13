@@ -11,24 +11,16 @@ public:
 	void Process();
 	void Render();
 
+	void ShotPattern1();
+
 	static Boss* GetInstance() { return _pInstance; }
-	VECTOR GetPos() const { return _vPos; }
+//	VECTOR GetPos() const { return _vPos; }
 
 	static Boss* _pInstance;
 
 private:
-	int _mh;
-	VECTOR _vPos;
-	VECTOR _vDir;   // Œü‚«
-
-
-	int _attachIndex;
-	float _totalTime;
-	float _playTime;
-
 	int _shotCnt;
 	int _mlsCnt;
 	float _shotAngle;
 	float shotInterval;
-//	BossBullet _bsBullet;
 };

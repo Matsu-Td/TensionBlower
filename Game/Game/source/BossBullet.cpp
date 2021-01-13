@@ -4,6 +4,7 @@
 #include "Stage.h"
 #include "Player.h"
 #include "Camera.h"
+#include "ModeGame.h"
 
 //BossBullet* BossBullet::_pInstance = NULL;
 
@@ -11,7 +12,7 @@ BossBullet::BossBullet()
 {
 	//_pInstance = this;
 	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/karinotama.mv1");
-
+	_cg = ResourceServer::LoadGraph("res/仮素材/ロック可能.png");
 	Initialize();
 }
 
@@ -29,6 +30,7 @@ void BossBullet::Initialize()
 	_mlsCnt = 0;
 	_vx = _vz = 0.f;
 	_pattern = 0;
+	_camModeMLS = false;
 }
 
 void BossBullet::Shot()
@@ -39,17 +41,12 @@ void BossBullet::Shot()
 	int camState = Camera::GetInstance()->GetCameraState();
 
 	if(camState == Camera::STATE::MLS_LOCK){
-		_mlsCnt++;
 		_mvSpd = NOR_SPD * 0.1f; // マルチロックオンシステム中は速度0.1倍
-		if (_mlsCnt % 10 == 0) {
-			_shotCnt++;
-			ShotStart();
-		}
+		_camModeMLS = true;
 	}
 	else {
 		_mvSpd = NOR_SPD;   // 通常時の弾の速度
-		_shotCnt++;
-		ShotStart();
+		_camModeMLS = false;
 	}
 	
 
@@ -87,22 +84,51 @@ void BossBullet::Process()
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	int mhStg = Stage::GetInstance()->_mh;
+	//int mhStg = Stage::GetInstance()->_mh;
 	int mhpl = Player::GetInstance()->_mh;
 
-	Shot();
+	Shot(); // 弾発生処理
+
+	_scrnPos = ConvWorldPosToScreenPos(_vPos);  // ワールド座標 ⇒ スクリーン座標へ変換
+	
+	_capsulePos1 = _vPos;
+
+
+	_capsulePos2 = _vPos;
 
 	
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
+			if (IsHitStage(*(*itr)) == true) {
+				modeGame->_objServer.Del(this);
+			}
+		}
+	}
 }
 
 void BossBullet::Render()
 {
+	VECTOR plPos = Player::GetInstance()->GetPos();
+
+	float sx = plPos.x - _vPos.x;
+	float sz = plPos.z - _vPos.z;
+	float length = sqrt(sx * sx + sz * sz);
 
 	MV1SetPosition(_mh, _vPos);
 	MV1SetRotationXYZ(_mh, VGet(0.f, (_shotAngle + 270.f) / 180.f * DX_PI_F, 0.f));
 	MV1DrawModel(_mh);
-	//DrawCapsule3D(itr->_capsulePos1,itr->_capsulePos2, 2.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
-	//DrawBox(itr->_scrnPos.x - 5.f, itr->_scrnPos.y - 5.f, itr->_scrnPos.x + 5, itr->_scrnPos.y + 5.f, GetColor(255, 0, 0), TRUE);
+	if (length < 50.0f && length > 20.0f && _camModeMLS) {
+		if (_scrnPos.x > 0) {
+			DrawBox(_scrnPos.x - 10.0f, _scrnPos.y - 10.0f, _scrnPos.x + 10.0f, _scrnPos.y + 10.0f, GetColor(255, 0, 0), TRUE);
+			DrawGraph(_scrnPos.x - 40.0f, _scrnPos.y - 35.0f, _cg, TRUE);
+		}
+	}
+
+
+	
+	DrawCapsule3D(_capsulePos1,_capsulePos2, 1.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+	
 	
 //	DrawFormatString(0, 500, GetColor(255, 0, 0), "  出現した弾の数(size())  = %d", _lsBlt.size());
 #if 0
