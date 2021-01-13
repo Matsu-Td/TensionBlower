@@ -96,11 +96,13 @@ void BossBullet::Process()
 
 	_capsulePos2 = _vPos;
 
-	
+	/**
+	* ステージとの当たり判定
+	*/
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
-			if (IsHitStage(*(*itr)) == true) {
+			if (IsHitStage(*(*itr), 1.0f) == true) {
 				modeGame->_objServer.Del(this);
 			}
 		}

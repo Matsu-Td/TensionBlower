@@ -20,7 +20,19 @@ public:
 	virtual void Process();
 	virtual void Render();
 
-	virtual bool IsHitStage(ObjectBase& obj);
+	/**
+     * モデルとステージの当たり判定
+     * @param obj オブジェクトサーバーに登録しているオブジェクトクラス
+     * @param r カプセルの半径
+     */
+	virtual bool IsHitStage(ObjectBase& obj, float r);
+
+	/**
+	* カプセル同士の当たり判定
+	* @param obj オブジェクトサーバーに登録しているオブジェクトクラス
+	* @param r カプセルの半径
+	*/
+	virtual bool IsHitLineSegment(ObjectBase& obj, float r);
 	virtual void Damage() {}
 
 	void SetPos(VECTOR vPos) { _vPos = vPos; }
@@ -28,7 +40,7 @@ public:
 	VECTOR GetDir()const { return _vDir; }
 
 	int _mh;           // モデルハンドル
-
+	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
 protected:
 	int	_cut;		   // 動作カウンタ
 	int	_cg;		   // 画像

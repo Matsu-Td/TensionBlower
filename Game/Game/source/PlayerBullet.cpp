@@ -49,8 +49,20 @@ void PlayerBullet::Process()
 	_vPos.y = plPos.y + 3.5f;
 	_vPos.z += vz;
 
+	_capsulePos1 = _vPos;
+	_capsulePos2 = _vPos;
+
+	/**
+    * ステージとの当たり判定
+    */
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-		
+	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
+			if (IsHitStage(*(*itr), 3.0f) == true) {
+				modeGame->_objServer.Del(this);
+			}
+		}
+	}
 
 }
 

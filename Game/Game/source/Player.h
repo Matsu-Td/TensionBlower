@@ -44,7 +44,6 @@ public:
 public:
 	int _mhMap;
 	VECTOR _oldPos;     // 移動処理前の位置保存
-	VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセル
 
 	bool _isCharging;   // 溜め中か(true:溜め中, false:溜め未実施)
 	float _bsAngle;     // ボスの位置、角度

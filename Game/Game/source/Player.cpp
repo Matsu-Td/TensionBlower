@@ -12,7 +12,6 @@ Player::Player()
 {
 	_pInstance = this;
 	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/SDChar/SDChar.mv1");;
-	_mhMap = MV1LoadModel("res/model/仮データ/stage_dummy02.mv1");
 
 	MV1SetupCollInfo(_mhMap, -1, 16, 16, 16);
 	Initialize();
@@ -416,20 +415,27 @@ void Player::Process()
 	}
 
 	/**
-	* 壁との当たり判定、壁ずり
+	* 当たり判定
 	*/
-	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
-	_hitPolyDim = MV1CollCheck_Capsule(_mhMap, -1, _capsulePos1, _capsulePos2, 2.f);
-	
-	if (_hitPolyDim.HitNum >= 1) {	
-		VECTOR slideVec;
-		slideVec = VCross(vec, _hitPolyDim.Dim->Normal);
-		slideVec = VCross(_hitPolyDim.Dim->Normal, slideVec);
-		_vPos = VAdd(_oldPos, slideVec);
-		_vPos = VAdd(_vPos, VScale(_hitPolyDim.Dim->Normal, 0.03f));
+	{
+		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
+			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {  // ステージ
+				if (IsHitStage(*(*itr), 2.0f) == true) {
+					VECTOR slideVec;
+					slideVec = VCross(vec, (*itr)->_hitPolyDim.Dim->Normal);
+					slideVec = VCross((*itr)->_hitPolyDim.Dim->Normal, slideVec);
+					_vPos = VAdd(_oldPos, slideVec);
+					_vPos = VAdd(_vPos, VScale((*itr)->_hitPolyDim.Dim->Normal, 0.03f));
+				}
+			}
+			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) { // ボスの弾
+				if (IsHitLineSegment(*(*itr), 3.0f)) {
+					modeGame->_objServer.Del(*itr);
+				}
+			}
+		}
 	}
-
-
 
 	if (oldState == _state) {
 		_playTime += 0.5f;
@@ -536,7 +542,7 @@ void Player::Render()
 	case STATE::BACK_DASH:
 		DrawString(0, y, "　状態：BACK DASH", GetColor(255, 0, 0)); break;
 	}
-	DrawCapsule3D(_capsulePos1, _capsulePos2, 1.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
 }
 
@@ -551,3 +557,14 @@ void Player::Render()
 	DrawFormatString(0, 120, GetColor(255, 0, 0), "  camPos.y = %5.2f", camPos.y);
 	DrawFormatString(0, 140, GetColor(255, 0, 0), "  camPos.z = %5.2f", camPos.z);
 */
+
+//MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
+/*	_hitPolyDim = MV1CollCheck_Capsule(_mhMap, -1, _capsulePos1, _capsulePos2, 2.f);
+
+	if (_hitPolyDim.HitNum >= 1) {
+		VECTOR slideVec;
+		slideVec = VCross(vec, _hitPolyDim.Dim->Normal);
+		slideVec = VCross(_hitPolyDim.Dim->Normal, slideVec);
+		_vPos = VAdd(_oldPos, slideVec);
+		_vPos = VAdd(_vPos, VScale(_hitPolyDim.Dim->Normal, 0.03f));
+	}*/
