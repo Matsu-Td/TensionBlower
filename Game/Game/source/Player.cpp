@@ -5,6 +5,8 @@
 #include "Boss.h"
 #include "BulletServer.h"
 #include "ModeGame.h"
+#include "ModeGameOver.h"
+#include "Reticle.h"
 
 Player* Player::_pInstance = NULL;
 
@@ -13,7 +15,6 @@ Player::Player()
 	_pInstance = this;
 	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/SDChar/SDChar.mv1");;
 
-	MV1SetupCollInfo(_mhMap, -1, 16, 16, 16);
 	Initialize();
 }
 
@@ -24,13 +25,13 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	_vPos = VGet(0.f, 0.f, -115.f);
+	_vPos = VGet(0.0f, 0.0f, -115.0f);
 	_vDir = VGet(0, 0, 1);
 	_mvSpd = NOR_MV_SPD;
 	_attachIndex = -1;
 	_totalTime = 0;
-	_playTime = 0.f;
-	_jumpTime = 0.f;
+	_playTime = 0.0f;
+	_jumpTime = 0.0f;
 	_isCanJump = true;
 	_isCharging = false;
 	_isShortDash = false;
@@ -38,15 +39,24 @@ void Player::Initialize()
 	_isDash = false;
 
 	// 以下ステータス等
+	//射撃
 	_status.bulletNum = MAX_BULLET;
 	_canShotFlag = true;
 	_shotInterval = 5;
 	_reloadTime = 90;
 	_shotZeroFlag = false;
 
+	//エネルギー
 	_status.energy = MAX_ENERGY;
 	_atChargeFlag = true;
 	_atChargeCnt = 30;
+
+	//ヒットポイント
+	_status.hitpoint = MAX_HP;
+
+	_gameOverCnt = 0;
+
+	_camStateMLS = false;
 }
 
 void Player::JumpAction() 
@@ -134,7 +144,6 @@ void Player::EnergyManager(STATE oldState)
 			_atChargeCnt = AT_CHARGE_CNT;
 			_status.energy = _status.energy - DASH_ENERGY;
 		}
-
 	}
 
 	// 長押しダッシュ(消費)
@@ -175,7 +184,6 @@ void Player::Process()
 {
 	_oldPos = _vPos;
 
-
 	// キーの取得
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
@@ -183,6 +191,10 @@ void Player::Process()
 	// 当たり判定用カプセル情報
 	_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
 	_capsulePos2 = VGet(_vPos.x, _vPos.y + 5.f, _vPos.z);
+
+	// カスリ判定用カプセル情報
+//	_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
+//	_capsulePos2 = VGet(_vPos.x, _vPos.y + 5.f, _vPos.z);
 
 	// アナログスティック対応
 	DINPUT_JOYSTATE dinput;
@@ -221,6 +233,16 @@ void Player::Process()
 	float rad = atan2(lx, ly);
 	_lfAnalogDeg = static_cast<int>(rad * 180.0f / DX_PI_F);
 
+	/**
+	* ゲームオーバー処理
+	*/
+	if (_gameOverCnt > 0) {
+		_gameOverCnt--;
+		if (_gameOverCnt == 0) {
+			ModeGameOver* modeGameOver = new ModeGameOver();
+			ModeServer::GetInstance()->Add(modeGameOver, 2, "over");
+		}
+	}
 
 	if (length < analogMin) {
 		length = 0.f;
@@ -267,9 +289,7 @@ void Player::Process()
 		/**
 		* ジャンプ
 		*/
-
 		JumpAction();
-		
 		
 
 		/**
@@ -317,7 +337,7 @@ void Player::Process()
 		*/
 		if (key & PAD_INPUT_6) {		
 			//プレイヤーが地上にいる 、長押しダッシュ可能(短押しダッシュを行った時)、短押しダッシュ移動が終わっている、エネルギー0よりある
-			if (_vPos.y == GROUND_Y && _isCanLongDash && !_isShortDash && _status.energy > 0) {
+			if (_isCanJump && _isCanLongDash && !_isShortDash && _status.energy > 0) {
 				_isDash = true;
 				_isCharging = false;
 				if (camState != Camera::STATE::TARG_LOCK_ON) {
@@ -344,10 +364,11 @@ void Player::Process()
 			_isDash = false;
 			_isCanLongDash = false;
 		}
+
 		/**
 		* エネルギーチャージ
 		*/
-		if (key & PAD_INPUT_3) {
+		if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5)) {
 			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
 				if (_state != STATE::FOR_DASH) {
 					_mvSpd = CHARGE_MV_SPD;
@@ -374,7 +395,9 @@ void Player::Process()
 					_status.bulletNum--;
 					ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 					PlayerBullet* bullet = new PlayerBullet();
-					//bullet->SetPos(_vPos);
+					VECTOR tmp = _vPos;
+					tmp.y = _vPos.y + 3.5;
+					bullet->SetPos(tmp);
 					modeGame->_objServer.Add(bullet);
 				}
 				else {
@@ -387,18 +410,38 @@ void Player::Process()
 
 			}
 		}
-		else {                              // 射撃を行わずリロード開始時間ゼロになればリロード開始
+		else {             // 射撃を行わなければリロード開始
 			_reloadTime--;
-			if (_reloadTime <= 0) {
+			if (_shotZeroFlag) {            // 弾を打ち切った場合は即時リロード開始
 				if (_status.bulletNum < MAX_BULLET) {
 					_status.bulletNum++;
 				}
 			}
+			else if (_reloadTime <= 0) {    // 弾が残っている状態かつリロード開始時間ゼロでリロード開始
+				if (_status.bulletNum < MAX_BULLET) {
+					_status.bulletNum++;
+				}
+			}
+
 		}
-		if (_status.bulletNum == 100) {  
+		if (_status.bulletNum == MAX_BULLET) {
 			_shotZeroFlag = false;          // リロード完了で_shotZeroFlag解除(= false)
 		}
 	}
+
+/*	if (camState == Camera::STATE::MLS_LOCK) {
+		_camStateMLS = true;
+	}*/
+	
+		
+	// マルチロックシステム用レチクル追加	
+	if (trg & PAD_INPUT_5) {
+		_camStateMLS = true;
+		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		Reticle* reticle = new Reticle();
+		modeGame->_objServer.Add(reticle);
+	}
+
 
 
 	/**
@@ -430,12 +473,23 @@ void Player::Process()
 				}
 			}
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) { // ボスの弾
-				if (IsHitLineSegment(*(*itr), 3.0f)) {
+				// 着弾
+				if (IsHitLineSegment(*(*itr), 1.0f)) {
 					modeGame->_objServer.Del(*itr);
+					_status.hitpoint -= 100;
+					if (_status.hitpoint <= 0) {
+						_gameOverCnt = 60;
+					}
 				}
+				// カスリ判定
+				if (IsHitLineSegment(*(*itr), 2.5f)) {
+					_status.energy += 3;				
+				}		
 			}
 		}
 	}
+
+
 
 	if (oldState == _state) {
 		_playTime += 0.5f;
@@ -487,6 +541,8 @@ void Player::Process()
 		_playTime = 0.0f;
 	}
 
+
+
 }
 
 void Player::Render()
@@ -518,6 +574,7 @@ void Player::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  charge = %d", _isCharging); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  dash   = %d", _isDash); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  左ST角度 = %d", _lfAnalogDeg); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  HP     = %d", _status.hitpoint); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  energy = %d", _status.energy); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  装弾数 = %d", _status.bulletNum); y += size;
 	switch (_state) {
@@ -542,7 +599,8 @@ void Player::Render()
 	case STATE::BACK_DASH:
 		DrawString(0, y, "　状態：BACK DASH", GetColor(255, 0, 0)); break;
 	}
-	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+	DrawCapsule3D(_capsulePos1, _capsulePos2, 1.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.5f, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
 #endif
 }
 

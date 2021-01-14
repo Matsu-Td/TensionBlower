@@ -8,7 +8,7 @@ Camera* Camera::_pInstance = NULL;
 Camera::Camera()
 {
 	_pInstance = this;
-	_reticle.cg = ResourceServer::LoadGraph("res/ui/mls_reticle.png");
+//	_reticle.cg = ResourceServer::LoadGraph("res/ui/mls_reticle.png");
 	_lockOn.cg = ResourceServer::LoadGraph("res/ui/lockon.png");
 	Initialize();
 }
@@ -25,8 +25,8 @@ void Camera::Initialize()
 	_state = STATE::NORMAL;
 	_oldState = _state;
 	_cnt = 150;
-	_angleH = 0.f;
-	_angleV = 20.f;
+	_angleH = 0.0f;
+	_angleV = 20.0f;
 	_reticle.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
 	_reticle.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
 	_lockOn.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
@@ -162,6 +162,7 @@ void Camera::Process()
 		_vPos.x = cos(camrad) * length;
 		_vPos.z = sin(camrad) * length;
 		_vPos.y = plPos.y + 7.0f;
+/*
 		if (lx < analogMin) { _reticle.x -= _reticle.spd; }
 		if (lx > -analogMin) { _reticle.x += _reticle.spd; }
 		if (ly < analogMin) { _reticle.y -= _reticle.spd; }
@@ -171,7 +172,7 @@ void Camera::Process()
 		if (_reticle.x + 100 > dispSizeW) { _reticle.x = dispSizeW - 100; }
 		if (_reticle.y < 0) { _reticle.y = 0; }
 		if (_reticle.y + 100 > dispSizeH) { _reticle.y = dispSizeH - 100; }
-
+*/
 		if (!(key & PAD_INPUT_5)) { _state = STATE::_EOF_; }
 		if (plEnergy < 12.5) { _state = STATE::_EOF_; }
 		break;
@@ -186,8 +187,8 @@ void Camera::Process()
 		else {
 			_state = STATE::TARG_LOCK_ON;
 		}
-		_reticle.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
-		_reticle.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
+//		_reticle.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
+//		_reticle.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
 		break;
 
 	}
@@ -298,7 +299,8 @@ void Camera::Render()
 	case STATE::TARG_LOCK_ON:
 		DrawGraph(_lockOn.x, _lockOn.y, _lockOn.cg, TRUE); break;
 	case STATE::MLS_LOCK:
-		DrawGraph(_reticle.x, _reticle.y, _reticle.cg, TRUE); break;
+//		DrawGraph(_reticle.x, _reticle.y, _reticle.cg, TRUE); 
+		break;
 	}
 	
 	

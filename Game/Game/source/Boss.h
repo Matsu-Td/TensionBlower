@@ -10,7 +10,7 @@ public:
 	void Initialize();
 	void Process();
 	void Render();
-
+	void Damage();
 	void ShotPattern1();
 
 	static Boss* GetInstance() { return _pInstance; }
@@ -23,4 +23,10 @@ private:
 	int _mlsCnt;
 	float _shotAngle;
 	float shotInterval;
+
+	int _hitpoint;
+	int _shield;
+
+	static constexpr int MAX_HP = 5000;
+	static constexpr int MAX_SHIELD = 1000;
 };

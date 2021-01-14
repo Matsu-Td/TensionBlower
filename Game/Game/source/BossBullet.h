@@ -12,7 +12,6 @@ public:
 	void Process();
 	void Render();
 	void Shot();
-	void ShotStart();
 
 	void SetAngle(float shotAngle) { _shotAngle = shotAngle; }
 /* 
@@ -23,17 +22,17 @@ public:
 	static BossBullet* _pInstance;
 */
 private:
-	int _mhMap;
-	int _mhPl;
+	int _cg[2];
 	int _shotCnt;
 	int _mlsCnt;
 	int _pattern;
 	float _shotAngle;
 	float _setAngle;
 	float shotInterval;
-	bool _camModeMLS;
-//	MV1_COLL_RESULT_POLY_DIM _hitPolyDimStg;
-//	MV1_COLL_RESULT_POLY_DIM _hitPolyDimPl;
+	bool _camStateMLS;
+	bool _canLockFlag;      // MLSÇ≈ÉçÉbÉNâ¬î\ãóó£Ç∆Ç»ÇÈ
+	bool _repelFlag;    // íeÇ©ÇÍÇΩÇ©(true:íeÇ©ÇÍÇΩ, false:íeÇ©ÇÍÇƒÇ»Ç¢)
+	float _bulletDir;   // -1.0fÇ≈MLSÇ…ÇÊÇÈíeÇÃÇÕÇ∂Ç´ï‘Çµ
 
-	static constexpr float NOR_SPD = 1.f;
+	static constexpr float NOR_SPD = 1.0f;
 };

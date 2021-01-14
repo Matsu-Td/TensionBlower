@@ -8,7 +8,6 @@ bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 
 	SetBackgroundColor(0, 255, 255);
-	_stg = std::make_unique<Stage>();
 
 	_objServer.Add(new Stage());
 	_objServer.Add(new Player());
@@ -19,6 +18,9 @@ bool ModeGame::Initialize() {
 
 bool ModeGame::Terminate() {
 	base::Terminate();
+
+	_objServer.Clear();
+
 	return true;
 }
 

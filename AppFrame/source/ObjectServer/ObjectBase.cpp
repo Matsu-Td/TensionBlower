@@ -5,7 +5,6 @@
 
 ObjectBase::ObjectBase()
 {
-	//MV1SetupCollInfo(_mh, -1, 8, 8, 8);
 	Init();
 }
 
@@ -47,5 +46,15 @@ bool ObjectBase::IsHitLineSegment(ObjectBase& obj, float r)
 		return true;
 	}
 	
+	return false;
+}
+
+bool ObjectBase::IsHitScrnPos(ObjectBase& obj)
+{
+	if (_scrnPos.x + _hitX < obj._scrnPos.x + obj._hitX + obj._hitW && obj._scrnPos.x + obj._hitX < _scrnPos.x + _hitX + _hitW
+		&& _scrnPos.y + _hitY < obj._scrnPos.y + obj._hitY + obj._hitH && obj._scrnPos.y + obj._hitY < _scrnPos.y + _hitY + _hitH)
+	{
+		return true;
+	}
 	return false;
 }

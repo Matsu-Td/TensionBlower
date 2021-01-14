@@ -5,7 +5,7 @@
 class ModeServer;
 
 
-class		ModeBase
+class ModeBase
 {
 public:
 	ModeBase();
@@ -15,7 +15,6 @@ public:
 	virtual bool	Terminate();
 	virtual bool	Process();
 	virtual bool	Render();
-
 
 public:
 	int	GetModeCount() { return _cntMode; }			// このモードが始まってからのカウンタ

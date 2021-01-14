@@ -13,6 +13,7 @@ public:
 		BOSS_BULLET,
 		CAMERA,
 		STAGE,
+		RETICLE
 	};
 	virtual OBJECTTYPE	GetType() = 0;
 
@@ -33,6 +34,9 @@ public:
 	* @param r ƒJƒvƒZƒ‹‚Ì”¼Œa
 	*/
 	virtual bool IsHitLineSegment(ObjectBase& obj, float r);
+
+	virtual bool IsHitScrnPos(ObjectBase& obj);
+
 	virtual void Damage() {}
 
 	void SetPos(VECTOR vPos) { _vPos = vPos; }
@@ -54,6 +58,9 @@ protected:
 	VECTOR _scrnPos;
 	VECTOR _capsulePos1, _capsulePos2;
 	VECTOR _hitPos1,_hitPos2;
+
+	float _hitX, _hitY;
+	float _hitW, _hitH;
 
 	float _vx, _vz;
 	float _angle;

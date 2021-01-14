@@ -37,12 +37,11 @@ public:
 
 	static Player* _pInstance;
 
-	int _mh;
+
 
 	static constexpr float GROUND_Y = 0.f;  // 地上のY座標
 
-public:
-	int _mhMap;
+private:
 	VECTOR _oldPos;     // 移動処理前の位置保存
 
 	bool _isCharging;   // 溜め中か(true:溜め中, false:溜め未実施)
@@ -64,6 +63,10 @@ public:
 
 	bool _atChargeFlag;  // エネルギー自動回復開始フラグ
 	int _atChargeCnt;    // エネルギー自動回復開始インターバル
+
+	int _gameOverCnt;
+
+	bool _camStateMLS;
 
 	// プレイヤー状態(モーション)管理
 	enum class STATE {
@@ -94,14 +97,14 @@ public:
 
 	static constexpr float NOR_MV_SPD = 0.8f;    // 通常速度
 	static constexpr float DASH_MV_SPD = 1.2f;   // ダッシュ速度
-	static constexpr float CHARGE_MV_SPD = 0.4f; // 溜め行動中の速度
+	static constexpr float CHARGE_MV_SPD = 0.2f; // 溜め行動中の速度
 	static constexpr int SHORT_DASH_CNT = 10;    // 短押しダッシュ時間
 
 	static constexpr int MAX_HP = 1000;          // 最大ヒットポイント量
 	static constexpr int MAX_ENERGY = 6000;      // 最大エネルギー量
 	static constexpr int MAX_BULLET = 100;       // 最大装弾数
-	static constexpr int JUMP_ENERGY = 600;      // ジャンプのエネルギー消費量
-	static constexpr int DASH_ENERGY = 1200;     // 短押しダッシュ時のエネルギー消費量
+	static constexpr int JUMP_ENERGY = 1200;      // ジャンプのエネルギー消費量
+	static constexpr int DASH_ENERGY = 600;     // 短押しダッシュ時のエネルギー消費量
 	static constexpr int AT_CHARGE = 2;          // 1fあたりエネルギー自動回復量
 	static constexpr int AT_CHARGE_CNT = 120;    // 自動回復開始カウント
 

@@ -12,7 +12,8 @@ BossBullet::BossBullet()
 {
 	//_pInstance = this;
 	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/karinotama.mv1");
-	_cg = ResourceServer::LoadGraph("res/仮素材/ロック可能.png");
+	_cg[0] = ResourceServer::LoadGraph("res/仮素材/ロック可能.png");
+	_cg[1] = ResourceServer::LoadGraph("res/仮素材/ロック確定.png");
 	Initialize();
 }
 
@@ -30,7 +31,12 @@ void BossBullet::Initialize()
 	_mlsCnt = 0;
 	_vx = _vz = 0.f;
 	_pattern = 0;
-	_camModeMLS = false;
+	_camStateMLS = false;
+	_hitX = _hitY = -25.0f;
+	_hitW = _hitH = 25.0f;
+	_canLockFlag = false;
+	_repelFlag = false;
+	_bulletDir = 1.0f;
 }
 
 void BossBullet::Shot()
@@ -41,61 +47,46 @@ void BossBullet::Shot()
 	int camState = Camera::GetInstance()->GetCameraState();
 
 	if(camState == Camera::STATE::MLS_LOCK){
-		_mvSpd = NOR_SPD * 0.1f; // マルチロックオンシステム中は速度0.1倍
-		_camModeMLS = true;
+		_mvSpd = NOR_SPD * 0.01f; // マルチロックオンシステム中は速度0.1倍
+		_camStateMLS = true;
 	}
 	else {
 		_mvSpd = NOR_SPD;   // 通常時の弾の速度
-		_camModeMLS = false;
+		_camStateMLS = false;
 	}
 	
 
-	_vx = cos(_shotAngle / 180.f * DX_PI_F) * _mvSpd;
-	_vz = sin(_shotAngle / 180.f * DX_PI_F) * _mvSpd;
+	_vx = cos(_shotAngle / 180.f * DX_PI_F) * _mvSpd * _bulletDir;
+	_vz = sin(_shotAngle / 180.f * DX_PI_F) * _mvSpd * _bulletDir;
 	_vPos.x += _vx;
 	_vPos.z += _vz;
 		
 	
 }
 
-void BossBullet::ShotStart()
-{
-
-
-
-
-
-
-
-	//_vPos.x = bsPos.x + cos(_shotAngle / 180.f * DX_PI_F) * 10.f;
-	//_vPos.z = bsPos.z + sin(_shotAngle / 180.f * DX_PI_F) * 10.f;
-
-
-//	_shotAngle += _setAngle;
-			
-		
-//	_shotAngle += 2.f;
-
-
-}
 
 void BossBullet::Process()
 {
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	//int mhStg = Stage::GetInstance()->_mh;
-	int mhpl = Player::GetInstance()->_mh;
-
+	VECTOR plPos = Player::GetInstance()->GetPos();
+	float sx = plPos.x - _vPos.x;
+	float sz = plPos.z - _vPos.z;
+	float length = sqrt(sx * sx + sz * sz);
 	Shot(); // 弾発生処理
 
 	_scrnPos = ConvWorldPosToScreenPos(_vPos);  // ワールド座標 ⇒ スクリーン座標へ変換
 	
 	_capsulePos1 = _vPos;
-
-
 	_capsulePos2 = _vPos;
 
+	if (length < 35.0f && length > 5.0f && _camStateMLS) {
+		_canLockFlag = true;
+	}
+	else {
+		_canLockFlag = false;
+	}
 	/**
 	* ステージとの当たり判定
 	*/
@@ -106,29 +97,49 @@ void BossBullet::Process()
 				modeGame->_objServer.Del(this);
 			}
 		}
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) {
+			if (IsHitScrnPos(*(*itr)) == true) {
+				if (_canLockFlag) {
+					if (trg & PAD_INPUT_2) {
+						_bulletDir = -1.0f;   // 弾がはじき返される
+						_repelFlag = true;
+					}
+				}
+			}
+		}
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
+			if (IsHitLineSegment(*(*itr), 10.0f) == true) {
+				if (_repelFlag) {
+					modeGame->_objServer.Del(this);
+					(*itr)->Damage();
+				}
+			}
+		}
+
 	}
 }
 
 void BossBullet::Render()
 {
-	VECTOR plPos = Player::GetInstance()->GetPos();
+	
 
-	float sx = plPos.x - _vPos.x;
-	float sz = plPos.z - _vPos.z;
-	float length = sqrt(sx * sx + sz * sz);
+
 
 	MV1SetPosition(_mh, _vPos);
 	MV1SetRotationXYZ(_mh, VGet(0.f, (_shotAngle + 270.f) / 180.f * DX_PI_F, 0.f));
 	MV1DrawModel(_mh);
-	if (length < 50.0f && length > 20.0f && _camModeMLS) {
-		if (_scrnPos.x > 0) {
-			DrawBox(_scrnPos.x - 10.0f, _scrnPos.y - 10.0f, _scrnPos.x + 10.0f, _scrnPos.y + 10.0f, GetColor(255, 0, 0), TRUE);
-			DrawGraph(_scrnPos.x - 40.0f, _scrnPos.y - 35.0f, _cg, TRUE);
+	
+	if (_canLockFlag) {
+	//	DrawBox(_scrnPos.x + _hitX, _scrnPos.y + _hitY, _scrnPos.x + _hitW, _scrnPos.y + _hitH, GetColor(255, 0, 0), TRUE);
+		if (_repelFlag) {
+			DrawGraph(_scrnPos.x - 40.0f, _scrnPos.y - 35.0f, _cg[1], TRUE);
+		}
+		else {
+			DrawGraph(_scrnPos.x - 40.0f, _scrnPos.y - 35.0f, _cg[0], TRUE);
 		}
 	}
-
-
 	
+
 	DrawCapsule3D(_capsulePos1,_capsulePos2, 1.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 	
 	

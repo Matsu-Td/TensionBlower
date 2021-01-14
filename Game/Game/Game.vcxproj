@@ -160,18 +160,20 @@
     <ClCompile Include="source\BossBullet.cpp" />
     <ClCompile Include="source\BossStatus.cpp" />
     <ClCompile Include="source\BulletBase.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="source\BulletServer.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\ModeGame.cpp" />
+    <ClCompile Include="source\ModeGameOver.cpp" />
     <ClCompile Include="source\ModeOption.cpp" />
     <ClCompile Include="source\ModeTitle.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\PlayerBullet.cpp" />
     <ClCompile Include="source\PlayerStatus.cpp" />
+    <ClCompile Include="source\Reticle.cpp" />
     <ClCompile Include="source\Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -180,18 +182,20 @@
     <ClInclude Include="source\BossBullet.h" />
     <ClInclude Include="source\BossStatus.h" />
     <ClInclude Include="source\BulletBase.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="source\BulletServer.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\ModeGame.h" />
+    <ClInclude Include="source\ModeGameOver.h" />
     <ClInclude Include="source\ModeOption.h" />
     <ClInclude Include="source\ModeTitle.h" />
     <ClInclude Include="source\Player.h" />
     <ClInclude Include="source\PlayerBullet.h" />
     <ClInclude Include="source\PlayerStatus.h" />
+    <ClInclude Include="source\Reticle.h" />
     <ClInclude Include="source\Stage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

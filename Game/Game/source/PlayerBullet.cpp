@@ -46,7 +46,7 @@ void PlayerBullet::Process()
 	vx = cos(_shotAngle) * mvSpd;
 	vz = sin(_shotAngle) * mvSpd;
 	_vPos.x += vx;
-	_vPos.y = plPos.y + 3.5f;
+	//_vPos.y = plPos.y + 3.5f;
 	_vPos.z += vz;
 
 	_capsulePos1 = _vPos;
