@@ -36,6 +36,7 @@ void Boss::ShotPattern1()
 	else {
 		_shotAngle += 2.f;
 	}
+
 }
 void Boss::Initialize()
 {

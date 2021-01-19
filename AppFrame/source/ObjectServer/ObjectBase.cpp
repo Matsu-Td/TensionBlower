@@ -12,6 +12,24 @@ ObjectBase::~ObjectBase()
 {
 }
 
+/**
+* â€ëËÅ@é¿ëH2///////////////////////////////////////////////////
+
+ObjectBase::ObjectBase(ObjectBase&& obj) noexcept
+{
+	*this = std::move(obj);
+}
+
+ObjectBase& ObjectBase::operator=(ObjectBase&& obj) noexcept {
+	if (this != &obj) {
+		delete _p;
+		_p = obj._p;
+		obj._p = nullptr;
+	}
+	return *this;
+}
+//Ç±Ç±Ç‹Ç≈//////////////////////////////////////////////////////
+*/
 void ObjectBase::Init()
 {
 	_cut = 0;

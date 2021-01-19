@@ -29,7 +29,6 @@ void BossBullet::Initialize()
 	_setAngle = 45.f;
 	_shotCnt = 0;
 	_mlsCnt = 0;
-	_vx = _vz = 0.f;
 	_pattern = 0;
 	_camStateMLS = false;
 	_hitX = _hitY = -25.0f;
@@ -55,11 +54,11 @@ void BossBullet::Shot()
 		_camStateMLS = false;
 	}
 	
-
-	_vx = cos(_shotAngle / 180.f * DX_PI_F) * _mvSpd * _bulletDir;
-	_vz = sin(_shotAngle / 180.f * DX_PI_F) * _mvSpd * _bulletDir;
-	_vPos.x += _vx;
-	_vPos.z += _vz;
+	float vx, vz;
+	vx = cos(_shotAngle / 180.f * DX_PI_F) * _mvSpd * _bulletDir;
+	vz = sin(_shotAngle / 180.f * DX_PI_F) * _mvSpd * _bulletDir;
+	_vPos.x += vx;
+	_vPos.z += vz;
 		
 	
 }

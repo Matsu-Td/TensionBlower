@@ -37,7 +37,6 @@ void PlayerBullet::Process()
 	
 	VECTOR plPos = Player::GetInstance()->GetPos(); // プレイヤー位置取得
 	VECTOR plDir = Player::GetInstance()->GetDir(); // プレイヤー正面角度取得
-	int mhStg = Stage::GetInstance()->_mh;
 	float plAngle = atan2(plDir.z, plDir.x); // プレイヤー正面の方向角度
 	float mvSpd = 4.f;   // 弾の速度
 

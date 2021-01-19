@@ -45,6 +45,8 @@ private:
 	VECTOR _oldPos;     // 移動処理前の位置保存
 
 	bool _isCharging;   // 溜め中か(true:溜め中, false:溜め未実施)
+	bool _swCharge;     // デバッグ用(エネルギー消費ON/OFF切替)
+
 	float _bsAngle;     // ボスの位置、角度
 	int _lfAnalogDeg;   // 左アナログスティックの倒した方向(角度)
 

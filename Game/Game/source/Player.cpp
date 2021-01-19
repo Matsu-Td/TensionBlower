@@ -57,6 +57,8 @@ void Player::Initialize()
 	_gameOverCnt = 0;
 
 	_camStateMLS = false;
+
+	_swCharge = true;
 }
 
 void Player::JumpAction() 
@@ -448,7 +450,9 @@ void Player::Process()
 	* エネルギー管理
 	*/
 	if (_status.energy > 0 || _status.energy < MAX_ENERGY) {
-//		EnergyManager(oldState);
+		if (_swCharge) {               // デバッグ用
+			EnergyManager(oldState);
+		}
 	}
 	if (_status.energy < 0) {
 		_status.energy = 0;
@@ -457,6 +461,14 @@ void Player::Process()
 		_status.energy = MAX_ENERGY;
 	}
 
+	if (trg & PAD_INPUT_7) {
+		if (_swCharge) {
+			_swCharge = false;
+		}
+		else {
+			_swCharge = true;
+		}
+	}
 	/**
 	* 当たり判定
 	*/
@@ -575,7 +587,7 @@ void Player::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  dash   = %d", _isDash); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  左ST角度 = %d", _lfAnalogDeg); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  HP     = %d", _status.hitpoint); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  energy = %d", _status.energy); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  energy = %d, ON(1) / OFF(0) = %d (BACKキーで切替)", _status.energy, _swCharge); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  装弾数 = %d", _status.bulletNum); y += size;
 	switch (_state) {
 	case STATE::WAIT:

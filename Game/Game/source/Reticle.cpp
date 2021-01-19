@@ -57,5 +57,5 @@ void Reticle::Process()
 void Reticle::Render()
 {
 	DrawGraph(_scrnPos.x, _scrnPos.y, _cg, TRUE); 
-	DrawBox(_scrnPos.x + _hitX, _scrnPos.y + _hitY, _scrnPos.x + _hitW, _scrnPos.y + _hitH, GetColor(255, 0, 0), TRUE);
+	//DrawBox(_scrnPos.x + _hitX, _scrnPos.y + _hitY, _scrnPos.x + _hitW, _scrnPos.y + _hitH, GetColor(255, 0, 0), TRUE);
 }
