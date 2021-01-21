@@ -7,7 +7,7 @@
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-	SetBackgroundColor(0, 255, 255);
+	//SetBackgroundColor(0, 255, 255);
 
 	_objServer.Add(new Stage());
 	_objServer.Add(new Player());
@@ -29,9 +29,9 @@ bool ModeGame::Process() {
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	_cam.Process();
+		_cam.Process();
 
-	_objServer.Process();
+		_objServer.Process();
 
 	if (trg & PAD_INPUT_8) {
 		ModeOption* modeOption = new ModeOption();

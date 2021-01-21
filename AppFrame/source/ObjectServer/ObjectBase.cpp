@@ -76,3 +76,19 @@ bool ObjectBase::IsHitScrnPos(ObjectBase& obj)
 	}
 	return false;
 }
+
+bool ObjectBase::IsDot(ObjectBase& obj)
+{
+	float sx = obj._vPos.x - _vPos.x;
+	float sz = obj._vPos.z - _vPos.z;
+	float length = sqrt(sx * sx + sz * sz);
+
+	VECTOR vec = VSub(obj._vPos, _vPos);
+
+	float dot = VDot(vec, obj._vDir);
+	if (length < 40.0f && dot < -2.0f) {
+		return true;
+	}
+
+	return false;
+}

@@ -1,8 +1,9 @@
 
 #include "AppFrame.h"
 #include "ApplicationMain.h"
+#include "ApplicationGlobal.h"
 #include "ModeTitle.h"
-#include "ModeGame.h"
+#include "ModePlugin.h"
 #include "ModeCredit.h"
 #include "ModeTutorial.h"
 #include "ModeRanking.h"
@@ -54,7 +55,7 @@ bool ModeTitle::Process() {
 			// ‚±‚Ìƒ‚[ƒh‚ğíœ—\–ñ
 			ModeServer::GetInstance()->Del(this);
 			// Ÿ‚Ìƒ‚[ƒh‚ğ“o˜^
-			ModeServer::GetInstance()->Add(new ModeGame(), 1, "game");
+			ModeServer::GetInstance()->Add(new ModePlugin(), 1, "plugin");
 		}
 		if (_menuPos == 1) {
 			ModeServer::GetInstance()->Del(this);
@@ -67,6 +68,10 @@ bool ModeTitle::Process() {
 		if (_menuPos == 4) {
 			ModeServer::GetInstance()->Del(this);
 			ModeServer::GetInstance()->Add(new ModeCredit(), 1, "credit");
+		}
+		if (_menuPos == 5) {
+			ModeServer::GetInstance()->Del(this);
+			ApplicationBase::GetInstance()->Terminate();
 		}
 	}
 

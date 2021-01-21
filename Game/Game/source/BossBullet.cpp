@@ -80,12 +80,12 @@ void BossBullet::Process()
 	_capsulePos1 = _vPos;
 	_capsulePos2 = _vPos;
 
-	if (length < 35.0f && length > 5.0f && _camStateMLS) {
+/*	if (length < 35.0f && length > 5.0f && _camStateMLS) {
 		_canLockFlag = true;
 	}
 	else {
 		_canLockFlag = false;
-	}
+	}*/
 	/**
 	* ステージとの当たり判定
 	*/
@@ -112,6 +112,14 @@ void BossBullet::Process()
 					modeGame->_objServer.Del(this);
 					(*itr)->Damage();
 				}
+			}
+		}
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
+			if (IsDot(*(*itr)) == true) {
+				_canLockFlag = true;
+			}
+			else {
+				_canLockFlag = false;
 			}
 		}
 

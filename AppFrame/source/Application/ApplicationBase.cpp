@@ -35,6 +35,7 @@ bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 }
 
 bool ApplicationBase::Terminate() {
+
 	// DXƒ‰ƒCƒuƒ‰ƒŠŠJ•ú
 	DxLib_End();
 

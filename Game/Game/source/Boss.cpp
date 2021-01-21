@@ -14,7 +14,6 @@ Boss::Boss()
 
 Boss::~Boss()
 {
-	
 }
 
 void Boss::ShotPattern1() 

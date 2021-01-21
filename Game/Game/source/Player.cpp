@@ -76,7 +76,7 @@ void Player::JumpAction()
 	}
 	if (!_isCanJump) {
 		float gravity = 0.9f;
-		float inVel = 4.f;
+		float inVel = 4.0f;
 		_vPos.y = inVel * _jumpTime - 0.5f * gravity * _jumpTime * _jumpTime;
 	}
 	
@@ -132,6 +132,13 @@ void Player::LeftAnalogDeg(float length)
 void Player::EnergyManager(STATE oldState)
 {
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+	float addEne;
+	if (_nearPosFlag) {
+		addEne = 2.0f;
+	}
+	else {
+		addEne = 1.0f;
+	}
 
 	if (oldState != _state) { 
 		// ジャンプ(消費)
@@ -164,7 +171,7 @@ void Player::EnergyManager(STATE oldState)
 	//　溜め(回復)
 	if (_isCharging) {
 		_atChargeCnt = AT_CHARGE_CNT;
-		_status.energy += AT_CHARGE * 2.5;
+		_status.energy += AT_CHARGE * 2.5 * addEne;
 	}
 
 
@@ -178,7 +185,7 @@ void Player::EnergyManager(STATE oldState)
 	}
 	// 自動回復
 	else if (!_isCharging){
-		_status.energy += AT_CHARGE;
+		_status.energy += AT_CHARGE * addEne;
 	}
 }
 
@@ -217,11 +224,19 @@ void Player::Process()
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
 
 	// ボスデータ取得
-	VECTOR bsPos = Boss::GetInstance()->GetPos();
 	{
+		VECTOR bsPos = Boss::GetInstance()->GetPos();
 		float dx = _vPos.x - bsPos.x;
 		float dz = _vPos.z - bsPos.z;
+		float len = sqrt(dx * dx + dz * dz);
+		_len = len;            //デバッグ用
 		_bsAngle = atan2(dz, dx);
+		if (len <= 50) {
+			_nearPosFlag = true;
+		}
+		else {
+			_nearPosFlag = false;
+		}
 	}
 
 	// カメラの向いている角度取得
@@ -288,6 +303,7 @@ void Player::Process()
 
 		}
 
+		
 		/**
 		* ジャンプ
 		*/
@@ -434,7 +450,10 @@ void Player::Process()
 /*	if (camState == Camera::STATE::MLS_LOCK) {
 		_camStateMLS = true;
 	}*/
-	
+	if (camState == Camera::STATE::MLS_LOCK) {
+		_vDir.x = -cos(_bsAngle);
+		_vDir.z = -sin(_bsAngle);
+	}
 		
 	// マルチロックシステム用レチクル追加	
 	if (trg & PAD_INPUT_5) {
@@ -589,6 +608,7 @@ void Player::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  HP     = %d", _status.hitpoint); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  energy = %d, ON(1) / OFF(0) = %d (BACKキーで切替)", _status.energy, _swCharge); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  装弾数 = %d", _status.bulletNum); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  ボスとの距離 = %f", _len); y += size;
 	switch (_state) {
 	case STATE::WAIT:
 		DrawString(0, y, "　状態：WAIT", GetColor(255, 0, 0)); break;
@@ -613,6 +633,12 @@ void Player::Render()
 	}
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 1.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.5f, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
+	{
+		VECTOR bsPos = Boss::GetInstance()->GetPos();
+		VECTOR vec = VSub(bsPos, _vPos);
+		float dot = VDot(vec, _vDir);
+		DrawFormatString(0, 700, GetColor(255, 0, 0), "  dot= %f", dot); 
+	}
 #endif
 }
 

@@ -41,6 +41,7 @@ public:
     */
 	virtual bool IsHitScrnPos(ObjectBase& obj);
 
+	virtual bool IsDot(ObjectBase& obj);
 	/**
 	* â€ëËÅ@é¿ëH2///////////////////////////////////////////////////
 	*/

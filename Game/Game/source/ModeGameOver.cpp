@@ -1,8 +1,9 @@
 
 #include "ApplicationMain.h"
-#include "ModeGameOver.h"
-#include "ModeTitle.h"
 #include "ModeGame.h"
+#include "ModeGameOver.h"
+#include "ModeResult.h"
+
 
 bool ModeGameOver::Initialize() 
 {
@@ -32,8 +33,9 @@ bool ModeGameOver::Process()
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 
-		ModeGame* modeGame = new ModeGame();
-		ModeServer::GetInstance()->Add(modeGame, 1, "game");
+		ModeResult* modeResult = new ModeResult();
+		ModeServer::GetInstance()->Add(modeResult, 1, "result");
+		
 	}
 
 	return true;

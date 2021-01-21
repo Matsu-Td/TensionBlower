@@ -37,8 +37,6 @@ public:
 
 	static Player* _pInstance;
 
-
-
 	static constexpr float GROUND_Y = 0.f;  // 地上のY座標
 
 private:
@@ -46,7 +44,8 @@ private:
 
 	bool _isCharging;   // 溜め中か(true:溜め中, false:溜め未実施)
 	bool _swCharge;     // デバッグ用(エネルギー消費ON/OFF切替)
-
+	bool _nearPosFlag;
+	float _len;     // デバッグ用（プレイヤーとボスの距離）
 	float _bsAngle;     // ボスの位置、角度
 	int _lfAnalogDeg;   // 左アナログスティックの倒した方向(角度)
 
@@ -102,7 +101,7 @@ private:
 	static constexpr float CHARGE_MV_SPD = 0.2f; // 溜め行動中の速度
 	static constexpr int SHORT_DASH_CNT = 10;    // 短押しダッシュ時間
 
-	static constexpr int MAX_HP = 1000;          // 最大ヒットポイント量
+	static constexpr int MAX_HP = 500;          // 最大ヒットポイント量
 	static constexpr int MAX_ENERGY = 6000;      // 最大エネルギー量
 	static constexpr int MAX_BULLET = 100;       // 最大装弾数
 	static constexpr int JUMP_ENERGY = 1200;      // ジャンプのエネルギー消費量
