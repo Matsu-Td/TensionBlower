@@ -178,7 +178,7 @@
     <ClCompile Include="source\ModeTutorial.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\PlayerBullet.cpp" />
-    <ClCompile Include="source\PlayerStatus.cpp" />
+    <ClCompile Include="source\PlayerData.cpp" />
     <ClCompile Include="source\Reticle.cpp" />
     <ClCompile Include="source\Stage.cpp" />
   </ItemGroup>
@@ -206,7 +206,7 @@
     <ClInclude Include="source\ModeTutorial.h" />
     <ClInclude Include="source\Player.h" />
     <ClInclude Include="source\PlayerBullet.h" />
-    <ClInclude Include="source\PlayerStatus.h" />
+    <ClInclude Include="source\PlayerData.h" />
     <ClInclude Include="source\Reticle.h" />
     <ClInclude Include="source\Stage.h" />
   </ItemGroup>

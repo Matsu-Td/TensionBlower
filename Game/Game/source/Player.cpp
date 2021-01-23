@@ -25,6 +25,7 @@ Player::~Player()
 
 void Player::Initialize()
 {
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	_vPos = VGet(0.0f, 0.0f, -115.0f);
 	_vDir = VGet(0, 0, 1);
 	_mvSpd = NOR_MV_SPD;
@@ -52,7 +53,7 @@ void Player::Initialize()
 	_atChargeCnt = 30;
 
 	//ヒットポイント
-	_status.hitpoint = MAX_HP;
+	_status.hitpoint = modeGame->_CharaData->_hitpoint;
 
 	_gameOverCnt = 0;
 
@@ -191,8 +192,6 @@ void Player::EnergyManager(STATE oldState)
 
 void Player::Process()
 {
-
-
 	// キーの取得
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
@@ -290,8 +289,7 @@ void Player::Process()
 				
 				if (!_isDash) {
 					_mvSpd = NOR_MV_SPD;
-				}
-				
+				}				
 			}
 			else {
 				_vDir = vec;
@@ -407,7 +405,8 @@ void Player::Process()
 		/**
 		* 射撃攻撃 (ゲームパッドRTで射撃)
 		*/
-		if (rt < -100 && !_isCharging && !_shotZeroFlag) { // 溜め状態及び装弾数がゼロになった場合は射撃不可
+		int rtMin = -100;
+		if (rt < rtMin && !_isCharging && !_shotZeroFlag) { // 溜め状態及び装弾数がゼロになった場合は射撃不可
 			if (_status.bulletNum == 0) {
 				_shotZeroFlag = true;      // 弾を打ち切ってしまうとフラグが立つ(= true) ⇒ 射撃不可
 			}
@@ -421,7 +420,7 @@ void Player::Process()
 					VECTOR tmp = _vPos;
 					tmp.y = _vPos.y + 3.5;
 					bullet->SetPos(tmp);
-					modeGame->_objServer.Add(bullet);
+					modeGame->_objServer.Add(bullet);  // 弾発生、射撃開始
 				}
 				else {
 					_shotInterval--;
@@ -458,7 +457,10 @@ void Player::Process()
 		_vDir.z = -sin(_bsAngle);
 	}
 		
-	// マルチロックシステム用レチクル追加	
+
+	/**
+	*  マルチロックシステム用レチクル追加
+	*/
 	if (trg & PAD_INPUT_5) {
 		_camStateMLS = true;
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -517,8 +519,8 @@ void Player::Process()
 				}
 				// カスリ判定
 				if (IsHitLineSegment(*(*itr), 2.5f)) {
-					_status.energy += 3;				
-				}		
+					_status.energy += 3;
+				}
 			}
 		}
 	}

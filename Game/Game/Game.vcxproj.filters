@@ -69,9 +69,6 @@
     <ClCompile Include="source\ModeOption.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
-    <ClCompile Include="source\PlayerStatus.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
     <ClCompile Include="source\BossStatus.cpp">
       <Filter>ソース ファイル\Object\Enemy</Filter>
     </ClCompile>
@@ -103,6 +100,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\Reticle.cpp">
+      <Filter>ソース ファイル\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\PlayerData.cpp">
       <Filter>ソース ファイル\Object\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -137,9 +137,6 @@
     <ClInclude Include="source\ModeOption.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
-    <ClInclude Include="source\PlayerStatus.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
     <ClInclude Include="source\BossStatus.h">
       <Filter>ヘッダー ファイル\Object\Enemy</Filter>
     </ClInclude>
@@ -171,6 +168,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\Reticle.h">
+      <Filter>ヘッダー ファイル\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\PlayerData.h">
       <Filter>ヘッダー ファイル\Object\Player</Filter>
     </ClInclude>
   </ItemGroup>
