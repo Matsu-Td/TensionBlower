@@ -191,7 +191,7 @@ void Player::EnergyManager(STATE oldState)
 
 void Player::Process()
 {
-	_oldPos = _vPos;
+
 
 	// キーの取得
 	int key = ApplicationMain::GetInstance()->GetKey();
@@ -214,14 +214,11 @@ void Player::Process()
 	lx = static_cast<float>(dinput.X);
 	ly = static_cast<float>(dinput.Y);
 
-	// 処理前のステータスを保存しておく
+	// 処理前のステータスを保存
 	STATE oldState = _state;
 
-	// カメラデータ取得
-
-	VECTOR camPos = Camera::GetInstance()->GetPos();
-	VECTOR camTarg = Camera::GetInstance()->GetTarg();
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+	// 処理前の位置を保存
+	_oldPos = _vPos;
 
 	// ボスデータ取得
 	{
@@ -238,6 +235,11 @@ void Player::Process()
 			_nearPosFlag = false;
 		}
 	}
+
+	// カメラデータ取得
+	VECTOR camPos = Camera::GetInstance()->GetPos();
+	VECTOR camTarg = Camera::GetInstance()->GetTarg();
+	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
 
 	// カメラの向いている角度取得
 	float disX = camPos.x - camTarg.x;
@@ -261,6 +263,9 @@ void Player::Process()
 		}
 	}
 
+	/**
+	* 移動処理
+	*/
 	if (length < analogMin) {
 		length = 0.f;
 	}
@@ -447,10 +452,8 @@ void Player::Process()
 		}
 	}
 
-/*	if (camState == Camera::STATE::MLS_LOCK) {
-		_camStateMLS = true;
-	}*/
-	if (camState == Camera::STATE::MLS_LOCK) {
+
+	if (_camStateMLS) {
 		_vDir.x = -cos(_bsAngle);
 		_vDir.z = -sin(_bsAngle);
 	}
@@ -608,7 +611,7 @@ void Player::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  HP     = %d", _status.hitpoint); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  energy = %d, ON(1) / OFF(0) = %d (BACKキーで切替)", _status.energy, _swCharge); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  装弾数 = %d", _status.bulletNum); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  ボスとの距離 = %f", _len); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  ボスとの距離 = %4.2f", _len); y += size;
 	switch (_state) {
 	case STATE::WAIT:
 		DrawString(0, y, "　状態：WAIT", GetColor(255, 0, 0)); break;
@@ -633,12 +636,6 @@ void Player::Render()
 	}
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 1.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.5f, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
-	{
-		VECTOR bsPos = Boss::GetInstance()->GetPos();
-		VECTOR vec = VSub(bsPos, _vPos);
-		float dot = VDot(vec, _vDir);
-		DrawFormatString(0, 700, GetColor(255, 0, 0), "  dot= %f", dot); 
-	}
 #endif
 }
 

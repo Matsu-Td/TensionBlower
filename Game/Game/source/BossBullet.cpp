@@ -59,8 +59,6 @@ void BossBullet::Shot()
 	vz = sin(_shotAngle / 180.f * DX_PI_F) * _mvSpd * _bulletDir;
 	_vPos.x += vx;
 	_vPos.z += vz;
-		
-	
 }
 
 
@@ -86,17 +84,18 @@ void BossBullet::Process()
 	else {
 		_canLockFlag = false;
 	}*/
+
 	/**
-	* ステージとの当たり判定
+	* 当たり判定
 	*/
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {   // ステージ
 			if (IsHitStage(*(*itr), 1.0f) == true) {
 				modeGame->_objServer.Del(this);
 			}
 		}
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) {
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) { // レチクル
 			if (IsHitScrnPos(*(*itr)) == true) {
 				if (_canLockFlag) {
 					if (trg & PAD_INPUT_2) {
@@ -106,7 +105,7 @@ void BossBullet::Process()
 				}
 			}
 		}
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) { // ボス
 			if (IsHitLineSegment(*(*itr), 10.0f) == true) {
 				if (_repelFlag) {
 					modeGame->_objServer.Del(this);
@@ -114,8 +113,8 @@ void BossBullet::Process()
 				}
 			}
 		}
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
-			if (IsDot(*(*itr)) == true) {
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {  // プレイヤー
+			if (IsDot(*(*itr)) == true && _camStateMLS) {
 				_canLockFlag = true;
 			}
 			else {
@@ -128,10 +127,6 @@ void BossBullet::Process()
 
 void BossBullet::Render()
 {
-	
-
-
-
 	MV1SetPosition(_mh, _vPos);
 	MV1SetRotationXYZ(_mh, VGet(0.f, (_shotAngle + 270.f) / 180.f * DX_PI_F, 0.f));
 	MV1DrawModel(_mh);

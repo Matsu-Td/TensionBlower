@@ -80,18 +80,24 @@ void Boss::Process()
 	/**
 	* 弾幕攻撃処理
 	*/
-	if (camState == Camera::STATE::MLS_LOCK) {  // マルチロックシステム発動中は弾の発射速度を遅くする
-		_mlsCnt++;
-		if (_mlsCnt % 100 == 0) {
+	if (_shield > 0) {
+		if (camState == Camera::STATE::MLS_LOCK) {  // マルチロックシステム発動中は弾の発射速度を遅くする
+			_mlsCnt++;
+			if (_mlsCnt % 100 == 0) {
+				_shotCnt++;
+				ShotPattern1();
+			}
+		}
+		else {
 			_shotCnt++;
+			_mlsCnt = 0;
 			ShotPattern1();
 		}
 	}
-	else {
-		_shotCnt++;
-		_mlsCnt = 0;
-		ShotPattern1();
-	}
+
+	/**
+	* プレイヤーの弾との当たり判定、ダメージ処理
+	*/ 
 	{
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
@@ -112,6 +118,7 @@ void Boss::Process()
 
 		}
 	}
+	
 }
 
 void Boss::Render()

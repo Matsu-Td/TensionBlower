@@ -101,7 +101,7 @@ private:
 	static constexpr float CHARGE_MV_SPD = 0.2f; // 溜め行動中の速度
 	static constexpr int SHORT_DASH_CNT = 10;    // 短押しダッシュ時間
 
-	static constexpr int MAX_HP = 500;          // 最大ヒットポイント量
+	static constexpr int MAX_HP = 1000;          // 最大ヒットポイント量
 	static constexpr int MAX_ENERGY = 6000;      // 最大エネルギー量
 	static constexpr int MAX_BULLET = 100;       // 最大装弾数
 	static constexpr int JUMP_ENERGY = 1200;      // ジャンプのエネルギー消費量
