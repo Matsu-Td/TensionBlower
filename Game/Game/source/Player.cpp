@@ -140,11 +140,9 @@ void Player::EnergyManager(STATE oldState)
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	float addEne;
 
-	if (_nearPosFlag) {   // ボス付近で行動する
-		addEne = CHARA_DATA->_egAutoXArea;
-	}
-	else {
-		addEne = 1.0f;
+	if (_status.energy > CHARA_DATA->_maxEnergy) {  // エネルギー回復時に最大エネルギー値を超えるのを防ぐ
+		_status.energy = CHARA_DATA->_maxEnergy;
+
 	}
 
 	if (oldState != _state) { 
@@ -171,20 +169,28 @@ void Player::EnergyManager(STATE oldState)
 		_status.energy--;
 	}
 
-	// マルチロックオンシステム
+	// マルチロックオンシステム(消費)
 	if (camState == Camera::STATE::MLS_LOCK) {
 		_atChargeFlag = false;
 		_atChargeCnt = AT_CHARGE_CNT;
 //		_status.energy -= 12.5;
 		_status.energy -= CHARA_DATA->_egMLS;
 	}
+
+	// ボス付近で行動する(回復)
+	if (_nearPosFlag) {
+		addEne = CHARA_DATA->_egAutoXArea;
+	}
+	else {
+		addEne = 1.0f;
+	}
+
 	//　溜め(回復)
 	if (_isCharging) {
 		_atChargeCnt = AT_CHARGE_CNT;
 //		_status.energy += AT_CHARGE * 2.5 * addEne;
 		_status.energy += AT_CHARGE * CHARA_DATA->_egAutoXChrg * addEne;
 	}
-
 
 	// 自動回復開始のインターバル
 	if (!_atChargeFlag) {
@@ -194,7 +200,7 @@ void Player::EnergyManager(STATE oldState)
 			_atChargeFlag = true;
 		}
 	}
-	// 自動回復
+	// 自動回復(回復)
 	else if (!_isCharging){
 //		_status.energy += AT_CHARGE * addEne;
 		_status.energy += CHARA_DATA->_egAutoRec * addEne;
@@ -329,6 +335,7 @@ void Player::Process()
 		*/
 		JumpAction();
 		
+
 
 		/**
         * 短押しダッシュ
@@ -515,6 +522,8 @@ void Player::Process()
 			_swCharge = true;
 		}
 	}
+
+	
 	/**
 	* 当たり判定
 	*/
@@ -544,11 +553,16 @@ void Player::Process()
 //					_status.energy += 3;
 					_status.energy += CHARA_DATA->_egAvoid;
 				}
+				if (Boss::GetInstance()->_mlsDownFlag) {
+					modeGame->_objServer.Del(*itr);
+					
+				}
 			}
 		}
 	}
-
-
+	if (Boss::GetInstance()->_mlsDownFlag) {
+		_status.energy += (CHARA_DATA->_egShotNum * Boss::GetInstance()->_bulletNum);
+	}
 
 	if (oldState == _state) {
 		_playTime += 0.5f;

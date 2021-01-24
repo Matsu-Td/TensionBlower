@@ -12,12 +12,25 @@ public:
 	void Process();
 	void Render();
 	void Damage();
+
+	/**
+	* ダウン処理
+	*/
+	void StateDown();
+
+	/**
+	* 弾幕パターン1処理
+	*/
 	void ShotPattern1();
 
 	static Boss* GetInstance() { return _pInstance; }
 //	VECTOR GetPos() const { return _vPos; }
 
 	static Boss* _pInstance;
+
+	// プレイヤークラスで使用
+	int _bulletNum;      // ダウン直前に出現していた弾の数カウント
+	bool _mlsDownFlag;   // MLSで弾き返された弾でダウンするとtrue
 
 private:
 	int _shotCnt;
@@ -27,6 +40,9 @@ private:
 
 	int _hitpoint;
 	int _shield;
+	
+	bool _stateDown;
+	int _downTime;
 
 	static constexpr int MAX_HP = 5000;
 	static constexpr int MAX_SHIELD = 1000;
