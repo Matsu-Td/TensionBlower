@@ -6,8 +6,7 @@
 #include "Boss.h"
 #include "ModeOption.h"
 #include "BulletServer.h"
-#include "PlayerData.h"
-
+#include "CharaData.h"
 
 class ModeGame : public ModeBase
 {
@@ -20,8 +19,8 @@ public:
 
 	Camera _cam;
 	ObjectServer _objServer;
-	PlayerData* _charaData;
+	CharaData* _charaData;
 
 protected:
-	std::unique_ptr<Stage> _stg;
+//	std::unique_ptr<Stage> _stg;
 }; 

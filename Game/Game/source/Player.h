@@ -2,6 +2,7 @@
 #include "appframe.h"
 #include "PlayerBullet.h"
 #include "BulletServer.h"
+#define  CHARA_DATA (modeGame->_charaData)
 
 class Player : public ObjectBase
 {

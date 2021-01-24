@@ -8,7 +8,7 @@ bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 
 	//SetBackgroundColor(0, 255, 255);
-	_charaData = new PlayerData("res/json/", "CharaData");
+	_charaData = new CharaData("res/json/", "CharaData");
 
 	_objServer.Add(new Stage());
 	_objServer.Add(new Player());
@@ -53,7 +53,7 @@ bool ModeGame::Render() {
 
 	_objServer.Render();
 	_cam.Render();
-	DrawFormatString(500, 200, GetColor(255, 0, 0), "hitpoint=%d", _charaData->_hitpoint);
+
 	return true;
 }
 

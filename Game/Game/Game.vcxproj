@@ -159,7 +159,6 @@
     <ClCompile Include="source\ApplicationMain.cpp" />
     <ClCompile Include="source\Boss.cpp" />
     <ClCompile Include="source\BossBullet.cpp" />
-    <ClCompile Include="source\BossStatus.cpp" />
     <ClCompile Include="source\BulletBase.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -178,7 +177,7 @@
     <ClCompile Include="source\ModeTutorial.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\PlayerBullet.cpp" />
-    <ClCompile Include="source\PlayerData.cpp" />
+    <ClCompile Include="source\CharaData.cpp" />
     <ClCompile Include="source\Reticle.cpp" />
     <ClCompile Include="source\Stage.cpp" />
   </ItemGroup>
@@ -187,7 +186,6 @@
     <ClInclude Include="source\ApplicationMain.h" />
     <ClInclude Include="source\Boss.h" />
     <ClInclude Include="source\BossBullet.h" />
-    <ClInclude Include="source\BossStatus.h" />
     <ClInclude Include="source\BulletBase.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -206,7 +204,7 @@
     <ClInclude Include="source\ModeTutorial.h" />
     <ClInclude Include="source\Player.h" />
     <ClInclude Include="source\PlayerBullet.h" />
-    <ClInclude Include="source\PlayerData.h" />
+    <ClInclude Include="source\CharaData.h" />
     <ClInclude Include="source\Reticle.h" />
     <ClInclude Include="source\Stage.h" />
   </ItemGroup>

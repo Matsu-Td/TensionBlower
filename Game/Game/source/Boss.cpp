@@ -39,6 +39,8 @@ void Boss::ShotPattern1()
 }
 void Boss::Initialize()
 {
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
 	_vPos = VGet(0.0f, 10.0f, 0.0f);
 //	_vDir = VGet(1, 0, 1);
 	_attachIndex = 0;
@@ -52,8 +54,8 @@ void Boss::Initialize()
 	_shotCnt = 0;
 	_mlsCnt = 0;
 
-	_hitpoint = MAX_HP;
-	_shield = MAX_SHIELD;
+	_hitpoint = CHARA_DATA->_boss.maxHP;
+	_shield = CHARA_DATA->_boss.maxShield;
 }
 
 void Boss::Process()
@@ -104,13 +106,14 @@ void Boss::Process()
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER_BULLET) {  // ステージ
 				if (IsHitLineSegment(*(*itr), 10.0f) == true) {
 					if (_shield > 0) {
-						_hitpoint -= 1;
-						_shield -= 100;
+						_hitpoint -= CHARA_DATA->_shotDmgHP;
+//						_shield -= CHARA_DATA->_shotDmgSld;
+						_shield -= 100; // デバッグ用
 						modeGame->_objServer.Del(*itr);
 					}
 					else {
 						_shield = 0;
-						_hitpoint -= 5;
+						_hitpoint -= CHARA_DATA->_shotDmg;
 						modeGame->_objServer.Del(*itr);
 					}
 				}

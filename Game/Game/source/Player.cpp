@@ -8,6 +8,7 @@
 #include "ModeGameOver.h"
 #include "Reticle.h"
 
+
 Player* Player::_pInstance = NULL;
 
 Player::Player()
@@ -26,9 +27,10 @@ Player::~Player()
 void Player::Initialize()
 {
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
 	_vPos = VGet(0.0f, 0.0f, -115.0f);
 	_vDir = VGet(0, 0, 1);
-	_mvSpd = NOR_MV_SPD;
+	_mvSpd = CHARA_DATA->_mvSpdNorm;
 	_attachIndex = -1;
 	_totalTime = 0;
 	_playTime = 0.0f;
@@ -48,12 +50,12 @@ void Player::Initialize()
 	_shotZeroFlag = false;
 
 	//エネルギー
-	_status.energy = MAX_ENERGY;
+	_status.energy = CHARA_DATA->_maxEnergy;
 	_atChargeFlag = true;
 	_atChargeCnt = 30;
 
 	//ヒットポイント
-	_status.hitpoint = modeGame->_CharaData->_hitpoint;
+	_status.hitpoint = CHARA_DATA->_maxHP;
 
 	_gameOverCnt = 0;
 
@@ -66,12 +68,14 @@ void Player::JumpAction()
 {
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
-	if (_status.energy >= JUMP_ENERGY) {
+	if (_status.energy >= CHARA_DATA->_egJump) {
 		if (trg & PAD_INPUT_1 && _isCanJump && !_isCharging) {
 			_state = STATE::JUMP;
 			_isCanJump = false;
-			_mvSpd = NOR_MV_SPD;
+//			_mvSpd = NOR_MV_SPD;
+			_mvSpd = CHARA_DATA->_mvSpdNorm;
 			_jumpTime = 0.f;
 		}
 	}
@@ -133,9 +137,11 @@ void Player::LeftAnalogDeg(float length)
 void Player::EnergyManager(STATE oldState)
 {
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	float addEne;
-	if (_nearPosFlag) {
-		addEne = 2.0f;
+
+	if (_nearPosFlag) {   // ボス付近で行動する
+		addEne = CHARA_DATA->_egAutoXArea;
 	}
 	else {
 		addEne = 1.0f;
@@ -146,13 +152,15 @@ void Player::EnergyManager(STATE oldState)
 		if (_state == STATE::JUMP) {
 			_atChargeFlag = false;
 			_atChargeCnt = AT_CHARGE_CNT;
-			_status.energy = _status.energy - JUMP_ENERGY;
+//			_status.energy = _status.energy - JUMP_ENERGY;
+			_status.energy = _status.energy - CHARA_DATA->_egJump;
 		}
 		// 短押しダッシュ(消費)
 		if (_isShortDash) {
 			_atChargeFlag = false;
 			_atChargeCnt = AT_CHARGE_CNT;
-			_status.energy = _status.energy - DASH_ENERGY;
+//			_status.energy = _status.energy - DASH_ENERGY;
+			_status.energy = _status.energy - CHARA_DATA->_egDash;
 		}
 	}
 
@@ -167,12 +175,14 @@ void Player::EnergyManager(STATE oldState)
 	if (camState == Camera::STATE::MLS_LOCK) {
 		_atChargeFlag = false;
 		_atChargeCnt = AT_CHARGE_CNT;
-		_status.energy -= 12.5;
+//		_status.energy -= 12.5;
+		_status.energy -= CHARA_DATA->_egMLS;
 	}
 	//　溜め(回復)
 	if (_isCharging) {
 		_atChargeCnt = AT_CHARGE_CNT;
-		_status.energy += AT_CHARGE * 2.5 * addEne;
+//		_status.energy += AT_CHARGE * 2.5 * addEne;
+		_status.energy += AT_CHARGE * CHARA_DATA->_egAutoXChrg * addEne;
 	}
 
 
@@ -186,7 +196,8 @@ void Player::EnergyManager(STATE oldState)
 	}
 	// 自動回復
 	else if (!_isCharging){
-		_status.energy += AT_CHARGE * addEne;
+//		_status.energy += AT_CHARGE * addEne;
+		_status.energy += CHARA_DATA->_egAutoRec * addEne;
 	}
 }
 
@@ -245,6 +256,10 @@ void Player::Process()
 	float disZ = camPos.z - camTarg.z;
 	float camRad = atan2(disZ, disX);
 
+	// モードゲーム取得
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
+
 	// 移動方向を決める
 	VECTOR vec = { 0.f,0.f,0.f };
 	float length = sqrt(lx * lx + ly * ly);
@@ -288,13 +303,15 @@ void Player::Process()
 				LeftAnalogDeg(length);
 				
 				if (!_isDash) {
-					_mvSpd = NOR_MV_SPD;
+//					_mvSpd = NOR_MV_SPD;
+					_mvSpd = CHARA_DATA->_mvSpdNorm;
 				}				
 			}
 			else {
 				_vDir = vec;
 				if (_state != STATE::FOR_DASH) {
-					_mvSpd = NOR_MV_SPD;
+//					_mvSpd = NOR_MV_SPD;
+					_mvSpd = CHARA_DATA->_mvSpdNorm;
 				}
 				if (_isCanJump) {
 					_state = STATE::WALK;
@@ -318,8 +335,8 @@ void Player::Process()
         */
 		float nowAngle = atan2(_vDir.z, _vDir.x);  // 現在のプレイヤーの正面角度
 		VECTOR vDash{ 0.f,0.f,0.f };               // ダッシュする方向
-		if (trg & PAD_INPUT_6 && (_state != STATE::JUMP) && _status.energy > DASH_ENERGY) {
-			_mvSpd = DASH_MV_SPD;
+		if (trg & PAD_INPUT_6 && (_state != STATE::JUMP) && _status.energy > CHARA_DATA->_egDash) {
+			_mvSpd = CHARA_DATA->_mvSpdDash;
 			_isShortDash = true;             // 短押しダッシュ移動スタート
 			_isCanLongDash = true;           // 短押しダッシュ発動 ⇒ 長押しダッシュ発動可能となる
 			_shortDashTime = SHORT_DASH_CNT;  // 短押しダッシュ移動時間をセット
@@ -392,7 +409,8 @@ void Player::Process()
 		if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5)) {
 			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
 				if (_state != STATE::FOR_DASH) {
-					_mvSpd = CHARGE_MV_SPD;
+//					_mvSpd = CHARGE_MV_SPD;
+					_mvSpd = CHARA_DATA->_mvSpdChrg;
 					_isCharging = true;
 				}
 			}
@@ -415,7 +433,7 @@ void Player::Process()
 					_reloadTime = 90;	   // リロード開始時間をセット
 					_canShotFlag = false;
 					_status.bulletNum--;
-					ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+//					ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 					PlayerBullet* bullet = new PlayerBullet();
 					VECTOR tmp = _vPos;
 					tmp.y = _vPos.y + 3.5;
@@ -463,9 +481,12 @@ void Player::Process()
 	*/
 	if (trg & PAD_INPUT_5) {
 		_camStateMLS = true;
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+//		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		Reticle* reticle = new Reticle();
 		modeGame->_objServer.Add(reticle);
+	}
+	else {
+		_camStateMLS = false;
 	}
 
 
@@ -473,7 +494,7 @@ void Player::Process()
 	/**
 	* エネルギー管理
 	*/
-	if (_status.energy > 0 || _status.energy < MAX_ENERGY) {
+	if (_status.energy > 0 || _status.energy < CHARA_DATA->_maxEnergy) {
 		if (_swCharge) {               // デバッグ用
 			EnergyManager(oldState);
 		}
@@ -481,10 +502,11 @@ void Player::Process()
 	if (_status.energy < 0) {
 		_status.energy = 0;
 	}
-	if (_status.energy > MAX_ENERGY) {
-		_status.energy = MAX_ENERGY;
+	if (_status.energy > CHARA_DATA->_maxEnergy) {
+		_status.energy = CHARA_DATA->_maxEnergy;
 	}
 
+	// デバッグ用
 	if (trg & PAD_INPUT_7) {
 		if (_swCharge) {
 			_swCharge = false;
@@ -497,7 +519,7 @@ void Player::Process()
 	* 当たり判定
 	*/
 	{
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+//		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {  // ステージ
 				if (IsHitStage(*(*itr), 2.0f) == true) {
@@ -512,14 +534,15 @@ void Player::Process()
 				// 着弾
 				if (IsHitLineSegment(*(*itr), 1.0f)) {
 					modeGame->_objServer.Del(*itr);
-					_status.hitpoint -= 100;
+					_status.hitpoint -= CHARA_DATA->_boss.shotDmg;
 					if (_status.hitpoint <= 0) {
 						_gameOverCnt = 60;
 					}
 				}
 				// カスリ判定
 				if (IsHitLineSegment(*(*itr), 2.5f)) {
-					_status.energy += 3;
+//					_status.energy += 3;
+					_status.energy += CHARA_DATA->_egAvoid;
 				}
 			}
 		}
