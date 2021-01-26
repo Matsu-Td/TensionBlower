@@ -74,8 +74,8 @@ private:
 
 	bool _shotFlag;
 
-	bool _attackFlag;
-	int _attackCnt;
+	bool _attackFlag;   // 攻撃発生フラグ(攻撃発動中)
+	int _attackCnt;     // 攻撃遷移、終了カウント
 
 	// プレイヤー状態(モーション)管理
 	enum class STATE {
