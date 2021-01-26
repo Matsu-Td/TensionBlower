@@ -168,6 +168,7 @@
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\ModeCredit.cpp" />
     <ClCompile Include="source\ModeGame.cpp" />
+    <ClCompile Include="source\ModeGameClear.cpp" />
     <ClCompile Include="source\ModeGameOver.cpp" />
     <ClCompile Include="source\ModeOption.cpp" />
     <ClCompile Include="source\ModePlugin.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\ModeCredit.h" />
     <ClInclude Include="source\ModeGame.h" />
+    <ClInclude Include="source\ModeGameClear.h" />
     <ClInclude Include="source\ModeGameOver.h" />
     <ClInclude Include="source\ModeOption.h" />
     <ClInclude Include="source\ModePlugin.h" />
