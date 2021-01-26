@@ -14,8 +14,8 @@ Player* Player::_pInstance = NULL;
 Player::Player()
 {
 	_pInstance = this;
-	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/SDChar/SDChar.mv1");;
-
+//	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/SDChar/SDChar.mv1");
+	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/TB_player_mm01.mv1");
 	Initialize();
 }
 
@@ -62,6 +62,12 @@ void Player::Initialize()
 	_camStateMLS = false;
 
 	_swCharge = true;
+
+	_shotFlag = false;
+
+	_attackFlag = false;
+	_nextAttack = STATE::WEAK_ATCK1;
+	_attackCnt = 0;
 }
 
 void Player::JumpAction() 
@@ -93,6 +99,47 @@ void Player::JumpAction()
 			_isCanJump = true;
 		}
 	}
+}
+
+MATRIX Player::MV1GetFrameRotateMatrix(int MHandle, int FrameIndex, double Xaxis, double Yaxis, double Zaxis, double modelScale) {
+	//親フレームの取得
+	int ParentFrame = MV1GetFrameParent(MHandle, FrameIndex);
+
+	//親フレームが存在する(=すなわちParentFrameが-2ではない)ならば相対座標分だけ平行移動する行列を取得
+	//親フレームが存在しないならば単位行列を得る(=すなわち平行移動しない)   
+	MATRIX MTranslate;
+	if (-2 != ParentFrame)
+	{
+		//親子フレームの座標の取得
+		VECTOR vecParent = MV1GetFramePosition(MHandle, ParentFrame);
+		VECTOR vecChild = MV1GetFramePosition(MHandle, FrameIndex);
+
+		//親を基準にした子の相対座標を取得
+		VECTOR vecRerativPar2Chi = VSub(vecChild, vecParent);
+
+		//モデルが何倍に大きくなっているかに従って相対座標を補正
+		if (0 != modelScale)
+		{
+			modelScale = 1 / modelScale;
+		}
+		vecRerativPar2Chi = VScale(vecRerativPar2Chi, modelScale);
+		MTranslate = MGetTranslate(vecRerativPar2Chi);
+	}
+	else
+	{
+		MTranslate = MGetIdent();
+	}
+
+	//それぞれの軸に沿って回転する行列を取得
+	MATRIX MXaxis = MGetRotX(Xaxis);
+	MATRIX MYaxis = MGetRotY(Yaxis);
+	MATRIX MZaxis = MGetRotZ(Zaxis);
+
+	//軸毎に回転させてから平行移動を実行する
+
+	MATRIX MReturn = MMult(MMult(MMult(MXaxis, MYaxis), MZaxis), MTranslate);
+
+	return MReturn;
 }
 
 void Player::LeftAnalogDeg(float length)
@@ -132,6 +179,92 @@ void Player::LeftAnalogDeg(float length)
 			}
 		}
 	}
+}
+
+void Player::AttackAction() {
+
+	int trg = ApplicationMain::GetInstance()->GetTrg();
+
+	
+	if (_attackCnt <= 0) {
+		_attackCnt = 0;
+		_attackFlag = false;
+	}
+	else {
+		_attackCnt--;
+	}
+
+/*	if (_playTime >= _totalTime) {
+		_playTime = _totalTime;
+		_attackCnt = 30;
+	}*/
+	
+	switch (_state) {
+	case STATE::WEAK_ATCK1:
+		if (_attackCnt <= 15) {
+			if (trg & PAD_INPUT_4) {
+				_state = STATE::STRG_ATCK2;
+				_attackCnt = 45;
+			}
+			else if (trg & PAD_INPUT_B) {
+				_state = STATE::WEAK_ATCK2;
+				_attackCnt = 45;
+			}
+		}
+		
+		break;
+	case STATE::WEAK_ATCK2:
+		if (_attackCnt <= 15) {
+			if (trg & PAD_INPUT_4) {
+				_state = STATE::STRG_ATCK3;
+				_attackCnt = 45;
+			}
+			else if (trg & PAD_INPUT_B) {
+				_state = STATE::WEAK_ATCK3;
+				_attackCnt = 45;
+			}
+		}
+		break;
+	case STATE::WEAK_ATCK3:
+		if (_attackCnt <= 15) {
+			if (trg & PAD_INPUT_4) {
+				_state = STATE::STRG_ATCK4;
+			    _attackCnt = 45;
+			}
+			else if (trg & PAD_INPUT_B) {
+				_state = STATE::WEAK_ATCK4;
+				_attackCnt = 45;
+			}
+		}
+		break;
+	case STATE::WEAK_ATCK4:
+		if (_attackCnt <= 0) {
+			_attackFlag = false;
+		}
+		break;
+	case STATE::STRG_ATCK1:
+		if (_attackCnt <= 0) {
+			_attackFlag = false;
+		}
+		break;
+	case STATE::STRG_ATCK2:
+		if (_attackCnt <= 0) {
+			_attackFlag = false;
+		}
+		break;
+	case STATE::STRG_ATCK3:
+		if (_attackCnt <= 0) {
+			_attackFlag = false;
+		}
+		break;
+	case STATE::STRG_ATCK4:
+		if (_attackCnt <= 0) {
+			_attackFlag = false;
+		}
+		break;
+	}
+
+
 }
 
 void Player::EnergyManager(STATE oldState)
@@ -293,7 +426,7 @@ void Player::Process()
 		length = _mvSpd;
 	}
 
-	if (camState != Camera::STATE::MLS_LOCK) {  // マルチロックシステムが発動していないときは移動可能
+	if (camState != Camera::STATE::MLS_LOCK && !_attackFlag) {  // マルチロックシステムが発動していないときは移動可能
 		// vecをrad分回転させる
 		vec.x = cos(rad + camRad) * length;
 		vec.z = sin(rad + camRad) * length;
@@ -324,7 +457,7 @@ void Player::Process()
 				}
 			}
 		}
-		else if (_isCanJump) {
+		else if (_isCanJump && !_shotFlag && !_attackFlag) {
 			_state = STATE::WAIT;
 
 		}
@@ -426,6 +559,22 @@ void Player::Process()
 			_isCharging = false;
 		}
 
+		/**
+		* 近接攻撃処理
+		*/
+		if (_isCanJump) {
+			if (trg & PAD_INPUT_B && !_attackFlag) {
+				_state = STATE::WEAK_ATCK1;
+				_attackFlag = true;
+				_attackCnt = 45;
+			}
+			if (trg & PAD_INPUT_4 && !_attackFlag) {
+				_state = STATE::STRG_ATCK1;
+				_attackFlag = true;
+				_attackCnt = 45;
+			}
+		}
+		
 
 		/**
 		* 射撃攻撃 (ゲームパッドRTで射撃)
@@ -437,13 +586,16 @@ void Player::Process()
 			}
 			if (_status.bulletNum > 0) {
 				if (_canShotFlag) {
+					_state = STATE::SHOT_ATCK;
+					_shotFlag = true;
+					_playTime = 30.0f;
 					_reloadTime = 90;	   // リロード開始時間をセット
 					_canShotFlag = false;
 					_status.bulletNum--;
 //					ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 					PlayerBullet* bullet = new PlayerBullet();
 					VECTOR tmp = _vPos;
-					tmp.y = _vPos.y + 3.5;
+					tmp.y = _vPos.y + 5.5f;
 					bullet->SetPos(tmp);
 					modeGame->_objServer.Add(bullet);  // 弾発生、射撃開始
 				}
@@ -458,6 +610,7 @@ void Player::Process()
 			}
 		}
 		else {             // 射撃を行わなければリロード開始
+			_shotFlag = false;
 			_reloadTime--;
 			if (_shotZeroFlag) {            // 弾を打ち切った場合は即時リロード開始
 				if (_status.bulletNum < MAX_BULLET) {
@@ -496,7 +649,9 @@ void Player::Process()
 		_camStateMLS = false;
 	}
 
-
+	if (_attackFlag) {
+		AttackAction();
+	}
 
 	/**
 	* エネルギー管理
@@ -565,19 +720,20 @@ void Player::Process()
 	}
 
 	if (oldState == _state) {
-		_playTime += 0.5f;
+		_playTime += 1.0f;
 	}
 	else {
 		if (_attachIndex != -1) {
 			MV1DetachAnim(_mh, _attachIndex);
 			_attachIndex = -1;
+//			MV1ResetFrameUserLocalMatrix(_mh, 94);
 		}
 		switch (_state) {
 		case STATE::WAIT:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "idle"), -1, FALSE);
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "waitmove"), -1, FALSE);
 			break;
 		case STATE::WALK:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "run"), -1, FALSE);
+//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "run"), -1, FALSE);
 			break;
 		case STATE::JUMP:
 //			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
@@ -603,25 +759,55 @@ void Player::Process()
 		case STATE::BACK_DASH:
 //			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
 			break;
+		case STATE::WEAK_ATCK1:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::WEAK_ATCK2:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::WEAK_ATCK3:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::WEAK_ATCK4:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::STRG_ATCK1:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::STRG_ATCK2:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::STRG_ATCK3:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::STRG_ATCK4:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::SHOT_ATCK:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "shoot"), -1, FALSE);
+//			MATRIX Mrotate = MV1GetFrameRotateMatrix(_mh, 94, 0, 0.2 * 2 * DX_PI_F, 0, 0.1);
+//			MV1SetFrameUserLocalMatrix(_mh, 94, Mrotate);
+			break;
 		}
+
 		// アタッチしたアニメーションの総再生時間を取得する
 		_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
 	
 		_playTime = 0.0f;
 	}
 
-	if (_playTime >= _totalTime) {
-		_playTime = 0.0f;
+	if (!_attackFlag) {
+		if (_playTime >= _totalTime) {
+			_playTime = 0.0f;
+		}
 	}
-
-
 
 }
 
 void Player::Render()
 {
     MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
-	MV1SetScale(_mh, VGet(0.05f, 0.05f, 0.05f));
+	MV1SetScale(_mh, VGet(0.1f, 0.1f, 0.1f));
 	{
 		MV1SetPosition(_mh, _vPos);
 		// 向きからY軸回転を算出
@@ -636,6 +822,7 @@ void Player::Render()
 //	VECTOR pl = modeGame->_pl->GetPos();
 	float angle = atan2(_vDir.x * -1, _vDir.z * -1);
 	float deg = angle * 180.f / DX_PI_F;
+	int x = 100;
 	int y = 140;
 	int size = 24;
 	SetFontSize(size);
@@ -651,30 +838,51 @@ void Player::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  energy = %d, ON(1) / OFF(0) = %d (BACKキーで切替)", _status.energy, _swCharge); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  装弾数 = %d", _status.bulletNum); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ボスとの距離 = %4.2f", _len); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  攻撃カウント = %d", _attackCnt); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  次の攻撃 = %d", _nextAttack); y += size;
+	DrawString(0, y, "　状態：",GetColor(255, 0, 0));
 	switch (_state) {
 	case STATE::WAIT:
-		DrawString(0, y, "　状態：WAIT", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "WAIT", GetColor(255, 0, 0)); break;
 	case STATE::WALK:
-		DrawString(0, y, "　状態：WALK", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "WALK", GetColor(255, 0, 0)); break;
 	case STATE::FOR_DASH:
-		DrawString(0, y, "　状態：FOR DASH", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "FOR DASH", GetColor(255, 0, 0)); break;
 	case STATE::JUMP:
-		DrawString(0, y, "　状態：JUMP", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "JUMP", GetColor(255, 0, 0)); break;
 	case STATE::LEFT_MOVE:
-		DrawString(0, y, "　状態：LEFT MOVE", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "LEFT MOVE", GetColor(255, 0, 0)); break;
 	case STATE::RIGHT_MOVE:
-		DrawString(0, y, "　状態：RIGHT MOVE", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "RIGHT MOVE", GetColor(255, 0, 0)); break;
 	case STATE::BACK_MOVE:
-		DrawString(0, y, "　状態：BACK MOVE", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "BACK MOVE", GetColor(255, 0, 0)); break;
 	case STATE::LEFT_DASH:
-		DrawString(0, y, "　状態：LEFT DASH", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "LEFT DASH", GetColor(255, 0, 0)); break;
 	case STATE::RIGHT_DASH:
-		DrawString(0, y, "　状態：RIGHT DASH", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "RIGHT DASH", GetColor(255, 0, 0)); break;
 	case STATE::BACK_DASH:
-		DrawString(0, y, "　状態：BACK DASH", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "BACK DASH", GetColor(255, 0, 0)); break;
+	case STATE::WEAK_ATCK1:
+		DrawString(x, y, "WEAK ATTACK1", GetColor(255, 0, 0)); break;
+	case STATE::WEAK_ATCK2:
+		DrawString(x, y, "WEAK ATTACK2", GetColor(255, 0, 0)); break;
+	case STATE::WEAK_ATCK3:
+		DrawString(x, y, "WEAK ATTACK3", GetColor(255, 0, 0)); break;
+	case STATE::WEAK_ATCK4:
+		DrawString(x, y, "WEAK ATTACK4", GetColor(255, 0, 0)); break;
+	case STATE::STRG_ATCK1:
+		DrawString(x, y, "STRG ATTACK1", GetColor(255, 0, 0)); break;
+	case STATE::STRG_ATCK2:
+		DrawString(x, y, "STRG ATTACK2", GetColor(255, 0, 0)); break;
+	case STATE::STRG_ATCK3:
+		DrawString(x, y, "STRG ATTACK3", GetColor(255, 0, 0)); break;
+	case STATE::STRG_ATCK4:
+		DrawString(x, y, "STRG ATTACK4", GetColor(255, 0, 0)); break;
+	case STATE::SHOT_ATCK:
+		DrawString(x, y, "SHOT ATTACK", GetColor(255, 0, 0)); break;
 	}
-	DrawCapsule3D(_capsulePos1, _capsulePos2, 1.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
-	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.5f, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
+//	DrawCapsule3D(_capsulePos1, _capsulePos2, 1.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+//	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.5f, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
 #endif
 }
 

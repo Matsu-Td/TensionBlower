@@ -178,7 +178,7 @@ void Boss::Render()
 	MV1DrawModel(_mh);
 
 #if 1
-	int y = 450;
+	int y = 550;
 	int size = 24;
 	SetFontSize(size);
 	DrawFormatString(0, y, GetColor(255, 0, 0), "Boss:"); y += size;

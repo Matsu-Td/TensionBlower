@@ -21,6 +21,8 @@ public:
 	void JumpAction();
 	void Charging();
 	void MortionSwitch();
+	void AttackAction();
+	MATRIX MV1GetFrameRotateMatrix(int MHandle, int FrameIndex, double Xaxis, double Yaxis, double Zaxis, double modelScale);
 
 
 	/**
@@ -70,6 +72,11 @@ private:
 
 	bool _camStateMLS;
 
+	bool _shotFlag;
+
+	bool _attackFlag;
+	int _attackCnt;
+
 	// プレイヤー状態(モーション)管理
 	enum class STATE {
 		NONE,            // 無し
@@ -94,6 +101,7 @@ private:
 		SHOT_ATCK,       // 射撃攻撃
 	};
 	STATE _state; // プレイヤーの状態
+	STATE _nextAttack;
 
 	void EnergyManager(STATE oldState);
 
