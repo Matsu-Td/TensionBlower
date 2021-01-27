@@ -12,6 +12,7 @@ public:
 	void Process();
 	void Render();
 	void Damage();
+	void AttackDamage();
 
 	/**
 	* ƒ_ƒEƒ“ˆ—

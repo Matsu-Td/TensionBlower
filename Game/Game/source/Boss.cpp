@@ -8,7 +8,7 @@ Boss* Boss::_pInstance = NULL;
 Boss::Boss()
 {
 	_pInstance = this;
-	_mh = ResourceServer:: MV1LoadModel("res/model/仮データ/nasuidou.mv1");
+	_mh = MV1LoadModel("res/model/仮データ/nasuidou.mv1");
 
 	Initialize();
 }
@@ -43,7 +43,7 @@ void Boss::Initialize()
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 
-	_vPos = VGet(0.0f, 10.0f, 0.0f);
+	_vPos = VGet(0.0f, 0.0f, 0.0f);
 //	_vDir = VGet(1, 0, 1);
 	_attachIndex = 0;
 	_totalTime = 0.0f;
@@ -148,7 +148,7 @@ void Boss::Process()
 	{
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER_BULLET) {  // ステージ
+			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER_BULLET) {  
 				if (IsHitLineSegment(*(*itr), 10.0f) == true) {
 					if (_shield > 0) {
 						_hitpoint -= CHARA_DATA->_shotDmgHP;
@@ -163,6 +163,7 @@ void Boss::Process()
 					}
 				}
 			}
+			
 		}
 	}
 	
@@ -178,7 +179,7 @@ void Boss::Render()
 	MV1DrawModel(_mh);
 
 #if 1
-	int y = 550;
+	int y = 600;
 	int size = 24;
 	SetFontSize(size);
 	DrawFormatString(0, y, GetColor(255, 0, 0), "Boss:"); y += size;
@@ -202,5 +203,23 @@ void Boss::Damage() {   // MLSで弾き返された弾によるダメージ処理
 	}
 	else {             // シールドがないとき
 		_hitpoint -= 10;
+	}
+}
+
+void Boss::AttackDamage()
+{
+	int dmgHP = Player::GetInstance()->GetNowDmgHP();
+	int dmgSld = Player::GetInstance()->GetNowDmgSld();
+	int dmgNorm = Player::GetInstance()->GetNowDmgNorm();
+
+	if (_shield > 0) {  // シールドがあるとき
+		_hitpoint -= dmgHP;
+		_shield -= dmgSld;
+		if (_shield <= 0) {
+			_shield = 0;
+		}
+	}
+	else {             // シールドがないとき
+		_hitpoint -= dmgNorm;
 	}
 }

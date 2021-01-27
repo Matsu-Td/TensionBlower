@@ -92,3 +92,27 @@ bool ObjectBase::IsDot(ObjectBase& obj)
 
 	return false;
 }
+
+bool ObjectBase::IsHitArc_Sphere(ObjectBase& obj)
+{
+
+
+	float sx = obj._vPos.x - _vPos.x;
+	float sz = obj._vPos.z - _vPos.z;
+	float length = sqrt(sx * sx + sz * sz);
+
+	VECTOR dir = VNorm(_vDir);
+	VECTOR vec = VSub(obj._vPos, _vPos);
+
+	VECTOR Nor;
+	Nor.x = vec.x / length;
+	Nor.z = vec.z / length;
+	float dot = VDot(Nor, dir);
+
+	if (length < 16.0f) {
+		if (cos(45.0f / 180.0f * DX_PI_F) < dot) {
+			return true;
+		}
+	}
+	return false;
+}

@@ -157,7 +157,7 @@ void Camera::Process()
 		float sx = plPos.x - _vTarg.x;
 		float sz = plPos.z - _vTarg.z;
 		float camrad = atan2(sz, sx);
-		float length = sqrt(sx * sx + sz * sz);
+		float length = sqrt(sx * sx + sz * sz) - 0.5f;
 
 		_vPos.x = cos(camrad) * length;
 		_vPos.z = sin(camrad) * length;

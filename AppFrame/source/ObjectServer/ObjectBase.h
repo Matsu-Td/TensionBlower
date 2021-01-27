@@ -23,6 +23,7 @@ public:
 	virtual void Process();
 	virtual void Render();
 	virtual void Damage() {}
+	virtual void AttackDamage(){}
 
 	/**
      * モデルとステージの当たり判定
@@ -42,6 +43,8 @@ public:
 	virtual bool IsHitScrnPos(ObjectBase& obj);
 
 	virtual bool IsDot(ObjectBase& obj);
+
+	virtual bool IsHitArc_Sphere(ObjectBase& obj);
 	/**
 	* 課題　実践2///////////////////////////////////////////////////
 	*/
@@ -62,7 +65,7 @@ public:
 
 	VECTOR GetPos()const { return _vPos; }
 	VECTOR GetDir()const { return _vDir; }
-
+	bool _hitFlag;       // 攻撃当たり判定発生フラグ
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
 protected:
 	int _mh;           // モデルハンドル
@@ -73,6 +76,7 @@ protected:
 	float _playTime;   // アニメーション再生時間
 
 	VECTOR _vPos;      // 位置
+	VECTOR _oldPos;    // 移動処理前の位置保存
 	VECTOR _vDir;      // 向き
 	VECTOR _scrnPos;   // スクリーン座標
 	VECTOR _capsulePos1, _capsulePos2; // 当たり判定用カプセルを形成する2点の座標
@@ -83,6 +87,8 @@ protected:
 	float _angle;        // 角度(回転、向き)
 	float _mvSpd;        // 移動速度
 	float _r;            // 半径(当たり判定用)
+
+	
 
 };
 
