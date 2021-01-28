@@ -12,6 +12,7 @@ public:
 public:
 	int		_cgCursor;
 	bool _gameEndFlag;
+	int _gameTime;
 };
 
 // 他のソースでgGlobalを使えるように

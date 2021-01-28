@@ -1,5 +1,6 @@
 
 #include "ApplicationMain.h"
+#include "ApplicationGlobal.h"]
 #include "ModeGame.h"
 #include "ModeGameClear.h"
 #include "ModeResult.h"
@@ -10,6 +11,7 @@ bool ModeGameClear::Initialize()
 	if (!base::Initialize()) { return false; }
 
 	_cg = ResourceServer::LoadGraph("res/âºëfçﬁ/ÉQÅ[ÉÄÉNÉäÉA.png");
+	gGlobal._gameTime = GetNowCount() - gGlobal._gameTime;
 
 	return true;
 }

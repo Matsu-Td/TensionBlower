@@ -2,6 +2,7 @@
 #include "ModeGame.h"
 #include "ApplicationMain.h"
 #include "Player.h"
+#include "ModeGameClear.h"
 
 Boss* Boss::_pInstance = NULL;
 
@@ -62,6 +63,9 @@ void Boss::Initialize()
 	_stateDown = false;
 	_mlsDownFlag = false;
 	_downTime = 0;
+
+	_gameClearCnt = 60;
+	_gameClearFlag = false;
 }
 
 void Boss::StateDown()
@@ -103,6 +107,20 @@ void Boss::Process()
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 	
+	/**
+	* ゲームクリア処理
+	*/
+	if (_gameClearFlag) {
+		_gameClearCnt--;
+		if (_gameClearCnt == 0) {
+			ModeGameClear* modeGameClear = new ModeGameClear();
+			ModeServer::GetInstance()->Add(modeGameClear, 2, "clear");
+		}
+	}
+	if (_hitpoint <= 0) {
+		_hitpoint = 0;
+		_gameClearFlag = true;
+	}
 
 	/*for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
@@ -220,6 +238,6 @@ void Boss::AttackDamage()
 		}
 	}
 	else {             // シールドがないとき
-		_hitpoint -= dmgNorm;
+		_hitpoint -= 1000;
 	}
 }

@@ -25,7 +25,7 @@ bool ModeOption::Process()
 
 	ModeServer::GetInstance()->SkipProcessUnderLayer();
 
-	if (trg & PAD_INPUT_8) {
+	if (trg & PAD_INPUT_8 || trg & PAD_INPUT_1) {
 		// ‚±‚Ìƒ‚[ƒh‚ðíœ‚·‚é
 		ModeServer::GetInstance()->Del(this);
 	}

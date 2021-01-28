@@ -1,6 +1,7 @@
 
 #include "AppFrame.h"
 #include "ApplicationMain.h"
+#include "ApplicationGlobal.h"
 #include "ModeGame.h"
 #include <memory>
 
@@ -14,7 +15,7 @@ bool ModeGame::Initialize() {
 	_objServer.Add(new Player());
 	_objServer.Add(new Boss());
 
-	
+	gGlobal._gameTime = GetNowCount();
 	return true;
 }
 

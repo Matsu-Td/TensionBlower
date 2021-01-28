@@ -45,6 +45,8 @@ private:
 	bool _stateDown;
 	int _downTime;
 
+	int _gameClearCnt;
+	bool _gameClearFlag;
 	static constexpr int MAX_HP = 5000;
 	static constexpr int MAX_SHIELD = 1000;
 };

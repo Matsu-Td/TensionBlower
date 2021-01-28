@@ -1,8 +1,9 @@
 
 #include "ApplicationMain.h"
+#include "ApplicationGlobal.h"
 #include "ModeGame.h"
 #include "ModeGameOver.h"
-#include "ModeResult.h"
+#include "ModeTitle.h"
 
 
 bool ModeGameOver::Initialize() 
@@ -10,7 +11,7 @@ bool ModeGameOver::Initialize()
 	if (!base::Initialize()) { return false; }
 
 	_cgGameOver = ResourceServer::LoadGraph("res/仮素材/ゲームオーバー.png");
-
+	gGlobal._gameTime = GetNowCount() - gGlobal._gameTime;
 	return true;
 }
 
@@ -29,13 +30,11 @@ bool ModeGameOver::Process()
 	ModeServer::GetInstance()->SkipProcessUnderLayer();
 
 	if (trg & PAD_INPUT_2) {
-	
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 
-		ModeResult* modeResult = new ModeResult();
-		ModeServer::GetInstance()->Add(modeResult, 1, "result");
-		
+		ModeTitle* modeTitle = new ModeTitle();
+		ModeServer::GetInstance()->Add(modeTitle, 1, "title");
 	}
 
 	return true;
