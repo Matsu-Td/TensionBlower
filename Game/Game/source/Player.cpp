@@ -1,5 +1,6 @@
 
 #include "ApplicationMain.h"
+#include "ApplicationGlobal.h"
 #include "Player.h"
 #include "Camera.h"
 #include "Boss.h"
@@ -45,7 +46,7 @@ void Player::Initialize()
 	_bulletNum = MAX_BULLET;
 	_canShotFlag = true;
 	_shotInterval = 5;
-	_reloadTime = 90;
+	_reloadTime = RELOAD_TIME;
 	_shotZeroFlag = false;
 
 	//エネルギー
@@ -56,7 +57,8 @@ void Player::Initialize()
 	//ヒットポイント
 	_hitpoint = CHARA_DATA->_maxHP;
 
-	_gameOverCnt = 0;
+	_gameOverCnt = 60;
+	_gameOverFlag = false;
 
 	_camStateMLS = false;
 
@@ -267,7 +269,7 @@ void Player::AttackAction() {
 	}
 	if (_receptionTime <= 0) {
 		_receptionTime = 0;
-		_attackReloadTime = 90;
+		_attackReloadTime = RELOAD_TIME;
 		_attackFlag = false;
 	}
 
@@ -363,32 +365,32 @@ void Player::AttackAction() {
 		// 攻撃派生終了（弱攻撃4,強攻撃1～4）
 	case STATE::WEAK_ATCK4:     
 		if (_attackCnt <= 0) {
-			_attackFlag = false;                    // 近接攻撃終了
-			_attackReloadTime = ATCK_RELOAD_TIME;   // 近接攻撃リロード時間セット
+			_attackFlag = false;               // 近接攻撃終了
+			_attackReloadTime = RELOAD_TIME;   // 近接攻撃リロード時間セット
 		}
 		break;
 	case STATE::STRG_ATCK1:
 		if (_attackCnt <= 0) {
-			_attackFlag = false;                    // 近接攻撃終了
-			_attackReloadTime = ATCK_RELOAD_TIME;   // 近接攻撃リロード時間セット
+			_attackFlag = false;               // 近接攻撃終了
+			_attackReloadTime = RELOAD_TIME;   // 近接攻撃リロード時間セット
 		}
 		break;
 	case STATE::STRG_ATCK2:
 		if (_attackCnt <= 0) {
-			_attackFlag = false;                    // 近接攻撃終了
-			_attackReloadTime = ATCK_RELOAD_TIME;   // 近接攻撃リロード時間セット
+			_attackFlag = false;               // 近接攻撃終了
+			_attackReloadTime = RELOAD_TIME;   // 近接攻撃リロード時間セット
 		}
 		break;
 	case STATE::STRG_ATCK3:
 		if (_attackCnt <= 0) {
-			_attackFlag = false;                    // 近接攻撃終了
-			_attackReloadTime = ATCK_RELOAD_TIME;   // 近接攻撃リロード時間セット
+			_attackFlag = false;               // 近接攻撃終了
+			_attackReloadTime = RELOAD_TIME;   // 近接攻撃リロード時間セット
 		}
 		break;
 	case STATE::STRG_ATCK4:
 		if (_attackCnt <= 0) {
-			_attackFlag = false;                    // 近接攻撃終了
-			_attackReloadTime = ATCK_RELOAD_TIME;   // 近接攻撃リロード時間セット
+			_attackFlag = false;               // 近接攻撃終了
+			_attackReloadTime = RELOAD_TIME;   // 近接攻撃リロード時間セット
 		}
 		break;
 	}
@@ -446,11 +448,15 @@ void Player::EnergyManager(STATE oldState)
 		addEne = 1.0f;
 	}
 
+	if (_energy >= CHARA_DATA->_maxEnergy) {
+		return;
+	}
 	//　溜め(回復)
 	if (_isCharging) {
-		_atChargeCnt = AT_CHARGE_CNT;
+//		_atChargeCnt = AT_CHARGE_CNT;
 //		_energy += AT_CHARGE * 2.5 * addEne;
 		_energy += CHARA_DATA->_egAutoRec * CHARA_DATA->_egAutoXChrg * addEne;
+		gGlobal._totalGetEnergy += CHARA_DATA->_egAutoRec * CHARA_DATA->_egAutoXChrg * addEne;
 	}
 
 	// 自動回復開始のインターバル
@@ -465,6 +471,7 @@ void Player::EnergyManager(STATE oldState)
 	else if (!_isCharging){
 //		_status.energy += AT_CHARGE * addEne;
 		_energy += CHARA_DATA->_egAutoRec * addEne;
+		gGlobal._totalGetEnergy += CHARA_DATA->_egAutoRec * addEne;
 	}
 }
 
@@ -477,10 +484,6 @@ void Player::Process()
 	// 当たり判定用カプセル情報
 	_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
 	_capsulePos2 = VGet(_vPos.x, _vPos.y + 5.f, _vPos.z);
-
-	// カスリ判定用カプセル情報
-//	_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
-//	_capsulePos2 = VGet(_vPos.x, _vPos.y + 5.f, _vPos.z);
 
 	// アナログスティック対応
 	DINPUT_JOYSTATE dinput;
@@ -533,17 +536,20 @@ void Player::Process()
 	float rad = atan2(lx, ly);
 	_lfAnalogDeg = static_cast<int>(rad * 180.0f / DX_PI_F);
 
+
 	/**
 	* ゲームオーバー処理
 	*/
-	if (_gameOverCnt > 0) {
+	if (_gameOverFlag) {
 		_gameOverCnt--;
 		if (_gameOverCnt == 0) {
 			ModeGameOver* modeGameOver = new ModeGameOver();
 			ModeServer::GetInstance()->Add(modeGameOver, 2, "over");
 		}
 	}
-
+	if (_hitpoint <= 0) {   // ヒットポイント 0 でゲームオーバー
+		_gameOverFlag = true;
+	}
 
 
 	/**
@@ -591,6 +597,7 @@ void Player::Process()
 			_state = STATE::WAIT;
 
 		}
+
 		/**
         * 重力処理
         */
@@ -682,9 +689,9 @@ void Player::Process()
 		/**
 		* エネルギー溜め
 		*/
-		if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5)) {
+		if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5)&& _energy < CHARA_DATA->_maxEnergy) {
 			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
-				if (_state != STATE::FOR_DASH) {
+				if (!_isDash) {           // ダッシュしてなければ溜め可能
 //					_mvSpd = CHARGE_MV_SPD;
 					_mvSpd = CHARA_DATA->_mvSpdChrg;
 					_isCharging = true;
@@ -737,7 +744,7 @@ void Player::Process()
 					_state = STATE::SHOT_ATCK;
 					_shotFlag = true;
 					_playTime = 30.0f;
-					_reloadTime = 90;	   // リロード開始時間をセット
+					_reloadTime = RELOAD_TIME;	   // リロード開始時間をセット
 					_canShotFlag = false;
 					_bulletNum--;
 //					ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -855,14 +862,12 @@ void Player::Process()
 				if (IsHitLineSegment(*(*itr), 1.0f)) {
 					modeGame->_objServer.Del(*itr);
 					_hitpoint -= CHARA_DATA->_boss.shotDmg;
-					if (_hitpoint <= 0) {
-						_gameOverCnt = 60;
-					}
 				}
-				// カスリ判定
+				// カスリ判定(エネルギー回復)
 				if (IsHitLineSegment(*(*itr), 2.5f)) {
 //					_status.energy += 3;
 					_energy += CHARA_DATA->_egAvoid;
+					gGlobal._totalGetEnergy += CHARA_DATA->_egAvoid;
 				}
 				if (Boss::GetInstance()->_mlsDownFlag) {
 					modeGame->_objServer.Del(*itr);
@@ -885,10 +890,15 @@ void Player::Process()
 			}
 		}
 	}
+	// MLSによる弾き返しでシールド破壊した場合、[ボスの弾の数 * 指定のエネルギー量]分回復する。
 	if (Boss::GetInstance()->_mlsDownFlag) {
 		_energy += (CHARA_DATA->_egShotNum * Boss::GetInstance()->_bulletNum);
+		gGlobal._totalGetEnergy += (CHARA_DATA->_egShotNum * Boss::GetInstance()->_bulletNum);
 	}
 
+	/**
+	* モーション切替
+	*/
 	if (oldState == _state) {
 		_playTime += 1.0f;
 	}
@@ -973,6 +983,8 @@ void Player::Process()
 		}
 	}
 
+	// 残りHP保存(スコア計算用)
+	gGlobal._remainingHP = _hitpoint;
 }
 
 void Player::Render()

@@ -29,16 +29,47 @@ void Boss::ShotPattern1()
 			tmp.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
 			BossBullet* bullet = new BossBullet();
 			bullet->SetPos(tmp);
+			bullet->SetShotSpd(1.0f);
 			bullet->SetAngle(_shotAngle);
 			modeGame->_objServer.Add(bullet);
 			_shotAngle += 45.0f;
 		}
 	}
 	else {
-		_shotAngle += 2.f;
+		if (_shotPattern == 0) {
+			_shotAngle += 2.0f;
+		}
+		else {
+			_shotAngle -= 2.0f;
+		}
 	}
-
 }
+
+void Boss::ShotPattern2()
+{
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	VECTOR plPos = Player::GetInstance()->GetPos();
+	if (_shotCnt % 48 == 0) {
+		float angleSide = -10.0f;;
+		for (int i = 0; i < 3; i++) {
+			float sx = plPos.x - _vPos.x;
+			float sz = plPos.z - _vPos.z;
+			float angle = atan2(sz, sx);
+			float deg = angle * 180.0f / DX_PI_F;
+			_a = deg;
+			VECTOR tmp = { 0.0f,0.0f,0.0f };
+			tmp = _vPos;
+			tmp.y = 3.5f;
+			BossBullet* bullet = new BossBullet();
+			bullet->SetPos(tmp);
+			bullet->SetShotSpd(1.5f);
+			bullet->SetAngle(deg + angleSide);
+			modeGame->_objServer.Add(bullet);
+			angleSide += 10.0f;
+		}
+	}
+}
+
 void Boss::Initialize()
 {
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -53,6 +84,7 @@ void Boss::Initialize()
 	_attachIndex = MV1AttachAnim(_mh, 0, -1, FALSE);
 	_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
 
+	_shotPattern = 0;
 	_shotAngle = -90.0f;
 	_shotCnt = 0;
 	_mlsCnt = 0;
@@ -122,11 +154,6 @@ void Boss::Process()
 		_gameClearFlag = true;
 	}
 
-	/*for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
-			(*itr)->GetPos()
-		}
-	}*/
 //	_playTime++;
 	if (_playTime >= _totalTime) {
 		_playTime = 0.f;
@@ -146,13 +173,23 @@ void Boss::Process()
 			if (_mlsCnt % 100 == 0) {
 				_shotCnt++;
 				ShotPattern1();
+				if (_hitpoint <= 4000) {
+					ShotPattern2();
+				}
 			}
 		}
 		else {
 			_shotCnt++;
 			_mlsCnt = 0;
 			ShotPattern1();
+			if (_hitpoint <= 4000) {
+				ShotPattern2();
+			}
 		}
+	}
+
+	if (_shotCnt % 240 == 0) {
+		_shotPattern = rand() % 2;
 	}
 
 	/**
@@ -205,7 +242,9 @@ void Boss::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  HP　    = %d", _hitpoint); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ｼｰﾙﾄﾞ値 = %d", _shield);  y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  出現している弾の数 = %d", _bulletNum);  y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダウン時間 = %d", _downTime);  
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダウン時間 = %d", _downTime);   y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  ｼｮｯﾄﾊﾟﾀｰﾝ = %d", _shotPattern); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  a = %f", _a);
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 10.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
 }

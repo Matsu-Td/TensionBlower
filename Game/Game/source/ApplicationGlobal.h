@@ -13,6 +13,9 @@ public:
 	int		_cgCursor;
 	bool _gameEndFlag;
 	int _gameTime;
+	int _remainingHP;
+	int _totalGetEnergy;
+	int _totalRepelCnt;
 };
 
 // 他のソースでgGlobalを使えるように

@@ -22,5 +22,7 @@ public:
 	CharaData* _charaData;
 
 protected:
+
+	int _shadowMapHandle;
 //	std::unique_ptr<Stage> _stg;
 }; 

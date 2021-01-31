@@ -1,6 +1,8 @@
+
 #include "BossBullet.h"
 #include "Boss.h"
 #include "ApplicationMain.h"
+#include "ApplicationGlobal.h"
 #include "Stage.h"
 #include "Player.h"
 #include "Camera.h"
@@ -27,6 +29,7 @@ void BossBullet::Initialize()
 	//_vPos = { 0.0f,0.0f,0.0f };
 	_shotAngle = -90.f;
 	_setAngle = 45.f;
+	_shotSpd = 0.0f;
 	_shotCnt = 0;
 	_mlsCnt = 0;
 	_pattern = 0;
@@ -46,11 +49,11 @@ void BossBullet::Shot()
 	int camState = Camera::GetInstance()->GetCameraState();
 
 	if(camState == Camera::STATE::MLS_LOCK){
-		_mvSpd = NOR_SPD * 0.01f; // マルチロックオンシステム中は速度0.1倍
+		_mvSpd = _shotSpd * 0.01f; // マルチロックオンシステム中は速度0.1倍
 		_camStateMLS = true;
 	}
 	else {
-		_mvSpd = NOR_SPD;   // 通常時の弾の速度
+		_mvSpd = _shotSpd;   // 通常時の弾の速度
 		_camStateMLS = false;
 	}
 	
@@ -100,7 +103,8 @@ void BossBullet::Process()
 				if (_canLockFlag) {
 					if (trg & PAD_INPUT_2) {
 						_bulletDir = -1.0f;   // 弾がはじき返される
-						_repelFlag = true;
+						_repelFlag = true;    // 弾き返されたのでフラグを立てる
+						gGlobal._totalRepelCnt++;    // 弾き返し回数カウント(スコア計算用)
 					}
 				}
 			}

@@ -1,6 +1,6 @@
 
 #include "ApplicationMain.h"
-#include "ApplicationGlobal.h"]
+#include "ApplicationGlobal.h"
 #include "ModeGame.h"
 #include "ModeGameClear.h"
 #include "ModeResult.h"

@@ -13,4 +13,6 @@ public:
 protected:
 
 	int _cg;
+	int _ui[4];
+	int _menuPos;
 };

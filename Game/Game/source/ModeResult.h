@@ -12,5 +12,5 @@ public:
 
 protected:
 	int _cg;
-	int _clearTime;
+	int _score;
 };

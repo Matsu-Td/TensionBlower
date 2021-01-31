@@ -11,11 +11,21 @@ bool ModeGame::Initialize() {
 	//SetBackgroundColor(0, 255, 255);
 	_charaData = new CharaData("res/json/", "CharaData");
 
+	// オブジェクトサーバーに登録
 	_objServer.Add(new Stage());
 	_objServer.Add(new Player());
 	_objServer.Add(new Boss());
 
+	// グローバル変数初期化(リザルト画面、スコア計算用)
 	gGlobal._gameTime = GetNowCount();
+	gGlobal._remainingHP = 0;
+	gGlobal._totalRepelCnt = 0;
+	gGlobal._totalGetEnergy = 0;
+
+	_shadowMapHandle = MakeShadowMap(2028, 2028);
+	SetLightDirection(VGet(0.0f, -0.5f, 0.0f));
+	SetShadowMapLightDirection(_shadowMapHandle, VGet(0.0f, -0.5f, 0.0f));
+	SetShadowMapDrawArea(_shadowMapHandle, VGet(-124.0f, -1.0f, -124.0f), VGet(124.0f, 250.0f, 124.0f));
 	return true;
 }
 
@@ -52,7 +62,14 @@ bool ModeGame::Render() {
 	SetWriteZBuffer3D(TRUE);
 	SetUseBackCulling(TRUE);
 
+	ShadowMap_DrawSetup(_shadowMapHandle);
+	
 	_objServer.Render();
+	ShadowMap_DrawEnd();
+	
+	SetUseShadowMap(0, _shadowMapHandle);
+	_objServer.Render();
+	SetUseShadowMap(0, -1);
 	_cam.Render();
 
 	return true;

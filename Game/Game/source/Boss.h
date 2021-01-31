@@ -23,6 +23,7 @@ public:
 	* 弾幕パターン1処理
 	*/
 	void ShotPattern1();
+	void ShotPattern2();
 
 	static Boss* GetInstance() { return _pInstance; }
 //	VECTOR GetPos() const { return _vPos; }
@@ -38,10 +39,11 @@ private:
 	int _mlsCnt;
 	float _shotAngle;
 	float shotInterval;
+	int _shotPattern;
 
 	int _hitpoint;
 	int _shield;
-	
+	float _a;    // デバッグ確認用
 	bool _stateDown;
 	int _downTime;
 

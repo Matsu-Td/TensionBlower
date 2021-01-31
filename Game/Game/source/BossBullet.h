@@ -14,15 +14,11 @@ public:
 	void Shot();
 
 	void SetAngle(float shotAngle) { _shotAngle = shotAngle; }
-/* 
-	static BossBullet* GetInstance() { return _pInstance; }
-	VECTOR GetPos() const { return _vPos; }
-	VECTOR GetScrnPos() const { return _scrnPos; }
+	void SetShotSpd(float shotSpd) { _shotSpd = shotSpd; }
 
-	static BossBullet* _pInstance;
-*/
 private:
 	int _cg[2];
+	float _shotSpd;
 	int _shotCnt;
 	int _mlsCnt;
 	int _pattern;

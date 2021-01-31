@@ -91,6 +91,7 @@ private:
 	float _bsAngle;      // ボスの位置、角度
 	int _lfAnalogDeg;    // 左アナログスティックの倒した方向(角度)
 	int _gameOverCnt;    // プレイヤー死亡からゲームオーバーまでの時間
+	bool _gameOverFlag;
 	bool _camStateMLS;   // マルチロックオンシステム発動中か
 
 	// プレイヤー状態(モーション)管理
@@ -121,20 +122,11 @@ private:
 	void EnergyManager(STATE oldState);
 
 	static constexpr float GRAVITY = 0.9f;       // 重力
-//	static constexpr float NOR_MV_SPD = 0.8f;    // 通常速度
-//	static constexpr float DASH_MV_SPD = 1.2f;   // ダッシュ速度
-//	static constexpr float CHARGE_MV_SPD = 0.2f; // 溜め行動中の速度
 	static constexpr int SHORT_DASH_CNT = 10;    // 短押しダッシュ時間
-
-//	static constexpr int MAX_HP = 1000;          // 最大ヒットポイント量
-//	static constexpr int MAX_ENERGY = 6000;      // 最大エネルギー量
 	static constexpr int MAX_BULLET = 100;       // 最大装弾数
-//	static constexpr int JUMP_ENERGY = 1200;     // ジャンプのエネルギー消費量
-//	static constexpr int DASH_ENERGY = 600;      // 短押しダッシュ時のエネルギー消費量
-//	static constexpr int AT_CHARGE = 2;          // 1fあたりエネルギー自動回復量
 	static constexpr int AT_CHARGE_CNT = 120;    // 自動回復開始カウント
 	static constexpr int RECEPTION_TIME = 30;    // 次近接攻撃受付時間
-	static constexpr int ATCK_RELOAD_TIME = 90;  // 近接攻撃リロード時間
+	static constexpr int RELOAD_TIME = 90;  // 近接・射撃攻撃リロード時間
 
 	// デバッグ用
 	float _len;          // デバッグ用（プレイヤーとボスの距離）
@@ -146,3 +138,12 @@ float acc = 0.05f;
 _inVel -= acc;
 _vPos.y += _inVel;
 */
+
+//	static constexpr float NOR_MV_SPD = 0.8f;    // 通常速度
+//	static constexpr float DASH_MV_SPD = 1.2f;   // ダッシュ速度
+//	static constexpr float CHARGE_MV_SPD = 0.2f; // 溜め行動中の速度
+//	static constexpr int MAX_HP = 1000;          // 最大ヒットポイント量
+//	static constexpr int MAX_ENERGY = 6000;      // 最大エネルギー量
+//	static constexpr int JUMP_ENERGY = 1200;     // ジャンプのエネルギー消費量
+//	static constexpr int DASH_ENERGY = 600;      // 短押しダッシュ時のエネルギー消費量
+//	static constexpr int AT_CHARGE = 2;          // 1fあたりエネルギー自動回復量
