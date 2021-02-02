@@ -5,11 +5,11 @@
 #include "Player.h"
 #include "Boss.h"
 #include "ModeOption.h"
-#include "BulletServer.h"
 #include "CharaData.h"
+#include "BossBullet.h"
+#include "PlayerBullet.h"
 
-class ModeGame : public ModeBase
-{
+class ModeGame : public ModeBase{
 	typedef ModeBase base;
 public:
 	virtual bool Initialize();
@@ -24,5 +24,7 @@ public:
 protected:
 
 	int _shadowMapHandle;
+
+
 //	std::unique_ptr<Stage> _stg;
 }; 

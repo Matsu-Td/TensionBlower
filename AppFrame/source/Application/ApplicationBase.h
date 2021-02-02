@@ -6,8 +6,7 @@
 #include "../Mode//ModeServer.h"
 #include "EffekseerForDXLib.h"
 
-class ApplicationBase
-{
+class ApplicationBase{
 public:
 	ApplicationBase();
 	virtual ~ApplicationBase();

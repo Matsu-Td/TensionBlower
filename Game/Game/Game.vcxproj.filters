@@ -69,12 +69,6 @@
     <ClCompile Include="source\ModeOption.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
-    <ClCompile Include="source\BulletServer.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="source\BulletBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\ModeGameOver.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
@@ -136,12 +130,6 @@
     </ClInclude>
     <ClInclude Include="source\ModeOption.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BulletServer.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BulletBase.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\ModeGameOver.h">
       <Filter>ヘッダー ファイル\Mode</Filter>

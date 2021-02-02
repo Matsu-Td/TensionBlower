@@ -11,21 +11,18 @@
 
 Player* Player::_pInstance = NULL;
 
-Player::Player()
-{
+Player::Player(){
 	_pInstance = this;
 	_mh = MV1LoadModel("res/model/仮データ/TB_player_mm01.mv1");
 	Initialize();
 }
 
 
-Player::~Player()
-{
+Player::~Player(){
 }
 
 
-void Player::Initialize()
-{
+void Player::Initialize(){
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	_vPos = VGet(0.0f, 0.0f, -115.0f);
@@ -85,8 +82,8 @@ void Player::Initialize()
 }
 
 
-void Player::JumpAction() 
-{
+void Player::JumpAction() {
+
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -158,8 +155,7 @@ MATRIX Player::MV1GetFrameRotateMatrix(int MHandle, int FrameIndex, double Xaxis
 }
 */
 
-void Player::LeftAnalogDeg(float length)
-{
+void Player::LeftAnalogDeg(float length){
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	if (_isCanJump) {
@@ -201,8 +197,7 @@ void Player::LeftAnalogDeg(float length)
 	}
 }
 
-void Player::SetAttackDamage()
-{
+void Player::SetAttackDamage(){
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	switch (_state) {
@@ -397,8 +392,8 @@ void Player::AttackAction() {
 }
 
 
-void Player::EnergyManager(STATE oldState)
-{
+void Player::EnergyManager(STATE oldState){
+
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	float addEne;
@@ -475,8 +470,8 @@ void Player::EnergyManager(STATE oldState)
 	}
 }
 
-void Player::Process()
-{
+void Player::Process(){
+
 	// キーの取得
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
@@ -749,9 +744,11 @@ void Player::Process()
 					_bulletNum--;
 //					ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 					PlayerBullet* bullet = new PlayerBullet();
+					float angle = atan2(_vDir.z, _vDir.x);
 					VECTOR tmp = _vPos;
 					tmp.y = _vPos.y + 5.5f;
 					bullet->SetPos(tmp);
+					bullet->SetShotAngle(angle);
 					modeGame->_objServer.Add(bullet);  // 弾発生、射撃開始
 				}
 				else {
@@ -990,8 +987,7 @@ void Player::Process()
 	gGlobal._remainingHP = _hitpoint;
 }
 
-void Player::Render()
-{
+void Player::Render(){
     MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
 	MV1SetScale(_mh, VGet(0.1f, 0.1f, 0.1f));
 	{
@@ -1006,7 +1002,7 @@ void Player::Render()
 #if 1
 //	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 //	VECTOR pl = modeGame->_pl->GetPos();
-	float angle = atan2(_vDir.x * -1, _vDir.z * -1);
+	float angle = atan2(_vDir.z ,_vDir.x);
 	float deg = angle * 180.f / DX_PI_F;
 	int x = 100;
 	int y = 140;

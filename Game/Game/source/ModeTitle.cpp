@@ -51,32 +51,31 @@ bool ModeTitle::Process() {
 		_menuPos--;
 	}
 	if (trg & PAD_INPUT_B)	{
-
-		if (_menuPos == 0) {
+		switch (_menuPos) {
+		case 0:
 			// ‚±‚Ìƒ‚[ƒh‚ğíœ—\–ñ
 			ModeServer::GetInstance()->Del(this);
 			// Ÿ‚Ìƒ‚[ƒh‚ğ“o˜^
 			ModeServer::GetInstance()->Add(new ModePlugin(), 1, "plugin");
-		}
-		if (_menuPos == 1) {
+		break;
+		case 1:
 			ModeServer::GetInstance()->Del(this);
 			ModeServer::GetInstance()->Add(new ModeTutorial(), 1, "tutorial");
-		}
-		if (_menuPos == 2) {
+			break;
+		case 2:
 			ModeServer::GetInstance()->Del(this);
 			ModeServer::GetInstance()->Add(new ModeRanking(), 1, "ranking");
-		}
-//		if (_menuPos == 3) {
-		//	ModeServer::GetInstance()->Del(this);
+			break;
+		case 3:
+//      	ModeServer::GetInstance()->Del(this);
 //			ModeServer::GetInstance()->Add(new ModeOption(), 2, "option");
-//		}
-		if (_menuPos == 3) {
 			ModeServer::GetInstance()->Del(this);
 			ModeServer::GetInstance()->Add(new ModeCredit(), 1, "credit");
-		}
-		if (_menuPos == 4) {
-			ModeServer::GetInstance()->Del(this);
-			ApplicationBase::GetInstance()->Terminate();
+			break;
+		case 4:
+//			ModeServer::GetInstance()->Del(this);
+//  		ApplicationBase::GetInstance()->Terminate();
+			break;
 		}
 	}
 

@@ -22,10 +22,10 @@ bool ModeGame::Initialize() {
 	gGlobal._totalRepelCnt = 0;
 	gGlobal._totalGetEnergy = 0;
 
-	_shadowMapHandle = MakeShadowMap(2028, 2028);
+//	_shadowMapHandle = MakeShadowMap(2028, 2028);
 	SetLightDirection(VGet(0.0f, -0.5f, 0.0f));
-	SetShadowMapLightDirection(_shadowMapHandle, VGet(0.0f, -0.5f, 0.0f));
-	SetShadowMapDrawArea(_shadowMapHandle, VGet(-124.0f, -1.0f, -124.0f), VGet(124.0f, 250.0f, 124.0f));
+//	SetShadowMapLightDirection(_shadowMapHandle, VGet(0.0f, -0.5f, 0.0f));
+//	SetShadowMapDrawArea(_shadowMapHandle, VGet(-124.0f, -1.0f, -124.0f), VGet(124.0f, 250.0f, 124.0f));
 	return true;
 }
 
@@ -44,8 +44,10 @@ bool ModeGame::Process() {
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
 		_cam.Process();
-
 		_objServer.Process();
+
+		// Effekseerにより再生中のエフェクトを更新する。
+		UpdateEffekseer3D();
 
 	if (trg & PAD_INPUT_8) {
 		ModeOption* modeOption = new ModeOption();
@@ -57,20 +59,24 @@ bool ModeGame::Process() {
 
 bool ModeGame::Render() {
 	base::Render();
-
+	
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
 	SetUseBackCulling(TRUE);
 
-	ShadowMap_DrawSetup(_shadowMapHandle);
+//	ShadowMap_DrawSetup(_shadowMapHandle);
+	
 	
 	_objServer.Render();
-	ShadowMap_DrawEnd();
-	
-	SetUseShadowMap(0, _shadowMapHandle);
-	_objServer.Render();
-	SetUseShadowMap(0, -1);
+//	ShadowMap_DrawEnd();
+
+//	SetUseShadowMap(0, _shadowMapHandle);
+//	_objServer.Render();
+//	SetUseShadowMap(0, -1);
 	_cam.Render();
+
+	Effekseer_Sync3DSetting();
+	DrawEffekseer3D();
 
 	return true;
 }
