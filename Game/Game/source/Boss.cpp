@@ -6,20 +6,128 @@
 
 Boss* Boss::_pInstance = NULL;
 
-Boss::Boss()
-{
+Boss::Boss(){
+
 	_pInstance = this;
 	_mh = MV1LoadModel("res/model/仮データ/nasuidou.mv1");
 
 	Initialize();
 }
 
-Boss::~Boss()
-{
+Boss::~Boss(){
+
 }
 
-void Boss::ShotPattern1() 
-{
+void Boss::Initialize() {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
+	_vPos = VGet(0.0f, 0.0f, 0.0f);
+	//	_vDir = VGet(1, 0, 1);
+	_attachIndex = 0;
+	_totalTime = 0.0f;
+
+	_playTime = 0.0f;
+	_attachIndex = MV1AttachAnim(_mh, 0, -1, FALSE);
+	_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
+
+	_shotPattern = 1;
+	_shotAngle = -90.0f;
+	_shotAngle1 = -90.0f;
+	_shotCnt = 0;
+	_mlsCnt = 0;
+	_reverseCnt = 60;
+	_setRotAngle = 2.0f;
+
+	_hitpoint = CHARA_DATA->_boss.maxHP;
+	_shield = CHARA_DATA->_boss.maxShield;
+	_bulletNum = 0;
+	_stateDown = false;
+	_mlsDownFlag = false;
+	_downTime = 0;
+
+	_gameClearCnt = 60;
+	_gameClearFlag = false;
+}
+
+void Boss::ShotPatternSwitch() {
+
+	_shotCnt++;
+	if (_shotCnt % 240 == 0) {
+		_shotPattern = rand() % 3 + 1;
+	}
+
+	switch (_phase) {
+	case 0:
+		if(_shotPattern <= 2){
+			ShotPattern1and2();
+		}
+		else {
+			ShotPattern3();
+		}
+		break;
+	case 1:
+		if (_shotPattern == 1) {
+			ShotPattern3();
+			ShotPattern6();
+		}
+		if (_shotPattern == 2) {
+			ShotPattern4_1();
+			ShotPattern4_2();
+		}
+		if (_shotPattern == 3) {
+			ShotPattern3();
+			ShotPattern6();
+		}
+		break;
+	case 2:
+		if (_shotPattern == 1) {
+			ShotPattern3();
+			ShotPattern6();
+		}
+		if (_shotPattern == 2) {
+			ShotPattern4_1();
+			ShotPattern4_2();
+		}
+		if (_shotPattern == 3) {
+			ShotPattern3();
+			ShotPattern6();
+		}
+		break;
+	case 3:
+		if (_shotPattern == 1) {
+			ShotPattern3();
+			ShotPattern6();
+		}
+		if (_shotPattern == 2) {
+			ShotPattern4_1();
+			ShotPattern4_2();
+		}
+		if (_shotPattern == 3) {
+			ShotPattern3();
+			ShotPattern6();
+		}
+		break;
+	case 4:
+		if (_shotPattern == 1) {
+			ShotPattern3();
+			ShotPattern6();
+		}
+		if (_shotPattern == 2) {
+			ShotPattern4_1();
+			ShotPattern4_2();
+		}
+		if (_shotPattern == 3) {
+			ShotPattern3();
+			ShotPattern6();
+		}
+		break;
+	}
+}
+
+void Boss::ShotPattern1and2() {
+
+	
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	if (_shotCnt % 17 == 0 && _shotCnt != 1) {  
 		for (int i = 0; i < 8; i++) {
@@ -36,21 +144,98 @@ void Boss::ShotPattern1()
 		}
 	}
 	else {
-		if (_shotPattern == 0) {
+		if (_shotPattern == 1) {
 			_shotAngle += 2.0f;
 		}
-		else {
+		else if (_shotPattern == 2) {
 			_shotAngle -= 2.0f;
 		}
 	}
 }
 
-void Boss::ShotPattern2()
-{
+void Boss::ShotPattern3() {
+
+	_reverseCnt--;
+	if (_reverseCnt <= 0) {
+		_reverseCnt = 60;
+		_setRotAngle *= -1.0;
+	}
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	if (_shotCnt % 17 == 0) {
+		for (int i = 0; i < 8; i++) {
+			VECTOR tmp = { 0.0f,0.0f,0.0f };
+			tmp.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
+			tmp.y = 3.5f;
+			tmp.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
+			BossBullet* bullet = new BossBullet();
+			bullet->SetPos(tmp);
+			bullet->SetShotSpd(1.0f);
+			bullet->SetAngle(_shotAngle);
+			modeGame->_objServer.Add(bullet);
+			_shotAngle += 45.0f;
+		}
+		_shotAngle += _setRotAngle;
+	}
+	else {
+		
+	}
+}
+
+void Boss::ShotPattern4_1() {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	if (_shotCnt % 25 == 0) {
+		for (int i = 0; i < 8; i++) {
+			VECTOR tmp = { 0.0f,0.0f,0.0f };
+			tmp.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
+			tmp.y = 2.5f;
+			tmp.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
+			BossBullet* bullet = new BossBullet();
+			bullet->SetPos(tmp);
+			bullet->SetShotSpd(1.0f);
+			bullet->SetAngle(_shotAngle);
+			modeGame->_objServer.Add(bullet);
+			_shotAngle += 45.0f;
+		}
+	}
+	else {
+		_shotAngle += 2.0f;
+	}
+}
+
+void Boss::ShotPattern4_2() {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	if (_shotCnt % 25 == 0) {
+		for (int i = 0; i < 8; i++) {
+			VECTOR tmp = { 0.0f,0.0f,0.0f };
+			tmp.x = _vPos.x + cos(_shotAngle1 / 180.0f * DX_PI_F) * 10.0f;
+			tmp.y = 5.0f;
+			tmp.z = _vPos.z + sin(_shotAngle1 / 180.0f * DX_PI_F) * 10.0f;
+			BossBullet* bullet = new BossBullet();
+			bullet->SetPos(tmp);
+			bullet->SetShotSpd(1.0f);
+			bullet->SetAngle(_shotAngle1);
+			modeGame->_objServer.Add(bullet);
+			_shotAngle1 += 45.0f;
+		}
+	}
+	else {
+		_shotAngle1 -= 2.0f;
+	}
+}
+
+void Boss::ShotPattern5() {
+
+}
+
+void Boss::ShotPattern6(){
+
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	VECTOR plPos = Player::GetInstance()->GetPos();
 	if (_shotCnt % 48 == 0) {
-		float angleSide = -10.0f;;
+		float angleSide = -10.0f;
 		for (int i = 0; i < 3; i++) {
 			float sx = plPos.x - _vPos.x;
 			float sz = plPos.z - _vPos.z;
@@ -70,38 +255,31 @@ void Boss::ShotPattern2()
 	}
 }
 
-void Boss::Initialize()
-{
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+void Boss::FhaseChange() {
 
-
-	_vPos = VGet(0.0f, 0.0f, 0.0f);
-//	_vDir = VGet(1, 0, 1);
-	_attachIndex = 0;
-	_totalTime = 0.0f;
-
-	_playTime = 0.0f;
-	_attachIndex = MV1AttachAnim(_mh, 0, -1, FALSE);
-	_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
-
-	_shotPattern = 0;
-	_shotAngle = -90.0f;
-	_shotCnt = 0;
-	_mlsCnt = 0;
-
-	_hitpoint = CHARA_DATA->_boss.maxHP;
-	_shield = CHARA_DATA->_boss.maxShield;
-	_bulletNum = 0;
-	_stateDown = false;
-	_mlsDownFlag = false;
-	_downTime = 0;
-
-	_gameClearCnt = 60;
-	_gameClearFlag = false;
+	if (_hitpoint <= 1000) {
+		_phase = 4;
+		return;
+	}
+	if (_hitpoint <= 2000) {
+		_phase = 3;
+		return;
+	}
+	if (_hitpoint <= 3000) {
+		_phase = 2;
+		return;
+	}
+	if (_hitpoint <= 4000) {
+		_phase = 1;
+		return;
+	}
+	_phase = 0;
 }
 
-void Boss::StateDown()
-{
+
+
+void Boss::StateDown(){
+
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	if (_stateDown) {
@@ -134,11 +312,8 @@ void Boss::StateDown()
 
 }
 
-void Boss::Process()
-{
-	int key = ApplicationMain::GetInstance()->GetKey();
-	int trg = ApplicationMain::GetInstance()->GetTrg();
-	
+void Boss::Process(){
+
 	/**
 	* ゲームクリア処理
 	*/
@@ -164,6 +339,15 @@ void Boss::Process()
 	_capsulePos1 = _vPos;
 	_capsulePos2 = _vPos;
 
+//	if (_shotCnt % 240 == 0) {
+//		_shotPattern = rand() % 2;
+//	}
+	
+	/**
+	* フェーズ切替
+	*/
+	FhaseChange();
+
 	/**
 	* 弾幕攻撃処理
 	*/
@@ -171,25 +355,25 @@ void Boss::Process()
 		if (camState == Camera::STATE::MLS_LOCK) {  // マルチロックシステム発動中は弾の発射速度を遅くする
 			_mlsCnt++;
 			if (_mlsCnt % 100 == 0) {
-				_shotCnt++;
-				ShotPattern1();
-				if (_hitpoint <= 4000) {
-					ShotPattern2();
-				}
+	
+//				ShotPattern1();
+//				ShotPattern3();
+//				if (_hitpoint <= 4000) {
+//					ShotPattern6();
+				ShotPatternSwitch();
+//				}
 			}
 		}
 		else {
-			_shotCnt++;
+			
 			_mlsCnt = 0;
-			ShotPattern1();
-			if (_hitpoint <= 4000) {
-				ShotPattern2();
-			}
+//			ShotPattern1();
+//			ShotPattern3();
+//			if (_hitpoint <= 4000) {
+///				ShotPattern6();
+//			}
+			ShotPatternSwitch();
 		}
-	}
-
-	if (_shotCnt % 240 == 0) {
-		_shotPattern = rand() % 2;
 	}
 
 	/**
@@ -224,8 +408,8 @@ void Boss::Process()
 	
 }
 
-void Boss::Render()
-{
+void Boss::Render(){
+
 	MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
 	MV1SetScale(_mh, VGet(5.0f, 5.0f, 5.0f));
 	MV1SetPosition(_mh, _vPos);
@@ -244,7 +428,8 @@ void Boss::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  出現している弾の数 = %d", _bulletNum);  y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダウン時間 = %d", _downTime);   y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ｼｮｯﾄﾊﾟﾀｰﾝ = %d", _shotPattern); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  a = %f", _a);
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  フェーズ = %d", _phase); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  フェーズ = %f", _setRotAngle);
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 10.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
 }
@@ -263,8 +448,8 @@ void Boss::Damage() {   // MLSで弾き返された弾によるダメージ処理
 	}
 }
 
-void Boss::AttackDamage()
-{
+void Boss::AttackDamage(){
+
 	int dmgHP = Player::GetInstance()->GetNowDmgHP();
 	int dmgSld = Player::GetInstance()->GetNowDmgSld();
 	int dmgNorm = Player::GetInstance()->GetNowDmgNorm();

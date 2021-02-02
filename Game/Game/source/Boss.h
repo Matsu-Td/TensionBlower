@@ -14,16 +14,24 @@ public:
 	void Damage();
 	void AttackDamage();
 
+	void FhaseChange();
+	void ShotPatternSwitch();
+
 	/**
 	* ダウン処理
 	*/
 	void StateDown();
 
 	/**
-	* 弾幕パターン1処理
+	* 弾幕パターン処理
 	*/
-	void ShotPattern1();
-	void ShotPattern2();
+	void ShotPattern1and2();
+//	void ShotPattern2();
+	void ShotPattern3();
+	void ShotPattern4_1();
+	void ShotPattern4_2();
+	void ShotPattern5();
+	void ShotPattern6();
 
 	static Boss* GetInstance() { return _pInstance; }
 //	VECTOR GetPos() const { return _vPos; }
@@ -37,9 +45,13 @@ public:
 private:
 	int _shotCnt;
 	int _mlsCnt;
+	int _reverseCnt;
 	float _shotAngle;
+	float _shotAngle1;
+	float _setRotAngle;
 	float shotInterval;
 	int _shotPattern;
+	int _phase;
 
 	int _hitpoint;
 	int _shield;
