@@ -841,7 +841,7 @@ void Player::Process()
 		}
 	}
 
-	
+
 	/**
 	* 当たり判定
 	*/
@@ -851,11 +851,14 @@ void Player::Process()
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {  // ステージ
 				if (IsHitStage(*(*itr), 2.0f) == true) {
 					VECTOR slideVec;
-					slideVec = VCross(vec, (*itr)->_hitPolyDim.Dim->Normal);
+					slideVec = VCross(_vDir, (*itr)->_hitPolyDim.Dim->Normal);
 					slideVec = VCross((*itr)->_hitPolyDim.Dim->Normal, slideVec);
 					_vPos = VAdd(_oldPos, slideVec);
-					_vPos = VAdd(_vPos, VScale((*itr)->_hitPolyDim.Dim->Normal, 0.05f));
+					_vPos = VAdd(_vPos, VScale((*itr)->_hitPolyDim.Dim->Normal, 0.5f));
+					//					_vPos = VAdd(_vPos, (*itr)->_hitPolyDim.Dim->Normal);
 				}
+				
+
 			}
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) { // ボスの弾
 				// 着弾
@@ -1019,7 +1022,7 @@ void Player::Render()
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  左ST角度 = %d", _lfAnalogDeg); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  HP     = %d", _hitpoint); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  energy = %d, ON(1) / OFF(0) = %d (BACKキーで切替)", _energy, _swCharge); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  装弾数 = %d", _bulletNum); y += size;
+
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ボスとの距離 = %4.2f", _len); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  攻撃カウント = %d", _attackCnt); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  攻撃受付時間 = %d", _receptionTime); y += size;
@@ -1068,6 +1071,8 @@ void Player::Render()
 	case STATE::SHOT_ATCK:
 		DrawString(x, y, "SHOT ATTACK", GetColor(255, 0, 0)); break;
 	}
+
+	DrawFormatString(0, 900, GetColor(255, 0, 0), "  装弾数 = %d / 100", _bulletNum); 
 //	DrawCapsule3D(_capsulePos1, _capsulePos2, 1.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 //	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.5f, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
 #endif

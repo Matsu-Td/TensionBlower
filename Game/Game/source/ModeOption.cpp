@@ -53,7 +53,9 @@ bool ModeOption::Process()
 			ModeServer::GetInstance()->Add(modeTitle, 1, "title");
 		}
 	}
-
+	if (trg & PAD_INPUT_8) {
+		ModeServer::GetInstance()->Del(this);
+	}
 	return true;
 }
 
