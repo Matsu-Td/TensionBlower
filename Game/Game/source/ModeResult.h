@@ -1,4 +1,11 @@
 
+/**
+ * @file  ModeResult.h
+ * @brief リザルト画面
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 
 class ModeResult : public ModeBase
@@ -11,6 +18,6 @@ public:
 	virtual bool Render();
 
 protected:
-	int _cg;
-	int _score;
+	int _cg;     // 画像
+	int _score;  // スコア値
 };

@@ -8,16 +8,7 @@
 
 #include "../appframe.h"
 
-// メモリリーク検出用
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
 
-#ifdef _DEBUG
-#define NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-#else
-#define NEW new
-#endif
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) 
 {
@@ -33,6 +24,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 1フレームループを組む ----------------------------------------------------------
 	while (ProcessMessage() == 0)		// プログラムが終了するまでループ
 	{
+		if (appBase->GetInstance()->GameEndFlag() == true) {
+			break;
+		}
 		appBase->Input();
 		appBase->Process();
 

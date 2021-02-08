@@ -9,12 +9,12 @@ bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 
 	//SetBackgroundColor(0, 255, 255);
-	_charaData = new CharaData("res/json/", "CharaData");
+	_charaData = std::make_unique<CharaData>("res/json/", "CharaData");
 
 	// オブジェクトサーバーに登録
-	_objServer.Add(new Stage());
-	_objServer.Add(new Player());
-	_objServer.Add(new Boss());
+	_objServer.Add(NEW Stage());
+	_objServer.Add(NEW Player());
+	_objServer.Add(NEW Boss());
 
 	// グローバル変数初期化(リザルト画面、スコア計算用)
 	gGlobal._gameTime = GetNowCount();
@@ -32,8 +32,7 @@ bool ModeGame::Initialize() {
 bool ModeGame::Terminate() {
 	base::Terminate();
 
-	delete _charaData;
-	_objServer.Clear();
+	_objServer.Clear(); 
 
 	return true;
 }
@@ -50,7 +49,7 @@ bool ModeGame::Process() {
 		UpdateEffekseer3D();
 
 	if (trg & PAD_INPUT_8) {
-		ModeOption* modeOption = new ModeOption();
+		ModeOption* modeOption = NEW ModeOption();
 		ModeServer::GetInstance()->Add(modeOption, 99, "option");
 	}
 

@@ -1,4 +1,11 @@
 
+/**
+* @file  ModeGameClear.cpp
+* @brief ƒQ[ƒ€ƒNƒŠƒA‰æ–Ê
+* 
+* @data 2021-01-21
+*/
+
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"
 #include "ModeGame.h"

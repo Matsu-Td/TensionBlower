@@ -25,12 +25,15 @@ public:
 	virtual int GetKey() { return _gKey; }
 	virtual int GetTrg() { return _gTrg; }
 
+	bool GameEndFlag() { return _gameEnd; }
+	void GameEnd() { _gameEnd = true; }
 
 protected:
 	static	ApplicationBase	*_pInstance;
 
-	int		_gKey, _gTrg;
+	int	_gKey, _gTrg;
 
 	ModeServer* _serverMode;
 
+	bool _gameEnd = false;
 };

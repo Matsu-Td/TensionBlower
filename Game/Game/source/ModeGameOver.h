@@ -1,3 +1,11 @@
+
+/**
+ * @file  ModeGameOver.h
+ * @brief ゲームオーバー画面
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 
 class ModeGameOver : public ModeBase
@@ -10,5 +18,5 @@ public:
 	virtual bool Render();
 
 protected:
-	int	_cgGameOver;	// ゲームオーバー画像
+	int	_cg;	// 画像
 };

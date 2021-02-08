@@ -25,11 +25,11 @@ bool ModePlugin::Process() {
 
 	if (trg & PAD_INPUT_B) {
 		ModeServer::GetInstance()->Del(this);
-		ModeServer::GetInstance()->Add(new ModeGame(), 1, "game");
+		ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "game");
 	}
 	if (trg & PAD_INPUT_A) {
 		ModeServer::GetInstance()->Del(this);
-		ModeServer::GetInstance()->Add(new ModeTitle(), 1, "title");
+		ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 	}
 
 	return true;

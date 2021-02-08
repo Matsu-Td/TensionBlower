@@ -1,4 +1,11 @@
 
+/**
+ * @file  ModeGame.h
+ * @brief ÉQÅ[ÉÄñ{ëÃ
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 #include "Camera.h"
 #include "Stage.h"
@@ -19,7 +26,7 @@ public:
 
 	Camera _cam;
 	ObjectServer _objServer;
-	CharaData* _charaData;
+	std::unique_ptr<CharaData> _charaData;
 
 protected:
 

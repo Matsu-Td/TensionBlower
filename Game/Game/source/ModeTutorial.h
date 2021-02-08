@@ -1,4 +1,11 @@
 
+/**
+ * @file  ModeGameOver.h
+ * @brief チュートリアル画面
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 
 class ModeTutorial : public ModeBase
@@ -11,6 +18,6 @@ public:
 	virtual bool Render();
 
 protected:
-	int _cg;
+	int _cg;   // 画像
 };
 

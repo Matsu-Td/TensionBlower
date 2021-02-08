@@ -109,7 +109,7 @@ bool ObjectBase::IsHitArc_Sphere(ObjectBase& obj)
 	Nor.z = vec.z / length;
 	float dot = VDot(Nor, dir);
 
-	if (length < 16.0f) {
+	if (length < 22.0f) {
 		if (cos(45.0f / 180.0f * DX_PI_F) < dot) {
 			return true;
 		}

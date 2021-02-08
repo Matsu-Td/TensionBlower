@@ -10,8 +10,8 @@ bool ModeGameOver::Initialize()
 {
 	if (!base::Initialize()) { return false; }
 
-	_cgGameOver = ResourceServer::LoadGraph("res/仮素材/ゲームオーバー.png");
-	gGlobal._gameTime = GetNowCount() - gGlobal._gameTime;
+	_cg = ResourceServer::LoadGraph("res/仮素材/ゲームオーバー.png");
+
 	return true;
 }
 
@@ -44,7 +44,7 @@ bool ModeGameOver::Render()
 {
 	base::Render();
 
-	DrawGraph(0, 0, _cgGameOver, FALSE);
+	DrawGraph(0, 0, _cg, FALSE);
 
 	return true;
 }

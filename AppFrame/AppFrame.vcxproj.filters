@@ -16,9 +16,6 @@
     <Filter Include="Vector3D">
       <UniqueIdentifier>{b8148e18-5eec-4e94-9053-e9cc9c6dfad1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Json">
-      <UniqueIdentifier>{4103bd2f-a53d-4464-8af1-b9f88b1fc24b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ObjectServer">
       <UniqueIdentifier>{caea1e15-5290-43f7-a9d4-0737a9f205e9}</UniqueIdentifier>
     </Filter>
@@ -44,9 +41,6 @@
     </ClCompile>
     <ClCompile Include="source\Vector3D\Vector3D.cpp">
       <Filter>Vector3D</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Json\JsonBase.cpp">
-      <Filter>Json</Filter>
     </ClCompile>
     <ClCompile Include="source\ObjectServer\ObjectBase.cpp">
       <Filter>ObjectServer</Filter>
@@ -77,9 +71,6 @@
     </ClInclude>
     <ClInclude Include="source\Vector3D\Vector3D.h">
       <Filter>Vector3D</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Json\JsonBase.h">
-      <Filter>Json</Filter>
     </ClInclude>
     <ClInclude Include="source\ObjectServer\ObjectBase.h">
       <Filter>ObjectServer</Filter>

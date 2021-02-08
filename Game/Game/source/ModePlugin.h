@@ -1,4 +1,11 @@
 
+/**
+ * @file  ModePlugin.h
+ * @brief ƒvƒ‰ƒOƒCƒ“‰æ–Ê
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 
 class ModePlugin : public ModeBase
@@ -11,5 +18,5 @@ public:
 	virtual bool Render();
 
 protected:
-	int _cg;
+	int _cg;   // ‰æ‘œ
 };

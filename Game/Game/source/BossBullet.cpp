@@ -46,7 +46,7 @@ void BossBullet::Shot()
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	int camState = Camera::GetInstance()->GetCameraState();
+	int camState = Camera::GetInstance()->GetCameraState();  // カメラの状態を取得
 
 	if(camState == Camera::STATE::MLS_LOCK){
 		_mvSpd = _shotSpd * 0.01f; // マルチロックオンシステム中は速度0.1倍
@@ -81,20 +81,13 @@ void BossBullet::Process()
 	_capsulePos1 = _vPos;
 	_capsulePos2 = _vPos;
 
-/*	if (length < 35.0f && length > 5.0f && _camStateMLS) {
-		_canLockFlag = true;
-	}
-	else {
-		_canLockFlag = false;
-	}*/
-
 	/**
 	* 当たり判定
 	*/
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {   // ステージ
-			if (IsHitStage(*(*itr), 1.0f) == true) {
+			if (IsHitStage(*(*itr), 0.8f) == true) {
 				modeGame->_objServer.Del(this);
 			}
 		}
@@ -125,7 +118,6 @@ void BossBullet::Process()
 				_canLockFlag = false;
 			}
 		}
-
 	}
 }
 

@@ -49,7 +49,7 @@ bool ModeOption::Process()
 			ModeServer::GetInstance()->Del(this);
 			ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 
-			ModeTitle* modeTitle = new ModeTitle();
+			ModeTitle* modeTitle = NEW ModeTitle();
 			ModeServer::GetInstance()->Add(modeTitle, 1, "title");
 		}
 	}

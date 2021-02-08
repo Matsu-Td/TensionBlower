@@ -478,7 +478,7 @@ void Player::Process(){
 
 	// 当たり判定用カプセル情報
 	_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
-	_capsulePos2 = VGet(_vPos.x, _vPos.y + 5.f, _vPos.z);
+	_capsulePos2 = VGet(_vPos.x, _vPos.y + 7.0f, _vPos.z);
 
 	// アナログスティック対応
 	DINPUT_JOYSTATE dinput;
@@ -859,7 +859,7 @@ void Player::Process(){
 			}
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) { // ボスの弾
 				// 着弾
-				if (IsHitLineSegment(*(*itr), 1.0f)) {
+				if (IsHitLineSegment(*(*itr), 1.5f)) {
 					modeGame->_objServer.Del(*itr);
 					_hitpoint -= CHARA_DATA->_boss.shotDmg;
 				}

@@ -56,25 +56,23 @@ bool ModeTitle::Process() {
 			// ‚±‚Ìƒ‚[ƒh‚ğíœ—\–ñ
 			ModeServer::GetInstance()->Del(this);
 			// Ÿ‚Ìƒ‚[ƒh‚ğ“o˜^
-			ModeServer::GetInstance()->Add(new ModePlugin(), 1, "plugin");
+			ModeServer::GetInstance()->Add(NEW ModePlugin(), 1, "plugin");
 		break;
 		case 1:
 			ModeServer::GetInstance()->Del(this);
-			ModeServer::GetInstance()->Add(new ModeTutorial(), 1, "tutorial");
+			ModeServer::GetInstance()->Add(NEW ModeTutorial(), 1, "tutorial");
 			break;
 		case 2:
 			ModeServer::GetInstance()->Del(this);
-			ModeServer::GetInstance()->Add(new ModeRanking(), 1, "ranking");
+			ModeServer::GetInstance()->Add(NEW ModeRanking(), 1, "ranking");
 			break;
 		case 3:
-//      	ModeServer::GetInstance()->Del(this);
-//			ModeServer::GetInstance()->Add(new ModeOption(), 2, "option");
 			ModeServer::GetInstance()->Del(this);
-			ModeServer::GetInstance()->Add(new ModeCredit(), 1, "credit");
+			ModeServer::GetInstance()->Add(NEW ModeCredit(), 1, "credit");
 			break;
 		case 4:
-//			ModeServer::GetInstance()->Del(this);
-//  		ApplicationBase::GetInstance()->Terminate();
+			ModeServer::GetInstance()->Del(this);
+  		    ApplicationBase::GetInstance()->GameEnd();
 			break;
 		}
 	}

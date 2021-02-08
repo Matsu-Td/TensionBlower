@@ -56,7 +56,7 @@ void Camera::Process()
 	rx = static_cast<float>(dinput.Rx);
 	ry = static_cast<float>(dinput.Ry);
 
-	float camDis = 25.f;
+	float camDis = 25.0f;
 
 #if 1   // 0:開発用(カメラ自由)、1:本番用
 

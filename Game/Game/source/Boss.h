@@ -34,7 +34,6 @@ public:
 	void ShotPattern6();
 
 	static Boss* GetInstance() { return _pInstance; }
-//	VECTOR GetPos() const { return _vPos; }
 
 	static Boss* _pInstance;
 
@@ -52,6 +51,8 @@ private:
 	float shotInterval;
 	int _shotPattern;
 	int _phase;
+	float _height;
+	float _upDown;
 
 	int _hitpoint;
 	int _shield;

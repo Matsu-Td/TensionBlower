@@ -34,7 +34,7 @@ void PlayerBullet::Process(){
 
 
 	DeleteEffekseerEffect(_effectResourceHandle);
-	DeleteEffekseerEffect(_playingEffectHandle);
+//	DeleteEffekseerEffect(_playingEffectHandle);
 
 
 	float vx, vz;

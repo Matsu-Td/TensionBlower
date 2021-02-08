@@ -10,7 +10,6 @@ public:
 	bool Init();
 
 public:
-	int		_cgCursor;
 	bool _gameEndFlag;
 	int _gameTime;
 	int _remainingHP;

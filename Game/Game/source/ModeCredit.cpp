@@ -25,7 +25,7 @@ bool ModeCredit::Process() {
 
 	if (trg & PAD_INPUT_A) {
 		ModeServer::GetInstance()->Del(this);
-		ModeServer::GetInstance()->Add(new ModeTitle(), 1, "title");
+		ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 	}
 
 	return true;

@@ -1,4 +1,11 @@
 
+/**
+ * @file  ModeTitle.h
+ * @brief タイトル画面
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 
 #include <string>
@@ -14,9 +21,9 @@ public:
 
 protected:
 	int _cgtitle;
-	std::unordered_map <std::string,int> _cg;
+	std::unordered_map <std::string,int> _cg;  // UI画像
 
-	int _menuPos;
+	int _menuPos;  // メニュー選択
 
 	enum MENU {
 		START,

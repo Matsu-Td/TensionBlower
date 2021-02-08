@@ -37,7 +37,9 @@ void Boss::Initialize() {
 	_shotCnt = 0;
 	_mlsCnt = 0;
 	_reverseCnt = 60;
-	_setRotAngle = 2.0f;
+	_setRotAngle = 1.0f;
+	_upDown = 2.0f;
+	_height = 0.0f;
 
 	_hitpoint = CHARA_DATA->_boss.maxHP;
 	_shield = CHARA_DATA->_boss.maxShield;
@@ -76,8 +78,7 @@ void Boss::ShotPatternSwitch() {
 			ShotPattern4_2();
 		}
 		if (_shotPattern == 3) {
-			ShotPattern3();
-			ShotPattern6();
+     		ShotPattern5();
 		}
 		break;
 	case 2:
@@ -88,9 +89,10 @@ void Boss::ShotPatternSwitch() {
 		if (_shotPattern == 2) {
 			ShotPattern4_1();
 			ShotPattern4_2();
+			ShotPattern6();
 		}
 		if (_shotPattern == 3) {
-			ShotPattern3();
+			ShotPattern5();
 			ShotPattern6();
 		}
 		break;
@@ -102,9 +104,10 @@ void Boss::ShotPatternSwitch() {
 		if (_shotPattern == 2) {
 			ShotPattern4_1();
 			ShotPattern4_2();
+			ShotPattern6();
 		}
 		if (_shotPattern == 3) {
-			ShotPattern3();
+			ShotPattern5();
 			ShotPattern6();
 		}
 		break;
@@ -116,9 +119,10 @@ void Boss::ShotPatternSwitch() {
 		if (_shotPattern == 2) {
 			ShotPattern4_1();
 			ShotPattern4_2();
+			ShotPattern6();
 		}
 		if (_shotPattern == 3) {
-			ShotPattern3();
+			ShotPattern5();
 			ShotPattern6();
 		}
 		break;
@@ -135,7 +139,7 @@ void Boss::ShotPattern1and2() {
 			tmp.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
 			tmp.y = 3.5f;
 			tmp.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
-			BossBullet* bullet = new BossBullet();
+			BossBullet* bullet = NEW BossBullet();
 			bullet->SetPos(tmp);
 			bullet->SetShotSpd(1.0f);
 			bullet->SetAngle(_shotAngle);
@@ -157,43 +161,43 @@ void Boss::ShotPattern3() {
 
 	_reverseCnt--;
 	if (_reverseCnt <= 0) {
-		_reverseCnt = 60;
-		_setRotAngle *= -1.0;
+		_reverseCnt = 90;
+		_setRotAngle *= -1.0f;
 	}
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	if (_shotCnt % 17 == 0) {
+	if (_shotCnt % 9 == 0) {
 		for (int i = 0; i < 8; i++) {
 			VECTOR tmp = { 0.0f,0.0f,0.0f };
 			tmp.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
 			tmp.y = 3.5f;
 			tmp.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
-			BossBullet* bullet = new BossBullet();
+			BossBullet* bullet = NEW BossBullet();
 			bullet->SetPos(tmp);
-			bullet->SetShotSpd(1.0f);
+			bullet->SetShotSpd(1.3f);
 			bullet->SetAngle(_shotAngle);
 			modeGame->_objServer.Add(bullet);
 			_shotAngle += 45.0f;
 		}
-		_shotAngle += _setRotAngle;
+		
 	}
 	else {
-		
+		_shotAngle += _setRotAngle;
 	}
 }
 
 void Boss::ShotPattern4_1() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	if (_shotCnt % 25 == 0) {
+	if (_shotCnt % 26 == 0) {
 		for (int i = 0; i < 8; i++) {
 			VECTOR tmp = { 0.0f,0.0f,0.0f };
 			tmp.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
 			tmp.y = 2.5f;
 			tmp.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
-			BossBullet* bullet = new BossBullet();
+			BossBullet* bullet = NEW BossBullet();
 			bullet->SetPos(tmp);
-			bullet->SetShotSpd(1.0f);
+			bullet->SetShotSpd(1.2f);
 			bullet->SetAngle(_shotAngle);
 			modeGame->_objServer.Add(bullet);
 			_shotAngle += 45.0f;
@@ -207,15 +211,15 @@ void Boss::ShotPattern4_1() {
 void Boss::ShotPattern4_2() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	if (_shotCnt % 25 == 0) {
+	if (_shotCnt % 26 == 13) {
 		for (int i = 0; i < 8; i++) {
 			VECTOR tmp = { 0.0f,0.0f,0.0f };
 			tmp.x = _vPos.x + cos(_shotAngle1 / 180.0f * DX_PI_F) * 10.0f;
 			tmp.y = 5.0f;
 			tmp.z = _vPos.z + sin(_shotAngle1 / 180.0f * DX_PI_F) * 10.0f;
-			BossBullet* bullet = new BossBullet();
+			BossBullet* bullet = NEW BossBullet();
 			bullet->SetPos(tmp);
-			bullet->SetShotSpd(1.0f);
+			bullet->SetShotSpd(1.2f);
 			bullet->SetAngle(_shotAngle1);
 			modeGame->_objServer.Add(bullet);
 			_shotAngle1 += 45.0f;
@@ -228,6 +232,41 @@ void Boss::ShotPattern4_2() {
 
 void Boss::ShotPattern5() {
 
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	VECTOR plPos = Player::GetInstance()->GetPos();
+	if (_shotCnt % 8 == 0) {
+		float angleSide = -30.0f;
+		float height =_height;
+		for (int i = 0; i < 7; i++) {
+			float sx = plPos.x - _vPos.x;
+			float sz = plPos.z - _vPos.z;
+			float rad = atan2(sz, sx);
+			float deg = rad * 180.0f / DX_PI_F;
+			VECTOR tmp = { 0.0f,0.0f,0.0f };
+			tmp = _vPos;
+			tmp.y = abs(height) + 1.0f;         // 地上から高さ1mより上
+			BossBullet* bullet = NEW BossBullet();
+			bullet->SetPos(tmp);                // 発生位置セット
+			bullet->SetShotSpd(1.0f);           // 弾速セット
+			bullet->SetAngle(deg + angleSide);  // 発射する角度セット
+			modeGame->_objServer.Add(bullet);
+			angleSide += 10.0f;                 // 発射角度を10°ずつずらす
+			if (_height <= -12.0f) {
+				height += _upDown;
+			}
+			else {
+				height -= _upDown;
+			}		
+			if (abs(height) >= 12) {
+				height += abs(height) - 12.0f;
+				height *= -1.0f;
+			}	
+		}
+		_height += 3.0f;
+		if (abs(_height) >= 11.0f) {
+			_height *= -1.0f;
+		}
+	}
 }
 
 void Boss::ShotPattern6(){
@@ -239,13 +278,12 @@ void Boss::ShotPattern6(){
 		for (int i = 0; i < 3; i++) {
 			float sx = plPos.x - _vPos.x;
 			float sz = plPos.z - _vPos.z;
-			float angle = atan2(sz, sx);
-			float deg = angle * 180.0f / DX_PI_F;
-			_a = deg;
+			float rad = atan2(sz, sx);
+			float deg = rad * 180.0f / DX_PI_F;
 			VECTOR tmp = { 0.0f,0.0f,0.0f };
 			tmp = _vPos;
 			tmp.y = 3.5f;
-			BossBullet* bullet = new BossBullet();
+			BossBullet* bullet = NEW BossBullet();
 			bullet->SetPos(tmp);
 			bullet->SetShotSpd(1.5f);
 			bullet->SetAngle(deg + angleSide);
@@ -429,7 +467,7 @@ void Boss::Render(){
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダウン時間 = %d", _downTime);   y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ｼｮｯﾄﾊﾟﾀｰﾝ = %d", _shotPattern); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  フェーズ = %d", _phase); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  フェーズ = %f", _setRotAngle);
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  テスト = %f", _a);
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 10.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
 }
