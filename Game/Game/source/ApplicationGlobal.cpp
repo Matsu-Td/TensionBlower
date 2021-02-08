@@ -1,4 +1,11 @@
 
+/**
+ * @file  ApplicationGlobal.cpp
+ * @brief グローバル変数定義
+ *
+ * @date 2021-02-08
+ */
+
 #include "AppFrame.h"
 #include "ApplicationGlobal.h"
 

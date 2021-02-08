@@ -1,4 +1,11 @@
 
+/**
+ * @file  ModeResult.cpp
+ * @brief ƒŠƒUƒ‹ƒg‰æ–Ê
+ *
+ * @date 2021-02-08
+ */
+
 #include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"

@@ -12,8 +12,4 @@ public:
 	void Terminate();
 	void Process();
 	void Render();
-
-	static Stage* GetInstance() { return _pInstance; }
-	static Stage* _pInstance;
-
 };

@@ -1,4 +1,11 @@
 
+/**
+ * @file  ModeCredit.cpp
+ * @brief クレジット画面
+ *
+ * @date 2021-02-08
+ */
+
 #include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ModeTitle.h"

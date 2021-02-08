@@ -1,4 +1,11 @@
 
+/**
+ * @file  ModeTitle.cpp
+ * @brief ƒ^ƒCƒgƒ‹‰æ–Ê
+ *
+ * @date 2021-02-08
+ */
+
 #include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"
@@ -9,6 +16,9 @@
 #include "ModeTutorial.h"
 #include "ModeRanking.h"
 
+/**
+* ‰Šú‰»
+*/
 bool ModeTitle::Initialize() {
 	if (!base::Initialize()) { return false; }
 

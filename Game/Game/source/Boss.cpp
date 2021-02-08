@@ -1,3 +1,11 @@
+
+/**
+ * @file  Boss.cpp
+ * @brief ƒ{ƒXŠÖ˜Aˆ—
+ *
+ * @date 2021-02-08
+ */
+
 #include "Boss.h"
 #include "ModeGame.h"
 #include "ApplicationMain.h"

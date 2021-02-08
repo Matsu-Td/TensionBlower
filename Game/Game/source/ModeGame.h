@@ -18,6 +18,7 @@
 
 class ModeGame : public ModeBase{
 	typedef ModeBase base;
+
 public:
 	virtual bool Initialize();
 	virtual bool Terminate();

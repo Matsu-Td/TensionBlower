@@ -1,12 +1,18 @@
 #pragma once
+
+/**
+ * @file  CharaData.h
+ * @brief キャラデータ(プレイヤー、ボス)JSONファイル読み込み処理
+ * 
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 
 class CharaData{
 public:
 	CharaData(std::string filePath, std::string fileName);
 	~CharaData();
-
-	// キャラクターのステータス等の値をJSONファイルから読み込む
 
 	/**
 	* プレイヤーデータ

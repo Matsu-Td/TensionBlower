@@ -1,32 +1,33 @@
+
+/**
+ * @file  Stage.cpp
+ * @brief ステージ
+ *
+ * @date 2021-02-08
+ */
+
 #include "Stage.h"
 #include "ApplicationMain.h"
 
-Stage* Stage::_pInstance = NULL;
 
-Stage::Stage()
-{
-	_pInstance = this;
+Stage::Stage(){
 	_mh = ResourceServer:: MV1LoadModel("res/model/仮データ/stage_dummy02.mv1");
 	MV1SetupCollInfo(_mh, -1, 8, 8, 8);
 }
 
-Stage::~Stage()
-{
+Stage::~Stage(){
 
 }
 
-void Stage::Initialize()
-{
+void Stage::Initialize(){
 
 }
 
-void Stage::Process()
-{
+void Stage::Process(){
 
 }
 
-void Stage::Render()
-{
+void Stage::Render(){
 #ifdef _DEBUG
 	{
 		float linelength = 1000.f;

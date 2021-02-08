@@ -1,4 +1,11 @@
 
+/**
+ * @file  CharaData.cpp
+ * @brief キャラデータ読み込み
+ *
+ * @date 2021-02-08
+ */
+
 #define	_CRT_SECURE_NO_WARNINGS
 #include "picojson/picojson.h"
 #include "CharaData.h"
@@ -33,7 +40,7 @@ std::string CharaData::StringFileLoad(std::string fileName)
 	p[size] = '\0';
 
 	// 読み込んだデータをstringにする
-	std::string s = (char*)p;
+	std::string s = static_cast<char*>(p);
 
 	delete[] p;
 

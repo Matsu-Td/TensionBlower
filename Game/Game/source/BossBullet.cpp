@@ -1,4 +1,12 @@
 
+/**
+ * @file  BossBullet.cpp
+ * @brief ƒ{ƒX‚Ì’e–‹ˆ—
+ *
+ * @date 2021-02-08
+ */
+
+
 #include "BossBullet.h"
 #include "Boss.h"
 #include "ApplicationMain.h"

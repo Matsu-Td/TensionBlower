@@ -10,9 +10,9 @@
 
 #include <string>
 
-class ModeTitle : public ModeBase
-{
+class ModeTitle : public ModeBase{
 	typedef ModeBase base;
+
 public:
 	virtual bool Initialize();
 	virtual bool Terminate();

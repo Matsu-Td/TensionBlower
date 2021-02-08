@@ -1,4 +1,12 @@
 
+/**
+ * @file  PlayerBullet.cpp
+ * @brief プレイヤー射撃用の弾移動処理
+ *
+ * @date 2021-02-08
+ */
+
+
 #include "appframe.h"
 #include "PlayerBullet.h"
 #include "ApplicationMain.h"

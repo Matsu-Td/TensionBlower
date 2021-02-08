@@ -1,4 +1,11 @@
 
+/**
+ * @file  ModePlugin.cpp
+ * @brief ƒvƒ‰ƒOƒCƒ“‰æ–Ê
+ *
+ * @date 2021-02-08
+ */
+
 #include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ModeTitle.h"

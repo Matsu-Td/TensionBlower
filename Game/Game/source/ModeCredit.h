@@ -8,9 +8,9 @@
 
 #include "appframe.h"
 
-class ModeCredit : public ModeBase
-{
+class ModeCredit : public ModeBase{
 	typedef ModeBase base;
+
 public:
 	virtual bool Initialize();
 	virtual bool Terminate();

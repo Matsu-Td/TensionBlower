@@ -1,11 +1,18 @@
 #pragma once
+
+/**
+ * @file  Player.h
+ * @brief プレイヤー関連処理
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 #include "PlayerBullet.h"
 #include "BulletServer.h"
 #define  CHARA_DATA (modeGame->_charaData)
 
-class Player : public ObjectBase
-{
+class Player : public ObjectBase{
 public:
 	Player();
 	~Player();
@@ -33,26 +40,24 @@ public:
 	*/
 	void LeftAnalogDeg(float length);
 
-	static Player* GetInstance() { return _pInstance; }
 
 	int GetEnergy() { return _energy; }
 	int GetNowDmgHP() const { return _nowDmgHP; }
 	int GetNowDmgSld() const { return _nowDmgSld; }
 	int GetNowDmgNorm() const { return _nowDmgNorm; }
 
+	static Player* GetInstance() { return _pInstance; }
 	static Player* _pInstance;
 
-	static constexpr float GROUND_Y = 0.f;  // 地上のY座標
+	static constexpr float GROUND_Y = 0.0f;  // 地上のY座標
 
 private:
 	// ステータス関連
 	int _hitpoint;       // ヒットポイント値
 	int _energy;         // エネルギー値
-	int _nowDmgHP;        // 現在の近接攻撃の種類(ボスへのダメージ用)
+	int _nowDmgHP;       // 現在の近接攻撃の種類(ボスへのダメージ用)
 	int _nowDmgSld;
 	int _nowDmgNorm;
-	int _wkAtck[4];
-	int _stAtck[4];
 	int _bulletNum;      // 弾の残弾数
 
 	// ジャンプ関連
@@ -74,7 +79,6 @@ private:
 
 	// エネルギー溜め行動関連
 	bool _isCharging;    // 溜め中か(true:溜め中, false:溜め未実施)
-	bool _swCharge;      // デバッグ用(エネルギー消費ON/OFF切替)
 	bool _atChargeFlag;  // エネルギー自動回復開始フラグ
 	int _atChargeCnt;    // エネルギー自動回復開始インターバル
 
@@ -84,6 +88,7 @@ private:
 	int _attackReloadTime; // 近接攻撃用リロード時間(リロード中は近接攻撃不可)
 	int _receptionTime;    // 次の近接攻撃遷移受付時間
 	int _canHitFlag;       // 近接攻撃当たり判定可否(true:可能, false:不可)
+
 	std::unordered_map<std::string, int> _attackTotalTime;  // 各攻撃モーションの総再生時間を格納する
 
 	// その他
@@ -121,29 +126,14 @@ private:
 
 	void EnergyManager(STATE oldState);
 
-	static constexpr float GRAVITY = 0.9f;       // 重力
+	static constexpr float GRAVITY = 0.9f;       // 重力加速度値
 	static constexpr int SHORT_DASH_CNT = 10;    // 短押しダッシュ時間
 	static constexpr int MAX_BULLET = 100;       // 最大装弾数
 	static constexpr int AT_CHARGE_CNT = 120;    // 自動回復開始カウント
 	static constexpr int RECEPTION_TIME = 30;    // 次近接攻撃受付時間
-	static constexpr int RELOAD_TIME = 90;  // 近接・射撃攻撃リロード時間
+	static constexpr int RELOAD_TIME = 90;       // 近接・射撃攻撃リロード時間
 
 	// デバッグ用
 	float _len;          // デバッグ用（プレイヤーとボスの距離）
+	bool _swCharge;      // デバッグ用(エネルギー消費ON/OFF切替)
 };
-
-/*
-// ジャンプ1
-float acc = 0.05f;
-_inVel -= acc;
-_vPos.y += _inVel;
-*/
-
-//	static constexpr float NOR_MV_SPD = 0.8f;    // 通常速度
-//	static constexpr float DASH_MV_SPD = 1.2f;   // ダッシュ速度
-//	static constexpr float CHARGE_MV_SPD = 0.2f; // 溜め行動中の速度
-//	static constexpr int MAX_HP = 1000;          // 最大ヒットポイント量
-//	static constexpr int MAX_ENERGY = 6000;      // 最大エネルギー量
-//	static constexpr int JUMP_ENERGY = 1200;     // ジャンプのエネルギー消費量
-//	static constexpr int DASH_ENERGY = 600;      // 短押しダッシュ時のエネルギー消費量
-//	static constexpr int AT_CHARGE = 2;          // 1fあたりエネルギー自動回復量

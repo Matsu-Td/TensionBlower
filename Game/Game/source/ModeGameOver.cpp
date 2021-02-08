@@ -1,4 +1,11 @@
 
+/**
+ * @file  ModeGameOver.cpp
+ * @brief ゲームオーバー画面
+ *
+ * @date 2021-02-08
+ */
+
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"
 #include "ModeGame.h"

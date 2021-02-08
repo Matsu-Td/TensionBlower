@@ -3,7 +3,7 @@
 * @file  ModeGameClear.cpp
 * @brief ƒQ[ƒ€ƒNƒŠƒA‰æ–Ê
 * 
-* @data 2021-01-21
+* @data 2021-02-08
 */
 
 #include "ApplicationMain.h"

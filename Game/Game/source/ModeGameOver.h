@@ -8,9 +8,9 @@
 
 #include "appframe.h"
 
-class ModeGameOver : public ModeBase
-{
+class ModeGameOver : public ModeBase{
 	typedef ModeBase base;
+
 public:
 	virtual bool Initialize();
 	virtual bool Terminate();

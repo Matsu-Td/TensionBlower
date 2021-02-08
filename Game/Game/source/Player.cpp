@@ -1,4 +1,12 @@
 
+/**
+ * @file  Player.cpp
+ * @brief プレイヤー関連処理
+ *
+ * @date 2021-02-08
+ */
+
+
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"
 #include "Player.h"

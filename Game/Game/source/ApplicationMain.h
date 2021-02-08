@@ -1,10 +1,17 @@
 
+/**
+ * @file  ApplicationMain.h
+ * @brief アプリケーションメイン
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 
+class ApplicationMain : public ApplicationBase{
 
-class ApplicationMain : public ApplicationBase
-{
 	typedef ApplicationBase base;
+
 public:
 	virtual bool Initialize(HINSTANCE hInstance);
 	virtual bool Terminate();

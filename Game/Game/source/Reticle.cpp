@@ -1,4 +1,12 @@
 
+/**
+ * @file  Reticle.cpp
+ * @brief ƒŒƒ`ƒNƒ‹ˆ—
+ *
+ * @date 2021-02-08
+ */
+
+
 #include "Reticle.h"
 #include "ApplicationMain.h"
 #include "Camera.h"

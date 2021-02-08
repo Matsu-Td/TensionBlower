@@ -1,11 +1,18 @@
 #pragma once
+
+/**
+ * @file  Camera.h
+ * @brief カメラ関連処理
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 
 #define	DEG2RAD(x)			( ((x) / 180.0f ) * DX_PI_F )
 #define	RAD2DEG(x)			( ((x) * 180.0f ) / DX_PI_F )
 
-class Camera
-{
+class Camera{
 public:
 	Camera();
 	~Camera();
@@ -24,7 +31,7 @@ public:
 		MLS_LOCK,    // マルチロックシステム発動状態(FPS視点)
 		_EOF_,
 	};
-
+	STATE _state;    // カメラ状態
 	STATE GetCameraState() { return _state; }
 
 	static Camera* _pInstance;
@@ -37,23 +44,13 @@ private:
 	float _angleV;
 	int _cg;
 
-	STATE _state;    // カメラ状態
 	STATE _oldState;
-
-	struct RETICLE { // 構造体：マルチロックオンシステム
-		int x, y;
-		int spd;
-		int cg;
-	};
 
 	struct LOCK_ON { // 構造体：ロックオン状態
 		int x, y;
 		int cg;
 	};
-
-	RETICLE _reticle; // マルチロックオンシステム照準
 	LOCK_ON _lockOn;
 
 	int _cnt;
-
 };

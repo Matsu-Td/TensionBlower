@@ -1,4 +1,12 @@
 
+/**
+ * @file  ApplicationMain.cpp
+ * @brief アプリケーションメイン
+ *
+ * @date 2021-02-08
+ */
+
+
 #include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"

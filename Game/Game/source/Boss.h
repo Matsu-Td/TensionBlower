@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file  Boss.h
+ * @brief ボス関連処理
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 #include "BossBullet.h"
 #define  CHARA_DATA (modeGame->_charaData)
@@ -7,13 +15,15 @@ class Boss : public ObjectBase{
 public:
 	Boss();
 	~Boss();
+
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS; }
+
 	void Initialize();
 	void Process();
 	void Render();
 	void Damage();
-	void AttackDamage();
 
+	void AttackDamage();
 	void FhaseChange();
 	void ShotPatternSwitch();
 
@@ -57,11 +67,9 @@ private:
 	int _hitpoint;
 	int _shield;
 	float _a;    // デバッグ確認用
-	bool _stateDown;
-	int _downTime;
+	bool _stateDown;     // ダウン状態
+	int _downTime;       // ダウン時間
 
-	int _gameClearCnt;
-	bool _gameClearFlag;
-	static constexpr int MAX_HP = 5000;
-	static constexpr int MAX_SHIELD = 1000;
+	int _gameClearCnt;      // クリアカウント
+	bool _gameClearFlag;    // クリアフラグ
 };

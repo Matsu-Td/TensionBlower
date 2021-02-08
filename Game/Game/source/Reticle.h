@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file  Reticle.h
+ * @brief ƒŒƒ`ƒNƒ‹ˆ—
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 
 class Reticle : public ObjectBase{
@@ -11,7 +19,4 @@ public:
 	void Initialize();
 	void Process();
 	void Render();
-
-protected:
-
 };

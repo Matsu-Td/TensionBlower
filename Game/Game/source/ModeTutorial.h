@@ -8,9 +8,9 @@
 
 #include "appframe.h"
 
-class ModeTutorial : public ModeBase
-{
+class ModeTutorial : public ModeBase{
 	typedef ModeBase base;
+
 public:
 	virtual bool Initialize();
 	virtual bool Terminate();
