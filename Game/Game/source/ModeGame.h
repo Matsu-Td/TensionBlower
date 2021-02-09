@@ -13,8 +13,6 @@
 #include "Boss.h"
 #include "ModeOption.h"
 #include "CharaData.h"
-#include "BossBullet.h"
-#include "PlayerBullet.h"
 
 class ModeGame : public ModeBase{
 	typedef ModeBase base;
@@ -27,7 +25,8 @@ public:
 
 	Camera _cam;
 	ObjectServer _objServer;
-	std::unique_ptr<CharaData> _charaData;
+
+	std::unique_ptr<CharaData> _charaData; // JSONファイルからキャラデータ読み込み
 
 protected:
 

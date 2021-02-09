@@ -167,7 +167,6 @@
     <ClCompile Include="source\ObjectServer\ObjectBase.cpp" />
     <ClCompile Include="source\ObjectServer\ObjectServer.cpp" />
     <ClCompile Include="source\ResourceServer\ResourceServer.cpp" />
-    <ClCompile Include="source\Vector3D\Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\appframe.h" />
@@ -179,7 +178,6 @@
     <ClInclude Include="source\ObjectServer\ObjectBase.h" />
     <ClInclude Include="source\ObjectServer\ObjectServer.h" />
     <ClInclude Include="source\ResourceServer\ResourceServer.h" />
-    <ClInclude Include="source\Vector3D\Vector3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

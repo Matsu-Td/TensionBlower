@@ -15,7 +15,6 @@ Camera* Camera::_pInstance = NULL;
 
 Camera::Camera(){
 	_pInstance = this;
-//	_reticle.cg = ResourceServer::LoadGraph("res/ui/mls_reticle.png");
 	_lockOn.cg = ResourceServer::LoadGraph("res/ui/lockon.png");
 	Initialize();
 }

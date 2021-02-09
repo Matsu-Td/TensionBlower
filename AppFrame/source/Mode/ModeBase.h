@@ -5,8 +5,7 @@
 class ModeServer;
 
 
-class ModeBase
-{
+class ModeBase{
 public:
 	ModeBase();
 	virtual ~ModeBase();

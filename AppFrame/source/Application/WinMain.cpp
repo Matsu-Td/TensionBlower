@@ -9,7 +9,6 @@
 #include "../appframe.h"
 
 
-
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) 
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -21,20 +20,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;
 	}
 	
-	// 1フレームループを組む ----------------------------------------------------------
-	while (ProcessMessage() == 0)		// プログラムが終了するまでループ
+	while (ProcessMessage() == 0)
 	{
-		if (appBase->GetInstance()->GameEndFlag() == true) {
-			break;
-		}
+
 		appBase->Input();
 		appBase->Process();
 
-		ClearDrawScreen();		// 画面を初期化する
+		ClearDrawScreen();	
 		appBase->Render();
-		ScreenFlip();			// 裏画面の内容を表画面に反映させる
-	}
+		ScreenFlip();	
 
+		if (appBase->GetInstance()->GameEndFlag() == true) {
+
+			break;
+		}
+	}
+	ResourceServer::Release();
 	appBase->Terminate();
 
 	return 0;

@@ -3,112 +3,132 @@
  * @file  ModeTitle.cpp
  * @brief タイトル画面
  *
- * @date 2021-02-08
+ * @date 2021-02-09
  */
 
 #include "AppFrame.h"
 #include "ApplicationMain.h"
-#include "ApplicationGlobal.h"
 #include "ModeTitle.h"
 #include "ModePlugin.h"
 #include "ModeCredit.h"
-#include "ModeOption.h"
 #include "ModeTutorial.h"
 #include "ModeRanking.h"
 
 /**
-* 初期化
-*/
+ * 初期化
+ */
 bool ModeTitle::Initialize() {
 	if (!base::Initialize()) { return false; }
 
 	_cgtitle            = ResourceServer::LoadGraph("res/logo_title.png");
-	_cg["on_start"]     = ResourceServer::LoadGraph("res/ui/on/title_on_1.png");
-	_cg["on_tutorial"]  = ResourceServer::LoadGraph("res/ui/on/title_on_2.png");
-	_cg["on_ranking"]   = ResourceServer::LoadGraph("res/ui/on/title_on_3.png");
-//	_cg["on_option"]    = ResourceServer::LoadGraph("res/ui/on/title_on_4.png");
-	_cg["on_credit"]    = ResourceServer::LoadGraph("res/ui/on/title_on_5.png");
-	_cg["on_end"]       = ResourceServer::LoadGraph("res/ui/on/title_on_6.png");
-	_cg["off_start"]    = ResourceServer::LoadGraph("res/ui/off/title_off_1.png");
-	_cg["off_tutorial"] = ResourceServer::LoadGraph("res/ui/off/title_off_2.png");
-	_cg["off_ranking"]  = ResourceServer::LoadGraph("res/ui/off/title_off_3.png");
-//	_cg["off_option"]   = ResourceServer::LoadGraph("res/ui/off/title_off_4.png");
-	_cg["off_credit"]   = ResourceServer::LoadGraph("res/ui/off/title_off_5.png");
-	_cg["off_end"]      = ResourceServer::LoadGraph("res/ui/off/title_off_6.png");
 
-	_menuPos = MENU::START;
+	_ui["on_start"]     = ResourceServer::LoadGraph("res/ui/on/title_on_1.png");
+	_ui["on_tutorial"]  = ResourceServer::LoadGraph("res/ui/on/title_on_2.png");
+	_ui["on_ranking"]   = ResourceServer::LoadGraph("res/ui/on/title_on_3.png");
+	_ui["on_credit"]    = ResourceServer::LoadGraph("res/ui/on/title_on_5.png");
+	_ui["on_end"]       = ResourceServer::LoadGraph("res/ui/on/title_on_6.png");
+	_ui["off_start"]    = ResourceServer::LoadGraph("res/ui/off/title_off_1.png");
+	_ui["off_tutorial"] = ResourceServer::LoadGraph("res/ui/off/title_off_2.png");
+	_ui["off_ranking"]  = ResourceServer::LoadGraph("res/ui/off/title_off_3.png");
+	_ui["off_credit"]   = ResourceServer::LoadGraph("res/ui/off/title_off_5.png");
+	_ui["off_end"]      = ResourceServer::LoadGraph("res/ui/off/title_off_6.png");
+
+	_menuPos = MENU::START;  // 初期位置
 
 	return true;
 }
 
+/**
+ * 解放
+ */
 bool ModeTitle::Terminate() {
 	base::Terminate();
+
 	return true;
 }
 
-bool ModeTitle::Process() {
-	base::Process();
-	int key = ApplicationMain::GetInstance()->GetKey();
+/**
+ * タイトルメニュー選択
+ */
+void ModeTitle::MenuSelect() {
+
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	int menuNum = _cg.size() / 2;
-	_menuPos = (_menuPos + menuNum) % menuNum;
-
+	// ゲームパッドの上下キー及び左アナログスティック上下でメニュー選択
 	if (trg & PAD_INPUT_DOWN) {
 		_menuPos++;
 	}
 	if (trg & PAD_INPUT_UP) {
 		_menuPos--;
 	}
-	if (trg & PAD_INPUT_B)	{
+
+	if (trg & PAD_INPUT_B) {
 		switch (_menuPos) {
-		case 0:
-			// このモードを削除予約
+		case MENU::START:
+			ModeChange(NEW ModePlugin(),   1, "plugin");   break;
+
+		case MENU::TUTORIAL:
+			ModeChange(NEW ModeTutorial(), 1, "tutorial"); break;
+
+		case MENU::RANKING:
+			ModeChange(NEW ModeRanking(),  1, "ranking");  break;
+
+		case MENU::CREDIT:
+			ModeChange(NEW ModeCredit(),   1, "credit");   break;
+
+		case MENU::GAME_END:
 			ModeServer::GetInstance()->Del(this);
-			// 次のモードを登録
-			ModeServer::GetInstance()->Add(NEW ModePlugin(), 1, "plugin");
-		break;
-		case 1:
-			ModeServer::GetInstance()->Del(this);
-			ModeServer::GetInstance()->Add(NEW ModeTutorial(), 1, "tutorial");
-			break;
-		case 2:
-			ModeServer::GetInstance()->Del(this);
-			ModeServer::GetInstance()->Add(NEW ModeRanking(), 1, "ranking");
-			break;
-		case 3:
-			ModeServer::GetInstance()->Del(this);
-			ModeServer::GetInstance()->Add(NEW ModeCredit(), 1, "credit");
-			break;
-		case 4:
-			ModeServer::GetInstance()->Del(this);
-  		    ApplicationBase::GetInstance()->GameEnd();
+			ApplicationBase::GetInstance()->GameEnd();
 			break;
 		}
 	}
+}
+
+/**
+ * タイトル削除、次のモード登録
+ */
+void ModeTitle::ModeChange(ModeBase* nextMode, int layer, const char* modeName) {
+	// タイトルモードを削除
+	ModeServer::GetInstance()->Del(this);
+	// 次のモードを登録
+	ModeServer::GetInstance()->Add(nextMode, layer, modeName);
+}
+
+/**
+ * フレーム処理：計算
+ */
+bool ModeTitle::Process() {
+	base::Process();
+
+	int menuNum = static_cast<int>(_ui.size()) / 2;
+	_menuPos = (_menuPos + menuNum) % menuNum;
+
+	MenuSelect();
 
 	return true;
 }
 
+/**
+ * フレーム処理：描画
+ */
 bool ModeTitle::Render() {
 	base::Render();
 
 	DrawGraph(0, 0, _cgtitle, TRUE);
 
-	DrawGraph(120, 480, _cg["off_start"], TRUE);
-	DrawGraph(435, 575, _cg["off_tutorial"], TRUE);
-	DrawGraph(120, 670, _cg["off_ranking"], TRUE);
-//	DrawGraph(435, 765, _cg["off_option"], TRUE);
-	DrawGraph(435, 765, _cg["off_credit"], TRUE);
-	DrawGraph(120, 860, _cg["off_end"], TRUE);
+	DrawGraph(120, 480, _ui["off_start"],    TRUE);
+	DrawGraph(435, 575, _ui["off_tutorial"], TRUE);
+	DrawGraph(120, 670, _ui["off_ranking"],  TRUE);
+	DrawGraph(435, 765, _ui["off_credit"],   TRUE);
+	DrawGraph(120, 860, _ui["off_end"],      TRUE);
 
-	if (_menuPos == 0) { DrawGraph(120, 480, _cg["on_start"],    TRUE); }
-	if (_menuPos == 1) { DrawGraph(435, 575, _cg["on_tutorial"], TRUE); }
-	if (_menuPos == 2) { DrawGraph(120, 670, _cg["on_ranking"],  TRUE); }
-//	if (_menuPos == 3) { DrawGraph(435, 765, _cg["on_option"],   TRUE); }
-	if (_menuPos == 3) { DrawGraph(435, 765, _cg["on_credit"],   TRUE); }
-	if (_menuPos == 4) { DrawGraph(120, 860, _cg["on_end"],      TRUE); }
+	if (_menuPos == MENU::START)	{ DrawGraph(120, 480, _ui["on_start"],    TRUE); }
+	if (_menuPos == MENU::TUTORIAL) { DrawGraph(435, 575, _ui["on_tutorial"], TRUE); }
+	if (_menuPos == MENU::RANKING)	{ DrawGraph(120, 670, _ui["on_ranking"],  TRUE); }
+	if (_menuPos == MENU::CREDIT)   { DrawGraph(435, 765, _ui["on_credit"],   TRUE); }
+	if (_menuPos == MENU::GAME_END) { DrawGraph(120, 860, _ui["on_end"],      TRUE); }
 
+	// 仮実装
 	DrawFormatString(1500, 16, GetColor(255, 255, 255),"menuPos = %d",_menuPos);
 
 	return true;

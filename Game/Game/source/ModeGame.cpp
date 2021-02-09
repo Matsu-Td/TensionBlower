@@ -12,15 +12,18 @@
 #include "ModeGame.h"
 #include <memory>
 
+/**
+ * 初期化
+ */
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-	//SetBackgroundColor(0, 255, 255);
+	// JSONファイルからキャラデータ読み込み
 	_charaData = std::make_unique<CharaData>("res/json/", "CharaData");
 
 	// オブジェクトサーバーに登録
-	_objServer.Add(NEW Stage());
-	_objServer.Add(NEW Player());
+	_objServer.Add(NEW Stage()); 
+	_objServer.Add(NEW Player()); 
 	_objServer.Add(NEW Boss());
 
 	// グローバル変数初期化(リザルト画面、スコア計算用)
@@ -36,26 +39,34 @@ bool ModeGame::Initialize() {
 	return true;
 }
 
+/**
+ * 解放
+ */
 bool ModeGame::Terminate() {
 	base::Terminate();
 
-	_objServer.Clear(); 
+	// オブジェクトサーバーのコンテナに登録していた要素を全て削除、メモリ解放
+	_objServer.Clear();
 
 	return true;
 }
 
+/**
+ * フレーム処理：計算
+ */
 bool ModeGame::Process() {
 	base::Process();
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-		_cam.Process();
-		_objServer.Process();
+	_cam.Process();
+	_objServer.Process();
 
-		// Effekseerにより再生中のエフェクトを更新する。
-		UpdateEffekseer3D();
+    // Effekseerにより再生中のエフェクトを更新
+	UpdateEffekseer3D();
 
-	if (trg & PAD_INPUT_8) {
+	// ゲームパッド「START」ボタンでポーズモード追加
+	if (trg & PAD_INPUT_8) { 
 		ModeOption* modeOption = NEW ModeOption();
 		ModeServer::GetInstance()->Add(modeOption, 99, "option");
 	}
@@ -63,6 +74,9 @@ bool ModeGame::Process() {
 	return true;
 }
 
+/**
+ * フレーム処理：描画
+ */
 bool ModeGame::Render() {
 	base::Render();
 	

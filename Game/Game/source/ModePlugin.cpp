@@ -12,6 +12,9 @@
 #include "ModeGame.h"
 #include "ModePlugin.h"
 
+/**
+ * 初期化
+ */
 bool ModePlugin::Initialize() {
 	if (!base::Initialize()) { return false; }
 
@@ -20,21 +23,30 @@ bool ModePlugin::Initialize() {
 	return true;
 }
 
+/**
+ * 解放
+ */
 bool ModePlugin::Terminate() {
 	base::Terminate();
+
 	return true;
 }
 
+/**
+ * フレーム処理：計算
+ */
 bool ModePlugin::Process() {
 	base::Process();
-	int key = ApplicationMain::GetInstance()->GetKey();
+
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	if (trg & PAD_INPUT_B) {
+	// ゲームパッド「B」ボタンでプラグインモード削除し、ゲームモード追加
+	if (trg & PAD_INPUT_2) {   
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "game");
 	}
-	if (trg & PAD_INPUT_A) {
+	// ゲームパッド「A」ボタンでプラグインモード削除し、タイトルモード追加
+	if (trg & PAD_INPUT_1) {  
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 	}
@@ -42,6 +54,9 @@ bool ModePlugin::Process() {
 	return true;
 }
 
+/**
+ * フレーム処理：描画
+ */
 bool ModePlugin::Render() {
 	base::Render();
 

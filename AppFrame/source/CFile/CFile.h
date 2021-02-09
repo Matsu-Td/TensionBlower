@@ -2,8 +2,7 @@
 
 #include <string>
 
-class CFile
-{
+class CFile{
 public:
 	// ì«Ç›çûÇ›
 	CFile(const std::string filename);
@@ -23,9 +22,9 @@ public:
 private:
 	void Init();
 
-	std::string		_filename;
+	std::string	_filename;
 
-	int		_size;
+	int	  _size;
 	char* _data;
-	bool	_success;
+	bool  _success;
 };

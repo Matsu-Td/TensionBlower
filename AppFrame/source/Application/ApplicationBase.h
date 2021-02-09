@@ -31,9 +31,9 @@ public:
 protected:
 	static	ApplicationBase	*_pInstance;
 
-	int	_gKey, _gTrg;
+	std::unique_ptr<ModeServer> _serverMode;
 
-	ModeServer* _serverMode;
-
-	bool _gameEnd = false;
+	int	 _gKey;              // キー入力の情報
+	int  _gTrg;              // キー入力のトリガ情報
+	bool _gameEnd = false;   // ゲーム終了フラグ
 };

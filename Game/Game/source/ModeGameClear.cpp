@@ -1,10 +1,10 @@
 
 /**
-* @file  ModeGameClear.cpp
-* @brief ゲームクリア画面
-* 
-* @data 2021-02-08
-*/
+ * @file  ModeGameClear.cpp
+ * @brief ゲームクリア画面
+ * 
+ * @data 2021-02-08
+ */
 
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"
@@ -12,46 +12,56 @@
 #include "ModeGameClear.h"
 #include "ModeResult.h"
 
-
-bool ModeGameClear::Initialize()
-{
+/**
+ * 初期化
+ */
+bool ModeGameClear::Initialize(){
 	if (!base::Initialize()) { return false; }
 
 	_cg = ResourceServer::LoadGraph("res/仮素材/ゲームクリア.png");
+
+	// クリアするまでの経過時間を格納
 	gGlobal._gameTime = GetNowCount() - gGlobal._gameTime;
 
 	return true;
 }
 
-bool ModeGameClear::Terminate()
-{
+/**
+ * 解放
+ */
+bool ModeGameClear::Terminate(){
 	base::Terminate();
 
 	return true;
 }
 
-bool ModeGameClear::Process()
-{
+/**
+ * フレーム処理：計算
+ */
+bool ModeGameClear::Process(){
 	base::Process();
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
+
 	ModeServer::GetInstance()->SkipProcessUnderLayer();
 
-	if (trg & PAD_INPUT_2) {
-
+	// ゲームパッド「B」ボタンでゲームクリアモードとゲームモードを削除し、
+	// リザルトモード追加
+	if (trg & PAD_INPUT_2) {  
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 
 		ModeResult* modeResult = new ModeResult();
 		ModeServer::GetInstance()->Add(modeResult, 1, "result");
-
 	}
 
 	return true;
 }
 
-bool ModeGameClear::Render()
-{
+/**
+ * フレーム処理：描画
+ */
+bool ModeGameClear::Render(){
 	base::Render();
 
 	DrawGraph(0, 0, _cg, FALSE);

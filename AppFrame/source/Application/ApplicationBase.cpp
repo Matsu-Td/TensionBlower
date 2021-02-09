@@ -29,7 +29,7 @@ bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 
 	// Effekseerを初期化する。
 	// 引数には画面に表示する最大パーティクル数を設定する。
-	if (Effekseer_Init(8000) == -1)
+	if (Effekseer_Init(1000) == -1)
 	{
 		DxLib_End();
 		return -1;
@@ -48,7 +48,7 @@ bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 	srand((unsigned int)time(NULL));
 
 	// モードサーバの初期化
-	_serverMode = new ModeServer();
+	_serverMode = std::make_unique<ModeServer>();
 
 	return true;
 }
@@ -56,7 +56,6 @@ bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 bool ApplicationBase::Terminate() {
 	// Effekseerを終了
 	Effkseer_End();
-
 	// DXライブラリ開放
 	DxLib_End();
 

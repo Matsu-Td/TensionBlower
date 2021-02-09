@@ -12,9 +12,10 @@
 #include "ModeGameOver.h"
 #include "ModeTitle.h"
 
-
-bool ModeGameOver::Initialize() 
-{
+/**
+ * 初期化
+ */
+bool ModeGameOver::Initialize() {
 	if (!base::Initialize()) { return false; }
 
 	_cg = ResourceServer::LoadGraph("res/仮素材/ゲームオーバー.png");
@@ -22,20 +23,27 @@ bool ModeGameOver::Initialize()
 	return true;
 }
 
-bool ModeGameOver::Terminate()
-{
+/**
+ * 解放
+ */
+bool ModeGameOver::Terminate(){
 	base::Terminate();
 
 	return true;
 }
 
-bool ModeGameOver::Process()
-{
+/**
+ * フレーム処理：計算
+ */
+bool ModeGameOver::Process(){
 	base::Process();
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
+
 	ModeServer::GetInstance()->SkipProcessUnderLayer();
 
+	// ゲームパッド「B」ボタンでゲームオーバーモードとゲームモードを削除し、
+	// タイトルモードを追加
 	if (trg & PAD_INPUT_2) {
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
@@ -47,8 +55,10 @@ bool ModeGameOver::Process()
 	return true;
 }
 
-bool ModeGameOver::Render()
-{
+/**
+ * フレーム処理：描画
+ */
+bool ModeGameOver::Render(){
 	base::Render();
 
 	DrawGraph(0, 0, _cg, FALSE);

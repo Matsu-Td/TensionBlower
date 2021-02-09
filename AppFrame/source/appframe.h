@@ -1,6 +1,7 @@
 #pragma once
 
 #pragma comment(lib,"AppFrame.lib")
+
 // メモリリーク検出用
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -16,5 +17,4 @@
 #include "Application/ApplicationBase.h"
 #include "CFile/CFile.h"
 #include "ResourceServer/ResourceServer.h"
-#include "Vector3D/Vector3D.h"
 #include "ObjectServer/ObjectServer.h"

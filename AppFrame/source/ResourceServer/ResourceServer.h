@@ -1,8 +1,16 @@
 #pragma once
+
+/**
+* @file  ResourceServer.h
+* @brief リソース管理サーバ
+* @brief すべて静的メンバで構成する
+* 
+* @date 21-01-02
+*/
+
 #include	<unordered_map>
 
-// リソース管理サーバ
-// すべて静的メンバで構成する
+
 class ResourceServer {
 public:
 	static	void	Init();
