@@ -11,29 +11,25 @@ std::unordered_map<std::string, ResourceServer::DIVGRAPH>	ResourceServer::_mapDi
 std::unordered_map<std::string, int>	ResourceServer::_mapSound;
 std::unordered_map<std::string, int>	ResourceServer::_mapModel;
 
-void    ResourceServer::Init()
-{
+void    ResourceServer::Init(){
 	_mapGraph.clear();
     _mapDivGraph.clear();
     _mapSound.clear();
+    _mapModel.clear();
 }
 
-void    ResourceServer::Release()
-{
+void    ResourceServer::Release(){
     ClearGraph();
 }
 
-void	ResourceServer::ClearGraph()
-{
+void ResourceServer::ClearGraph(){
     // すべてのデータの削除をする
-    for (auto itr = _mapGraph.begin(); itr != _mapGraph.end(); itr++)
-    {
+    for (auto itr = _mapGraph.begin(); itr != _mapGraph.end(); itr++){
         DeleteGraph(itr->second);
     }
     _mapGraph.clear();
 
-    for (auto itr = _mapDivGraph.begin(); itr != _mapDivGraph.end(); itr++)
-    {
+    for (auto itr = _mapDivGraph.begin(); itr != _mapDivGraph.end(); itr++){
         for (int i = 0; i < itr->second.AllNum; i++) {
             DeleteGraph(itr->second.handle[i]);
         }
@@ -41,22 +37,19 @@ void	ResourceServer::ClearGraph()
     }
     _mapDivGraph.clear();
 
-    for (auto itr = _mapSound.begin(); itr != _mapSound.end(); itr++)
-    {
+    for (auto itr = _mapSound.begin(); itr != _mapSound.end(); itr++){
         DeleteSoundMem(itr->second);
     }
     _mapSound.clear();
 
-    for (auto itr = _mapModel.begin(); itr != _mapModel.end(); itr++)
-    {
+    for (auto itr = _mapModel.begin(); itr != _mapModel.end(); itr++){
         MV1DeleteModel(itr->second);
     }
-
+    _mapModel.clear();
 }
 
 
-int		ResourceServer::LoadGraph(const TCHAR* FileName)
-{
+int	ResourceServer::LoadGraph(const TCHAR* FileName){
     // キーの検索
     auto itr = _mapGraph.find(FileName);
     if (itr != _mapGraph.end())
@@ -72,7 +65,7 @@ int		ResourceServer::LoadGraph(const TCHAR* FileName)
     return cg;
 }
 
-int		ResourceServer::LoadDivGraph(const TCHAR* FileName, int AllNum,
+int	ResourceServer::LoadDivGraph(const TCHAR* FileName, int AllNum,
     int XNum, int YNum,
     int XSize, int YSize, int* HandleBuf)
 {
@@ -103,11 +96,10 @@ int		ResourceServer::LoadDivGraph(const TCHAR* FileName, int AllNum,
     }
 
     return err;
-
 }
 
 
-int		ResourceServer::LoadSoundMem(const TCHAR* FileName) {
+int	ResourceServer::LoadSoundMem(const TCHAR* FileName) {
     // キーの検索
     auto itr = _mapSound.find(FileName);
     if (itr != _mapSound.end())
@@ -123,8 +115,8 @@ int		ResourceServer::LoadSoundMem(const TCHAR* FileName) {
     return snd;
 }
 
-int ResourceServer::MV1LoadModel(const TCHAR* FileName)
-{
+int ResourceServer::MV1LoadModel(const TCHAR* FileName){
+    // キーの検索
     auto itr = _mapModel.find(FileName);
     if (itr != _mapModel.end()) {
         return itr->second;

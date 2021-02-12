@@ -37,20 +37,17 @@ public:
 	static Camera* _pInstance;
 
 private:
-	VECTOR _vPos;    // カメラの位置
-	VECTOR _oldvPos; // カメラ位置保存
-	VECTOR _vTarg;   // カメラの注視点
-	float _angleH;
-	float _angleV;
-	int _cg;
+	VECTOR _vPos;    // 位置
+	VECTOR _oldvPos; // 処理前の位置
+	VECTOR _vTarg;   // 注視点
+	float _angleH;   // 水平角度
+	float _angleV;   // 垂直角度
 
-	STATE _oldState;
+	STATE _oldState; // 処理前の状態
 
 	struct LOCK_ON { // 構造体：ロックオン状態
-		int x, y;
-		int cg;
+		int x, y;  // スクリーン座標
+		int cg;    // 画像
 	};
 	LOCK_ON _lockOn;
-
-	int _cnt;
 };

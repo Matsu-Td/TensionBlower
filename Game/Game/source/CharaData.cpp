@@ -10,30 +10,36 @@
 #include "picojson/picojson.h"
 #include "CharaData.h"
 
-CharaData::CharaData(std::string filePath, std::string fileName)
-{
+/**
+ * コンストラクタで読み込むJSONファイル指定
+ */
+CharaData::CharaData(std::string filePath, std::string fileName){
+
 	JsonLoad(filePath, fileName + ".json");
 }
 
-CharaData::~CharaData()
-{
+CharaData::~CharaData(){
 
 }
 
-std::string CharaData::StringFileLoad(std::string fileName)
-{
+/**
+ * JSONファイルを開いてデータを取得
+ */
+std::string CharaData::StringFileLoad(std::string fileName){
+
 	FILE* fp;
 	fp = fopen(fileName.c_str(), "rb");
-	if (fp == NULL)
-	{
+
+	if (fp == NULL){
 		// ファイルが開けなかった
 		return "";
 	}
+
 	// ファイルのサイズを取得
 	fseek(fp, 0, SEEK_END); int size = ftell(fp); fseek(fp, 0, SEEK_SET);
 
 	char* p;
-	p = new char[size + 1];
+	p = NEW char[size + 1];
 	fread(p, 1, size, fp);
 
 	fclose(fp);
@@ -47,12 +53,15 @@ std::string CharaData::StringFileLoad(std::string fileName)
 	return s;
 }
 
-int CharaData::JsonLoad(std::string filePath, std::string fileName)
-{
+/**
+ * JSONファイルのデータ読み込み
+ */
+int CharaData::JsonLoad(std::string filePath, std::string fileName){
+
 	// ファイルを開いてstringを取得する
 	std::string strJson = StringFileLoad(filePath + fileName);
-	if (strJson == "")
-	{
+
+	if (strJson == ""){
 		// ファイルが開けなかった
 		return 0;
 	}
@@ -62,6 +71,7 @@ int CharaData::JsonLoad(std::string filePath, std::string fileName)
 	picojson::parse(json, strJson);
 	picojson::object jsRoot = json.get<picojson::object>();
 
+	// プレイヤー関連データ読み込み
 	picojson::object playerData = jsRoot["[0]"].get<picojson::object>();
 
 	_maxHP     = static_cast<int>(playerData["maxHP"].get<double>());
@@ -117,12 +127,14 @@ int CharaData::JsonLoad(std::string filePath, std::string fileName)
 	_shotDmg  = static_cast<int>(playerData["shotDmg"].get<double>());
 	_repelDmg = static_cast<int>(playerData["repelDmg"].get<double>());
 
+	// ボス関連データ読み込み
 	picojson::object bossData = jsRoot["[1]"].get<picojson::object>();
-	_boss.maxHP = static_cast<int>(bossData["maxHP"].get<double>());
-	_boss.maxShield = static_cast<int>(bossData["maxShield"].get<double>());
-	_boss.shotDmg = static_cast<int>(bossData["bsShotDmg"].get<double>());
+
+	_boss.maxHP        = static_cast<int>(bossData["maxHP"].get<double>());
+	_boss.maxShield    = static_cast<int>(bossData["maxShield"].get<double>());
+	_boss.shotDmg      = static_cast<int>(bossData["bsShotDmg"].get<double>());
 	_boss.exolosionDmg = static_cast<int>(bossData["explosionDmg"].get<double>());
-	_boss.laserDmg = static_cast<int>(bossData["laserDmg"].get<double>());
+	_boss.laserDmg     = static_cast<int>(bossData["laserDmg"].get<double>());
 
 	return 1;
 }

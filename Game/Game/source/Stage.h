@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file  Stage.h
+ * @brief ステージ描画
+ *
+ * @date 2021-02-08
+ */
+
 #include "appframe.h"
 
 class Stage : public ObjectBase{
@@ -8,8 +16,5 @@ public:
 
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::STAGE; }
 
-	void Initialize();
-	void Terminate();
-	void Process();
 	void Render();
 };

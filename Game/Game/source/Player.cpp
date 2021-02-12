@@ -6,7 +6,6 @@
  * @date 2021-02-08
  */
 
-
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"
 #include "Player.h"
@@ -19,17 +18,21 @@
 
 Player* Player::_pInstance = NULL;
 
+
 Player::Player(){
 	_pInstance = this;
 	_mh = MV1LoadModel("res/model/仮データ/TB_player_mm01.mv1");
+//	_attack = std::make_unique<PlayerAttack>();
 	Initialize();
+	_attack->Initialize();
 }
-
 
 Player::~Player(){
 }
 
-
+/**
+ * 初期化
+ */
 void Player::Initialize(){
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
@@ -47,19 +50,19 @@ void Player::Initialize(){
 	_isDash = false;
 
 	// 以下ステータス等
-	//射撃
+	// 射撃
 	_bulletNum = MAX_BULLET;
 	_canShotFlag = true;
 	_shotInterval = 5;
 	_reloadTime = RELOAD_TIME;
 	_shotZeroFlag = false;
 
-	//エネルギー
+	// エネルギー
 	_energy = CHARA_DATA->_maxEnergy;
 	_atChargeFlag = true;
 	_atChargeCnt = 30;
 
-	//ヒットポイント
+	// ヒットポイント
 	_hitpoint = CHARA_DATA->_maxHP;
 
 	_gameOverCnt = 60;
@@ -72,27 +75,21 @@ void Player::Initialize(){
 	_shotFlag = false;
 
 	_attackFlag = false;
+	_attackCnt = 0;
 	_receptionTime = 0;
 	_attackReloadTime = 0;
 	_hitFlag = false;
 	_canHitFlag = false;
 
-	_attackCnt = 0;
-
-	_attackTotalTime["weak_atck1"] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
-	_attackTotalTime["weak_atck2"] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
-	_attackTotalTime["weak_atck3"] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
-	_attackTotalTime["weak_atck4"] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
-	_attackTotalTime["strg_atck1"] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
-	_attackTotalTime["strg_atck2"] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
-	_attackTotalTime["strg_atck3"] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
-	_attackTotalTime["strg_atck4"] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
+	// 各近接攻撃のアニメーション総再生時間を格納
+	for (int i = 0; i < ATTACK_NUM; i++) {
+	_attackTotalTime[AttackName[i]] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
+	}
 }
 
-
+ 
 void Player::JumpAction() {
 
-	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
@@ -100,13 +97,11 @@ void Player::JumpAction() {
 		if (trg & PAD_INPUT_1 && _isCanJump && !_isCharging) {
 			_state = STATE::JUMP;
 			_isCanJump = false;
-//			_mvSpd = NOR_MV_SPD;
 			_mvSpd = CHARA_DATA->_mvSpdNorm;
 			_jumpTime = 0.f;
 		}
 	}
 	if (!_isCanJump) {
-		//float gravity = GRAVITY;
 		float inVel = 4.0f;
 		_vPos.y = inVel * _jumpTime - 0.5f * GRAVITY * _jumpTime * _jumpTime;
 	}
@@ -120,369 +115,347 @@ void Player::JumpAction() {
 		}
 	}
 }
-/*
-MATRIX Player::MV1GetFrameRotateMatrix(int MHandle, int FrameIndex, double Xaxis, double Yaxis, double Zaxis, double modelScale) {
-	//親フレームの取得
-	int ParentFrame = MV1GetFrameParent(MHandle, FrameIndex);
 
-	//親フレームが存在する(=すなわちParentFrameが-2ではない)ならば相対座標分だけ平行移動する行列を取得
-	//親フレームが存在しないならば単位行列を得る(=すなわち平行移動しない)   
-	MATRIX MTranslate;
-	if (-2 != ParentFrame)
-	{
-		//親子フレームの座標の取得
-		VECTOR vecParent = MV1GetFramePosition(MHandle, ParentFrame);
-		VECTOR vecChild = MV1GetFramePosition(MHandle, FrameIndex);
-
-		//親を基準にした子の相対座標を取得
-		VECTOR vecRerativPar2Chi = VSub(vecChild, vecParent);
-
-		//モデルが何倍に大きくなっているかに従って相対座標を補正
-		if (0 != modelScale)
-		{
-			modelScale = 1 / modelScale;
-		}
-		vecRerativPar2Chi = VScale(vecRerativPar2Chi, modelScale);
-		MTranslate = MGetTranslate(vecRerativPar2Chi);
-	}
-	else
-	{
-		MTranslate = MGetIdent();
-	}
-
-	//それぞれの軸に沿って回転する行列を取得
-	MATRIX MXaxis = MGetRotX(Xaxis);
-	MATRIX MYaxis = MGetRotY(Yaxis);
-	MATRIX MZaxis = MGetRotZ(Zaxis);
-
-	//軸毎に回転させてから平行移動を実行する
-
-	MATRIX MReturn = MMult(MMult(MMult(MXaxis, MYaxis), MZaxis), MTranslate);
-
-	return MReturn;
-}
-*/
-
+/**
+ * カメラロック中の移動、ダッシュモーション切替処理
+ * 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移
+ */
 void Player::LeftAnalogDeg(float length){
+
+	if (!_isCanJump) {
+		return;
+	}
+
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
-	if (_isCanJump) {
-		if (_isDash) {
-//			_mvSpd = DASH_MV_SPD;
-			_mvSpd = CHARA_DATA->_mvSpdDash;
-			if (_lfAnalogDeg >= 120 || _lfAnalogDeg <= -120) {
-				_state = STATE::FOR_DASH;
-			}
-			else if (_lfAnalogDeg < -45 && _lfAnalogDeg > -120) {
-				_state = STATE::LEFT_DASH;
-			}
-			else if (_lfAnalogDeg > 45 && _lfAnalogDeg < 120) {
-				_state = STATE::RIGHT_DASH;
-			}
-			else if (_lfAnalogDeg >= -45 && _lfAnalogDeg <= 45 && length >= 0.3f) {
-				_state = STATE::BACK_DASH;
-			}
-			else {
-				_state = STATE::FOR_DASH;  // 入力がRBのみ
-			}
+	if (_isDash) {
+		// ダッシュ用移動速度セット
+		_mvSpd = CHARA_DATA->_mvSpdDash;
+		// 前方向ダッシュ移動
+		if (_lfAnalogDeg >= ANALOG_REG_FOR || _lfAnalogDeg <= -ANALOG_REG_FOR) {
+			_state = STATE::FOR_DASH;
 		}
+		// 左方向ダッシュ移動
+		else if (_lfAnalogDeg < -ANALOG_REG_OTHER && _lfAnalogDeg > -ANALOG_REG_FOR) {
+			_state = STATE::LEFT_DASH;
+		}
+		// 右方向ダッシュ移動
+		else if (_lfAnalogDeg > ANALOG_REG_OTHER && _lfAnalogDeg < ANALOG_REG_FOR) {
+			_state = STATE::RIGHT_DASH;
+		}
+		// 後方向ダッシュ移動
+		else if (_lfAnalogDeg >= -ANALOG_REG_OTHER && _lfAnalogDeg <= ANALOG_REG_OTHER && length >= 0.3f) {
+			_state = STATE::BACK_DASH;
+		}
+		//   // 入力がゲームパッド「RB」のみ場合は前方向ダッシュ移動
 		else {
-//			_mvSpd = NOR_MV_SPD;
-			_mvSpd = CHARA_DATA->_mvSpdNorm;
-			if (_lfAnalogDeg >= 120 || _lfAnalogDeg <= -120) {
-				_state = STATE::WALK;
-			}
-			else if (_lfAnalogDeg < -45 && _lfAnalogDeg > -120) {
-				_state = STATE::LEFT_MOVE;
-			}
-			else if (_lfAnalogDeg > 45 && _lfAnalogDeg < 120) {
-				_state = STATE::RIGHT_MOVE;
-			}
-			else if (_lfAnalogDeg >= -45 && _lfAnalogDeg <= 45) {
-				_state = STATE::BACK_MOVE;
-			}
+			_state = STATE::FOR_DASH;
 		}
-	}
-}
-
-void Player::SetAttackDamage(){
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-
-	switch (_state) {
-	case STATE::WEAK_ATCK1:
-		_nowDmgHP = CHARA_DATA->_wkDmgHP1;
-		_nowDmgSld = CHARA_DATA->_wkDmgSld1;
-		_nowDmgNorm = CHARA_DATA->_wkDmg1;
-		break;
-	case STATE::WEAK_ATCK2:
-		_nowDmgHP = CHARA_DATA->_wkDmgHP2;
-		_nowDmgSld = CHARA_DATA->_wkDmgSld2;
-		_nowDmgNorm = CHARA_DATA->_wkDmg2;
-		break;
-	case STATE::WEAK_ATCK3:
-		_nowDmgHP = CHARA_DATA->_wkDmgHP3;
-		_nowDmgSld = CHARA_DATA->_wkDmgSld3;
-		_nowDmgNorm = CHARA_DATA->_wkDmg3;
-		break;
-	case STATE::WEAK_ATCK4:
-		_nowDmgHP = CHARA_DATA->_wkDmgHP4;
-		_nowDmgSld = CHARA_DATA->_wkDmgSld4;
-		_nowDmgNorm = CHARA_DATA->_wkDmg4;
-		break;
-	case STATE::STRG_ATCK1:
-		_nowDmgHP = CHARA_DATA->_stDmgHP1;
-		_nowDmgSld = CHARA_DATA->_stDmgSld1;
-		_nowDmgNorm = CHARA_DATA->_stDmg1;
-		break;
-	case STATE::STRG_ATCK2:
-		_nowDmgHP = CHARA_DATA->_stDmgHP2;
-		_nowDmgSld = CHARA_DATA->_stDmgSld2;
-		_nowDmgNorm = CHARA_DATA->_stDmg2;
-		break;
-	case STATE::STRG_ATCK3:
-		_nowDmgHP = CHARA_DATA->_stDmgHP3;
-		_nowDmgSld = CHARA_DATA->_stDmgSld3;
-		_nowDmgNorm = CHARA_DATA->_stDmg3;
-		break;
-	case STATE::STRG_ATCK4:
-		_nowDmgHP = CHARA_DATA->_stDmgHP4;
-		_nowDmgSld = CHARA_DATA->_stDmgSld4;
-		_nowDmgNorm = CHARA_DATA->_stDmg4;
-		break;
-	}
-}
-
-void Player::AttackAction() {
-
-	int trg = ApplicationMain::GetInstance()->GetTrg();
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	
-	// 攻撃カウント
-	if (_attackCnt <= 0) {
-		_attackCnt = 0;
-		_hitFlag = false;
 	}
 	else {
-		_attackCnt--;
-	}
-
-	// 受付時間
-	if (_attackCnt <= 20) {
-		_receptionTime--;
-	}
-	if (_receptionTime <= 0) {
-		_receptionTime = 0;
-		_attackReloadTime = RELOAD_TIME;
-		_attackFlag = false;
-	}
-
-	if (!_hitFlag) {
-		if (_attackCnt >= 20 && _attackCnt < 35) {
-			_canHitFlag = true;
+		// 通常移動速度セット
+		_mvSpd = CHARA_DATA->_mvSpdNorm;
+		// 前方向移動
+		if (_lfAnalogDeg >= ANALOG_REG_FOR || _lfAnalogDeg <= -ANALOG_REG_FOR) {
+			_state = STATE::WALK;
 		}
-		else {
-			_canHitFlag = false;
+		// 左方向移動
+		else if (_lfAnalogDeg < -ANALOG_REG_OTHER && _lfAnalogDeg > -ANALOG_REG_FOR) {
+			_state = STATE::LEFT_MOVE;
 		}
-	}
-
-	switch (_state) {
-	case STATE::WEAK_ATCK1:
-		if (_receptionTime < RECEPTION_TIME) {
-			// 強近接攻撃2へ派生
-			if (trg & PAD_INPUT_4) {                  
-				if (_energy < CHARA_DATA->_egAtck2) { // エネルギー残量チェック
-					return;
-				}
-				_state = STATE::STRG_ATCK2;
-//				_status.energy -= CHARA_DATA->_egAtck2;  // エネルギー消費
-				_atChargeFlag = false;                   // 攻撃中エネルギー溜め不可
-				_atChargeCnt = AT_CHARGE_CNT;            // 溜め復帰時間セット
-				_attackCnt = _attackTotalTime["strg_atck2"];
-				_receptionTime = RECEPTION_TIME;                     // 次攻撃受付時間セット
-				_hitFlag = false;
-				SetAttackDamage();   // 現在の近接攻撃のボスへのダメージ量をセット
-			}
-			// 弱近接攻撃2へ派生
-			else if (trg & PAD_INPUT_B) {             
-				_state = STATE::WEAK_ATCK2;
-				_attackCnt = _attackTotalTime["weak_atck2"];
-				_receptionTime = RECEPTION_TIME;                     // 次攻撃受付時間セット
-				_hitFlag = false;
-				SetAttackDamage();   // 現在の近接攻撃のボスへのダメージ量をセット
-			}
+		// 右方向移動
+		else if (_lfAnalogDeg > ANALOG_REG_OTHER && _lfAnalogDeg < ANALOG_REG_FOR) {
+			_state = STATE::RIGHT_MOVE;
 		}
-		
-		break;
-	case STATE::WEAK_ATCK2:
-		if (_receptionTime < RECEPTION_TIME) {
-			// 強近接攻撃3へ派生
-			if (trg & PAD_INPUT_4) {                   
-				if (_energy < CHARA_DATA->_egAtck3) { // エネルギー残量チェック
-					return;
-				}
-				_state = STATE::STRG_ATCK3;
-//				_status.energy -= CHARA_DATA->_egAtck3;  // エネルギー消費
-				_atChargeFlag = false;                   // 攻撃中エネルギー溜め不可
-				_atChargeCnt = AT_CHARGE_CNT;            // 溜め復帰時間セット
-				_attackCnt = _attackTotalTime["strg_atck3"];
-				_receptionTime = RECEPTION_TIME;         // 次攻撃受付時間セット
-				_hitFlag = false;
-				SetAttackDamage();   // 現在の近接攻撃のボスへのダメージ量をセット
-			}
-			// 弱近接攻撃3へ派生
-			else if (trg & PAD_INPUT_B) {              
-				_state = STATE::WEAK_ATCK3;
-				_attackCnt = _attackTotalTime["weak_atck3"];
-				_receptionTime = RECEPTION_TIME;         // 次攻撃受付時間セット
-				_hitFlag = false;
-				SetAttackDamage();   // 現在の近接攻撃のボスへのダメージ量をセット
-			}
+		// 後方向移動
+		else if (_lfAnalogDeg >= -ANALOG_REG_OTHER && _lfAnalogDeg <= ANALOG_REG_OTHER) {
+			_state = STATE::BACK_MOVE;
 		}
-		break;
-	case STATE::WEAK_ATCK3:
-		if (_receptionTime < RECEPTION_TIME) {
-			// 強近接攻撃4へ派生
-			if (trg & PAD_INPUT_4) {                   
-				if (_energy < CHARA_DATA->_egAtck4) { // エネルギー残量チェック
-					return;
-				}
-				_state = STATE::STRG_ATCK4;
-//				_status.energy -= CHARA_DATA->_egAtck4;  // エネルギー消費
-				_atChargeFlag = false;                   // 攻撃中エネルギー溜め不可
-				_atChargeCnt = AT_CHARGE_CNT;            // 溜め復帰時間セット
-			    _attackCnt = _attackTotalTime["strg_atck4"];
-				_receptionTime = RECEPTION_TIME;         // 次攻撃受付時間セット
-				_hitFlag = false;
-				SetAttackDamage();   // 現在の近接攻撃のボスへのダメージ量をセット
-			}
-			// 弱近接攻撃4へ派生
-			else if (trg & PAD_INPUT_B) {              
-				_state = STATE::WEAK_ATCK4;
-				_attackCnt = _attackTotalTime["weak_atck4"];
-				_receptionTime = RECEPTION_TIME;         // 次攻撃受付時間セット
-				_hitFlag = false;
-				SetAttackDamage();   // 現在の近接攻撃のボスへのダメージ量をセット
-			}
-		}
-		break;
-		// 攻撃派生終了（弱攻撃4,強攻撃1～4）
-	case STATE::WEAK_ATCK4:     
-		if (_attackCnt <= 0) {
-			_attackFlag = false;               // 近接攻撃終了
-			_attackReloadTime = RELOAD_TIME;   // 近接攻撃リロード時間セット
-		}
-		break;
-	case STATE::STRG_ATCK1:
-		if (_attackCnt <= 0) {
-			_attackFlag = false;               // 近接攻撃終了
-			_attackReloadTime = RELOAD_TIME;   // 近接攻撃リロード時間セット
-		}
-		break;
-	case STATE::STRG_ATCK2:
-		if (_attackCnt <= 0) {
-			_attackFlag = false;               // 近接攻撃終了
-			_attackReloadTime = RELOAD_TIME;   // 近接攻撃リロード時間セット
-		}
-		break;
-	case STATE::STRG_ATCK3:
-		if (_attackCnt <= 0) {
-			_attackFlag = false;               // 近接攻撃終了
-			_attackReloadTime = RELOAD_TIME;   // 近接攻撃リロード時間セット
-		}
-		break;
-	case STATE::STRG_ATCK4:
-		if (_attackCnt <= 0) {
-			_attackFlag = false;               // 近接攻撃終了
-			_attackReloadTime = RELOAD_TIME;   // 近接攻撃リロード時間セット
-		}
-		break;
 	}
 }
 
 
+/**
+ * 射撃攻撃 (ゲームパッド「RT」で射撃)
+ */
+void Player::ShotAttack(float rt) {
+
+	int rtMin = -100;  // RT最小値
+	if (rt < rtMin && !_isCharging && !_shotZeroFlag) { // 溜め状態及び装弾数がゼロになった場合は射撃不可
+		if (_bulletNum == 0) {
+			_shotZeroFlag = true;      // 弾を打ち切ってしまうとフラグが立つ(= true) ⇒ 射撃不可
+		}
+		if (_bulletNum > 0) {
+			if (_canShotFlag) {
+				_state = STATE::SHOT_ATCK;
+				_shotFlag = true;
+				_playTime = 30.0f;
+				_reloadTime = RELOAD_TIME;	   // リロード開始時間をセット
+				_canShotFlag = false;
+				_bulletNum--;
+				ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+				PlayerBullet* bullet = NEW PlayerBullet();
+				float angle = atan2(_vDir.z, _vDir.x);
+				VECTOR tmp = _vPos;
+				tmp.y = _vPos.y + 5.5f;
+				bullet->SetPos(tmp);
+				bullet->SetShotAngle(angle);
+				modeGame->_objServer.Add(bullet);  // 弾発生、射撃開始
+			}
+			else {
+				_shotInterval--;
+				if (_shotInterval == 0) {
+					_canShotFlag = true;
+					_shotInterval = 10;      // 一定の射撃間隔を設ける
+				}
+			}
+
+		}
+	}
+	else {             // 射撃を行わなければリロード開始
+		_shotFlag = false;
+		_reloadTime--;
+		if (_shotZeroFlag) {            // 弾を打ち切った場合は即時リロード開始
+			if (_bulletNum < MAX_BULLET) {
+				_bulletNum++;
+			}
+		}
+		else if (_reloadTime <= 0) {    // 弾が残っている状態かつリロード開始時間ゼロでリロード開始
+			if (_bulletNum < MAX_BULLET) {
+				_bulletNum++;
+			}
+		}
+	}
+	if (_bulletNum == MAX_BULLET) {
+		_shotZeroFlag = false;          // リロード完了で_shotZeroFlag解除(= false)
+	}
+}
+
+/**
+ * 消費エネルギー処理
+ */
+void Player::CostEnergy(float costEnergy) {
+	_atChargeFlag = false;
+	_atChargeCnt = AUTO_CHARGE_CNT;
+	_energy -= costEnergy;
+}
+
+/**
+ * エネルギー管理
+ */
 void Player::EnergyManager(STATE oldState){
 
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	float addEne;
 
+	if (_energy > 0 || _energy < CHARA_DATA->_maxEnergy) {
+		if (_swCharge) {               // デバッグ用
+			if (oldState != _state) {
+				// ジャンプ(消費)
+				if (_state == STATE::JUMP) {
+					CostEnergy(CHARA_DATA->_egJump);
+				}
+				// 短押しダッシュ(消費)
+				if (_isShortDash) {
+					CostEnergy(CHARA_DATA->_egDash);
+				}
+			}
+
+			// 長押しダッシュ(消費)
+			if (!_isShortDash && _isDash) {
+				CostEnergy(1);
+			}
+
+			// マルチロックオンシステム(消費)
+			if (camState == Camera::STATE::MLS_LOCK) {
+				CostEnergy(CHARA_DATA->_egMLS);
+			}
+
+			// ボス付近で行動する(回復)
+			if (_nearPosFlag) {
+				addEne = CHARA_DATA->_egAutoXArea;
+			}
+			else {
+				addEne = 1.0f;
+			}
+
+			if (_energy >= CHARA_DATA->_maxEnergy) {
+				return;
+			}
+			//　溜め(回復)
+			if (_isCharging) {
+				_energy += CHARA_DATA->_egAutoRec * CHARA_DATA->_egAutoXChrg * addEne;
+				gGlobal._totalGetEnergy += CHARA_DATA->_egAutoRec * CHARA_DATA->_egAutoXChrg * addEne;
+			}
+
+			// 自動回復開始のインターバル
+			if (!_atChargeFlag) {
+				_atChargeCnt--;
+				if (_atChargeCnt <= 0) {   // 一定の自動回復開始間隔を設ける
+					_atChargeCnt = 0;
+					_atChargeFlag = true;
+				}
+			}
+			// 自動回復(回復)
+			else if (!_isCharging) {
+				_energy += CHARA_DATA->_egAutoRec * addEne;
+				gGlobal._totalGetEnergy += CHARA_DATA->_egAutoRec * addEne;
+			}
+		}
+	}
+	if (_energy < 0) {
+		_energy = 0;
+	}
 	if (_energy > CHARA_DATA->_maxEnergy) {  // エネルギー回復時に最大エネルギー値を超えるのを防ぐ
 		_energy = CHARA_DATA->_maxEnergy;
-
-	}
-
-	if (oldState != _state) { 
-		// ジャンプ(消費)
-		if (_state == STATE::JUMP) {
-			_atChargeFlag = false;
-			_atChargeCnt = AT_CHARGE_CNT;
-//			_energy -= JUMP_ENERGY;
-			_energy -= CHARA_DATA->_egJump;
-		}
-		// 短押しダッシュ(消費)
-		if (_isShortDash) {
-			_atChargeFlag = false;
-			_atChargeCnt = AT_CHARGE_CNT;
-//			_energy -=  DASH_ENERGY;
-			_energy -= CHARA_DATA->_egDash;
-		}
-	}
-
-	// 長押しダッシュ(消費)
-	if(!_isShortDash && _isDash) {
-		_atChargeFlag = false;
-		_atChargeCnt = AT_CHARGE_CNT;
-		_energy--;
-	}
-
-	// マルチロックオンシステム(消費)
-	if (camState == Camera::STATE::MLS_LOCK) {
-		_atChargeFlag = false;
-		_atChargeCnt = AT_CHARGE_CNT;
-//		_energy -= 12.5;
-		_energy -= CHARA_DATA->_egMLS;
-	}
-
-	// ボス付近で行動する(回復)
-	if (_nearPosFlag) {
-		addEne = CHARA_DATA->_egAutoXArea;
-	}
-	else {
-		addEne = 1.0f;
-	}
-
-	if (_energy >= CHARA_DATA->_maxEnergy) {
-		return;
-	}
-	//　溜め(回復)
-	if (_isCharging) {
-//		_atChargeCnt = AT_CHARGE_CNT;
-//		_energy += AT_CHARGE * 2.5 * addEne;
-		_energy += CHARA_DATA->_egAutoRec * CHARA_DATA->_egAutoXChrg * addEne;
-		gGlobal._totalGetEnergy += CHARA_DATA->_egAutoRec * CHARA_DATA->_egAutoXChrg * addEne;
-	}
-
-	// 自動回復開始のインターバル
-	if (!_atChargeFlag) {
-		_atChargeCnt--;
-		if (_atChargeCnt <= 0){   // 一定の自動回復開始間隔を設ける
-			_atChargeCnt = 0;
-			_atChargeFlag = true;
-		}
-	}
-	// 自動回復(回復)
-	else if (!_isCharging){
-//		_status.energy += AT_CHARGE * addEne;
-		_energy += CHARA_DATA->_egAutoRec * addEne;
-		gGlobal._totalGetEnergy += CHARA_DATA->_egAutoRec * addEne;
 	}
 }
 
+/**
+ * 当たり判定
+ */
+void Player::Collision() {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
+		// ステージとの当たり判定
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
+			if (IsHitStage(*(*itr), 2.0f) == true) {
+				VECTOR slideVec;
+				slideVec = VCross(_vDir, (*itr)->_hitPolyDim.Dim->Normal);
+				slideVec = VCross((*itr)->_hitPolyDim.Dim->Normal, slideVec);
+				_vPos = VAdd(_oldPos, slideVec);
+				_vPos = VAdd(_vPos, VScale((*itr)->_hitPolyDim.Dim->Normal, 0.5f));
+			}
+		}
+		// ボスの弾との当たり判定
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
+			// 着弾
+			if (IsHitLineSegment(*(*itr), 1.5f)) {
+				modeGame->_objServer.Del(*itr);
+				_hitpoint -= CHARA_DATA->_boss.shotDmg;
+			}
+			// カスリ判定(エネルギー回復)
+			if (IsHitLineSegment(*(*itr), 2.5f)) {
+				_energy += CHARA_DATA->_egAvoid;
+				gGlobal._totalGetEnergy += CHARA_DATA->_egAvoid;
+			}
+			if (Boss::GetInstance()->_mlsDownFlag) {
+				modeGame->_objServer.Del(*itr);
+			}
+		}
+		// ボスとの当たり判定
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
+			if (IsHitArc_Sphere(*(*itr)) == true) {
+				if (_canHitFlag && !_hitFlag) {
+					_hitFlag = true;
+					(*itr)->AttackDamage();
+				}
+			}
+			if (IsHitLineSegment(*(*itr), 10.0f)) {
+				_vPos = VAdd(_vPos, VScale(_oldPos, 0.4f));
+			}
+		}
+	}
+}
+
+/**
+ * モデルモーション切替
+ */
+void Player::MortionSwitch(STATE oldState) {
+
+	if (oldState == _state) {
+		_playTime += 1.0f;
+	}
+	else {
+		if (_attachIndex != -1) {
+			MV1DetachAnim(_mh, _attachIndex);
+			_attachIndex = -1;
+		}
+		switch (_state) {
+		case STATE::WAIT:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "waitmove"), -1, FALSE);
+			break;
+		case STATE::WALK:
+			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "run"), -1, FALSE);
+			break;
+		case STATE::JUMP:
+			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::FOR_DASH:
+			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::LEFT_MOVE:
+			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::RIGHT_MOVE:
+			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::BACK_MOVE:
+			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::LEFT_DASH:
+			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::RIGHT_DASH:
+			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::BACK_DASH:
+			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
+			break;
+		case STATE::WEAK_ATCK1:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::WEAK_ATCK2:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::WEAK_ATCK3:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::WEAK_ATCK4:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::STRG_ATCK1:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::STRG_ATCK2:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::STRG_ATCK3:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::STRG_ATCK4:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
+			break;
+		case STATE::SHOT_ATCK:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "shoot"), -1, FALSE);
+			break;
+		}
+		// アタッチしたアニメーションの総再生時間を取得する
+		_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
+
+		_playTime = 0.0f;
+	}
+
+	if (!_attackFlag) {
+		if (_playTime >= _totalTime) {
+			_playTime = 0.0f;
+		}
+	}
+}
+
+/**
+ * フレーム処理：計算
+ */
 void Player::Process(){
 
 	// キーの取得
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
+
+	// モードゲーム取得
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	// 当たり判定用カプセル情報
 	_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
@@ -491,11 +464,15 @@ void Player::Process(){
 	// アナログスティック対応
 	DINPUT_JOYSTATE dinput;
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
-	float lx, ly;           // 左アナログスティックの座標
-	int rt = dinput.Z;    // ゲームパッド「RT」
-	float analogMin = 0.3f;
+	// 左アナログスティック座標
+	float lx, ly;   
 	lx = static_cast<float>(dinput.X);
 	ly = static_cast<float>(dinput.Y);
+
+	// ゲームパッド「RT」
+	int rt = dinput.Z; 
+
+	float analogMin = 0.3f;
 
 	// 処理前のステータスを保存
 	STATE oldState = _state;
@@ -520,29 +497,23 @@ void Player::Process(){
 	}
 
 	// カメラデータ取得
-	VECTOR camPos = Camera::GetInstance()->GetPos();
-	VECTOR camTarg = Camera::GetInstance()->GetTarg();
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+	VECTOR camPos = Camera::GetInstance()->GetPos();      // カメラ位置
+	VECTOR camTarg = Camera::GetInstance()->GetTarg();    // カメラの注視点
+	Camera::STATE camState = Camera::GetInstance()->GetCameraState();  // カメラの状態
 
 	// カメラの向いている角度取得
 	float disX = camPos.x - camTarg.x;
 	float disZ = camPos.z - camTarg.z;
 	float camRad = atan2(disZ, disX);
 
-	// モードゲーム取得
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-
-
 	// 移動方向を決める
-	VECTOR vec = { 0.f,0.f,0.f };
+	VECTOR vec = { 0.0f,0.0f,0.0f };
 	float length = sqrt(lx * lx + ly * ly);
 	float rad = atan2(lx, ly);
 	_lfAnalogDeg = static_cast<int>(rad * 180.0f / DX_PI_F);
 
 
-	/**
-	* ゲームオーバー処理
-	*/
+	// ゲームオーバー処理
 	if (_gameOverFlag) {
 		_gameOverCnt--;
 		if (_gameOverCnt == 0) {
@@ -550,14 +521,13 @@ void Player::Process(){
 			ModeServer::GetInstance()->Add(modeGameOver, 2, "over");
 		}
 	}
-	if (_hitpoint <= 0) {   // ヒットポイント 0 でゲームオーバー
+	// ヒットポイント 0 でゲームオーバー
+	if (_hitpoint <= 0) { 
 		_gameOverFlag = true;
 	}
 
 
-	/**
-	* 移動処理
-	*/
+	// 移動処理
 	if (length < analogMin) {
 		length = 0.f;
 	}
@@ -581,14 +551,12 @@ void Player::Process(){
 				LeftAnalogDeg(length);
 				
 				if (!_isDash) {
-//					_mvSpd = NOR_MV_SPD;
 					_mvSpd = CHARA_DATA->_mvSpdNorm;
 				}				
 			}
 			else {
 				_vDir = vec;
 				if (_state != STATE::FOR_DASH) {
-//					_mvSpd = NOR_MV_SPD;
 					_mvSpd = CHARA_DATA->_mvSpdNorm;
 				}
 				if (_isCanJump) {
@@ -601,24 +569,16 @@ void Player::Process(){
 
 		}
 
-		/**
-        * 重力処理
-        */
+		// 重力処理
 		_vPos.y -= GRAVITY;
 		if (_vPos.y < 0.0f) {
 			_vPos.y = 0.0f;
 		}
 		
-		/**
-		* ジャンプ
-		*/
+		// ジャンプ
 		JumpAction();
 		
-
-
-		/**
-        * 短押しダッシュ
-        */
+		// 短押しダッシュ
 		float nowAngle = atan2(_vDir.z, _vDir.x);  // 現在のプレイヤーの正面角度
 		VECTOR vDash{ 0.f,0.f,0.f };               // ダッシュする方向
 		if (trg & PAD_INPUT_6 && (_state != STATE::JUMP) && _energy > CHARA_DATA->_egDash) {
@@ -656,9 +616,7 @@ void Player::Process(){
 				_isDash = false;
 			}
 		}
-		/**
-		* 長押しダッシュ
-		*/
+		// 長押しダッシュ
 		if (key & PAD_INPUT_6) {		
 			//プレイヤーが地上にいる 、長押しダッシュ可能(短押しダッシュを行った時)、短押しダッシュ移動が終わっている、エネルギー0よりある
 			if (_isCanJump && _isCanLongDash && !_isShortDash && _energy > 0) {
@@ -689,13 +647,10 @@ void Player::Process(){
 			_isCanLongDash = false;
 		}
 
-		/**
-		* エネルギー溜め
-		*/
+		// エネルギー溜め
 		if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5)&& _energy < CHARA_DATA->_maxEnergy) {
 			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
 				if (!_isDash) {           // ダッシュしてなければ溜め可能
-//					_mvSpd = CHARGE_MV_SPD;
 					_mvSpd = CHARA_DATA->_mvSpdChrg;
 					_isCharging = true;
 				}
@@ -705,99 +660,18 @@ void Player::Process(){
 			_isCharging = false;
 		}
 
-		/**
-		* 近接攻撃処理(初手のみ)
-		*/
-		if (_vPos.y == 0.0f && _attackReloadTime == 0) {
-			if (trg & PAD_INPUT_B && !_attackFlag) {
-				_state = STATE::WEAK_ATCK1;
-				_attackFlag = true;
-				_attackCnt = _attackTotalTime["weak_atck1"];
-				_receptionTime = RECEPTION_TIME;
-				_hitFlag = false;
-				SetAttackDamage();   // 現在の近接攻撃のボスへのダメージ量をセット
 
-			}
-			if (trg & PAD_INPUT_4 && !_attackFlag) {
-				if (_energy >= CHARA_DATA->_egAtck1) {  // エネルギー残量チェック
-					_state = STATE::STRG_ATCK1;
-					_energy -= CHARA_DATA->_egAtck1;    // エネルギー消費
-					_atChargeFlag = false;                     // 攻撃中エネルギー溜め不可 
-					_atChargeCnt = AT_CHARGE_CNT;              // 溜め復帰時間セット
-					_attackFlag = true;
-					_attackCnt = _attackTotalTime["strg_atck1"];
-					_receptionTime = RECEPTION_TIME;
-					_hitFlag = false;
-					SetAttackDamage();   // 現在の近接攻撃のボスへのダメージ量をセット
-				}
-			}
+		// 近接攻撃(初手のみ)
+		if (_vPos.y == 0.0f) {
+			_attack->FirstAttack(this);
 		}
-		
 
-		/**
-		* 射撃攻撃 (ゲームパッドRTで射撃)
-		*/
-		int rtMin = -100;
-		if (rt < rtMin && !_isCharging && !_shotZeroFlag) { // 溜め状態及び装弾数がゼロになった場合は射撃不可
-			if (_bulletNum == 0) {
-				_shotZeroFlag = true;      // 弾を打ち切ってしまうとフラグが立つ(= true) ⇒ 射撃不可
-			}
-			if (_bulletNum > 0) {
-				if (_canShotFlag) {
-					_state = STATE::SHOT_ATCK;
-					_shotFlag = true;
-					_playTime = 30.0f;
-					_reloadTime = RELOAD_TIME;	   // リロード開始時間をセット
-					_canShotFlag = false;
-					_bulletNum--;
-//					ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-					PlayerBullet* bullet = new PlayerBullet();
-					float angle = atan2(_vDir.z, _vDir.x);
-					VECTOR tmp = _vPos;
-					tmp.y = _vPos.y + 5.5f;
-					bullet->SetPos(tmp);
-					bullet->SetShotAngle(angle);
-					modeGame->_objServer.Add(bullet);  // 弾発生、射撃開始
-				}
-				else {
-					_shotInterval--;
-					if (_shotInterval == 0) {
-						_canShotFlag = true;
-						_shotInterval = 10;      // 一定の射撃間隔を設ける
-					}
-				}
-
-			}
-		}
-		else {             // 射撃を行わなければリロード開始
-			_shotFlag = false;
-			_reloadTime--;
-			if (_shotZeroFlag) {            // 弾を打ち切った場合は即時リロード開始
-				if (_bulletNum < MAX_BULLET) {
-					_bulletNum++;
-				}
-			}
-			else if (_reloadTime <= 0) {    // 弾が残っている状態かつリロード開始時間ゼロでリロード開始
-				if (_bulletNum < MAX_BULLET) {
-					_bulletNum++;
-				}
-			}
-
-		}
-		if (_bulletNum == MAX_BULLET) {
-			_shotZeroFlag = false;          // リロード完了で_shotZeroFlag解除(= false)
-		}
+        // 射撃攻撃
+		ShotAttack(rt);
 	}
 
-	/**
-    * 近接攻撃処理(2発目以降)
-    */
-	if (_attackFlag) {
-		AttackAction();
-	}
-	if (_attackReloadTime > 0) {
-		_attackReloadTime--;
-	}
+    // 近接攻撃処理(2発目以降)
+	_attack->SecondAttack(this);
 
 	if (_camStateMLS) {
 		_vDir.x = -cos(_bsAngle);
@@ -806,35 +680,18 @@ void Player::Process(){
 	}
 		
 
-	/**
-	*  マルチロックシステム用レチクル追加
-	*/
+	// マルチロックシステム用レチクル追加
 	if (trg & PAD_INPUT_5) {
 		_camStateMLS = true;
-//		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-		Reticle* reticle = new Reticle();
+		Reticle* reticle = NEW Reticle();
 		modeGame->_objServer.Add(reticle);
 	}
 	else {
 		_camStateMLS = false;
 	}
 
-
-
-	/**
-	* エネルギー管理
-	*/
-	if (_energy > 0 || _energy < CHARA_DATA->_maxEnergy) {
-		if (_swCharge) {               // デバッグ用
-			EnergyManager(oldState);
-		}
-	}
-	if (_energy < 0) {
-		_energy = 0;
-	}
-	if (_energy > CHARA_DATA->_maxEnergy) {
-		_energy = CHARA_DATA->_maxEnergy;
-	}
+	// エネルギー管理
+	EnergyManager(oldState);
 
 	// デバッグ用
 	if (trg & PAD_INPUT_7) {
@@ -846,170 +703,39 @@ void Player::Process(){
 		}
 	}
 
+	// 当たり判定
+	Collision();
 
-	/**
-	* 当たり判定
-	*/
-	{
-//		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {  // ステージ
-				if (IsHitStage(*(*itr), 2.0f) == true) {
-					VECTOR slideVec;
-					slideVec = VCross(_vDir, (*itr)->_hitPolyDim.Dim->Normal);
-					slideVec = VCross((*itr)->_hitPolyDim.Dim->Normal, slideVec);
-					_vPos = VAdd(_oldPos, slideVec);
-					_vPos = VAdd(_vPos, VScale((*itr)->_hitPolyDim.Dim->Normal, 0.5f));
-					//					_vPos = VAdd(_vPos, (*itr)->_hitPolyDim.Dim->Normal);
-				}
-				
-
-			}
-			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) { // ボスの弾
-				// 着弾
-				if (IsHitLineSegment(*(*itr), 1.5f)) {
-					modeGame->_objServer.Del(*itr);
-					_hitpoint -= CHARA_DATA->_boss.shotDmg;
-				}
-				// カスリ判定(エネルギー回復)
-				if (IsHitLineSegment(*(*itr), 2.5f)) {
-//					_status.energy += 3;
-					_energy += CHARA_DATA->_egAvoid;
-					gGlobal._totalGetEnergy += CHARA_DATA->_egAvoid;
-				}
-				if (Boss::GetInstance()->_mlsDownFlag) {
-					modeGame->_objServer.Del(*itr);
-					
-				}
-			}
-			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) { // ボス
-				if (IsHitArc_Sphere(*(*itr))==true) {
-					if (_canHitFlag && !_hitFlag) {
-						_hitFlag = true;
-						(*itr)->AttackDamage();
-					}
-				}
-				if (IsHitLineSegment(*(*itr), 10.0f)) {
-				
-					
-					_vPos = VAdd(_vPos, VScale(_oldPos, 0.4f));
-
-				}
-			}
-		}
-	}
 	// MLSによる弾き返しでシールド破壊した場合、[ボスの弾の数 * 指定のエネルギー量]分回復する。
 	if (Boss::GetInstance()->_mlsDownFlag) {
 		_energy += (CHARA_DATA->_egShotNum * Boss::GetInstance()->_bulletNum);
 		gGlobal._totalGetEnergy += (CHARA_DATA->_egShotNum * Boss::GetInstance()->_bulletNum);
 	}
 
-	/**
-	* モーション切替
-	*/
-	if (oldState == _state) {
-		_playTime += 1.0f;
-	}
-	else {
-		if (_attachIndex != -1) {
-			MV1DetachAnim(_mh, _attachIndex);
-			_attachIndex = -1;
-//			MV1ResetFrameUserLocalMatrix(_mh, 94);
-		}
-		switch (_state) {
-		case STATE::WAIT:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "waitmove"), -1, FALSE);
-			break;
-		case STATE::WALK:
-//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "run"), -1, FALSE);
-			break;
-		case STATE::JUMP:
-//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::FOR_DASH:
-//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::LEFT_MOVE:
-//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::RIGHT_MOVE:
-//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::BACK_MOVE:
-//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::LEFT_DASH:
-//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::RIGHT_DASH:
-//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::BACK_DASH:
-//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::WEAK_ATCK1:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-
-			break;
-		case STATE::WEAK_ATCK2:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::WEAK_ATCK3:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::WEAK_ATCK4:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::STRG_ATCK1:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::STRG_ATCK2:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::STRG_ATCK3:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::STRG_ATCK4:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::SHOT_ATCK:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "shoot"), -1, FALSE);
-//			MATRIX Mrotate = MV1GetFrameRotateMatrix(_mh, 94, 0, 0.2 * 2 * DX_PI_F, 0, 0.1);
-//			MV1SetFrameUserLocalMatrix(_mh, 94, Mrotate);
-			break;
-		}
-
-		// アタッチしたアニメーションの総再生時間を取得する
-		_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
-
-		_playTime = 0.0f;
-	}
-
-	if (!_attackFlag) {
-		if (_playTime >= _totalTime) {
-			_playTime = 0.0f;
-		}
-	}
+	// モデルモーション切替
+	MortionSwitch(oldState);
 
 	// 残りHP保存(スコア計算用)
 	gGlobal._remainingHP = _hitpoint;
 }
 
+/**
+ * フレーム処理：描画
+ */
 void Player::Render(){
+
     MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
 	MV1SetScale(_mh, VGet(0.1f, 0.1f, 0.1f));
 	{
 		MV1SetPosition(_mh, _vPos);
 		// 向きからY軸回転を算出
 		VECTOR vRot = { 0,0,0 };
-		vRot.y = atan2(_vDir.x * -1, _vDir.z * -1);		// モデルが標準でどちらを向いているかで式が変わる(これは-zを向いている場合)
+		vRot.y = atan2(_vDir.x * -1, _vDir.z * -1);
 		MV1SetRotationXYZ(_mh, vRot);
 		MV1DrawModel(_mh);
 	}
 
-#if 1
-//	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-//	VECTOR pl = modeGame->_pl->GetPos();
+#if 1  // デバッグ用
 	float angle = atan2(_vDir.z ,_vDir.x);
 	float deg = angle * 180.f / DX_PI_F;
 	int x = 100;
@@ -1081,26 +807,3 @@ void Player::Render(){
 //	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.5f, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
 #endif
 }
-
-/* 他ファイルからの変数値を持ってくる方法例
-//VECTOR _cam = Camera::GetInstance()-GetPos();
-	//ModeGame* modegame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	//printfDx("%f\n", _cam);
-
-		// シングルトン実装例
-	VECTOR camPos = Camera::GetInstance()->GetPos();
-	DrawFormatString(0, 100, GetColor(255, 0, 0), "  camPos.x = %5.2f", camPos.x);
-	DrawFormatString(0, 120, GetColor(255, 0, 0), "  camPos.y = %5.2f", camPos.y);
-	DrawFormatString(0, 140, GetColor(255, 0, 0), "  camPos.z = %5.2f", camPos.z);
-*/
-
-//MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
-/*	_hitPolyDim = MV1CollCheck_Capsule(_mhMap, -1, _capsulePos1, _capsulePos2, 2.f);
-
-	if (_hitPolyDim.HitNum >= 1) {
-		VECTOR slideVec;
-		slideVec = VCross(vec, _hitPolyDim.Dim->Normal);
-		slideVec = VCross(_hitPolyDim.Dim->Normal, slideVec);
-		_vPos = VAdd(_oldPos, slideVec);
-		_vPos = VAdd(_vPos, VScale(_hitPolyDim.Dim->Normal, 0.03f));
-	}*/

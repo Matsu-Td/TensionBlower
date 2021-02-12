@@ -14,8 +14,11 @@
 #include "ModeGame.h"
 
 // 実体
-ApplicationMain				g_oApplicationMain;
+ApplicationMain	g_oApplicationMain;
 
+/**
+ * 初期化
+ */
 bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	if (!base::Initialize(hInstance)) { return false; }
 
@@ -28,22 +31,33 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	return true;
 }
 
+/**
+ * 解放
+ */
 bool ApplicationMain::Terminate() {
 	base::Terminate();
 	return true;
 }
 
-
+/**
+ * フレーム処理：入力
+ */
 bool ApplicationMain::Input() {
 	base::Input();
 	return true;
 }
 
+/**
+ * フレーム処理：計算
+ */
 bool ApplicationMain::Process() {
 	base::Process();
 	return true;
 }
 
+/**
+ * フレーム処理：描画
+ */
 bool ApplicationMain::Render() {
 	base::Render();
 	return true;

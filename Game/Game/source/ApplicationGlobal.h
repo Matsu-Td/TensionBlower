@@ -23,4 +23,4 @@ public:
 	int  _totalRepelCnt;  // 合計弾き返し回数
 };
 
-extern ApplicationGlobal gGlobal;  // グローバル化
+extern ApplicationGlobal gGlobal; 

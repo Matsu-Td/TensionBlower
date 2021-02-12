@@ -19,22 +19,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (!appBase->Initialize(hInstance)) {
 		return 0;
 	}
-	
+	// リソースサーバ初期化
+	ResourceServer::Init();
+
 	while (ProcessMessage() == 0)
 	{
-
+		if (appBase->GetInstance()->GameEndFlag() == true) {
+			break;
+		}
 		appBase->Input();
 		appBase->Process();
 
 		ClearDrawScreen();	
 		appBase->Render();
 		ScreenFlip();	
-
-		if (appBase->GetInstance()->GameEndFlag() == true) {
-
-			break;
-		}
 	}
+
 	ResourceServer::Release();
 	appBase->Terminate();
 

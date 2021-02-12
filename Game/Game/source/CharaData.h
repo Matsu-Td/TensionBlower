@@ -11,12 +11,17 @@
 
 class CharaData{
 public:
+	/**
+	 * コンストラクタで読み込むJSONファイル指定
+	 * @param filePath ファイルの場所
+	 * @param fileName ファイル名
+	 */
 	CharaData(std::string filePath, std::string fileName);
 	~CharaData();
 
 	/**
-	* プレイヤーデータ
-	*/
+	 * プレイヤーデータ
+	 */
 	int _maxHP;         // 最大HP
 	int _maxEnergy;     // 最大エネルギー
 	float _mvSpdNorm;   // 移動速度(通常状態)
@@ -71,8 +76,8 @@ public:
 	int _repelDmg;      // HPダメージ量(シールド無)：弾き返し
 
 	/**
-	* ボスデータ
-	*/
+	 * ボスデータ
+	 */
 	struct BOSS {
 		int maxHP;       // 最大HP
 		int maxShield;   // 最大シールド値
@@ -83,6 +88,18 @@ public:
 	BOSS _boss;
 
 private:
+	/**
+     * JSONファイルを開いてデータを取得
+     * @param fileName ファイル名
+	 * @return 読み込んだJSONファイルデータ
+     */
 	std::string StringFileLoad(std::string fileName);
+
+	/**
+     * JSONファイルのデータ読み込み
+	 * @param filePath ファイルの場所
+     * @param fileName ファイル名
+     * @return JSONファイル読み込み失敗で「0」,成功で「1」
+     */
 	int JsonLoad(std::string filePath, std::string fileName);
 };

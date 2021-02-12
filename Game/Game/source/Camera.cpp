@@ -14,6 +14,7 @@
 Camera* Camera::_pInstance = NULL;
 
 Camera::Camera(){
+
 	_pInstance = this;
 	_lockOn.cg = ResourceServer::LoadGraph("res/ui/lockon.png");
 	Initialize();
@@ -23,12 +24,15 @@ Camera::~Camera(){
 
 }
 
+/**
+ * 初期化
+ */
 void Camera::Initialize(){
+
 	_vPos = VGet(0.f, 10.f, -140.f);
 	_oldvPos = _vPos;
 	_state = STATE::NORMAL;
 	_oldState = _state;
-	_cnt = 150;
 	_angleH = 0.0f;
 	_angleV = 20.0f;
 
@@ -36,7 +40,11 @@ void Camera::Initialize(){
 	_lockOn.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
 }
 
+/**
+ * フレーム処理：計算
+ */
 void Camera::Process(){
+
 	int key = ApplicationMain::GetInstance()->GetKey();  // キー入力情報取得
 	int trg = ApplicationMain::GetInstance()->GetTrg();  // キー入力のトリガ情報取得
 
@@ -64,13 +72,13 @@ void Camera::Process(){
 #if 1   // 0:開発用(カメラ自由)、1:本番用
 
 /**
-* カメラ切替
-*/
+ * カメラ切替
+ */
 	switch (_state) {
 
 	/**
-　　* 通常状態
-　　*/
+　　 * 通常状態
+　　 */
 	case STATE::NORMAL:
 	{	
 		if (_oldState != STATE::NORMAL) {
@@ -84,37 +92,39 @@ void Camera::Process(){
 		}
 		_oldState = _state;
 
-		VECTOR TmpPos1, TmpPos2;
+		VECTOR tmpPos1, tmpPos2;
 		float sinParam, cosParam;
 		_vTarg = plPos;
 		_vTarg.y = plPos.y + 3.5f;
-/**/
+
 		// 垂直角度を反映した位置
 		sinParam = sin(_angleV / 180.0f * DX_PI_F);
 		cosParam = cos(_angleV / 180.0f * DX_PI_F);
-		TmpPos1.x = 0.f;
-		TmpPos1.y = 8.5f;       // sinParam * camDis;
-		TmpPos1.z = -cosParam * camDis;
+		tmpPos1.x = 0.f;
+		tmpPos1.y = 8.5f;       // sinParam * camDis;
+		tmpPos1.z = -cosParam * camDis;
 
 		// 水平角度を反映した位置
 		sinParam = sin(_angleH / 180.0f * DX_PI_F);
 		cosParam = cos(_angleH / 180.0f * DX_PI_F);
-		TmpPos2.x = cosParam * TmpPos1.x - sinParam * TmpPos1.z;
-		TmpPos2.y = TmpPos1.y;
-		TmpPos2.z = sinParam * TmpPos1.x + cosParam * TmpPos1.z;
+		tmpPos2.x = cosParam * tmpPos1.x - sinParam * tmpPos1.z;
+		tmpPos2.y = tmpPos1.y;
+		tmpPos2.z = sinParam * tmpPos1.x + cosParam * tmpPos1.z;
 
 		// 水平角度変更
-		if (rx > analogMin) {_angleH -= camSpd; }
+		if (rx > analogMin)  { _angleH -= camSpd; }
 		if (rx < -analogMin) { _angleH += camSpd; }
 		// 垂直角度変更
-	//	if (ry > analogMin) { _angleV -= camSpd; }
+	//	if (ry > analogMin)  { _angleV -= camSpd; }
 	//	if (ry < -analogMin) { _angleV += camSpd; }
 
-		_vPos = VAdd(TmpPos2, _vTarg);
+		_vPos = VAdd(tmpPos2, _vTarg);
 		
+		// ゲームパッド右アナログスティック押し込みでボスへカメラロック
 		if (trg & PAD_INPUT_10) { 
 			_state = STATE::TARG_LOCK_ON; 
 		}
+		// ゲームパッド「LB」長押しでカメラをFPS視点(マルチロックシステム発動)に切替
 		if (key & PAD_INPUT_5 && plEnergy > 12.5f) {
 			_state = STATE::MLS_LOCK;
 		}
@@ -122,8 +132,8 @@ void Camera::Process(){
 	}
 
 	/**
-　　* ボスへカメラロックオン状態
-　　*/
+　　 * ボスへカメラロックオン状態
+　　 */
 	case STATE::TARG_LOCK_ON:
 	{
 		_oldState = _state;
@@ -137,20 +147,22 @@ void Camera::Process(){
 
 		_vPos.x = bsPos.x + cos(camrad) * length;
 		_vPos.z = bsPos.z + sin(camrad) * length;
-		_vPos.y = plPos.y + 12.0f; // カメラ高さ固定
+		_vPos.y = plPos.y + 12.0f; 
 
-		if(trg & PAD_INPUT_10) {
+		// ゲームパッド右アナログスティック押し込みでロック解除
+		if (trg & PAD_INPUT_10) {
 			_state = STATE::NORMAL;
 		}
-		if (key & PAD_INPUT_5 && plEnergy > 12.5) {
+		// ゲームパッド「LB」長押しでカメラをFPS視点(マルチロックシステム発動)に切替
+		if (key & PAD_INPUT_5 && plEnergy > 12.5f) {
 			_state = STATE::MLS_LOCK;
 		}
 		break;
 	}
 
 	/**
-	* マルチロックオンシステム発動状態
-	*/
+	 * マルチロックオンシステム発動状態
+	 */
 	case STATE::MLS_LOCK:
 	{
 		_vTarg = bsPos;
@@ -177,7 +189,6 @@ void Camera::Process(){
 			_state = STATE::TARG_LOCK_ON;
 		}
 		break;
-
 	}
 
 
@@ -276,8 +287,11 @@ void Camera::Process(){
 
 }
 
-
+/**
+ * フレーム処理：描画
+ */
 void Camera::Render(){
+
 	SetCameraPositionAndTarget_UpVecY(_vPos, _vTarg);
 	SetCameraNearFar(0.1f, 5000.f);
 

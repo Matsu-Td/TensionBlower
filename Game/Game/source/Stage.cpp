@@ -1,14 +1,13 @@
 
 /**
  * @file  Stage.cpp
- * @brief ステージ
+ * @brief ステージ描画
  *
  * @date 2021-02-08
  */
 
 #include "Stage.h"
 #include "ApplicationMain.h"
-
 
 Stage::Stage(){
 	_mh = ResourceServer:: MV1LoadModel("res/model/仮データ/stage_dummy02.mv1");
@@ -19,14 +18,9 @@ Stage::~Stage(){
 
 }
 
-void Stage::Initialize(){
-
-}
-
-void Stage::Process(){
-
-}
-
+/**
+ * フレーム処理：描画
+ */
 void Stage::Render(){
 #ifdef _DEBUG
 	{

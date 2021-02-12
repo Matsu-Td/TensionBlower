@@ -3,7 +3,7 @@
  * @file  Boss.cpp
  * @brief ボス関連処理
  *
- * @date 2021-02-08
+ * @date 2021-02-11
  */
 
 #include "Boss.h"
@@ -26,6 +26,9 @@ Boss::~Boss(){
 
 }
 
+/**
+ * 初期化
+ */
 void Boss::Initialize() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -60,15 +63,22 @@ void Boss::Initialize() {
 	_gameClearFlag = false;
 }
 
+/**
+ * 弾幕パターン切替処理
+ */
 void Boss::ShotPatternSwitch() {
 
 	_shotCnt++;
-	if (_shotCnt % 240 == 0) {
+
+	// フェーズ毎で発生する弾幕パターンを3セットランダムで変化させる
+	if (_shotCnt % PATTERN_CHANGE_CNT == 0) {
 		_shotPattern = rand() % 3 + 1;
 	}
 
+	// フェーズ毎の弾幕パターンセット
 	switch (_phase) {
-	case 0:
+	// 初期フェーズ
+	case 0:                      
 		if(_shotPattern <= 2){
 			ShotPattern1and2();
 		}
@@ -76,7 +86,8 @@ void Boss::ShotPatternSwitch() {
 			ShotPattern3();
 		}
 		break;
-	case 1:
+	// フェーズ1
+	case 1:	                     
 		if (_shotPattern == 1) {
 			ShotPattern3();
 			ShotPattern6();
@@ -89,6 +100,7 @@ void Boss::ShotPatternSwitch() {
      		ShotPattern5();
 		}
 		break;
+	// フェーズ2
 	case 2:
 		if (_shotPattern == 1) {
 			ShotPattern3();
@@ -104,6 +116,7 @@ void Boss::ShotPatternSwitch() {
 			ShotPattern6();
 		}
 		break;
+	// フェーズ3
 	case 3:
 		if (_shotPattern == 1) {
 			ShotPattern3();
@@ -119,6 +132,7 @@ void Boss::ShotPatternSwitch() {
 			ShotPattern6();
 		}
 		break;
+	// フェーズ4
 	case 4:
 		if (_shotPattern == 1) {
 			ShotPattern3();
@@ -137,18 +151,21 @@ void Boss::ShotPatternSwitch() {
 	}
 }
 
+/**
+ * 弾幕パターン1&2
+ */
 void Boss::ShotPattern1and2() {
 
-	
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
 	if (_shotCnt % 17 == 0 && _shotCnt != 1) {  
 		for (int i = 0; i < 8; i++) {
-			VECTOR tmp = { 0.0f,0.0f,0.0f };
-			tmp.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
-			tmp.y = 3.5f;
-			tmp.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
+			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
+			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
+			tmpPos.y = 3.5f;
+			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
 			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmp);
+			bullet->SetPos(tmpPos);
 			bullet->SetShotSpd(1.0f);
 			bullet->SetAngle(_shotAngle);
 			modeGame->_objServer.Add(bullet);
@@ -165,23 +182,27 @@ void Boss::ShotPattern1and2() {
 	}
 }
 
+/**
+ * 弾幕パターン3
+ */
 void Boss::ShotPattern3() {
 
 	_reverseCnt--;
 	if (_reverseCnt <= 0) {
-		_reverseCnt = 90;
+		_reverseCnt = SHOT_REVERSE_CNT;
 		_setRotAngle *= -1.0f;
 	}
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
 	if (_shotCnt % 9 == 0) {
 		for (int i = 0; i < 8; i++) {
-			VECTOR tmp = { 0.0f,0.0f,0.0f };
-			tmp.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
-			tmp.y = 3.5f;
-			tmp.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
+			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
+			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+			tmpPos.y = 3.5f;
+			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmp);
+			bullet->SetPos(tmpPos);
 			bullet->SetShotSpd(1.3f);
 			bullet->SetAngle(_shotAngle);
 			modeGame->_objServer.Add(bullet);
@@ -194,19 +215,22 @@ void Boss::ShotPattern3() {
 	}
 }
 
+/**
+ * 弾幕パターン4-1
+ */
 void Boss::ShotPattern4_1() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	if (_shotCnt % 26 == 0) {
 		for (int i = 0; i < 8; i++) {
-			VECTOR tmp = { 0.0f,0.0f,0.0f };
-			tmp.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
-			tmp.y = 2.5f;
-			tmp.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
+			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
+			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+			tmpPos.y = 2.5f;
+			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmp);
-			bullet->SetShotSpd(1.2f);
-			bullet->SetAngle(_shotAngle);
+			bullet->SetPos(tmpPos);           // 弾幕発生位置セット
+			bullet->SetShotSpd(1.2f);         // 弾の移動速度セット
+			bullet->SetAngle(_shotAngle);     // 弾の発射角度セット
 			modeGame->_objServer.Add(bullet);
 			_shotAngle += 45.0f;
 		}
@@ -216,17 +240,20 @@ void Boss::ShotPattern4_1() {
 	}
 }
 
+/**
+ * 弾幕パターン4-2
+ */
 void Boss::ShotPattern4_2() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	if (_shotCnt % 26 == 13) {
 		for (int i = 0; i < 8; i++) {
-			VECTOR tmp = { 0.0f,0.0f,0.0f };
-			tmp.x = _vPos.x + cos(_shotAngle1 / 180.0f * DX_PI_F) * 10.0f;
-			tmp.y = 5.0f;
-			tmp.z = _vPos.z + sin(_shotAngle1 / 180.0f * DX_PI_F) * 10.0f;
+			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
+			tmpPos.x = _vPos.x + cos(_shotAngle1 / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+			tmpPos.y = 5.0f;
+			tmpPos.z = _vPos.z + sin(_shotAngle1 / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmp);
+			bullet->SetPos(tmpPos);
 			bullet->SetShotSpd(1.2f);
 			bullet->SetAngle(_shotAngle1);
 			modeGame->_objServer.Add(bullet);
@@ -238,6 +265,9 @@ void Boss::ShotPattern4_2() {
 	}
 }
 
+/**
+ * 弾幕パターン5
+ */
 void Boss::ShotPattern5() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -250,11 +280,11 @@ void Boss::ShotPattern5() {
 			float sz = plPos.z - _vPos.z;
 			float rad = atan2(sz, sx);
 			float deg = rad * 180.0f / DX_PI_F;
-			VECTOR tmp = { 0.0f,0.0f,0.0f };
-			tmp = _vPos;
-			tmp.y = abs(height) + 1.0f;         // 地上から高さ1mより上
+			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
+			tmpPos = _vPos;
+			tmpPos.y = abs(height) + 1.0f;         // 地上から高さ1mより上
 			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmp);                // 発生位置セット
+			bullet->SetPos(tmpPos);                // 発生位置セット
 			bullet->SetShotSpd(1.0f);           // 弾速セット
 			bullet->SetAngle(deg + angleSide);  // 発射する角度セット
 			modeGame->_objServer.Add(bullet);
@@ -277,6 +307,9 @@ void Boss::ShotPattern5() {
 	}
 }
 
+/**
+ * 弾幕パターン6
+ */
 void Boss::ShotPattern6(){
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -288,11 +321,11 @@ void Boss::ShotPattern6(){
 			float sz = plPos.z - _vPos.z;
 			float rad = atan2(sz, sx);
 			float deg = rad * 180.0f / DX_PI_F;
-			VECTOR tmp = { 0.0f,0.0f,0.0f };
-			tmp = _vPos;
-			tmp.y = 3.5f;
+			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
+			tmpPos = _vPos;
+			tmpPos.y = 3.5f;
 			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmp);
+			bullet->SetPos(tmpPos);
 			bullet->SetShotSpd(1.5f);
 			bullet->SetAngle(deg + angleSide);
 			modeGame->_objServer.Add(bullet);
@@ -301,68 +334,78 @@ void Boss::ShotPattern6(){
 	}
 }
 
+/**
+ * フェーズ変更処理
+ */
 void Boss::FhaseChange() {
 
-	if (_hitpoint <= 1000) {
+	// フェーズ4へ移行
+	if (_hitpoint <= PHASE_FOUR_HP) {
 		_phase = 4;
 		return;
 	}
-	if (_hitpoint <= 2000) {
+	// フェーズ3へ移行
+	if (_hitpoint <= PHASE_THREE_HP) {
 		_phase = 3;
 		return;
 	}
-	if (_hitpoint <= 3000) {
+	// フェーズ2へ移行
+	if (_hitpoint <= PHASE_TWO_HP) {
 		_phase = 2;
 		return;
 	}
-	if (_hitpoint <= 4000) {
+	// フェーズ1へ移行
+	if (_hitpoint <= PHASE_ONE_HP) {
 		_phase = 1;
 		return;
 	}
+	// 初期フェーズ0
 	_phase = 0;
 }
 
-
-
+/**
+ * ダウン状態処理
+ */
 void Boss::StateDown(){
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	if (_stateDown) {
-		_mlsDownFlag = false;  // MLSダウンフラグ解除
-		_downTime--;           // ダウン時間カウント
+		_mlsDownFlag = false;	   // マルチロックオンシステムによるダウンフラグ解除
+		_downTime--;               // ダウン時間カウント
 		if (_downTime < 0) {
 			_downTime = 0;         // ダウン時間リセット
 			_stateDown = false;    // ダウン状態解除
 			_bulletNum = 0;        // 弾の数リセット
-			_shield = CHARA_DATA->_boss.maxShield;  // シールド値回復
+			_shield = CHARA_DATA->_boss.maxShield;  // シールド値全回復
 		}
 	}
 
-	if (_shield <= 0) {
-		if (!_stateDown) {
-			
-			for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-				if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
-					_bulletNum++;   // ダウン直前に出現していた弾の数をカウント
-				}
-				int plEnergy = Player::GetInstance()->GetEnergy();
-				_downTime = 180 + plEnergy / 20 + _bulletNum;       // ダウン時間計算
-				_stateDown = true;  // ダウン状態にする
+	if (_shield > 0) {
+		return;
+	}
+	if (!_stateDown) {
+		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
+			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
+				_bulletNum++;   // ダウン直前に出現していた弾の数をカウント
 			}
+			int plEnergy = Player::GetInstance()->GetEnergy();
+			_downTime = MIN_DOWN_TIME + plEnergy / 20 + _bulletNum;       // ダウン時間計算
+			_stateDown = true;  // ダウン状態にする
 		}
 	}
-	else {
-		//_stateDown = false;
-	}
-
+	
 }
 
+/**
+ * フレーム処理：計算
+ */
 void Boss::Process(){
 
-	/**
-	* ゲームクリア処理
-	*/
+	// カメラの状態を取得
+	int camState = Camera::GetInstance()->GetCameraState();
+
+	// ゲームクリア処理
 	if (_gameClearFlag) {
 		_gameClearCnt--;
 		if (_gameClearCnt == 0) {
@@ -370,66 +413,43 @@ void Boss::Process(){
 			ModeServer::GetInstance()->Add(modeGameClear, 2, "clear");
 		}
 	}
+	// ヒットポイントゼロでゲームクリアフラグを立てる
 	if (_hitpoint <= 0) {
 		_hitpoint = 0;
 		_gameClearFlag = true;
 	}
 
-//	_playTime++;
+	// 未実装：アニメーション処理
 	if (_playTime >= _totalTime) {
-		_playTime = 0.f;
+		_playTime = 0.0f;
 	}
 
-	int camState = Camera::GetInstance()->GetCameraState();
-
+	// 当たり判定用カプセル
 	_capsulePos1 = _vPos;
 	_capsulePos2 = _vPos;
 
-//	if (_shotCnt % 240 == 0) {
-//		_shotPattern = rand() % 2;
-//	}
-	
-	/**
-	* フェーズ切替
-	*/
+	// フェーズ切替
 	FhaseChange();
 
-	/**
-	* 弾幕攻撃処理
-	*/
+	// 弾幕攻撃処理
 	if (_shield	 > 0) {
-		if (camState == Camera::STATE::MLS_LOCK) {  // マルチロックシステム発動中は弾の発射速度を遅くする
+		// マルチロックオンシステム発動中は弾の発射速度を遅くする
+		if (camState == Camera::STATE::MLS_LOCK) {  
 			_mlsCnt++;
 			if (_mlsCnt % 100 == 0) {
-	
-//				ShotPattern1();
-//				ShotPattern3();
-//				if (_hitpoint <= 4000) {
-//					ShotPattern6();
 				ShotPatternSwitch();
-//				}
 			}
 		}
-		else {
-			
+		else {		
 			_mlsCnt = 0;
-//			ShotPattern1();
-//			ShotPattern3();
-//			if (_hitpoint <= 4000) {
-///				ShotPattern6();
-//			}
 			ShotPatternSwitch();
 		}
 	}
 
-	/**
-	* ダウン処理
-	*/
+	// ダウン処理
 	StateDown();
 
-	/**
-	* プレイヤーの弾との当たり判定、ダメージ処理
-	*/ 
+	// プレイヤーの弾との当たり判定、ダメージ処理
 	{
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
@@ -437,8 +457,8 @@ void Boss::Process(){
 				if (IsHitLineSegment(*(*itr), 10.0f) == true) {
 					if (_shield > 0) {
 						_hitpoint -= CHARA_DATA->_shotDmgHP;
-//						_shield -= CHARA_DATA->_shotDmgSld;
-						_shield -= 100; // デバッグ用
+						_shield -= CHARA_DATA->_shotDmgSld;
+//						_shield -= 100; // デバッグ用
 						modeGame->_objServer.Del(*itr);
 					}
 					else {
@@ -451,16 +471,18 @@ void Boss::Process(){
 			
 		}
 	}
-	
 }
 
+/**
+ * フレーム処理：描画
+ */
 void Boss::Render(){
 
 	MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
 	MV1SetScale(_mh, VGet(5.0f, 5.0f, 5.0f));
 	MV1SetPosition(_mh, _vPos);
 
-	MV1SetRotationXYZ(_mh, VGet(0.f,-90.0f * DX_PI_F / 180.0f,0.f));
+	MV1SetRotationXYZ(_mh, VGet(0.0f, -90.0f * DX_PI_F / 180.0f, 0.0f));
 	MV1DrawModel(_mh);
 
 #if 1
@@ -480,34 +502,47 @@ void Boss::Render(){
 #endif
 }
 
-void Boss::Damage() {   // MLSで弾き返された弾によるダメージ処理
-	if (_shield > 0) {  // シールドがあるとき
-		_hitpoint -= 10;
-		_shield -= 200;
+/**
+ * プレイヤーに弾き返された弾によるダメージ処理
+ */
+void Boss::Damage() {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
+	// シールドがあるとき
+	if (_shield > 0) {  
+		_hitpoint -= CHARA_DATA->_repelDmgHP;
+		_shield -= CHARA_DATA->_repelDmgSld;
 		if (_shield <= 0) {
 			_shield = 0;
-			_mlsDownFlag = true;  // MLSで弾き返された弾でシールドが破壊されるとtrue
+			_mlsDownFlag = true;  // プレイヤーに弾き返された弾でシールドが破壊されるとtrue
 		}
 	}
-	else {             // シールドがないとき
-		_hitpoint -= 10;
+	// シールドがないとき
+	else {            
+		_hitpoint -= CHARA_DATA->_repelDmg;
 	}
 }
 
+/**
+ * プレイヤーから受けたダメージ量計算
+ */
 void Boss::AttackDamage(){
 
 	int dmgHP = Player::GetInstance()->GetNowDmgHP();
 	int dmgSld = Player::GetInstance()->GetNowDmgSld();
 	int dmgNorm = Player::GetInstance()->GetNowDmgNorm();
 
-	if (_shield > 0) {  // シールドがあるとき
+	// シールドがあるとき
+	if (_shield > 0) { 
 		_hitpoint -= dmgHP;
 		_shield -= dmgSld;
 		if (_shield <= 0) {
 			_shield = 0;
 		}
 	}
-	else {             // シールドがないとき
-		_hitpoint -= 1000;
+	// シールドがないとき
+	else {            
+		_hitpoint -= dmgNorm;
 	}
 }

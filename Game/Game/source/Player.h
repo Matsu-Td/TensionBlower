@@ -12,7 +12,10 @@
 #include "BulletServer.h"
 #define  CHARA_DATA (modeGame->_charaData)
 
+class PlayerAttack;
+
 class Player : public ObjectBase{
+	friend PlayerAttack;
 public:
 	Player();
 	~Player();
@@ -25,13 +28,29 @@ public:
 
 	void ShortDash();
 	void NormDash();
-	void JumpAction();
-	void Charging();
-	void MortionSwitch();
-	void AttackAction();
-	void SetAttackDamage();
-	MATRIX MV1GetFrameRotateMatrix(int MHandle, int FrameIndex, double Xaxis, double Yaxis, double Zaxis, double modelScale);
+	void Charge();
 
+	/**
+	 * 消費エネルギー処理
+	 * @param costEnergy 消費エネルギー量
+	 */
+	void CostEnergy(float costEnergy);
+
+	/**
+     * 当たり判定
+     */
+	void Collision();
+
+	/**
+	 * ジャンプ処理
+	 */
+	void JumpAction();
+
+	/**
+     * 射撃攻撃 :ゲームパッドRTで射撃
+     * @param rt ゲームパッド「RT」入力値
+     */
+	void ShotAttack(float rt);
 
 	/**
 	* カメラロック中の移動、ダッシュモーション切替処理／
@@ -40,24 +59,48 @@ public:
 	*/
 	void LeftAnalogDeg(float length);
 
-
+	/**
+	 * エネルギー量取得
+	 * @return プレイヤーの現在のエネルギー量を取得
+	 */
 	int GetEnergy() { return _energy; }
-	int GetNowDmgHP() const { return _nowDmgHP; }
-	int GetNowDmgSld() const { return _nowDmgSld; }
+
+	/**
+     * 近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
+     * @return プレイヤーの現在の近接攻撃ダメージ量
+     */
+	int GetNowDmgHP()   const { return _nowDmgHP; }
+
+	/**
+	 * 近接攻撃：シールド状態のボスのシールドに与えるダメージ量取得
+	 * @return プレイヤーの現在の近接攻撃ダメージ量
+	 */
+	int GetNowDmgSld()  const { return _nowDmgSld; }
+
+	/**
+	 * 近接攻撃：通常状態のボスのHPに与えるダメージ量取得
+	 * @return プレイヤーの現在の近接攻撃ダメージ量
+	 */
 	int GetNowDmgNorm() const { return _nowDmgNorm; }
 
+	/**
+	 * プレイヤーインスタンスアクセス用
+	 * @return _pInstance プレイヤークラスポインタ
+	 */
 	static Player* GetInstance() { return _pInstance; }
 	static Player* _pInstance;
 
 	static constexpr float GROUND_Y = 0.0f;  // 地上のY座標
 
-private:
+protected:
+
+
 	// ステータス関連
 	int _hitpoint;       // ヒットポイント値
 	int _energy;         // エネルギー値
 	int _nowDmgHP;       // 現在の近接攻撃の種類(ボスへのダメージ用)
-	int _nowDmgSld;
-	int _nowDmgNorm;
+	int _nowDmgSld;      // 現在の近接攻撃の種類(ボスへのダメージ用)
+	int _nowDmgNorm;     // 現在の近接攻撃の種類(ボスへのダメージ用)
 	int _bulletNum;      // 弾の残弾数
 
 	// ジャンプ関連
@@ -78,7 +121,7 @@ private:
 	bool _shotFlag;      // 射撃中か
 
 	// エネルギー溜め行動関連
-	bool _isCharging;    // 溜め中か(true:溜め中, false:溜め未実施)
+	bool _isCharging;    // エネルギー溜め中か(true:溜め中, false:溜め未実施)
 	bool _atChargeFlag;  // エネルギー自動回復開始フラグ
 	int _atChargeCnt;    // エネルギー自動回復開始インターバル
 
@@ -91,12 +134,17 @@ private:
 
 	std::unordered_map<std::string, int> _attackTotalTime;  // 各攻撃モーションの総再生時間を格納する
 
+	static constexpr int ATTACK_NUM = 8;  // 近接攻撃の種類の数
+	std::string AttackName[ATTACK_NUM] =  // 各近接攻撃の名前を格納
+	{ "weak_atck1" ,"weak_atck2" ,"weak_atck3" ,"weak_atck4", 
+	  "strg_atck1", "strg_atck2", "strg_atck3", "strg_atck4" };
+
 	// その他
-	bool _nearPosFlag;   // ボスの近くにいるとき
+	bool _nearPosFlag;   // ボスの近くにいるか(true:ボスの近くにいる)
 	float _bsAngle;      // ボスの位置、角度
 	int _lfAnalogDeg;    // 左アナログスティックの倒した方向(角度)
 	int _gameOverCnt;    // プレイヤー死亡からゲームオーバーまでの時間
-	bool _gameOverFlag;
+	bool _gameOverFlag;  // ゲームオーバーフラグ
 	bool _camStateMLS;   // マルチロックオンシステム発動中か
 
 	// プレイヤー状態(モーション)管理
@@ -124,16 +172,32 @@ private:
 	};
 	STATE _state; // プレイヤーの状態
 
+	/**
+	 * エネルギー管理
+	 * @param oldState 処理前のプレイヤーの状態
+	 */
 	void EnergyManager(STATE oldState);
 
-	static constexpr float GRAVITY = 0.9f;       // 重力加速度値
-	static constexpr int SHORT_DASH_CNT = 10;    // 短押しダッシュ時間
-	static constexpr int MAX_BULLET = 100;       // 最大装弾数
-	static constexpr int AT_CHARGE_CNT = 120;    // 自動回復開始カウント
-	static constexpr int RECEPTION_TIME = 30;    // 次近接攻撃受付時間
-	static constexpr int RELOAD_TIME = 90;       // 近接・射撃攻撃リロード時間
+	/**
+	 * モデルモーション切替
+	 * @param oldState 処理前のプレイヤーの状態
+	 */
+	void MortionSwitch(STATE oldState);
+
+	static constexpr float GRAVITY       = 0.9f; // 重力加速度値
+	static constexpr int SHORT_DASH_CNT  = 10;   // 短押しダッシュ時間
+	static constexpr int MAX_BULLET      = 100;  // 最大装弾数
+	static constexpr int AUTO_CHARGE_CNT = 120;  // 自動回復開始カウント
+	static constexpr int RELOAD_TIME     = 90;   // 近接・射撃攻撃リロード時間
+
+	static constexpr int ANALOG_REG_FOR   = 120; // 左アナログスティックを倒す前方向判定の角度範囲(ターゲットロック中のみ使用)
+	static constexpr int ANALOG_REG_OTHER = 45;  // 左アナログスティックを倒す前方向以外の角度範囲(ターゲットロック中のみ使用)
+
+	PlayerAttack* _attack;
 
 	// デバッグ用
 	float _len;          // デバッグ用（プレイヤーとボスの距離）
 	bool _swCharge;      // デバッグ用(エネルギー消費ON/OFF切替)
 };
+
+#include "PlayerAttack.h"
