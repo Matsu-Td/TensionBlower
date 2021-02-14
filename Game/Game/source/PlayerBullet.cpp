@@ -11,7 +11,6 @@
 #include "ApplicationMain.h"
 #include "ModeGame.h"
 
-
 PlayerBullet::PlayerBullet(){
 //	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/karinotama1.mv1");
 	// エフェクトリソースを読み込む。
@@ -27,7 +26,7 @@ PlayerBullet::PlayerBullet(){
 }
 
 PlayerBullet::~PlayerBullet(){
-
+	DeleteEffekseerEffect(_effectResourceHandle);
 }
 
 void PlayerBullet::Initialize(){
@@ -38,11 +37,6 @@ void PlayerBullet::Process(){
 	ObjectBase::Process();
 
 	float mvSpd = 4.0f;   // 弾の速度
-
-
-	DeleteEffekseerEffect(_effectResourceHandle);
-//	DeleteEffekseerEffect(_playingEffectHandle);
-
 
 	float vx, vz;
 	vx = cos(_shotAngle) * mvSpd;

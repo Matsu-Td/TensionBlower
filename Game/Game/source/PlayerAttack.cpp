@@ -73,10 +73,10 @@ void PlayerAttack::NextStrongAttack(Player* player,int attackEnergy, Player::STA
 	}
 	player->_state = std::move(nextState);                     // 次の攻撃の状態へ遷移
 	player->_energy -= std::move(attackEnergy);                // エネルギー消費
-	player->_atChargeFlag = false;                             // 攻撃中エネルギー溜め不可
-	player->_atChargeCnt = Player::AUTO_CHARGE_CNT;            // 溜め復帰時間セット
+	player->_canAutoCharge = false;                            // 強近接攻撃時はエネルギー自動回復停止
+	player->_autoChargeCnt = Player::AUTO_CHARGE_CNT;          // 溜め復帰時間セット
 	player->_attackCnt = player->_attackTotalTime[attackName]; // 攻撃モーション時間セット
-	player->_receptionTime = RECEPTION_TIME;           // 次攻撃受付時間セット
+	player->_receptionTime = RECEPTION_TIME;                   // 次攻撃受付時間セット
 	player->_hitFlag = false;                                  // ボスに攻撃が当たっていない
 	SwitchAttackDamage(player);                                // 現在の近接攻撃のボスへのダメージ量をセット
 }
@@ -88,7 +88,7 @@ void PlayerAttack::NextWeakAttack(Player* player, Player::STATE nextState, std::
 
 	player->_state = std::move(nextState);                     // 次の攻撃の状態へ遷移
 	player->_attackCnt = player->_attackTotalTime[attackName]; // 攻撃モーション時間セット
-	player->_receptionTime = RECEPTION_TIME;           // 次攻撃受付時間セット
+	player->_receptionTime = RECEPTION_TIME;				   // 次攻撃受付時間セット
 	player->_hitFlag = false;                                  // ボスに攻撃が当たっていない
 	SwitchAttackDamage(player);                                // 現在の近接攻撃のボスへのダメージ量をセット
 }
@@ -108,16 +108,17 @@ void PlayerAttack::AttackAction(Player* player) {
 		player->_attackCnt--;
 	}
 
-	// 受付時間
+	// 攻撃受付時間
 	if (player->_attackCnt <= 20) {
 		player->_receptionTime--;
 	}
 	if (player->_receptionTime <= 0) {
 		player->_receptionTime = 0;
 		player->_attackReloadTime = ATTACK_RELOAD_TIME;
-		player->_attackFlag = false;
+		player->_isAttack = false;
 	}
 
+	// 近接攻撃当たり判定発生
 	if (!player->_hitFlag) {
 		if (player->_attackCnt >= 20 && player->_attackCnt < 35) {
 			player->_canHitFlag = true;
@@ -127,6 +128,7 @@ void PlayerAttack::AttackAction(Player* player) {
 		}
 	}
 
+	// 近接攻撃切替
 	switch (player->_state) {
 	case Player::STATE::WEAK_ATCK1:
 		if (player->_receptionTime < RECEPTION_TIME) {
@@ -171,7 +173,7 @@ void PlayerAttack::AttackAction(Player* player) {
 	case Player::STATE::STRG_ATCK3:
 	case Player::STATE::STRG_ATCK4:
 		if (player->_attackCnt <= 0) {
-			player->_attackFlag = false;               // 近接攻撃終了
+			player->_isAttack = false;               // 近接攻撃終了
 			player->_attackReloadTime = ATTACK_RELOAD_TIME;   // 近接攻撃リロード時間セット
 		}
 		break;
@@ -187,13 +189,13 @@ void PlayerAttack::FirstAttack(Player* player) {
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	if (player->_vPos.y == 0.0f && player->_attackReloadTime == 0) {
-		if (trg & PAD_INPUT_2 && !player->_attackFlag) {
-			player->_attackFlag = true;
+		if (trg & PAD_INPUT_2 && !player->_isAttack) {
+			player->_isAttack = true;
 			NextWeakAttack(player, Player::STATE::WEAK_ATCK1, "weak_atck1");
 
 		}
-		if (trg & PAD_INPUT_4 && !player->_attackFlag) {
-			player->_attackFlag = true;
+		if (trg & PAD_INPUT_4 && !player->_isAttack) {
+			player->_isAttack = true;
 			NextStrongAttack(player, CHARA_DATA->_egAtck1, Player::STATE::STRG_ATCK1, "strg_atck1");
 		}
 	}
@@ -204,7 +206,7 @@ void PlayerAttack::FirstAttack(Player* player) {
  */
 void PlayerAttack::SecondAttack(Player* player) {
 	
-	if (player->_attackFlag) {
+	if (player->_isAttack) {
 		AttackAction(player);
 	}
 	if (player->_attackReloadTime > 0) {

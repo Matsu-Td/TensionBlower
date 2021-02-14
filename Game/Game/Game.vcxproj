@@ -160,6 +160,7 @@
     <ClCompile Include="source\Boss.cpp" />
     <ClCompile Include="source\BossBullet.cpp" />
     <ClCompile Include="source\Camera.cpp" />
+    <ClCompile Include="source\Laser.cpp" />
     <ClCompile Include="source\ModeCredit.cpp" />
     <ClCompile Include="source\ModeGame.cpp" />
     <ClCompile Include="source\ModeGameClear.cpp" />
@@ -176,8 +177,11 @@
     </ClCompile>
     <ClCompile Include="source\PlayerBullet.cpp" />
     <ClCompile Include="source\CharaData.cpp" />
+    <ClCompile Include="source\PlayerDash.cpp" />
+    <ClCompile Include="source\PlayerEnergy.cpp" />
     <ClCompile Include="source\PlayerJump.cpp" />
     <ClCompile Include="source\PlayerMotion.cpp" />
+    <ClCompile Include="source\PlayerShoot.cpp" />
     <ClCompile Include="source\Reticle.cpp" />
     <ClCompile Include="source\Sound.cpp" />
     <ClCompile Include="source\Stage.cpp" />
@@ -189,6 +193,7 @@
     <ClInclude Include="source\Boss.h" />
     <ClInclude Include="source\BossBullet.h" />
     <ClInclude Include="source\Camera.h" />
+    <ClInclude Include="source\Laser.h" />
     <ClInclude Include="source\ModeCredit.h" />
     <ClInclude Include="source\ModeGame.h" />
     <ClInclude Include="source\ModeGameClear.h" />
@@ -205,8 +210,11 @@
     </ClInclude>
     <ClInclude Include="source\PlayerBullet.h" />
     <ClInclude Include="source\CharaData.h" />
+    <ClInclude Include="source\PlayerDash.h" />
+    <ClInclude Include="source\PlayerEnergy.h" />
     <ClInclude Include="source\PlayerJump.h" />
     <ClInclude Include="source\PlayerMotion.h" />
+    <ClInclude Include="source\PlayerShoot.h" />
     <ClInclude Include="source\Reticle.h" />
     <ClInclude Include="source\Sound.h" />
     <ClInclude Include="source\Stage.h" />

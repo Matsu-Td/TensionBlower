@@ -86,7 +86,7 @@ void PlayerMotion::SwitchMotion(Player* player, Player::STATE oldState) {
 		player->_playTime = 0.0f;
 	}
 
-	if (!player->_attackFlag) {
+	if (!player->_isAttack) {
 		if (player->_playTime >= player->_totalTime) {
 			player->_playTime = 0.0f;
 		}

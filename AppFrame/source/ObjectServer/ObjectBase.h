@@ -15,7 +15,8 @@ public:
 		BOSS_BULLET,
 		CAMERA,
 		STAGE,
-		RETICLE
+		RETICLE,
+		LASER,
 	};
 	virtual OBJECTTYPE	GetType() = 0;
 

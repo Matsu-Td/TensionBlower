@@ -24,7 +24,6 @@ Player::Player(){
 
 	_mh = MV1LoadModel("res/model/仮データ/TB_player_mm01.mv1");
 	Initialize();
-	_attack->Initialize();
 }
 
 Player::~Player(){
@@ -42,51 +41,54 @@ void Player::Initialize(){
 	_attachIndex = -1;
 	_totalTime = 0;
 	_playTime = 0.0f;
-	_jumpTime = 0.0f;
-	_isCanJump = true;
-	_isCharging = false;
-	_isShortDash = false;
-	_isCanLongDash = false;
-	_isDash = false;
-
-	// 以下ステータス等
-	// 射撃
-	_bulletNum = MAX_BULLET;
-	_canShotFlag = true;
-	_shotInterval = 5;
-	_reloadTime = RELOAD_TIME;
-	_shotZeroFlag = false;
-
-	// エネルギー
-	_energy = CHARA_DATA->_maxEnergy;
-	_atChargeFlag = true;
-	_atChargeCnt = 30;
 
 	// ヒットポイント
 	_hitpoint = CHARA_DATA->_maxHP;
 
-	_gameOverCnt = 60;
-	_gameOverFlag = false;
+	// ジャンプ
+	_jumpTime = 0.0f;
+	_canJump = true;
 
-	_camStateMLS = false;
+	// ダッシュ
+	_isDash = false;
+	_isShortDash = false;
+	_canLongDash = false;
 
-	_swCharge = true;
+	// エネルギー
+	_energy = CHARA_DATA->_maxEnergy;
+	_isCharging = false;
+	_canAutoCharge = true;
+	_autoChargeCnt = 30;
 
-	_shotFlag = false;
-
-	_attackFlag = false;
+	// 近接攻撃
+	_isAttack = false;
 	_attackCnt = 0;
-	_receptionTime = 0;
 	_attackReloadTime = 0;
+	_receptionTime = 0;
 	_hitFlag = false;
 	_canHitFlag = false;
+
+	// 射撃
+	_bulletNum = MAX_BULLET;
+	_canShot = true;
+	_shotInterval = 5;
+	_reloadTime = RELOAD_TIME;
+	_isZeroShot = false;
+	_isShooting = false;
+
+	// ゲームオーバー
+	_gameOverCnt = 60;
+	_isGameOver = false;
+
+	// その他
+	_camStateMLS = false;
+	_swCharge = true;
 
 	// 各近接攻撃のアニメーション総再生時間を格納
 	for (int i = 0; i < ATTACK_NUM; i++) {
 	_attackTotalTime[AttackName[i]] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
 	}
 }
-
  
 void Player::JumpAction() {
 
@@ -94,14 +96,14 @@ void Player::JumpAction() {
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	if (_energy >= CHARA_DATA->_egJump) {
-		if (trg & PAD_INPUT_1 && _isCanJump && !_isCharging) {
+		if (trg & PAD_INPUT_1 && _canJump && !_isCharging) {
 			_state = STATE::JUMP;
-			_isCanJump = false;
+			_canJump = false;
 			_mvSpd = CHARA_DATA->_mvSpdNorm;
 			_jumpTime = 0.f;
 		}
 	}
-	if (!_isCanJump) {
+	if (!_canJump) {
 		float inVel = 4.0f;
 		_vPos.y = inVel * _jumpTime - 0.5f * GRAVITY * _jumpTime * _jumpTime;
 	}
@@ -111,204 +113,8 @@ void Player::JumpAction() {
 	if (_vPos.y < GROUND_Y) {
 		_vPos.y = GROUND_Y;
 		if (_isCharging == false) {
-			_isCanJump = true;
+			_canJump = true;
 		}
-	}
-}
-
-/**
- * カメラロック中の移動、ダッシュモーション切替処理
- * 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移
- */
-void Player::LeftAnalogDeg(float length){
-
-	if (!_isCanJump) {
-		return;
-	}
-
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-
-	if (_isDash) {
-		// ダッシュ用移動速度セット
-		_mvSpd = CHARA_DATA->_mvSpdDash;
-		// 前方向ダッシュ移動
-		if (_lfAnalogDeg >= ANALOG_REG_FOR || _lfAnalogDeg <= -ANALOG_REG_FOR) {
-			_state = STATE::FOR_DASH;
-		}
-		// 左方向ダッシュ移動
-		else if (_lfAnalogDeg < -ANALOG_REG_OTHER && _lfAnalogDeg > -ANALOG_REG_FOR) {
-			_state = STATE::LEFT_DASH;
-		}
-		// 右方向ダッシュ移動
-		else if (_lfAnalogDeg > ANALOG_REG_OTHER && _lfAnalogDeg < ANALOG_REG_FOR) {
-			_state = STATE::RIGHT_DASH;
-		}
-		// 後方向ダッシュ移動
-		else if (_lfAnalogDeg >= -ANALOG_REG_OTHER && _lfAnalogDeg <= ANALOG_REG_OTHER && length >= 0.3f) {
-			_state = STATE::BACK_DASH;
-		}
-		//   // 入力がゲームパッド「RB」のみ場合は前方向ダッシュ移動
-		else {
-			_state = STATE::FOR_DASH;
-		}
-	}
-	else {
-		// 通常移動速度セット
-		_mvSpd = CHARA_DATA->_mvSpdNorm;
-		// 前方向移動
-		if (_lfAnalogDeg >= ANALOG_REG_FOR || _lfAnalogDeg <= -ANALOG_REG_FOR) {
-			_state = STATE::WALK;
-		}
-		// 左方向移動
-		else if (_lfAnalogDeg < -ANALOG_REG_OTHER && _lfAnalogDeg > -ANALOG_REG_FOR) {
-			_state = STATE::LEFT_MOVE;
-		}
-		// 右方向移動
-		else if (_lfAnalogDeg > ANALOG_REG_OTHER && _lfAnalogDeg < ANALOG_REG_FOR) {
-			_state = STATE::RIGHT_MOVE;
-		}
-		// 後方向移動
-		else if (_lfAnalogDeg >= -ANALOG_REG_OTHER && _lfAnalogDeg <= ANALOG_REG_OTHER) {
-			_state = STATE::BACK_MOVE;
-		}
-	}
-}
-
-
-/**
- * 射撃攻撃 (ゲームパッド「RT」で射撃)
- */
-void Player::ShotAttack(float rt) {
-
-	int rtMin = -100;  // RT最小値
-	if (rt < rtMin && !_isCharging && !_shotZeroFlag) { // 溜め状態及び装弾数がゼロになった場合は射撃不可
-		if (_bulletNum == 0) {
-			_shotZeroFlag = true;      // 弾を打ち切ってしまうとフラグが立つ(= true) ⇒ 射撃不可
-		}
-		if (_bulletNum > 0) {
-			if (_canShotFlag) {
-				_state = STATE::SHOT_ATCK;
-				_shotFlag = true;
-				_playTime = 30.0f;
-				_reloadTime = RELOAD_TIME;	   // リロード開始時間をセット
-				_canShotFlag = false;
-				_bulletNum--;
-				ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-				PlayerBullet* bullet = NEW PlayerBullet();
-				float angle = atan2(_vDir.z, _vDir.x);
-				VECTOR tmp = _vPos;
-				tmp.y = _vPos.y + 5.5f;
-				bullet->SetPos(tmp);
-				bullet->SetShotAngle(angle);
-				modeGame->_objServer.Add(bullet);  // 弾発生、射撃開始
-			}
-			else {
-				_shotInterval--;
-				if (_shotInterval == 0) {
-					_canShotFlag = true;
-					_shotInterval = 10;      // 一定の射撃間隔を設ける
-				}
-			}
-
-		}
-	}
-	else {             // 射撃を行わなければリロード開始
-		_shotFlag = false;
-		_reloadTime--;
-		if (_shotZeroFlag) {            // 弾を打ち切った場合は即時リロード開始
-			if (_bulletNum < MAX_BULLET) {
-				_bulletNum++;
-			}
-		}
-		else if (_reloadTime <= 0) {    // 弾が残っている状態かつリロード開始時間ゼロでリロード開始
-			if (_bulletNum < MAX_BULLET) {
-				_bulletNum++;
-			}
-		}
-	}
-	if (_bulletNum == MAX_BULLET) {
-		_shotZeroFlag = false;          // リロード完了で_shotZeroFlag解除(= false)
-	}
-}
-
-/**
- * 消費エネルギー処理
- */
-void Player::CostEnergy(float costEnergy) {
-	_atChargeFlag = false;
-	_atChargeCnt = AUTO_CHARGE_CNT;
-	_energy -= costEnergy;
-}
-
-/**
- * エネルギー管理
- */
-void Player::EnergyManager(STATE oldState){
-
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	float addEne;
-
-	if (_energy > 0 || _energy < CHARA_DATA->_maxEnergy) {
-		if (_swCharge) {               // デバッグ用
-			if (oldState != _state) {
-				// ジャンプ(消費)
-				if (_state == STATE::JUMP) {
-					CostEnergy(CHARA_DATA->_egJump);
-				}
-				// 短押しダッシュ(消費)
-				if (_isShortDash) {
-					CostEnergy(CHARA_DATA->_egDash);
-				}
-			}
-
-			// 長押しダッシュ(消費)
-			if (!_isShortDash && _isDash) {
-				CostEnergy(1);
-			}
-
-			// マルチロックオンシステム(消費)
-			if (camState == Camera::STATE::MLS_LOCK) {
-				CostEnergy(CHARA_DATA->_egMLS);
-			}
-
-			// ボス付近で行動する(回復)
-			if (_nearPosFlag) {
-				addEne = CHARA_DATA->_egAutoXArea;
-			}
-			else {
-				addEne = 1.0f;
-			}
-
-			if (_energy >= CHARA_DATA->_maxEnergy) {
-				return;
-			}
-			//　溜め(回復)
-			if (_isCharging) {
-				_energy += CHARA_DATA->_egAutoRec * CHARA_DATA->_egAutoXChrg * addEne;
-				gGlobal._totalGetEnergy += CHARA_DATA->_egAutoRec * CHARA_DATA->_egAutoXChrg * addEne;
-			}
-
-			// 自動回復開始のインターバル
-			if (!_atChargeFlag) {
-				_atChargeCnt--;
-				if (_atChargeCnt <= 0) {   // 一定の自動回復開始間隔を設ける
-					_atChargeCnt = 0;
-					_atChargeFlag = true;
-				}
-			}
-			// 自動回復(回復)
-			else if (!_isCharging) {
-				_energy += CHARA_DATA->_egAutoRec * addEne;
-				gGlobal._totalGetEnergy += CHARA_DATA->_egAutoRec * addEne;
-			}
-		}
-	}
-	if (_energy < 0) {
-		_energy = 0;
-	}
-	if (_energy > CHARA_DATA->_maxEnergy) {  // エネルギー回復時に最大エネルギー値を超えるのを防ぐ
-		_energy = CHARA_DATA->_maxEnergy;
 	}
 }
 
@@ -338,7 +144,9 @@ void Player::Collision() {
 			}
 			// カスリ判定(エネルギー回復)
 			if (IsHitLineSegment(*(*itr), 2.5f)) {
-				_energy += CHARA_DATA->_egAvoid;
+				if (_energy < CHARA_DATA->_maxEnergy) {
+					_energy += CHARA_DATA->_egAvoid;
+				}
 				gGlobal._totalGetEnergy += CHARA_DATA->_egAvoid;
 			}
 			if (Boss::GetInstance()->_mlsDownFlag) {
@@ -384,11 +192,6 @@ void Player::Process(){
 	lx = static_cast<float>(dinput.X);
 	ly = static_cast<float>(dinput.Y);
 
-	// ゲームパッド「RT」
-	int rt = dinput.Z; 
-
-	float analogMin = 0.3f;
-
 	// 処理前のステータスを保存
 	STATE oldState = _state;
 
@@ -404,10 +207,10 @@ void Player::Process(){
 		_len = len;            //デバッグ用
 		_bsAngle = atan2(dz, dx);
 		if (len <= 50) {
-			_nearPosFlag = true;
+			_isNearBoss = true;
 		}
 		else {
-			_nearPosFlag = false;
+			_isNearBoss = false;
 		}
 	}
 
@@ -427,9 +230,8 @@ void Player::Process(){
 	float rad = atan2(lx, ly);
 	_lfAnalogDeg = static_cast<int>(rad * 180.0f / DX_PI_F);
 
-
 	// ゲームオーバー処理
-	if (_gameOverFlag) {
+	if (_isGameOver) {
 		_gameOverCnt--;
 		if (_gameOverCnt == 0) {
 			ModeGameOver* modeGameOver = new ModeGameOver();
@@ -438,11 +240,11 @@ void Player::Process(){
 	}
 	// ヒットポイント 0 でゲームオーバー
 	if (_hitpoint <= 0) { 
-		_gameOverFlag = true;
+		_isGameOver = true;
 	}
 
 	// 移動処理
-	if (length < analogMin) {
+	if (length < ANALOG_MIN) {
 		length = 0.f;
 	}
 	else {
@@ -450,7 +252,7 @@ void Player::Process(){
 	}
 
 	// マルチロックシステムが発動していないときは移動可能
-	if (camState != Camera::STATE::MLS_LOCK && !_attackFlag) {
+	if (camState != Camera::STATE::MLS_LOCK && !_isAttack) {
 		// vecをrad分回転させる
 		vec.x = cos(rad + camRad) * length;
 		vec.z = sin(rad + camRad) * length;
@@ -463,7 +265,7 @@ void Player::Process(){
 			if (camState == Camera::STATE::TARG_LOCK_ON){
 				_vDir.x = -cos(_bsAngle);
                 _vDir.z = -sin(_bsAngle);
-				LeftAnalogDeg(length);
+				_dashCall->LeftAnalogDeg(this, length);
 				
 				if (!_isDash) {
 					_mvSpd = CHARA_DATA->_mvSpdNorm;
@@ -474,12 +276,12 @@ void Player::Process(){
 				if (_state != STATE::FOR_DASH) {
 					_mvSpd = CHARA_DATA->_mvSpdNorm;
 				}
-				if (_isCanJump) {
+				if (_canJump) {
 					_state = STATE::WALK;
 				}
 			}
 		}
-		else if (_isCanJump && !_shotFlag && !_attackFlag) {
+		else if (_canJump && !_isShooting && !_isAttack) {
 			_state = STATE::WAIT;
 
 		}
@@ -493,74 +295,10 @@ void Player::Process(){
 		// ジャンプ
 		JumpAction();
 		
-		// 短押しダッシュ
-		float nowAngle = atan2(_vDir.z, _vDir.x);  // 現在のプレイヤーの正面角度
-		VECTOR vDash{ 0.f,0.f,0.f };               // ダッシュする方向
-		if (trg & PAD_INPUT_6 && (_state != STATE::JUMP) && _energy > CHARA_DATA->_egDash) {
-			_mvSpd = CHARA_DATA->_mvSpdDash;
-			_isShortDash = true;             // 短押しダッシュ移動スタート
-			_isCanLongDash = true;           // 短押しダッシュ発動 ⇒ 長押しダッシュ発動可能となる
-			_shortDashTime = SHORT_DASH_CNT;  // 短押しダッシュ移動時間をセット
-			
-		}
-		if (_isShortDash) {
-			_shortDashTime--;
-			if (_shortDashTime > 0) {
-				_isDash = true;
-				if (camState != Camera::STATE::TARG_LOCK_ON) {
-					_state = STATE::FOR_DASH;
-				}
-				_isCharging = false;
-				if (length < analogMin) {
-					if (camState == Camera::STATE::TARG_LOCK_ON) {
-						LeftAnalogDeg(length);
-						vDash.x = -cos(_bsAngle) * _mvSpd;
-						vDash.z = -sin(_bsAngle) * _mvSpd;
-					}
-					else {
-						vDash.x = cos(nowAngle) * _mvSpd;
-						vDash.z = sin(nowAngle) * _mvSpd;
-					}
-					_vPos.x += vDash.x;
-					_vPos.z += vDash.z;
-				}
-			}
-			else {
-				_shortDashTime = 0;
-				_isShortDash = false;
-				_isDash = false;
-			}
-		}
-		// 長押しダッシュ
-		if (key & PAD_INPUT_6) {		
-			//プレイヤーが地上にいる 、長押しダッシュ可能(短押しダッシュを行った時)、短押しダッシュ移動が終わっている、エネルギー0よりある
-			if (_isCanJump && _isCanLongDash && !_isShortDash && _energy > 0) {
-				_isDash = true;
-				_isCharging = false;
-				if (camState != Camera::STATE::TARG_LOCK_ON) {
-					_state = STATE::FOR_DASH;
-				}
-				if (length < analogMin) {
-					if (camState == Camera::STATE::TARG_LOCK_ON) {
-						LeftAnalogDeg(length);
-						vDash.x = -cos(_bsAngle) * _mvSpd;
-						vDash.z = -sin(_bsAngle) * _mvSpd;
-						_vPos.x += vDash.x;
-						_vPos.z += vDash.z;
-					}
-					else {
-						vDash.x = cos(nowAngle) * _mvSpd;
-						vDash.z = sin(nowAngle) * _mvSpd;
-						_vPos.x += vDash.x;
-						_vPos.z += vDash.z;
-					}
-				}
-			}
-		}
-		else {
-			_isDash = false;
-			_isCanLongDash = false;
-		}
+		// 現在のプレイヤーの正面角度
+		float nowAngle = atan2(_vDir.z, _vDir.x); 
+		// ダッシュ処理
+		_dashCall->Dash(this, nowAngle, length);
 
 		// エネルギー溜め
 		if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5)&& _energy < CHARA_DATA->_maxEnergy) {
@@ -575,18 +313,17 @@ void Player::Process(){
 			_isCharging = false;
 		}
 
-
 		// 近接攻撃(初手のみ)
 		if (_vPos.y == 0.0f) {
-			_attack->FirstAttack(this);
+			_attackCall->FirstAttack(this);
 		}
 
         // 射撃攻撃
-		ShotAttack(rt);
+		_shootCall->ShootingAttack(this);
 	}
 
     // 近接攻撃処理(2発目以降)
-	_attack->SecondAttack(this);
+	_attackCall->SecondAttack(this);
 
 	if (_camStateMLS) {
 		_vDir.x = -cos(_bsAngle);
@@ -594,7 +331,6 @@ void Player::Process(){
 		_state = STATE::NONE;
 	}
 		
-
 	// マルチロックシステム用レチクル追加
 	if (trg & PAD_INPUT_5) {
 		_camStateMLS = true;
@@ -606,7 +342,7 @@ void Player::Process(){
 	}
 
 	// エネルギー管理
-	EnergyManager(oldState);
+	_energyCall->EnergyManager(this, oldState);
 
 	// デバッグ用
 	if (trg & PAD_INPUT_7) {
@@ -621,14 +357,8 @@ void Player::Process(){
 	// 当たり判定
 	Collision();
 
-	// MLSによる弾き返しでシールド破壊した場合、[ボスの弾の数 * 指定のエネルギー量]分回復する。
-	if (Boss::GetInstance()->_mlsDownFlag) {
-		_energy += (CHARA_DATA->_egShotNum * Boss::GetInstance()->_bulletNum);
-		gGlobal._totalGetEnergy += (CHARA_DATA->_egShotNum * Boss::GetInstance()->_bulletNum);
-	}
-
 	// モデルモーション切替
-	_motion->SwitchMotion(this, oldState);
+	_motionCall->SwitchMotion(this, oldState);
 
 	// 残りHP保存(スコア計算用)
 	gGlobal._remainingHP = _hitpoint;
