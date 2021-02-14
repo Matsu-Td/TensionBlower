@@ -6,10 +6,10 @@
  * @date 2021-02-08
  */
 
-
 #include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"
+#include "Sound.h"
 #include "ModeTitle.h"
 #include "ModeGame.h"
 
@@ -22,10 +22,12 @@ ApplicationMain	g_oApplicationMain;
 bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	if (!base::Initialize(hInstance)) { return false; }
 
-	// アプリケーショングローバルの初期化
+	// グローバル変数の初期化
 	gGlobal.Init();
+	gSound.Init();
 
 	// モードの登録
+
 	ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 
 	return true;

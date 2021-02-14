@@ -12,6 +12,7 @@
 #include "PlayerAttack.h"
 
 PlayerAttack::PlayerAttack() {
+
 }
 
 void PlayerAttack::Initialize(){
@@ -204,7 +205,7 @@ void PlayerAttack::FirstAttack(Player* player) {
 void PlayerAttack::SecondAttack(Player* player) {
 	
 	if (player->_attackFlag) {
-		player->_attack->AttackAction(player);
+		AttackAction(player);
 	}
 	if (player->_attackReloadTime > 0) {
 		player->_attackReloadTime--;

@@ -1,14 +1,14 @@
 
 /**
- * @file  ModePlugin.h
- * @brief プラグイン画面
+ * @file  ModePause.h
+ * @brief ポーズ画面
  *
  * @date 2021-02-08
  */
 
 #include "appframe.h"
 
-class ModePlugin : public ModeBase{
+class ModePause : public ModeBase{
 	typedef ModeBase base;
 
 public:
@@ -18,5 +18,7 @@ public:
 	virtual bool Render();
 
 protected:
-	int _cg;   // 画像
+	int _cg;
+	int _ui[4];
+	int _menuPos;
 };

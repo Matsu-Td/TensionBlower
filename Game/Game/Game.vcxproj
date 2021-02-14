@@ -164,8 +164,8 @@
     <ClCompile Include="source\ModeGame.cpp" />
     <ClCompile Include="source\ModeGameClear.cpp" />
     <ClCompile Include="source\ModeGameOver.cpp" />
-    <ClCompile Include="source\ModeOption.cpp" />
-    <ClCompile Include="source\ModePlugin.cpp" />
+    <ClCompile Include="source\ModePause.cpp" />
+    <ClCompile Include="source\ModeGameStart.cpp" />
     <ClCompile Include="source\ModeRanking.cpp" />
     <ClCompile Include="source\ModeResult.cpp" />
     <ClCompile Include="source\ModeTitle.cpp" />
@@ -177,8 +177,11 @@
     <ClCompile Include="source\PlayerBullet.cpp" />
     <ClCompile Include="source\CharaData.cpp" />
     <ClCompile Include="source\PlayerJump.cpp" />
+    <ClCompile Include="source\PlayerMotion.cpp" />
     <ClCompile Include="source\Reticle.cpp" />
+    <ClCompile Include="source\Sound.cpp" />
     <ClCompile Include="source\Stage.cpp" />
+    <ClCompile Include="source\TitleBGM.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ApplicationGlobal.h" />
@@ -190,8 +193,8 @@
     <ClInclude Include="source\ModeGame.h" />
     <ClInclude Include="source\ModeGameClear.h" />
     <ClInclude Include="source\ModeGameOver.h" />
-    <ClInclude Include="source\ModeOption.h" />
-    <ClInclude Include="source\ModePlugin.h" />
+    <ClInclude Include="source\ModePause.h" />
+    <ClInclude Include="source\ModeGameStart.h" />
     <ClInclude Include="source\ModeRanking.h" />
     <ClInclude Include="source\ModeResult.h" />
     <ClInclude Include="source\ModeTitle.h" />
@@ -203,8 +206,11 @@
     <ClInclude Include="source\PlayerBullet.h" />
     <ClInclude Include="source\CharaData.h" />
     <ClInclude Include="source\PlayerJump.h" />
+    <ClInclude Include="source\PlayerMotion.h" />
     <ClInclude Include="source\Reticle.h" />
+    <ClInclude Include="source\Sound.h" />
     <ClInclude Include="source\Stage.h" />
+    <ClInclude Include="source\TitleBGM.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

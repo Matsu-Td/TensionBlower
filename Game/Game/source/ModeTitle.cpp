@@ -6,19 +6,25 @@
  * @date 2021-02-09
  */
 
-#include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ModeTitle.h"
-#include "ModePlugin.h"
+#include "ModeGameStart.h"
 #include "ModeCredit.h"
 #include "ModeTutorial.h"
 #include "ModeRanking.h"
+#include "ModeGame.h"
+#include "TitleBGM.h"
+#include "Sound.h"
 
 /**
  * ‰Šú‰»
  */
 bool ModeTitle::Initialize() {
 	if (!base::Initialize()) { return false; }
+
+	if (!CheckSoundMem(gSound._bgm["titlebgm"])) {
+		ModeServer::GetInstance()->Add(NEW TitleBGM(), 0, "titlebgm");
+	}
 
 	_cgtitle            = ResourceServer::LoadGraph("res/logo_title.png");
 
@@ -65,7 +71,10 @@ void ModeTitle::MenuSelect() {
 	if (trg & PAD_INPUT_B) {
 		switch (_menuPos) {
 		case MENU::START:
-			ModeChange(NEW ModePlugin(),   1, "plugin");   break;
+			ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("titlebgm"));
+			ModeChange(NEW ModeGame(),   1, "game");   
+
+			break;
 
 		case MENU::TUTORIAL:
 			ModeChange(NEW ModeTutorial(), 1, "tutorial"); break;

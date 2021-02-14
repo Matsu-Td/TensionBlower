@@ -11,7 +11,7 @@
 #include "Stage.h"
 #include "Player.h"
 #include "Boss.h"
-#include "ModeOption.h"
+#include "ModePause.h"
 #include "CharaData.h"
 
 class ModeGame : public ModeBase{

@@ -1,27 +1,28 @@
 
 /**
- * @file  ModeOption.cpp
+ * @file  ModePause.cpp
  * @brief ポーズ画面
  *
  * @date 2021-02-08
  */
 
 #include "ApplicationMain.h"
-#include "ModeOption.h"
+#include "ModePause.h"
 #include "ModeTitle.h"
+#include "Sound.h"
 
 /**
  * 初期化
  */
-bool ModeOption::Initialize(){
+bool ModePause::Initialize(){
 	if (!base::Initialize()) { return false; }
 
-	_cg = ResourceServer::LoadGraph("res/仮素材/ポーズ.png");
+	_cg = ResourceServer::LoadGraph("res/pause.png");
 
-	_ui[0] = ResourceServer::LoadGraph("res/ui/on/title_on_1.png");
-	_ui[1] = ResourceServer::LoadGraph("res/ui/on/title_on_6.png");
-	_ui[2] = ResourceServer::LoadGraph("res/ui/off/title_off_1.png");
-	_ui[3] = ResourceServer::LoadGraph("res/ui/off/title_off_6.png");
+	_ui[0] = ResourceServer::LoadGraph("res/ui/on/pause_on_01.png");
+	_ui[1] = ResourceServer::LoadGraph("res/ui/on/pause_on_02.png");
+	_ui[2] = ResourceServer::LoadGraph("res/ui/off/pause_off_01.png");
+	_ui[3] = ResourceServer::LoadGraph("res/ui/off/pause_off_02.png");
 
 	_menuPos = 0;
 
@@ -31,7 +32,7 @@ bool ModeOption::Initialize(){
 /**
  * 解放
  */
-bool ModeOption::Terminate(){
+bool ModePause::Terminate(){
 	base::Terminate();
 
 	return true;
@@ -40,7 +41,7 @@ bool ModeOption::Terminate(){
 /**
  * フレーム処理：計算
  */
-bool ModeOption::Process(){
+bool ModePause::Process(){
 	base::Process();
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
@@ -66,11 +67,11 @@ bool ModeOption::Process(){
 		// ゲームパッド「B」ボタンでポーズモードとゲームモードを削除し、
 		// タイトルモード追加
 		if (trg & PAD_INPUT_2) {  
+			StopSoundMem(gSound._bgm["boss"]);
 			ModeServer::GetInstance()->Del(this);
 			ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 
-			ModeTitle* modeTitle = NEW ModeTitle();
-			ModeServer::GetInstance()->Add(modeTitle, 1, "title");
+			ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 		}
 	}
 
@@ -85,7 +86,7 @@ bool ModeOption::Process(){
 /**
  * フレーム処理：描画
  */
-bool ModeOption::Render(){
+bool ModePause::Render(){
 	base::Render();
 
 	DrawGraph(0, 0, _cg, TRUE);

@@ -18,5 +18,8 @@ public:
 	virtual bool Render();
 
 protected:
-	int _cg;   // ‰æ‘œ
+	int _cg[2];   // ‰æ‘œ
+	int _posX;
+
+	static constexpr int POS_Y = 390;  // ‰æ‘œ•`‰æˆÊ’uFYÀ•W
 };

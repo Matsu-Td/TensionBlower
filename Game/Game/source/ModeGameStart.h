@@ -1,14 +1,14 @@
 
 /**
- * @file  ModeGameOver.h
- * @brief ゲームオーバー画面
+ * @file  ModeGameStart.h
+ * @brief MISSION START文字表示
  *
- * @date 2021-02-08
+ * @date 2021-02-14
  */
 
 #include "appframe.h"
 
-class ModeGameOver : public ModeBase{
+class ModeGameStart : public ModeBase{
 	typedef ModeBase base;
 
 public:
@@ -18,7 +18,7 @@ public:
 	virtual bool Render();
 
 protected:
-	int	_cg[2];	// 画像
+	int _cg[2];   // 画像
 	int _posX;
 
 	static constexpr int POS_Y = 390;  // 画像描画位置：Y座標

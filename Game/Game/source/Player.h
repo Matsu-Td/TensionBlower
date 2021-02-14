@@ -13,9 +13,11 @@
 #define  CHARA_DATA (modeGame->_charaData)
 
 class PlayerAttack;
+class PlayerMotion;
 
 class Player : public ObjectBase{
 	friend PlayerAttack;
+	friend PlayerMotion;
 public:
 	Player();
 	~Player();
@@ -178,12 +180,6 @@ protected:
 	 */
 	void EnergyManager(STATE oldState);
 
-	/**
-	 * モデルモーション切替
-	 * @param oldState 処理前のプレイヤーの状態
-	 */
-	void MortionSwitch(STATE oldState);
-
 	static constexpr float GRAVITY       = 0.9f; // 重力加速度値
 	static constexpr int SHORT_DASH_CNT  = 10;   // 短押しダッシュ時間
 	static constexpr int MAX_BULLET      = 100;  // 最大装弾数
@@ -194,6 +190,8 @@ protected:
 	static constexpr int ANALOG_REG_OTHER = 45;  // 左アナログスティックを倒す前方向以外の角度範囲(ターゲットロック中のみ使用)
 
 	PlayerAttack* _attack;
+	PlayerMotion* _motion;
+//	std::unique_ptr<PlayerAttack> _attack(new PlayerAttack());
 
 	// デバッグ用
 	float _len;          // デバッグ用（プレイヤーとボスの距離）
@@ -201,3 +199,4 @@ protected:
 };
 
 #include "PlayerAttack.h"
+#include "PlayerMotion.h"

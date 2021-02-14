@@ -6,7 +6,6 @@
  * @date 2021-02-08
  */
 
-#include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ModeTitle.h"
 #include "ModeGame.h"
@@ -18,7 +17,7 @@
 bool ModeRanking::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-	//	_cg = ResourceServer::LoadGraph("res/.png");
+	_cg = ResourceServer::LoadGraph("res/‰¼‘fŞ/ranking.png");
 
 	return true;
 }
@@ -55,8 +54,7 @@ bool ModeRanking::Process() {
 bool ModeRanking::Render() {
 	base::Render();
 
-	// ‰¼À‘•
-	DrawString(0, 0, "ƒ‰ƒ“ƒLƒ“ƒO‰æ–Ê", GetColor(255, 255, 255));
+	DrawGraph(0, 0, _cg, FALSE);
 
 	return true;
 }

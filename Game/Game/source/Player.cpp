@@ -18,11 +18,11 @@
 
 Player* Player::_pInstance = NULL;
 
-
 Player::Player(){
+
 	_pInstance = this;
+
 	_mh = MV1LoadModel("res/model/仮データ/TB_player_mm01.mv1");
-//	_attack = std::make_unique<PlayerAttack>();
 	Initialize();
 	_attack->Initialize();
 }
@@ -361,91 +361,6 @@ void Player::Collision() {
 }
 
 /**
- * モデルモーション切替
- */
-void Player::MortionSwitch(STATE oldState) {
-
-	if (oldState == _state) {
-		_playTime += 1.0f;
-	}
-	else {
-		if (_attachIndex != -1) {
-			MV1DetachAnim(_mh, _attachIndex);
-			_attachIndex = -1;
-		}
-		switch (_state) {
-		case STATE::WAIT:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "waitmove"), -1, FALSE);
-			break;
-		case STATE::WALK:
-			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "run"), -1, FALSE);
-			break;
-		case STATE::JUMP:
-			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::FOR_DASH:
-			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::LEFT_MOVE:
-			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::RIGHT_MOVE:
-			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::BACK_MOVE:
-			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::LEFT_DASH:
-			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::RIGHT_DASH:
-			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::BACK_DASH:
-			//_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, ""), -1, FALSE);
-			break;
-		case STATE::WEAK_ATCK1:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::WEAK_ATCK2:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::WEAK_ATCK3:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::WEAK_ATCK4:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::STRG_ATCK1:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::STRG_ATCK2:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::STRG_ATCK3:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::STRG_ATCK4:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "player_lattack04"), -1, FALSE);
-			break;
-		case STATE::SHOT_ATCK:
-			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "shoot"), -1, FALSE);
-			break;
-		}
-		// アタッチしたアニメーションの総再生時間を取得する
-		_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
-
-		_playTime = 0.0f;
-	}
-
-	if (!_attackFlag) {
-		if (_playTime >= _totalTime) {
-			_playTime = 0.0f;
-		}
-	}
-}
-
-/**
  * フレーム処理：計算
  */
 void Player::Process(){
@@ -526,7 +441,6 @@ void Player::Process(){
 		_gameOverFlag = true;
 	}
 
-
 	// 移動処理
 	if (length < analogMin) {
 		length = 0.f;
@@ -535,7 +449,8 @@ void Player::Process(){
 		length = _mvSpd;
 	}
 
-	if (camState != Camera::STATE::MLS_LOCK && !_attackFlag) {  // マルチロックシステムが発動していないときは移動可能
+	// マルチロックシステムが発動していないときは移動可能
+	if (camState != Camera::STATE::MLS_LOCK && !_attackFlag) {
 		// vecをrad分回転させる
 		vec.x = cos(rad + camRad) * length;
 		vec.z = sin(rad + camRad) * length;
@@ -713,7 +628,7 @@ void Player::Process(){
 	}
 
 	// モデルモーション切替
-	MortionSwitch(oldState);
+	_motion->SwitchMotion(this, oldState);
 
 	// 残りHP保存(スコア計算用)
 	gGlobal._remainingHP = _hitpoint;

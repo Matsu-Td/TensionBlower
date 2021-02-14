@@ -6,10 +6,11 @@
  * @date 2021-02-08
  */
 
-#include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"
 #include "ModeGame.h"
+#include "ModeGameStart.h"
+#include "Sound.h"
 #include <memory>
 
 /**
@@ -17,6 +18,8 @@
  */
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
+
+	PlaySoundMem(gSound._bgm["boss"], DX_PLAYTYPE_BACK);
 
 	// JSONファイルからキャラデータ読み込み
 	_charaData = std::make_unique<CharaData>("res/json/", "CharaData");
@@ -27,7 +30,6 @@ bool ModeGame::Initialize() {
 	_objServer.Add(NEW Boss());
 
 	// グローバル変数初期化(リザルト画面、スコア計算用)
-	gGlobal._gameTime = GetNowCount();
 	gGlobal._remainingHP = 0;
 	gGlobal._totalRepelCnt = 0;
 	gGlobal._totalGetEnergy = 0;
@@ -36,6 +38,9 @@ bool ModeGame::Initialize() {
 	SetLightDirection(VGet(0.0f, -0.5f, 0.0f));
 //	SetShadowMapLightDirection(_shadowMapHandle, VGet(0.0f, -0.5f, 0.0f));
 //	SetShadowMapDrawArea(_shadowMapHandle, VGet(-124.0f, -1.0f, -124.0f), VGet(124.0f, 250.0f, 124.0f));
+
+	ModeServer::GetInstance()->Add(NEW ModeGameStart, 2, "start");
+
 	return true;
 }
 
@@ -67,8 +72,8 @@ bool ModeGame::Process() {
 
 	// ゲームパッド「START」ボタンでポーズモード追加
 	if (trg & PAD_INPUT_8) { 
-		ModeOption* modeOption = NEW ModeOption();
-		ModeServer::GetInstance()->Add(modeOption, 99, "option");
+		ModePause* modePause = NEW ModePause();
+		ModeServer::GetInstance()->Add(modePause, 99, "pause");
 	}
 
 	return true;

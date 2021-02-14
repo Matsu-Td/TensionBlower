@@ -6,7 +6,6 @@
  * @date 2021-02-08
  */
 
-#include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"
 #include "ModeTitle.h"
@@ -46,7 +45,7 @@ bool ModeResult::Process() {
 	// ゲームパッド「B」ボタンでリザルトモードを削除し、タイトルモード追加
 	if (trg & PAD_INPUT_2) {
 		ModeServer::GetInstance()->Del(this);
-		ModeServer::GetInstance()->Add(new ModeTitle(), 1, "title");
+		ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 	}
 
 	return true;

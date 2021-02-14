@@ -11,6 +11,7 @@
 #include "ModeGame.h"
 #include "ModeGameOver.h"
 #include "ModeTitle.h"
+#include "Sound.h"
 
 /**
  * 初期化
@@ -18,7 +19,11 @@
 bool ModeGameOver::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-	_cg = ResourceServer::LoadGraph("res/仮素材/ゲームオーバー.png");
+	// ボスステージのBGM再生停止
+	StopSoundMem(gSound._bgm["boss"]);
+
+	_cg[0] = ResourceServer::LoadGraph("res/band.png");
+	_cg[1] = ResourceServer::LoadGraph("res/gameover.png");
 
 	return true;
 }
@@ -48,8 +53,7 @@ bool ModeGameOver::Process(){
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 
-		ModeTitle* modeTitle = new ModeTitle();
-		ModeServer::GetInstance()->Add(modeTitle, 1, "title");
+		ModeServer::GetInstance()->Add(NEW ModeTitle, 1, "title");
 	}
 
 	return true;
@@ -61,7 +65,8 @@ bool ModeGameOver::Process(){
 bool ModeGameOver::Render(){
 	base::Render();
 
-	DrawGraph(0, 0, _cg, FALSE);
+	DrawGraph(0, POS_Y, _cg[0], FALSE);
+	DrawGraph(0, POS_Y, _cg[1], TRUE);
 
 	return true;
 }

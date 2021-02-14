@@ -457,8 +457,8 @@ void Boss::Process(){
 				if (IsHitLineSegment(*(*itr), 10.0f) == true) {
 					if (_shield > 0) {
 						_hitpoint -= CHARA_DATA->_shotDmgHP;
-						_shield -= CHARA_DATA->_shotDmgSld;
-//						_shield -= 100; // デバッグ用
+//						_shield -= CHARA_DATA->_shotDmgSld;
+						_shield -= 1000; // デバッグ用
 						modeGame->_objServer.Del(*itr);
 					}
 					else {
@@ -543,6 +543,7 @@ void Boss::AttackDamage(){
 	}
 	// シールドがないとき
 	else {            
-		_hitpoint -= dmgNorm;
+//		_hitpoint -= dmgNorm;
+		_hitpoint -= 5000;
 	}
 }

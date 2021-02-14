@@ -6,7 +6,6 @@
  * @date 2021-02-09
  */
 
-#include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ModeTitle.h"
 #include "ModeGame.h"
@@ -18,7 +17,7 @@
 bool ModeCredit::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-//	_cg = ResourceServer::LoadGraph("res/.png");
+	_cg = ResourceServer::LoadGraph("res/仮素材/credit.png");
 
 	return true;
 }
@@ -55,8 +54,7 @@ bool ModeCredit::Process() {
 bool ModeCredit::Render() {
 	base::Render();
 	
-	// 仮実装
-	DrawString(0, 0, "クレジット画面", GetColor(255, 255, 255));
+	DrawGraph(0, 0, _cg, FALSE);
 
 	return true;
 }

@@ -37,13 +37,16 @@
     <Filter Include="ヘッダー ファイル\Object\Player">
       <UniqueIdentifier>{995be955-a5c5-4f70-beca-3fcca5719342}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Mode\ModeGame">
+      <UniqueIdentifier>{7b3d1ef9-9cee-4b2d-9f88-c6c0e69a1027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Mode\ModeGame">
+      <UniqueIdentifier>{5a044950-5365-40ed-a159-bf03fdb22c14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\ApplicationMain.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeGame.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
     <ClCompile Include="source\ModeTitle.cpp">
       <Filter>ソース ファイル\Mode</Filter>
@@ -66,19 +69,10 @@
     <ClCompile Include="source\PlayerBullet.cpp">
       <Filter>ソース ファイル\Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="source\ModeOption.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeGameOver.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
     <ClCompile Include="source\ModeCredit.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
     <ClCompile Include="source\ModeTutorial.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModePlugin.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
     <ClCompile Include="source\ModeRanking.cpp">
@@ -96,22 +90,40 @@
     <ClCompile Include="source\ModeResult.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
-    <ClCompile Include="source\ModeGameClear.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
     <ClCompile Include="source\PlayerAttack.cpp">
       <Filter>ソース ファイル\Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="source\PlayerJump.cpp">
       <Filter>ソース ファイル\Object\Player</Filter>
     </ClCompile>
+    <ClCompile Include="source\PlayerMotion.cpp">
+      <Filter>ソース ファイル\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TitleBGM.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Sound.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModeGame.cpp">
+      <Filter>ソース ファイル\Mode\ModeGame</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModeGameClear.cpp">
+      <Filter>ソース ファイル\Mode\ModeGame</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModeGameOver.cpp">
+      <Filter>ソース ファイル\Mode\ModeGame</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModePause.cpp">
+      <Filter>ソース ファイル\Mode\ModeGame</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModeGameStart.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ApplicationMain.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeGame.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
     <ClInclude Include="source\ModeTitle.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
@@ -134,19 +146,10 @@
     <ClInclude Include="source\PlayerBullet.h">
       <Filter>ヘッダー ファイル\Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="source\ModeOption.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeGameOver.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
     <ClInclude Include="source\ModeCredit.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
     <ClInclude Include="source\ModeTutorial.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModePlugin.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
     <ClInclude Include="source\ModeRanking.h">
@@ -161,9 +164,6 @@
     <ClInclude Include="source\CharaData.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="source\ModeGameClear.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
     <ClInclude Include="source\ModeResult.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
@@ -172,6 +172,30 @@
     </ClInclude>
     <ClInclude Include="source\PlayerJump.h">
       <Filter>ヘッダー ファイル\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\PlayerMotion.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TitleBGM.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Sound.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModeGame.h">
+      <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModeGameClear.h">
+      <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModePause.h">
+      <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModeGameOver.h">
+      <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModeGameStart.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

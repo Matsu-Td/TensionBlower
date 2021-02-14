@@ -11,6 +11,7 @@
 #include "ModeGame.h"
 #include "ModeGameClear.h"
 #include "ModeResult.h"
+#include "Sound.h"
 
 /**
  * 初期化
@@ -18,7 +19,11 @@
 bool ModeGameClear::Initialize(){
 	if (!base::Initialize()) { return false; }
 
-	_cg = ResourceServer::LoadGraph("res/仮素材/ゲームクリア.png");
+	// ボスステージのBGM再生停止
+	StopSoundMem(gSound._bgm["boss"]);
+
+	_cg[0] = ResourceServer::LoadGraph("res/band.png");
+	_cg[1] = ResourceServer::LoadGraph("res/missionclear.png");
 
 	// クリアするまでの経過時間を格納
 	gGlobal._gameTime = GetNowCount() - gGlobal._gameTime;
@@ -51,8 +56,7 @@ bool ModeGameClear::Process(){
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 
-		ModeResult* modeResult = new ModeResult();
-		ModeServer::GetInstance()->Add(modeResult, 1, "result");
+		ModeServer::GetInstance()->Add(NEW ModeResult(), 1, "result");
 	}
 
 	return true;
@@ -64,7 +68,8 @@ bool ModeGameClear::Process(){
 bool ModeGameClear::Render(){
 	base::Render();
 
-	DrawGraph(0, 0, _cg, FALSE);
+	DrawGraph(0, POS_Y, _cg[0], FALSE);
+	DrawGraph(0, POS_Y, _cg[1], TRUE);
 
 	return true;
 }
