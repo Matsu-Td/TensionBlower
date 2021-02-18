@@ -1,7 +1,14 @@
 #pragma once
+
+/**
+ * @file ObjectBase.h
+ * @brief オブジェクトベース
+ *
+ * @date 2021-01-15
+ */
+
 #include "DxLib.h"
 #include <iostream>
-
 
 class ObjectBase {
 public:
@@ -23,7 +30,15 @@ public:
 	virtual void Init();
 	virtual void Process();
 	virtual void Render();
+
+	/**
+	 * ダメージ処理
+	 */
 	virtual void Damage() {}
+
+	/**
+	 * 攻撃ダメージ量計算
+	 */
 	virtual void AttackDamage(){}
 
 	/**
@@ -33,41 +48,44 @@ public:
 	virtual bool IsHitStage(ObjectBase& obj, float r);
 
 	/**
-	* カプセル同士の当たり判定
-	* @param r カプセルの半径
-	*/
+	 * カプセル同士の当たり判定
+	 * @param r カプセルの半径
+	 */
 	virtual bool IsHitLineSegment(ObjectBase& obj, float r);
 
 	/**
-    * スクリーン座標上の当たり判定
-    */
+     * スクリーン座標上の当たり判定
+     */
 	virtual bool IsHitScrnPos(ObjectBase& obj);
 
+	/**
+	 * 内積での当たり判定
+	 */
 	virtual bool IsDot(ObjectBase& obj);
 
-	virtual bool IsHitArc_Sphere(ObjectBase& obj);
 	/**
-	* 課題　実践2///////////////////////////////////////////////////
-	*/
-	//ObjectBase(ObjectBase&& obj) noexcept;
-	//ObjectBase& operator=(ObjectBase&& obj) noexcept;
-	/*
-	template<typename T>
-	void moveSwap(T& a, T& b) {
-		T tmp = std::move(a);
-		a = std::move(b);
-		b = std::move(tmp);
-		
-	}*/
+	 * 円弧と球の当たり判定
+	 */
+	virtual bool IsHitArc_Sphere(ObjectBase& obj);
 
+	/**
+	 * 座標をセットする
+	 */
 	void SetPos(VECTOR vPos) { _vPos = vPos; }
-	///////////////////////////////////////////////////////////////
 
-
+	/**
+	 * 座標を取得する
+	 */
 	VECTOR GetPos()const { return _vPos; }
+
+	/**
+	 * 向きを取得する
+	 */
 	VECTOR GetDir()const { return _vDir; }
+
 	bool _hitFlag;       // 攻撃当たり判定発生フラグ
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
+
 protected:
 	int _mh;           // モデルハンドル
 	int	_cg;		   // 画像

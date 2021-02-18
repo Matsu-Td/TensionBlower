@@ -33,9 +33,9 @@ bool ModeGame::Initialize() {
 	gGlobal._remainingHP = 0;
 	gGlobal._totalRepelCnt = 0;
 	gGlobal._totalGetEnergy = 0;
-
+//	SetUseLighting(FALSE);
 //	_shadowMapHandle = MakeShadowMap(2028, 2028);
-	SetLightDirection(VGet(0.0f, -0.5f, 0.0f));
+//	SetLightDirection(VGet(0.0f, -0.5f, 0.0f));
 //	SetShadowMapLightDirection(_shadowMapHandle, VGet(0.0f, -0.5f, 0.0f));
 //	SetShadowMapDrawArea(_shadowMapHandle, VGet(-124.0f, -1.0f, -124.0f), VGet(124.0f, 250.0f, 124.0f));
 

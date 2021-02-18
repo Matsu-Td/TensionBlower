@@ -17,8 +17,8 @@ Boss* Boss::_pInstance = NULL;
 Boss::Boss(){
 
 	_pInstance = this;
-	_mh = MV1LoadModel("res/model/仮データ/nasuidou.mv1");
-
+	_mh = MV1LoadModel("res/model/boss_ten.mv1");
+//	_mh = MV1LoadModel("res/model/仮データ/nasuidou.mv1");
 	Initialize();
 }
 
@@ -34,7 +34,7 @@ void Boss::Initialize() {
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	_vPos = VGet(0.0f, 0.0f, 0.0f);
-	//	_vDir = VGet(1, 0, 1);
+	_vDir = VGet(0.0f, 0.0f, 0.0f);
 	_attachIndex = 0;
 	_totalTime = 0.0f;
 
@@ -196,17 +196,18 @@ void Boss::ShotPattern3() {
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	if (_shotCnt % 9 == 0) {
+		// 同時に8発弾を発射する
 		for (int i = 0; i < 8; i++) {
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			tmpPos.y = 3.5f;
 			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmpPos);
-			bullet->SetShotSpd(1.3f);
-			bullet->SetAngle(_shotAngle);
-			modeGame->_objServer.Add(bullet);
-			_shotAngle += 45.0f;
+			bullet->SetPos(tmpPos);           // 弾幕発生位置セット
+			bullet->SetShotSpd(1.3f);         // 弾の移動速度セット
+			bullet->SetAngle(_shotAngle);     // 弾の発射角度セット
+			modeGame->_objServer.Add(bullet); // 弾生成
+			_shotAngle += 45.0f;              // 弾発射角度を45°ずつずらす
 		}
 		
 	}
@@ -222,6 +223,7 @@ void Boss::ShotPattern4_1() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	if (_shotCnt % 26 == 0) {
+		// 同時に8発弾を発射する
 		for (int i = 0; i < 8; i++) {
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
@@ -231,8 +233,8 @@ void Boss::ShotPattern4_1() {
 			bullet->SetPos(tmpPos);           // 弾幕発生位置セット
 			bullet->SetShotSpd(1.2f);         // 弾の移動速度セット
 			bullet->SetAngle(_shotAngle);     // 弾の発射角度セット
-			modeGame->_objServer.Add(bullet);
-			_shotAngle += 45.0f;
+			modeGame->_objServer.Add(bullet); // 弾生成
+			_shotAngle += 45.0f;              // 弾発射角度を45°ずつずらす
 		}
 	}
 	else {
@@ -247,17 +249,18 @@ void Boss::ShotPattern4_2() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	if (_shotCnt % 26 == 13) {
+		// 同時に8発弾を発射する
 		for (int i = 0; i < 8; i++) {
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			tmpPos.x = _vPos.x + cos(_shotAngle1 / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			tmpPos.y = 5.0f;
 			tmpPos.z = _vPos.z + sin(_shotAngle1 / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmpPos);
-			bullet->SetShotSpd(1.2f);
-			bullet->SetAngle(_shotAngle1);
-			modeGame->_objServer.Add(bullet);
-			_shotAngle1 += 45.0f;
+			bullet->SetPos(tmpPos);           // 弾幕発生位置セット
+			bullet->SetShotSpd(1.2f);         // 弾の移動速度セット
+			bullet->SetAngle(_shotAngle1);    // 弾発射角度セット
+			modeGame->_objServer.Add(bullet); // 弾生成
+			_shotAngle1 += 45.0f;             // 弾発射角度を45°ずつずらす
 		}
 	}
 	else {
@@ -284,16 +287,16 @@ void Boss::ShotPattern5() {
 			tmpPos = _vPos;
 			tmpPos.y = abs(height) + 1.0f;         // 地上から高さ1mより上
 			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmpPos);                // 発生位置セット
-			bullet->SetShotSpd(1.0f);           // 弾速セット
-			bullet->SetAngle(deg + angleSide);  // 発射する角度セット
-			modeGame->_objServer.Add(bullet);
-			angleSide += 10.0f;                 // 発射角度を10°ずつずらす
+			bullet->SetPos(tmpPos);                // 弾幕発生位置セット
+			bullet->SetShotSpd(1.0f);              // 弾の移動速度セット
+			bullet->SetAngle(deg + angleSide);     // 弾発射角度セット
+			modeGame->_objServer.Add(bullet);      // 弾生成
+			angleSide += 10.0f;                    // 発射角度を10°ずつずらす
 			if (_height <= -12.0f) {
-				height += _upDown;
+				height += 2.0f;
 			}
 			else {
-				height -= _upDown;
+				height -= 2.0f;
 			}		
 			if (abs(height) >= 12) {
 				height += abs(height) - 12.0f;
@@ -315,7 +318,7 @@ void Boss::ShotPattern6(){
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	VECTOR plPos = Player::GetInstance()->GetPos();
 	if (_shotCnt % 48 == 0) {
-		float angleSide = -10.0f;
+		float angleSide = -10.0f;      // 弾3発中の両サイドの弾発射角度をずらす
 		for (int i = 0; i < 3; i++) {
 			float sx = plPos.x - _vPos.x;
 			float sz = plPos.z - _vPos.z;
@@ -370,6 +373,7 @@ void Boss::StateDown(){
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
+	// 復帰
 	if (_stateDown) {
 		_mlsDownFlag = false;	   // マルチロックオンシステムによるダウンフラグ解除
 		_downTime--;               // ダウン時間カウント
@@ -384,14 +388,15 @@ void Boss::StateDown(){
 	if (_shield > 0) {
 		return;
 	}
+	// ダウン
 	if (!_stateDown) {
 		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
 				_bulletNum++;   // ダウン直前に出現していた弾の数をカウント
 			}
-			int plEnergy = Player::GetInstance()->GetEnergy();
+			int plEnergy = Player::GetInstance()->GetEnergy();            // プレイヤーのエネルギー情報取得
 			_downTime = MIN_DOWN_TIME + plEnergy / 20 + _bulletNum;       // ダウン時間計算
-			_stateDown = true;  // ダウン状態にする
+			_stateDown = true;                                            // ダウン状態にする
 		}
 	}
 	
@@ -404,6 +409,7 @@ void Boss::Process(){
 
 	// カメラの状態を取得
 	int camState = Camera::GetInstance()->GetCameraState();
+
 
 	// ゲームクリア処理
 	if (_gameClearFlag) {
@@ -426,7 +432,9 @@ void Boss::Process(){
 
 	// 当たり判定用カプセル
 	_capsulePos1 = _vPos;
+	_capsulePos1.y = _vPos.y + 3.0f;   // y座標(高さ)のみ加算
 	_capsulePos2 = _vPos;
+	_capsulePos2.y = _vPos.y + 3.0f;   // y座標(高さ)のみ加算
 
 	// フェーズ切替
 	FhaseChange();
@@ -440,6 +448,7 @@ void Boss::Process(){
 				ShotPatternSwitch();
 			}
 		}
+		// 通常時
 		else {		
 			_mlsCnt = 0;
 			ShotPatternSwitch();
@@ -449,6 +458,15 @@ void Boss::Process(){
 	// ダウン処理
 	StateDown();
 
+	{  // プレイヤーがいる方向にボスの正面を向ける
+		VECTOR plPos = Player::GetInstance()->GetPos();
+		float sx = plPos.x - _vPos.x;
+		float sz = plPos.z - _vPos.z;
+		float rad = atan2(sz, sx);
+		float deg = rad * 180.0f / DX_PI_F;           // 制御しやすいように一度ラジアン単位を度単位に変換
+		_vDir.y = (-deg - 90.0f)/ 180.0f * DX_PI_F;   // 90度分のずれを補正し、ラジアン単位に戻す
+	}
+
 	// プレイヤーの弾との当たり判定、ダメージ処理
 	{
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -457,8 +475,7 @@ void Boss::Process(){
 				if (IsHitLineSegment(*(*itr), 10.0f) == true) {
 					if (_shield > 0) {
 						_hitpoint -= CHARA_DATA->_shotDmgHP;
-//						_shield -= CHARA_DATA->_shotDmgSld;
-						_shield -= 1000; // デバッグ用
+						_shield -= CHARA_DATA->_shotDmgSld;
 						modeGame->_objServer.Del(*itr);
 					}
 					else {
@@ -479,10 +496,9 @@ void Boss::Process(){
 void Boss::Render(){
 
 	MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
-	MV1SetScale(_mh, VGet(5.0f, 5.0f, 5.0f));
 	MV1SetPosition(_mh, _vPos);
 
-	MV1SetRotationXYZ(_mh, VGet(0.0f, -90.0f * DX_PI_F / 180.0f, 0.0f));
+	MV1SetRotationXYZ(_mh, _vDir);
 	MV1DrawModel(_mh);
 
 #if 1
@@ -543,7 +559,6 @@ void Boss::AttackDamage(){
 	}
 	// シールドがないとき
 	else {            
-//		_hitpoint -= dmgNorm;
-		_hitpoint -= 5000;
+		_hitpoint -= dmgNorm;
 	}
 }

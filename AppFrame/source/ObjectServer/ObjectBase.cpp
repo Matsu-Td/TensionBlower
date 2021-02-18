@@ -1,52 +1,50 @@
 
+/**
+ * @file ObjectBase.cpp
+ * @brief オブジェクトベース
+ *
+ * @date 2021-01-15
+ */
+
 #include "DxLib.h"
 #include "ObjectBase.h"
 #include "math.h"
 
-ObjectBase::ObjectBase()
-{
+ObjectBase::ObjectBase(){
+
 	Init();
 }
 
-ObjectBase::~ObjectBase()
-{
+ObjectBase::~ObjectBase(){
 }
 
 /**
-* 課題　実践2///////////////////////////////////////////////////
+ * 初期化
+ */
+void ObjectBase::Init(){
 
-ObjectBase::ObjectBase(ObjectBase&& obj) noexcept
-{
-	*this = std::move(obj);
-}
-
-ObjectBase& ObjectBase::operator=(ObjectBase&& obj) noexcept {
-	if (this != &obj) {
-		delete _p;
-		_p = obj._p;
-		obj._p = nullptr;
-	}
-	return *this;
-}
-//ここまで//////////////////////////////////////////////////////
-*/
-void ObjectBase::Init()
-{
 	_cut = 0;
 }
 
-void ObjectBase::Process()
-{
+/**
+ * フレーム処理：計算
+ */
+void ObjectBase::Process(){
+
 	_cut++;
 }
 
-void ObjectBase::Render()
-{
+/**
+ * フレーム処理：描画
+ */
+void ObjectBase::Render(){
 
 }
 
-bool ObjectBase::IsHitStage(ObjectBase& obj, float r)
-{
+/**
+ * モデルとステージの当たり判定
+ */
+bool ObjectBase::IsHitStage(ObjectBase& obj, float r){
 
 	obj._hitPolyDim = MV1CollCheck_Capsule(obj._mh, -1, _capsulePos1, _capsulePos2, r);
 	if (obj._hitPolyDim.HitNum >= 1) {
@@ -56,8 +54,11 @@ bool ObjectBase::IsHitStage(ObjectBase& obj, float r)
 	return false;
 }
 
-bool ObjectBase::IsHitLineSegment(ObjectBase& obj, float r)
-{
+/**
+ * カプセル同士の当たり判定
+ */
+bool ObjectBase::IsHitLineSegment(ObjectBase& obj, float r){
+
 	float length = Segment_Segment_MinLength(obj._capsulePos1, obj._capsulePos2, _capsulePos1, _capsulePos2);
 
 	if (length <= r) {
@@ -67,8 +68,11 @@ bool ObjectBase::IsHitLineSegment(ObjectBase& obj, float r)
 	return false;
 }
 
-bool ObjectBase::IsHitScrnPos(ObjectBase& obj)
-{
+/**
+ * スクリーン座標上の当たり判定
+ */
+bool ObjectBase::IsHitScrnPos(ObjectBase& obj){
+
 	if (_scrnPos.x + _hitX < obj._scrnPos.x + obj._hitX + obj._hitW && obj._scrnPos.x + obj._hitX < _scrnPos.x + _hitX + _hitW
 		&& _scrnPos.y + _hitY < obj._scrnPos.y + obj._hitY + obj._hitH && obj._scrnPos.y + obj._hitY < _scrnPos.y + _hitY + _hitH)
 	{
@@ -77,8 +81,8 @@ bool ObjectBase::IsHitScrnPos(ObjectBase& obj)
 	return false;
 }
 
-bool ObjectBase::IsDot(ObjectBase& obj)
-{
+bool ObjectBase::IsDot(ObjectBase& obj){
+
 	float sx = obj._vPos.x - _vPos.x;
 	float sz = obj._vPos.z - _vPos.z;
 	float length = sqrt(sx * sx + sz * sz);
@@ -93,9 +97,7 @@ bool ObjectBase::IsDot(ObjectBase& obj)
 	return false;
 }
 
-bool ObjectBase::IsHitArc_Sphere(ObjectBase& obj)
-{
-
+bool ObjectBase::IsHitArc_Sphere(ObjectBase& obj){
 
 	float sx = obj._vPos.x - _vPos.x;
 	float sz = obj._vPos.z - _vPos.z;
