@@ -2,7 +2,7 @@
 
 /**
  * @file ObjectServer.h
- * @brief オブジェクトサーバー
+ * @brief オブジェクト管理サーバー
  * 
  * @date 2021-01-15
  */

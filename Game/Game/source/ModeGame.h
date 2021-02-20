@@ -13,6 +13,7 @@
 #include "Boss.h"
 #include "ModePause.h"
 #include "CharaData.h"
+#include "PlayerStatus.h"
 
 class ModeGame : public ModeBase{
 	typedef ModeBase base;
@@ -31,6 +32,7 @@ public:
 protected:
 
 	int _shadowMapHandle;
+	PlayerStatus _playerStatus;
 
 
 //	std::unique_ptr<Stage> _stg;

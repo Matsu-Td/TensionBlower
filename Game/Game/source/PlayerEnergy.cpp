@@ -26,7 +26,6 @@ void PlayerEnergy::CostEnergy(Player* player, float costEnergy) {
 
 /**
  * エネルギー管理
- * @param oldState 処理前のプレイヤーの状態
  */
 void PlayerEnergy::EnergyManager(Player* player, Player::STATE oldState) {
 

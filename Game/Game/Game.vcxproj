@@ -182,6 +182,7 @@
     <ClCompile Include="source\PlayerJump.cpp" />
     <ClCompile Include="source\PlayerMotion.cpp" />
     <ClCompile Include="source\PlayerShoot.cpp" />
+    <ClCompile Include="source\PlayerStatus.cpp" />
     <ClCompile Include="source\Reticle.cpp" />
     <ClCompile Include="source\Sound.cpp" />
     <ClCompile Include="source\Stage.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="source\PlayerJump.h" />
     <ClInclude Include="source\PlayerMotion.h" />
     <ClInclude Include="source\PlayerShoot.h" />
+    <ClInclude Include="source\PlayerStatus.h" />
     <ClInclude Include="source\Reticle.h" />
     <ClInclude Include="source\Sound.h" />
     <ClInclude Include="source\Stage.h" />

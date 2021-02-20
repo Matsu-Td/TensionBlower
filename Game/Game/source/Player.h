@@ -18,6 +18,7 @@ class PlayerMotion;
 class PlayerEnergy;
 class PlayerDash;
 class PlayerShoot;
+class PlayerJump;
 
 class Player : public ObjectBase{
 	friend PlayerAttack;
@@ -25,6 +26,7 @@ class Player : public ObjectBase{
 	friend PlayerEnergy;
 	friend PlayerDash;
 	friend PlayerShoot;
+	friend PlayerJump;
 public:
 	Player();
 	~Player();
@@ -35,25 +37,28 @@ public:
 	void Process();
 	void Render();
 
-	void ShortDash();
-	void NormDash();
-	void Charge();
-
 	/**
      * 当たり判定
      */
 	void Collision();
 
 	/**
-	 * ジャンプ処理
+	 * HP値取得
+	 * @return プレイヤーの現在のHP値を取得
 	 */
-	void JumpAction();
+	int GetHitPoint() { return _hitpoint; }
 
 	/**
 	 * エネルギー量取得
 	 * @return プレイヤーの現在のエネルギー量を取得
 	 */
 	int GetEnergy() { return _energy; }
+
+	/**
+	 * 弾の残弾数
+	 * @return プレイヤーの現在の残弾数を取得
+	 */
+	int GetBulletNum() { return _bulletNum; }
 
 	/**
      * 近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
@@ -123,7 +128,7 @@ protected:
 	std::unordered_map<std::string, int> _attackTotalTime;  // 各攻撃モーションの総再生時間を格納する
 
 	static constexpr int ATTACK_NUM = 8;  // 近接攻撃の種類の数
-	std::string AttackName[ATTACK_NUM] =  // 各近接攻撃の名前を格納
+	std::string _attackName[ATTACK_NUM] =  // 各近接攻撃の名前を格納
 	{ "weak_atck1" ,"weak_atck2" ,"weak_atck3" ,"weak_atck4", 
 	  "strg_atck1", "strg_atck2", "strg_atck3", "strg_atck4" };
 
@@ -174,6 +179,7 @@ protected:
 	PlayerEnergy* _energyCall;  // 処理呼び出し：エネルギー管理処理
 	PlayerDash*   _dashCall;    // 処理呼び出し：ダッシュ処理
 	PlayerShoot*  _shootCall;   // 処理呼び出し：射撃攻撃処理
+	PlayerJump*   _JumpCall;    // 処理呼び出し：ジャンプ処理
 
 	// デバッグ用
 	float _len;          // デバッグ用（プレイヤーとボスの距離）
@@ -185,3 +191,4 @@ protected:
 #include "PlayerEnergy.h"
 #include "PlayerDash.h"
 #include "PlayerShoot.h"
+#include "PlayerJump.h"

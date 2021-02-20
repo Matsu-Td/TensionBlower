@@ -1,36 +1,49 @@
-/*
-** リソースサーバ
-*/
+
+/**
+ * @file  ResourceServer.cpp
+ * @brief リソース管理サーバ
+ * @brief すべて静的メンバで構成する
+ *
+ * @date 2020-12-18
+ */
 
 #include "DxLib.h"
 #include "ResourceServer.h"
 
 // 静的メンバ実体
-std::unordered_map<std::string, int>	ResourceServer::_mapGraph;
-std::unordered_map<std::string, ResourceServer::DIVGRAPH>	ResourceServer::_mapDivGraph;
-std::unordered_map<std::string, int>	ResourceServer::_mapSound;
-std::unordered_map<std::string, int>	ResourceServer::_mapModel;
+std::unordered_map<std::string, int> ResourceServer::_mapGraph;
+std::unordered_map<std::string, ResourceServer::DIVGRAPH> ResourceServer::_mapDivGraph;
+std::unordered_map<std::string, int> ResourceServer::_mapSound;
+std::unordered_map<std::string, int> ResourceServer::_mapModel;
 
-void    ResourceServer::Init(){
+void ResourceServer::Init(){
+
 	_mapGraph.clear();
     _mapDivGraph.clear();
     _mapSound.clear();
     _mapModel.clear();
 }
 
-void    ResourceServer::Release(){
+/**
+ * ClearGraph()呼び出し
+ */
+void ResourceServer::Release(){
+
     ClearGraph();
 }
 
+/**
+ * すべてのデータ削除
+ */
 void ResourceServer::ClearGraph(){
-    // すべてのデータの削除をする
+
     for (auto itr = _mapGraph.begin(); itr != _mapGraph.end(); itr++){
         DeleteGraph(itr->second);
     }
     _mapGraph.clear();
 
     for (auto itr = _mapDivGraph.begin(); itr != _mapDivGraph.end(); itr++){
-        for (int i = 0; i < itr->second.AllNum; i++) {
+        for (int i = 0; i < itr->second.allNum; i++) {
             DeleteGraph(itr->second.handle[i]);
         }
         delete[] itr->second.handle;
@@ -49,81 +62,81 @@ void ResourceServer::ClearGraph(){
 }
 
 
-int	ResourceServer::LoadGraph(const TCHAR* FileName){
+int	ResourceServer::LoadGraph(const TCHAR* fileName){
     // キーの検索
-    auto itr = _mapGraph.find(FileName);
+    auto itr = _mapGraph.find(fileName);
     if (itr != _mapGraph.end())
     {
         // キーがあった
         return itr->second;
     }
     // キーが無かった
-    int cg = ::LoadGraph(FileName);     // DXLIBのAPIを呼ぶので、::を先頭に付け、このクラスの同じ名前の関数と区別する
+    int cg = ::LoadGraph(fileName);     // DxLibのAPI
     // キーとデータをmapに登録
-    _mapGraph[FileName] = cg;
+    _mapGraph[fileName] = cg;
 
     return cg;
 }
 
-int	ResourceServer::LoadDivGraph(const TCHAR* FileName, int AllNum,
-    int XNum, int YNum,
-    int XSize, int YSize, int* HandleBuf)
+int	ResourceServer::LoadDivGraph(const TCHAR* fileName, int allNum,
+    int xNum, int yNum,
+    int xSize, int ySize, int* handleBuf)
 {
     // キーの検索
-    auto itr = _mapDivGraph.find(FileName);
-    if (itr != _mapDivGraph.end())
-    {
-        // キーがあった
+    auto itr = _mapDivGraph.find(fileName);
+    if (itr != _mapDivGraph.end()){
         // データをコピー
-        for (int i = 0; i < itr->second.AllNum; i++) {
-            HandleBuf[i] = itr->second.handle[i];
+        for (int i = 0; i < itr->second.allNum; i++) {
+            handleBuf[i] = itr->second.handle[i];
         }
         return 0;
     }
-    // キーが無かった
-    // まずはメモリを作成する
-    int* hbuf = new int[AllNum];
-    int err = ::LoadDivGraph(FileName,AllNum,XNum,YNum,XSize,YSize, hbuf);     // DXLIBのAPIを呼ぶので、::を先頭に付け、このクラスの同じ名前の関数と区別する
+
+    int* hbuf = new int[allNum];
+    int err = ::LoadDivGraph(fileName, allNum, xNum, yNum, xSize, ySize, hbuf);     // DxLibのAPI
     if (err == 0) {
-        // 成功
         // キーとデータをmapに登録
-        _mapDivGraph[FileName].AllNum = AllNum;
-        _mapDivGraph[FileName].handle = hbuf;
+        _mapDivGraph[fileName].allNum = allNum;
+        _mapDivGraph[fileName].handle = hbuf;
         // データをコピー
-        for (int i = 0; i < AllNum; i++) {
-            HandleBuf[i] = hbuf[i];
+        for (int i = 0; i < allNum; i++) {
+            handleBuf[i] = hbuf[i];
         }
     }
 
     return err;
 }
 
-
-int	ResourceServer::LoadSoundMem(const TCHAR* FileName) {
+/**
+ * 音データ読み込み
+ */
+int	ResourceServer::LoadSoundMem(const TCHAR* fileName) {
     // キーの検索
-    auto itr = _mapSound.find(FileName);
-    if (itr != _mapSound.end())
-    {
+    auto itr = _mapSound.find(fileName);
+    if (itr != _mapSound.end()){
         // キーがあった
         return itr->second;
     }
     // キーが無かった
-    int snd = ::LoadSoundMem(FileName);     // DXLIBのAPIを呼ぶので、::を先頭に付け、このクラスの同じ名前の関数と区別する
+    int snd = ::LoadSoundMem(fileName);     // DxLibのAPI
     // キーとデータをmapに登録
-    _mapSound[FileName] = snd;
+    _mapSound[fileName] = snd;
 
     return snd;
 }
 
-int ResourceServer::MV1LoadModel(const TCHAR* FileName){
+/**
+ * 3Dモデルデータ読み込み
+ */
+int ResourceServer::MV1LoadModel(const TCHAR* fileName){
     // キーの検索
-    auto itr = _mapModel.find(FileName);
+    auto itr = _mapModel.find(fileName);
     if (itr != _mapModel.end()) {
         return itr->second;
     }
-    int mh = ::MV1LoadModel(FileName);  // DxLibのAPIを呼び出す
+    int mh = ::MV1LoadModel(fileName);  // DxLibのAPI
 
-    _mapModel[FileName] = mh;
+    _mapModel[fileName] = mh;
 
     return mh;
 }

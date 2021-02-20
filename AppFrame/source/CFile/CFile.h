@@ -1,19 +1,32 @@
 #pragma once
 
+/**
+ * @file CFile.h
+ * @brief 外部ファイルの読み込み、書き込み
+ *
+ * @date 2020-12-18
+ */
+
 #include <string>
 
 class CFile{
 public:
-	// 読み込み
-	CFile(const std::string filename);
-	// 書き込み
-	CFile(const std::string filename, void* data, int size);		// バイナリデータ
-	CFile(const std::string filename, const std::string writestr) : CFile(filename, (void*)writestr.c_str(), (int)writestr.size()) {		// 文字列データ
-		// 委任コンストラクタで、バイナリデータ書き込みを呼び出す
-	}
+	/**
+	 * ファイル読み込み
+	 * @param fileName ファイル名
+	 */
+	CFile(const std::string fileName);
+
+	/**
+	 * ファイル書き込み
+	 * @param fileName ファイル名
+	 * @param data データ格納
+	 * @param size 書き込むデータサイズ
+	 */
+	CFile(const std::string fileName, void* data, int size);		// バイナリデータ
 
 	~CFile();
-	std::string	Filename() { return _filename; }
+	std::string	FileName() { return _fileName; }
 	void* Data() { return _data; }
 	std::string DataStr() { return std::string(_data); }
 	int Size() { return _size; }
@@ -22,7 +35,7 @@ public:
 private:
 	void Init();
 
-	std::string	_filename;
+	std::string	_fileName;
 
 	int	  _size;
 	char* _data;

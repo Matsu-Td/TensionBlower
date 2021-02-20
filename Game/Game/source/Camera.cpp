@@ -309,7 +309,7 @@ void Camera::Render(){
 		DrawLine3D(VAdd(vec, VGet(0, 0, -linelength)), VAdd(vec, VGet(0, 0, linelength)), GetColor(0, 0, 255));
 	}
 	{
-		int x = 0, y = 0, size = 24;
+		int x = 0, y = 200, size = 24;
 		SetFontSize(size);
 		DrawFormatString(x, y, GetColor(255, 0, 0), "Camera:"); y += size;
 		DrawFormatString(x, y, GetColor(255, 0, 0), "  target = (%5.2f, %5.2f, %5.2f)", _vTarg.x, _vTarg.y, _vTarg.z); y += size;

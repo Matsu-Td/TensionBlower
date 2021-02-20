@@ -17,8 +17,15 @@ Boss* Boss::_pInstance = NULL;
 Boss::Boss(){
 
 	_pInstance = this;
-	_mh = MV1LoadModel("res/model/boss_ten.mv1");
-//	_mh = MV1LoadModel("res/model/âºÉfÅ[É^/nasuidou.mv1");
+	_mh = MV1LoadModel("res/model/boss/Tboss_model_mm.mv1");
+	_cgName = ResourceServer::LoadGraph("res/enemy_name.png");
+	_cgFrame = ResourceServer::LoadGraph("res/enemy_status.png");
+	_cgFrameBg = ResourceServer::LoadGraph("res/enemy_status_2.png");
+	_cgShield = ResourceServer::LoadGraph("res/enemy_shield.png");
+	for (int i = 0; i < 5; i++) {
+		_cgHP[i] = ResourceServer::LoadGraph(_cgString[i]);
+	}
+
 	Initialize();
 }
 
@@ -475,7 +482,7 @@ void Boss::Process(){
 				if (IsHitLineSegment(*(*itr), 10.0f) == true) {
 					if (_shield > 0) {
 						_hitpoint -= CHARA_DATA->_shotDmgHP;
-						_shield -= CHARA_DATA->_shotDmgSld;
+    					_shield -= CHARA_DATA->_shotDmgSld;
 						modeGame->_objServer.Del(*itr);
 					}
 					else {
@@ -501,8 +508,40 @@ void Boss::Render(){
 	MV1SetRotationXYZ(_mh, _vDir);
 	MV1DrawModel(_mh);
 
+	DrawGraph(1090, 30, _cgFrameBg, TRUE);
+
+	if (_phase == 0) {
+		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[0], TRUE);
+		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[1], TRUE);
+		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[2], TRUE);
+		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[3], TRUE);
+		DrawExtendGraph(1113 + 750 - (750 * (_hitpoint - 4000) / 1000), 45, 1853, 80, _cgHP[4], TRUE);
+	}
+	if (_phase == 1) {
+		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[0], TRUE);
+		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[1], TRUE);
+		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[2], TRUE);
+		DrawExtendGraph(1113 + 750 - (750 * (_hitpoint - 3000) / 1000), 45, 1853, 80, _cgHP[3], TRUE);
+	}
+	if (_phase == 2) {
+		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[0], TRUE);
+		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[1], TRUE);
+		DrawExtendGraph(1113 + 750 - (750 * (_hitpoint - 2000) / 1000), 45, 1853, 80, _cgHP[2], TRUE);
+	}
+	if (_phase == 3) {
+		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[0], TRUE);
+		DrawExtendGraph(1113 + 750 - (750 * (_hitpoint - 1000) / 1000), 45, 1853, 80, _cgHP[1], TRUE);
+	}
+	if (_phase == 4) {
+		DrawExtendGraph(1113 + 750 - (750 * _hitpoint / 1000), 45, 1853, 80, _cgHP[0], TRUE);
+	}
+
+	DrawExtendGraph(1124 + 738 - (738 *_shield / 1000), 90, 1862, 120, _cgShield, TRUE);
+	DrawGraph(1090, 30, _cgFrame, TRUE);
+	DrawGraph(1650, 130, _cgName, TRUE);
+
 #if 1
-	int y = 600;
+	int y = 750;
 	int size = 24;
 	SetFontSize(size);
 	DrawFormatString(0, y, GetColor(255, 0, 0), "Boss:"); y += size;

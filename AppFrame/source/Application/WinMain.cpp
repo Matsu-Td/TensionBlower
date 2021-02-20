@@ -1,13 +1,12 @@
-/*
-** WinMain
-*/
 
-//
-// include 部
-//
+/**
+ * @file WinMain.cpp
+ * @brief エントリーポイント
+ * 
+ * @date 2020-12-18
+ */
 
 #include "../appframe.h"
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) 
 {

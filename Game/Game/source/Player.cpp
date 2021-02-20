@@ -21,8 +21,8 @@ Player* Player::_pInstance = NULL;
 Player::Player(){
 
 	_pInstance = this;
+	_mh = MV1LoadModel("res/model/player/pl_model.mv1");
 
-	_mh = MV1LoadModel("res/model/仮データ/TB_player_mm01.mv1");
 	Initialize();
 }
 
@@ -34,7 +34,6 @@ Player::~Player(){
  */
 void Player::Initialize(){
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-
 	_vPos = VGet(0.0f, 0.0f, -115.0f);
 	_vDir = VGet(0, 0, 1);
 	_mvSpd = CHARA_DATA->_mvSpdNorm;
@@ -86,35 +85,7 @@ void Player::Initialize(){
 
 	// 各近接攻撃のアニメーション総再生時間を格納
 	for (int i = 0; i < ATTACK_NUM; i++) {
-	_attackTotalTime[AttackName[i]] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
-	}
-}
- 
-void Player::JumpAction() {
-
-	int trg = ApplicationMain::GetInstance()->GetTrg();
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-
-	if (_energy >= CHARA_DATA->_egJump) {
-		if (trg & PAD_INPUT_1 && _canJump && !_isCharging) {
-			_state = STATE::JUMP;
-			_canJump = false;
-			_mvSpd = CHARA_DATA->_mvSpdNorm;
-			_jumpTime = 0.f;
-		}
-	}
-	if (!_canJump) {
-		float inVel = 4.0f;
-		_vPos.y = inVel * _jumpTime - 0.5f * GRAVITY * _jumpTime * _jumpTime;
-	}
-	
-	_jumpTime += 0.2f;
-
-	if (_vPos.y < GROUND_Y) {
-		_vPos.y = GROUND_Y;
-		if (_isCharging == false) {
-			_canJump = true;
-		}
+	_attackTotalTime[_attackName[i]] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
 	}
 }
 
@@ -140,7 +111,9 @@ void Player::Collision() {
 			// 着弾
 			if (IsHitLineSegment(*(*itr), 1.5f)) {
 				modeGame->_objServer.Del(*itr);
-				_hitpoint -= CHARA_DATA->_boss.shotDmg;
+				if (_hitpoint > 0) {
+					_hitpoint -= CHARA_DATA->_boss.shotDmg;
+				}
 			}
 			// カスリ判定(エネルギー回復)
 			if (IsHitLineSegment(*(*itr), 2.5f)) {
@@ -245,7 +218,7 @@ void Player::Process(){
 
 	// 移動処理
 	if (length < ANALOG_MIN) {
-		length = 0.f;
+		length = 0.0f;
 	}
 	else {
 		length = _mvSpd;
@@ -261,7 +234,7 @@ void Player::Process(){
 		_vPos = VAdd(_vPos, vec);
 
 		// 移動量をそのままキャラの向きにする
-		if (VSize(vec) > 0.f) {		// 移動していない時は無視するため
+		if (VSize(vec) > 0.0f) {		// 移動していない時は無視する
 			if (camState == Camera::STATE::TARG_LOCK_ON){
 				_vDir.x = -cos(_bsAngle);
                 _vDir.z = -sin(_bsAngle);
@@ -293,10 +266,11 @@ void Player::Process(){
 		}
 		
 		// ジャンプ
-		JumpAction();
+		_JumpCall->JumpAction(this);
 		
 		// 現在のプレイヤーの正面角度
-		float nowAngle = atan2(_vDir.z, _vDir.x); 
+		float nowAngle = atan2(_vDir.z, _vDir.x);
+
 		// ダッシュ処理
 		_dashCall->Dash(this, nowAngle, length);
 
@@ -370,7 +344,7 @@ void Player::Process(){
 void Player::Render(){
 
     MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
-	MV1SetScale(_mh, VGet(0.1f, 0.1f, 0.1f));
+//	MV1SetScale(_mh, VGet(0.1f, 0.1f, 0.1f));
 	{
 		MV1SetPosition(_mh, _vPos);
 		// 向きからY軸回転を算出
@@ -384,7 +358,7 @@ void Player::Render(){
 	float angle = atan2(_vDir.z ,_vDir.x);
 	float deg = angle * 180.f / DX_PI_F;
 	int x = 100;
-	int y = 140;
+	int y = 340;
 	int size = 24;
 	SetFontSize(size);
 	DrawFormatString(0, y, GetColor(255, 0, 0), "Player:"); y += size;
@@ -447,7 +421,7 @@ void Player::Render(){
 		DrawString(x, y, "SHOT ATTACK", GetColor(255, 0, 0)); break;
 	}
 
-	DrawFormatString(0, 900, GetColor(255, 0, 0), "  装弾数 = %d / 100", _bulletNum); 
+	DrawFormatString(0, 1000, GetColor(255, 0, 0), "  装弾数 = %d / 100", _bulletNum); 
 //	DrawCapsule3D(_capsulePos1, _capsulePos2, 1.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 //	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.5f, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
 #endif

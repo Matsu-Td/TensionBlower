@@ -1,6 +1,12 @@
 
-#include "ModeBase.h"
+/**
+ * @file ModeBase.cpp
+ * @brief モードベース
+ * 
+ * @data 2020-12-18
+ */
 
+#include "ModeBase.h"
 
 ModeBase::ModeBase() {
 	_szName = "";
@@ -22,39 +28,43 @@ ModeBase::ModeBase() {
 ModeBase::~ModeBase() {
 }
 
-
-// ModeServerに接続時、Process()の前に一度だけ呼ばれる
-bool	ModeBase::Initialize() {
-
-	return true;
-}
-
-// ModeServerから削除される際、一度だけ呼ばれる
-bool	ModeBase::Terminate() {
+/**
+ * 初期化
+ */
+bool ModeBase::Initialize() {
 
 	return true;
 }
 
+/**
+ * 解放
+ */
+bool ModeBase::Terminate() {
 
-// --------------------------------------------------------------------------
-/// @brief 毎フレーム呼ばれる。処理部を記述
-// --------------------------------------------------------------------------
-bool	ModeBase::Process()
+	return true;
+}
+
+/**
+ * フレーム処理：計算
+ */
+bool ModeBase::Process()
 {
 	return	true;
 }
 
-// --------------------------------------------------------------------------
-/// @brief 毎フレーム呼ばれる。描画部を記述
-// --------------------------------------------------------------------------
-bool	ModeBase::Render()
+/**
+ * フレーム処理：描画
+ */
+bool ModeBase::Render()
 {
 	return	true;
 }
 
-// 時間経過をさせる
+/**
+ * 時間経過処理
+ */
 void ModeBase::StepTime(unsigned long tmNow) {
-	// 時間経過処理
+
 	if (_cntMode == 0) {
 		_tmMode = 0;
 		_tmStep = 0;
@@ -69,7 +79,9 @@ void ModeBase::StepTime(unsigned long tmNow) {
 	_tmOldFrame = tmNow;
 }
 
-// カウントを進める
+/**
+ * カウントを進める
+ */
 void ModeBase::StepCount() {
 	_cntMode++;
 }

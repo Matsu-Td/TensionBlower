@@ -86,6 +86,13 @@ public:
 	bool _mlsDownFlag;   // MLSで弾き返された弾でダウンすると「true」
 
 private:
+	int _cgName;
+	int _cgFrame;
+	int _cgFrameBg;
+	int _cgHP[5];
+	int _cgShield;
+	const TCHAR* _cgString[5] = { "res/enemy_hp_1.png","res/enemy_hp_2.png","res/enemy_hp_3.png","res/enemy_hp_4.png","res/enemy_hp_5.png" };
+	
 	int _hitpoint;       // ヒットポイント値
 	int _shield;         // シールド値
 	int _downTime;       // ダウン時間

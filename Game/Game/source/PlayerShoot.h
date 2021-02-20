@@ -16,6 +16,7 @@ public:
 
 	/**
      * 射撃攻撃 :ゲームパッドRTで射撃
+	 * @param player プレイヤークラスオブジェクトのポインタ
      */
 	void ShootingAttack(Player* player);
 };

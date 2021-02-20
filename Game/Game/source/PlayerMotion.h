@@ -15,6 +15,7 @@ public:
 
 	/**
 	 * プレイヤーモーション切替
+	 * @param player プレイヤークラスオブジェクトのポインタ
 	 * @param oldState プレイヤーの処理前の状態
 	 */
 	void SwitchMotion(Player* player, Player::STATE oldState);

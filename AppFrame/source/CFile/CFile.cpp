@@ -1,16 +1,26 @@
+
+/**
+ * @file CFile.cpp
+ * @brief 外部ファイルの読み込み、書き込み
+ * 
+ * @date 2020-12-18
+ */
+
 #include <fstream>
 #include <iostream>
 #include "CFile.h"
 #include "../Application/UtilMacro.h"
 
-// 読み込み
-CFile::CFile(const std::string filename) {
+ /**
+　* ファイル読み込み
+　*/
+CFile::CFile(const std::string fileName) {
 	// メンバの初期化
 	Init();
-	_filename = filename;
+	_fileName = fileName;
 
 	// ファイルを開く
-	std::ifstream ifs(filename, std::ios::in | std::ios::binary);	// 入力をバイナリ形式で
+	std::ifstream ifs(fileName, std::ios::in | std::ios::binary);	// 入力をバイナリ形式で
 	if (!ifs) {
 		return;
 	}
@@ -33,14 +43,16 @@ CFile::CFile(const std::string filename) {
 	_success = true;
 }
 
-// 書き込み
-CFile::CFile(const std::string filename, void* data, int size) {
+/**
+ * ファイル書き込み
+ */
+CFile::CFile(const std::string fileName, void* data, int size) {
 	// メンバの初期化
 	Init();
-	_filename = filename;
+	_fileName = fileName;
 
 	// ファイルを開く
-	std::ofstream ofs(filename, std::ios::out | std::ios::binary);	// 出力をバイナリ形式で
+	std::ofstream ofs(fileName, std::ios::out | std::ios::binary);	// 出力をバイナリ形式で
 	if (!ofs) {
 		return;
 	}
@@ -53,14 +65,19 @@ CFile::CFile(const std::string filename, void* data, int size) {
 	_success = true;
 }
 
-
+/**
+ * デストラクタ：解放
+ */
 CFile::~CFile() {
 	SAFE_DELETE(_data);
 }
 
+/**
+ * 初期化
+ */
 void CFile::Init() {
 	_size = 0;
 	_data = NULL;
-	_filename = "";
+	_fileName = "";
 	_success = false;
 }

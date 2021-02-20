@@ -1,17 +1,20 @@
 ﻿
+/**
+ * @file ModeServer.cpp
+ * @brief モード管理サーバー
+ *
+ * @date 2020-12-18
+ */
+
 #include <cstddef>
 #include "DxLib.h"
 #include "ModeServer.h"
 
-
 /// インスタンス 
-ModeServer		*ModeServer::_pInstance = NULL;
+ModeServer	*ModeServer::_pInstance = NULL;
 
-// --------------------------------------------------------------------------
-/// @brief コンストラクタ 
-// --------------------------------------------------------------------------
-ModeServer::ModeServer()
-{
+ModeServer::ModeServer(){
+
 	_pInstance = this;
 	_uid_count = 1;
 	_nowMode	= NULL;
@@ -20,15 +23,11 @@ ModeServer::ModeServer()
 	_pauseProcessMode	= NULL;
 }
 
-// --------------------------------------------------------------------------
-/// @brief 
-// --------------------------------------------------------------------------
-ModeServer::~ModeServer()
-{
+ModeServer::~ModeServer(){
+
 	Clear();
 	_pInstance = NULL;
 }
-
 
 // 登録はするが、一度メインを回さないといけない
 int ModeServer::Add(ModeBase *mode, int layer, const char *name ) {
@@ -78,8 +77,6 @@ void ModeServer::Clear() {
 	_vModeAdd.clear();
 	_vModeDel.clear();
 }
-
-
 
 // 削除予約されているか？
 bool ModeServer::IsDelRegist(ModeBase *mode) {
@@ -155,12 +152,10 @@ const char *ModeServer::GetName(ModeBase* mode) {
 	}
 	return NULL;
 }
+
 const char *ModeServer::GetName(int uid) {
 	return GetName(Get(uid));
 }
-
-
-
 
 // プロセスを回すための初期化
 int ModeServer::ProcessInit() {
@@ -209,7 +204,7 @@ int ModeServer::Process() {
 				(*ite)->StepTime(t);
 			}
 
-			// Processコール
+			// Process呼び出し
 			(*ite)->Process();
 
 			// Modeが無い場合 (Reboot時)
@@ -261,8 +256,6 @@ int ModeServer::RenderFinish() {
 	return 0;
 }
 
-
-
 // 今処理しているレイヤーより下のレイヤーは、処理を呼ばない
 int ModeServer::SkipProcessUnderLayer() {
 	_skipProcessMode = _nowMode;
@@ -274,7 +267,6 @@ int ModeServer::SkipRenderUnderLayer() {
 	_skipRenderMode = _nowMode;
 	return 0;
 }
-
 
 // 今処理しているレイヤーより下のレイヤーは、時間経過を止める
 int ModeServer::PauseProcessUnderLayer() {

@@ -1,7 +1,7 @@
 
 /**
  * @file ObjectServer.cpp
- * @brief オブジェクトサーバー
+ * @brief オブジェクト管理サーバー
  *
  * @date 2021-01-15
  */
@@ -26,8 +26,7 @@ ObjectServer::~ObjectServer(){
  */
 void ObjectServer::Clear(){
 
-	for (auto itr = _vObject.begin(); itr != _vObject.end(); itr++)
-	{
+	for (auto itr = _vObject.begin(); itr != _vObject.end(); itr++){
 		delete(*itr);
 	}
 	_vObject.clear();
