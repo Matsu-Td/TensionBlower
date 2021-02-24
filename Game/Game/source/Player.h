@@ -128,9 +128,13 @@ protected:
 	std::unordered_map<std::string, int> _attackTotalTime;  // 各攻撃モーションの総再生時間を格納する
 
 	static constexpr int ATTACK_NUM = 8;  // 近接攻撃の種類の数
-	std::string _attackName[ATTACK_NUM] =  // 各近接攻撃の名前を格納
-	{ "weak_atck1" ,"weak_atck2" ,"weak_atck3" ,"weak_atck4", 
-	  "strg_atck1", "strg_atck2", "strg_atck3", "strg_atck4" };
+	std::string _attackString[ATTACK_NUM] =  // 各近接攻撃の名前を格納
+	{ "slash_l" ,"slash_l" ,"slash_l" ,"slash_l", 
+	  "slash_h", "slash_h", "slash_h", "slash_h" };
+
+	const TCHAR* _attackTchar[ATTACK_NUM] =  // 各近接攻撃の名前を格納
+	{ "slash_l" ,"slash_l" ,"slash_l" ,"slash_l",
+	  "slash_h", "slash_h", "slash_h", "slash_h" };
 
 	// ゲームオーバー用
 	int  _gameOverCnt;   // プレイヤー死亡からゲームオーバーまでの時間
@@ -165,6 +169,7 @@ protected:
 		STRG_ATCK3,      // 強近接攻撃3
 		STRG_ATCK4,      // 強近接攻撃4
 		SHOT_ATCK,       // 射撃攻撃
+		DEAD,            // 死亡
 	};
 	STATE _state; // プレイヤーの状態
 

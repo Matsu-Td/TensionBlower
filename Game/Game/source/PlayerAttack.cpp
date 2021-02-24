@@ -134,11 +134,11 @@ void PlayerAttack::AttackAction(Player* player) {
 		if (player->_receptionTime < RECEPTION_TIME) {
 			// ‹­‹ßÚUŒ‚2‚Ö”h¶
 			if (trg & PAD_INPUT_4) {
-				NextStrongAttack(player,CHARA_DATA->_egAtck2, Player::STATE::STRG_ATCK2, "strg_atck2");
+				NextStrongAttack(player,CHARA_DATA->_egAtck2, Player::STATE::STRG_ATCK2, "slash_h");
 			}
 			// Žã‹ßÚUŒ‚2‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
-				NextWeakAttack(player, Player::STATE::WEAK_ATCK2, "weak_atck2");
+				NextWeakAttack(player, Player::STATE::WEAK_ATCK2, "slash_l");
 			}
 		}
 		break;
@@ -146,11 +146,11 @@ void PlayerAttack::AttackAction(Player* player) {
 		if (player->_receptionTime < RECEPTION_TIME) {
 			// ‹­‹ßÚUŒ‚3‚Ö”h¶
 			if (trg & PAD_INPUT_4) {
-				NextStrongAttack(player, CHARA_DATA->_egAtck3, Player::STATE::STRG_ATCK3, "strg_atck3");
+				NextStrongAttack(player, CHARA_DATA->_egAtck3, Player::STATE::STRG_ATCK3, "slash_h");
 			}
 			// Žã‹ßÚUŒ‚3‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
-				NextWeakAttack(player, Player::STATE::WEAK_ATCK3, "weak_atck3");
+				NextWeakAttack(player, Player::STATE::WEAK_ATCK3, "slash_l");
 			}
 		}
 		break;
@@ -158,11 +158,11 @@ void PlayerAttack::AttackAction(Player* player) {
 		if (player->_receptionTime < RECEPTION_TIME) {
 			// ‹­‹ßÚUŒ‚4‚Ö”h¶
 			if (trg & PAD_INPUT_4) {
-				NextStrongAttack(player, CHARA_DATA->_egAtck4, Player::STATE::STRG_ATCK4, "strg_atck4");
+				NextStrongAttack(player, CHARA_DATA->_egAtck4, Player::STATE::STRG_ATCK4, "slash_h");
 			}
 			// Žã‹ßÚUŒ‚4‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
-				NextWeakAttack(player, Player::STATE::WEAK_ATCK4, "weak_atck4");
+				NextWeakAttack(player, Player::STATE::WEAK_ATCK4, "slash_l");
 			}
 		}
 		break;
@@ -191,12 +191,12 @@ void PlayerAttack::FirstAttack(Player* player) {
 	if (player->_vPos.y == 0.0f && player->_attackReloadTime == 0) {
 		if (trg & PAD_INPUT_2 && !player->_isAttack) {
 			player->_isAttack = true;
-			NextWeakAttack(player, Player::STATE::WEAK_ATCK1, "weak_atck1");
+			NextWeakAttack(player, Player::STATE::WEAK_ATCK1, "slash_l");
 
 		}
 		if (trg & PAD_INPUT_4 && !player->_isAttack) {
 			player->_isAttack = true;
-			NextStrongAttack(player, CHARA_DATA->_egAtck1, Player::STATE::STRG_ATCK1, "strg_atck1");
+			NextStrongAttack(player, CHARA_DATA->_egAtck1, Player::STATE::STRG_ATCK1, "slash_h");
 		}
 	}
 }

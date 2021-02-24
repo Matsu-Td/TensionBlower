@@ -76,7 +76,7 @@ void Player::Initialize(){
 	_isShooting = false;
 
 	// ゲームオーバー
-	_gameOverCnt = 60;
+	_gameOverCnt = 160;
 	_isGameOver = false;
 
 	// その他
@@ -85,7 +85,7 @@ void Player::Initialize(){
 
 	// 各近接攻撃のアニメーション総再生時間を格納
 	for (int i = 0; i < ATTACK_NUM; i++) {
-	_attackTotalTime[_attackName[i]] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "player_lattack04")));
+	_attackTotalTime[_attackString[i]] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, _attackTchar[i])));
 	}
 }
 
@@ -213,6 +213,7 @@ void Player::Process(){
 	}
 	// ヒットポイント 0 でゲームオーバー
 	if (_hitpoint <= 0) { 
+		_state = STATE::DEAD;
 		_isGameOver = true;
 	}
 
@@ -225,7 +226,7 @@ void Player::Process(){
 	}
 
 	// マルチロックシステムが発動していないときは移動可能
-	if (camState != Camera::STATE::MLS_LOCK && !_isAttack) {
+	if (camState != Camera::STATE::MLS_LOCK && !_isAttack && !_isGameOver) {
 		// vecをrad分回転させる
 		vec.x = cos(rad + camRad) * length;
 		vec.z = sin(rad + camRad) * length;

@@ -18,7 +18,7 @@
 bool ModeResult::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-	//	_cg = ResourceServer::LoadGraph("res/.png");
+	_cg = ResourceServer::LoadGraph("res/result.png");
 	SetFontSize(64);
 	_score = 0;
 
@@ -69,5 +69,7 @@ bool ModeResult::Render() {
 	DrawFormatString(0, y, GetColor(255, 255, 255), "総スコア 　　　　　: %d", _score);
 
 #endif
+
+	DrawGraph(0, 0, _cg, FALSE);
 	return true;
 }

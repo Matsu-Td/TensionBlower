@@ -20,7 +20,9 @@ ApplicationGlobal::~ApplicationGlobal()
 {
 }
 
-
+/**
+ * ‰Šú‰»
+ */
 bool ApplicationGlobal::Init() {
 
 	_gameEndFlag = false;

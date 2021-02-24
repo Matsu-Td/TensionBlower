@@ -22,23 +22,24 @@
 bool ModeTitle::Initialize() {
 	if (!base::Initialize()) { return false; }
 
+	// BGM再生(再生していない時)
 	if (!CheckSoundMem(gSound._bgm["titlebgm"])) {
 		ModeServer::GetInstance()->Add(NEW TitleBGM(), 0, "titlebgm");
 	}
 
-	_cgtitle            = ResourceServer::LoadGraph("res/logo_title.png");
+	_bg      = ResourceServer::LoadGraph("res/title_back.png");
+	_cgtitle = ResourceServer::LoadGraph("res/logo_title.png");
 
-	_ui["on_start"]     = ResourceServer::LoadGraph("res/ui/on/title_on_1.png");
-	_ui["on_tutorial"]  = ResourceServer::LoadGraph("res/ui/on/title_on_2.png");
-	_ui["on_ranking"]   = ResourceServer::LoadGraph("res/ui/on/title_on_3.png");
-	_ui["on_credit"]    = ResourceServer::LoadGraph("res/ui/on/title_on_5.png");
-	_ui["on_end"]       = ResourceServer::LoadGraph("res/ui/on/title_on_6.png");
-	_ui["off_start"]    = ResourceServer::LoadGraph("res/ui/off/title_off_1.png");
-	_ui["off_tutorial"] = ResourceServer::LoadGraph("res/ui/off/title_off_2.png");
-	_ui["off_ranking"]  = ResourceServer::LoadGraph("res/ui/off/title_off_3.png");
-	_ui["off_credit"]   = ResourceServer::LoadGraph("res/ui/off/title_off_5.png");
-	_ui["off_end"]      = ResourceServer::LoadGraph("res/ui/off/title_off_6.png");
+	// メニューUI画像読み込み(選択状:ON)
+	for (int i = 0; i < MENU_NUM; i++) {
+		_uiOn[i] = ResourceServer::LoadGraph(_fileNameOn[i]);
+	}
 
+	// メニューUI画像読み込み(未選択状態:OFF)
+	for (int i = 0; i < MENU_NUM; i++) {
+		_uiOff[i] = ResourceServer::LoadGraph(_fileNameOff[i]);
+	}
+	
 	_menuPos = MENU::START;  // 初期位置
 
 	return true;
@@ -68,14 +69,12 @@ void ModeTitle::MenuSelect() {
 		_menuPos--;
 	}
 
-	if (trg & PAD_INPUT_B) {
+	if (trg & PAD_INPUT_2) {
 		switch (_menuPos) {
 		case MENU::START:
 			ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("titlebgm"));
 			ModeChange(NEW ModeGame(),   1, "game");   
-
 			break;
-
 		case MENU::TUTORIAL:
 			ModeChange(NEW ModeTutorial(), 1, "tutorial"); break;
 
@@ -85,9 +84,9 @@ void ModeTitle::MenuSelect() {
 		case MENU::CREDIT:
 			ModeChange(NEW ModeCredit(),   1, "credit");   break;
 
-		case MENU::GAME_END:
-			ModeServer::GetInstance()->Del(this);
-			ApplicationBase::GetInstance()->GameEnd();
+		case MENU::GAME_END:  // 未実装
+//			ModeServer::GetInstance()->Del(this);
+//			ApplicationBase::GetInstance()->GameEnd();
 			break;
 		}
 	}
@@ -109,7 +108,7 @@ void ModeTitle::ModeChange(ModeBase* nextMode, int layer, const char* modeName) 
 bool ModeTitle::Process() {
 	base::Process();
 
-	int menuNum = static_cast<int>(_ui.size()) / 2;
+	int menuNum = ALL_MENU_NUM / 2;
 	_menuPos = (_menuPos + menuNum) % menuNum;
 
 	MenuSelect();
@@ -123,22 +122,18 @@ bool ModeTitle::Process() {
 bool ModeTitle::Render() {
 	base::Render();
 
+	DrawGraph(0, 0, _bg, TRUE);
 	DrawGraph(0, 0, _cgtitle, TRUE);
 
-	DrawGraph(120, 480, _ui["off_start"],    TRUE);
-	DrawGraph(435, 575, _ui["off_tutorial"], TRUE);
-	DrawGraph(120, 670, _ui["off_ranking"],  TRUE);
-	DrawGraph(435, 765, _ui["off_credit"],   TRUE);
-	DrawGraph(120, 860, _ui["off_end"],      TRUE);
+	// メニューUI画像(未選択状態:OFF)は選択中は表示しない
+	for (int menuNum = 0; menuNum < MENU_NUM; menuNum++) {
+		if (_menuPos != menuNum) { DrawGraph(MENU_POS_X[menuNum], MENU_POS_Y[menuNum], _uiOff[menuNum], TRUE); }
+	}
 
-	if (_menuPos == MENU::START)	{ DrawGraph(120, 480, _ui["on_start"],    TRUE); }
-	if (_menuPos == MENU::TUTORIAL) { DrawGraph(435, 575, _ui["on_tutorial"], TRUE); }
-	if (_menuPos == MENU::RANKING)	{ DrawGraph(120, 670, _ui["on_ranking"],  TRUE); }
-	if (_menuPos == MENU::CREDIT)   { DrawGraph(435, 765, _ui["on_credit"],   TRUE); }
-	if (_menuPos == MENU::GAME_END) { DrawGraph(120, 860, _ui["on_end"],      TRUE); }
-
-	// 仮実装
-	DrawFormatString(1500, 16, GetColor(255, 255, 255),"menuPos = %d",_menuPos);
+	// メニューUI画像(選択状態:ON)は選択中のみ表示する
+	for (int menuNum = 0; menuNum < MENU_NUM; menuNum++) {
+		if (_menuPos == menuNum) { DrawGraph(MENU_POS_X[menuNum], MENU_POS_Y[menuNum], _uiOn[menuNum], TRUE); }
+	}
 
 	return true;
 }

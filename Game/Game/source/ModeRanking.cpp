@@ -17,7 +17,7 @@
 bool ModeRanking::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-	_cg = ResourceServer::LoadGraph("res/âºëfçﬁ/ranking.png");
+	_cg = ResourceServer::LoadGraph("res/ranking.png");
 
 	return true;
 }

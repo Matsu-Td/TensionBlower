@@ -17,4 +17,6 @@ public:
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::STAGE; }
 
 	void Render();
+private:
+	int _mhMap;
 };

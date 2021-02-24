@@ -19,5 +19,48 @@ public:
 
 protected:
 	int _cg;   // 画像
+	int _menuPos;
+
+	std::unordered_map<std::string, int> _mapUi;
+
+	static constexpr int ALL_MENU_NUM = 20;  // メニューUI画像総数
+	static constexpr int MENU_NUM = 10;       // メニューUI画像数(ON,OFF別)
+
+	// メニューUI画像ファイル名(選択状態:ON)
+	const TCHAR* _fileNameOn[MENU_NUM] =
+	{ "res/ui/tutorial/on/tutorial_on_1.png",
+	  "res/ui/tutorial/on/tutorial_on_2.png",
+	  "res/ui/tutorial/on/tutorial_on_3.png",
+	  "res/ui/tutorial/on/tutorial_on_4.png",
+	  "res/ui/tutorial/on/tutorial_on_5.png",
+	  "res/ui/tutorial/on/tutorial_on_6.png",
+	  "res/ui/tutorial/on/tutorial_on_7.png",
+	  "res/ui/tutorial/on/tutorial_on_8.png",
+	  "res/ui/tutorial/on/tutorial_on_9.png",
+	  "res/ui/tutorial/on/tutorial_on_10.png" };
+
+	// メニューUI画像ファイル名(未選択状態:OFF)
+	const TCHAR* _fileNameOff[MENU_NUM] =
+	{ "res/ui/tutorial/off/tutorial_off_1.png",
+	  "res/ui/tutorial/off/tutorial_off_2.png",
+	  "res/ui/tutorial/off/tutorial_off_3.png",
+	  "res/ui/tutorial/off/tutorial_off_4.png",
+	  "res/ui/tutorial/off/tutorial_off_5.png",
+	  "res/ui/tutorial/off/tutorial_off_6.png",
+	  "res/ui/tutorial/off/tutorial_off_7.png",
+	  "res/ui/tutorial/off/tutorial_off_8.png",
+	  "res/ui/tutorial/off/tutorial_off_9.png",
+	  "res/ui/tutorial/off/tutorial_off_10.png" };
+
+	int _uiOn[MENU_NUM];  // メニューUI画像(選択状態:ON)
+	int _uiOff[MENU_NUM]; // メニューUI画像(未選択状態:OFF)
+
+	// メニューUI画像のX座標
+	static constexpr int MENU_POS_X[MENU_NUM] =
+	{ 1200,1515,1200,1515,1200,1515,1200,1515,1200,1515 }; 
+
+	// メニューUI画像のY座標
+	static constexpr int MENU_POS_Y[MENU_NUM] = 
+	{ 50,145,240,335,430,525,620,715,810,905 };
 };
 

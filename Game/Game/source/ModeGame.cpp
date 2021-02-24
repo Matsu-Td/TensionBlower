@@ -33,14 +33,8 @@ bool ModeGame::Initialize() {
 	gGlobal._remainingHP = 0;
 	gGlobal._totalRepelCnt = 0;
 	gGlobal._totalGetEnergy = 0;
-//	SetUseLighting(FALSE);
-//	SetLightEnable(true);
-//	_shadowMapHandle = MakeShadowMap(2028, 2028);
 
-//	SetLightDirection(VGet(0.0f, -0.5f, 0.0f));
-//	SetShadowMapLightDirection(_shadowMapHandle, VGet(0.0f, -0.5f, 0.0f));
-//	SetShadowMapDrawArea(_shadowMapHandle, VGet(-124.0f, -1.0f, -124.0f), VGet(124.0f, 250.0f, 124.0f));
-
+	// ゲームスタート表示
 	ModeServer::GetInstance()->Add(NEW ModeGameStart, 2, "start");
 
 	return true;
@@ -89,17 +83,10 @@ bool ModeGame::Render() {
 	
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
-	SetUseBackCulling(TRUE);
-
-//	ShadowMap_DrawSetup(_shadowMapHandle);
-	
+	SetUseBackCulling(TRUE);	
 	
 	_objServer.Render();
-//	ShadowMap_DrawEnd();
 
-//	SetUseShadowMap(0, _shadowMapHandle);
-//	_objServer.Render();
-//	SetUseShadowMap(0, -1);
 	_cam.Render();
 	_playerStatus.Render();
 

@@ -31,9 +31,6 @@
     <Filter Include="ソース ファイル\Object\Enemy">
       <UniqueIdentifier>{f6f6dcfd-cf50-4d7a-821f-413907de8802}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Object\Enemy">
-      <UniqueIdentifier>{90d14004-8708-46ba-9df9-8968fe58d710}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Object\Player">
       <UniqueIdentifier>{995be955-a5c5-4f70-beca-3fcca5719342}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Mode\ModeGame">
       <UniqueIdentifier>{5a044950-5365-40ed-a159-bf03fdb22c14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Object\Boss">
+      <UniqueIdentifier>{90d14004-8708-46ba-9df9-8968fe58d710}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -147,7 +147,7 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\Boss.h">
-      <Filter>ヘッダー ファイル\Object\Enemy</Filter>
+      <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
     <ClInclude Include="source\Player.h">
       <Filter>ヘッダー ファイル\Object\Player</Filter>
@@ -156,7 +156,7 @@
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="source\BossBullet.h">
-      <Filter>ヘッダー ファイル\Object\Enemy</Filter>
+      <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
     <ClInclude Include="source\PlayerBullet.h">
       <Filter>ヘッダー ファイル\Object\Player</Filter>
@@ -207,7 +207,7 @@
       <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
     <ClInclude Include="source\Laser.h">
-      <Filter>ヘッダー ファイル\Object\Enemy</Filter>
+      <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
     <ClInclude Include="source\PlayerMotion.h">
       <Filter>ヘッダー ファイル\Object\Player</Filter>

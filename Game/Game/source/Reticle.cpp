@@ -13,7 +13,7 @@
 
 Reticle::Reticle(){
 
-	_cg = ResourceServer::LoadGraph("res/ui/mls_reticle.png");
+	_cg = ResourceServer::LoadGraph("res/ui/player/mls_reticle.png");
 	Initialize();
 }
 
