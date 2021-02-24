@@ -46,31 +46,31 @@ public:
 	 * HP値取得
 	 * @return プレイヤーの現在のHP値を取得
 	 */
-	int GetHitPoint() { return _hitpoint; }
+	int GetHitPoint() const { return _hitpoint; }
 
 	/**
 	 * エネルギー量取得
 	 * @return プレイヤーの現在のエネルギー量を取得
 	 */
-	int GetEnergy() { return _energy; }
+	int GetEnergy() const { return _energy; }
 
 	/**
 	 * 弾の残弾数
 	 * @return プレイヤーの現在の残弾数を取得
 	 */
-	int GetBulletNum() { return _bulletNum; }
+	int GetBulletNum() const { return _bulletNum; }
 
 	/**
      * 近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
      * @return プレイヤーの現在の近接攻撃ダメージ量
      */
-	int GetNowDmgHP()   const { return _nowDmgHP; }
+	int GetNowDmgHP() const { return _nowDmgHP; }
 
 	/**
 	 * 近接攻撃：シールド状態のボスのシールドに与えるダメージ量取得
 	 * @return プレイヤーの現在の近接攻撃ダメージ量
 	 */
-	int GetNowDmgSld()  const { return _nowDmgSld; }
+	int GetNowDmgSld() const { return _nowDmgSld; }
 
 	/**
 	 * 近接攻撃：通常状態のボスのHPに与えるダメージ量取得

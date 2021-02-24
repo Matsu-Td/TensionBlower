@@ -225,6 +225,10 @@ void Player::Process(){
 		length = _mvSpd;
 	}
 
+	if (_vPos.y != 0.0f) {
+		_state = STATE::JUMP;
+	}
+
 	// マルチロックシステムが発動していないときは移動可能
 	if (camState != Camera::STATE::MLS_LOCK && !_isAttack && !_isGameOver) {
 		// vecをrad分回転させる

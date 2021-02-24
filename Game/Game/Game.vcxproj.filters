@@ -28,9 +28,6 @@
     <Filter Include="ソース ファイル\Object\Player">
       <UniqueIdentifier>{1c5defe7-a4aa-492c-b2f1-36d1453721cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Object\Enemy">
-      <UniqueIdentifier>{f6f6dcfd-cf50-4d7a-821f-413907de8802}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Object\Player">
       <UniqueIdentifier>{995be955-a5c5-4f70-beca-3fcca5719342}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Object\Boss">
       <UniqueIdentifier>{90d14004-8708-46ba-9df9-8968fe58d710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Object\Boss">
+      <UniqueIdentifier>{f6f6dcfd-cf50-4d7a-821f-413907de8802}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,13 +58,13 @@
       <Filter>ソース ファイル\Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="source\Boss.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
+      <Filter>ソース ファイル\Object\Boss</Filter>
     </ClCompile>
     <ClCompile Include="source\Stage.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="source\BossBullet.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
+      <Filter>ソース ファイル\Object\Boss</Filter>
     </ClCompile>
     <ClCompile Include="source\PlayerBullet.cpp">
       <Filter>ソース ファイル\Object\Player</Filter>
@@ -118,7 +118,7 @@
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
     <ClCompile Include="source\Laser.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
+      <Filter>ソース ファイル\Object\Boss</Filter>
     </ClCompile>
     <ClCompile Include="source\TitleBGM.cpp">
       <Filter>ソース ファイル\Mode</Filter>
@@ -134,6 +134,12 @@
     </ClCompile>
     <ClCompile Include="source\PlayerStatus.cpp">
       <Filter>ソース ファイル\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BossStatus.cpp">
+      <Filter>ソース ファイル\Object\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BossMotion.cpp">
+      <Filter>ソース ファイル\Object\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +232,12 @@
     </ClInclude>
     <ClInclude Include="source\PlayerStatus.h">
       <Filter>ヘッダー ファイル\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BossStatus.h">
+      <Filter>ヘッダー ファイル\Object\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BossMotion.h">
+      <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

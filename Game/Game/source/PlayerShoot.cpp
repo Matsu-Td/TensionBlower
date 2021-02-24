@@ -41,7 +41,7 @@ void PlayerShoot::ShootingAttack(Player* player) {
 				PlayerBullet* bullet = NEW PlayerBullet();
 				float angle = atan2(player->_vDir.z, player->_vDir.x);
 				VECTOR tmp = player->_vPos;
-				tmp.y = player->_vPos.y + 5.5f;
+				tmp.y = player->_vPos.y + 7.0f;
 				bullet->SetPos(tmp);
 				bullet->SetShotAngle(angle);
 				modeGame->_objServer.Add(bullet);  // ’e”­¶AËŒ‚ŠJn

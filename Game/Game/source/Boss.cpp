@@ -18,13 +18,6 @@ Boss::Boss(){
 
 	_pInstance = this;
 	_mh = MV1LoadModel("res/model/boss/Tboss_model_mm.mv1");
-	_cgName = ResourceServer::LoadGraph("res/enemy_name.png");
-	_cgFrame = ResourceServer::LoadGraph("res/enemy_status.png");
-	_cgFrameBg = ResourceServer::LoadGraph("res/enemy_status_2.png");
-	_cgShield = ResourceServer::LoadGraph("res/enemy_shield.png");
-	for (int i = 0; i < 5; i++) {
-		_cgHP[i] = ResourceServer::LoadGraph(_cgString[i]);
-	}
 
 	Initialize();
 }
@@ -56,7 +49,6 @@ void Boss::Initialize() {
 	_mlsCnt = 0;
 	_reverseCnt = 60;
 	_setRotAngle = 1.0f;
-	_upDown = 2.0f;
 	_height = 0.0f;
 
 	_hitpoint = CHARA_DATA->_boss.maxHP;
@@ -65,6 +57,7 @@ void Boss::Initialize() {
 	_stateDown = false;
 	_mlsDownFlag = false;
 	_downTime = 0;
+	_phase = 0;
 
 	_gameClearCnt = 60;
 	_gameClearFlag = false;
@@ -169,7 +162,7 @@ void Boss::ShotPattern1and2() {
 		for (int i = 0; i < 8; i++) {
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
-			tmpPos.y = 3.5f;
+			tmpPos.y = 4.5f;
 			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
 			BossBullet* bullet = NEW BossBullet();
 			bullet->SetPos(tmpPos);
@@ -207,7 +200,7 @@ void Boss::ShotPattern3() {
 		for (int i = 0; i < 8; i++) {
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-			tmpPos.y = 3.5f;
+			tmpPos.y = 4.5f;
 			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			BossBullet* bullet = NEW BossBullet();
 			bullet->SetPos(tmpPos);           // 弾幕発生位置セット
@@ -234,7 +227,7 @@ void Boss::ShotPattern4_1() {
 		for (int i = 0; i < 8; i++) {
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-			tmpPos.y = 2.5f;
+			tmpPos.y = 3.5f;
 			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			BossBullet* bullet = NEW BossBullet();
 			bullet->SetPos(tmpPos);           // 弾幕発生位置セット
@@ -439,9 +432,9 @@ void Boss::Process(){
 
 	// 当たり判定用カプセル
 	_capsulePos1 = _vPos;
-	_capsulePos1.y = _vPos.y + 3.0f;   // y座標(高さ)のみ加算
+	_capsulePos1.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
 	_capsulePos2 = _vPos;
-	_capsulePos2.y = _vPos.y + 3.0f;   // y座標(高さ)のみ加算
+	_capsulePos2.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
 
 	// フェーズ切替
 	FhaseChange();
@@ -465,7 +458,7 @@ void Boss::Process(){
 	// ダウン処理
 	StateDown();
 
-	{  // プレイヤーがいる方向にボスの正面を向ける
+	{  // 仮実装：プレイヤーがいる方向にボスの正面を向ける
 		VECTOR plPos = Player::GetInstance()->GetPos();
 		float sx = plPos.x - _vPos.x;
 		float sz = plPos.z - _vPos.z;
@@ -508,38 +501,6 @@ void Boss::Render(){
 	MV1SetRotationXYZ(_mh, _vDir);
 	MV1DrawModel(_mh);
 
-	DrawGraph(1090, 30, _cgFrameBg, TRUE);
-
-	if (_phase == 0) {
-		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[0], TRUE);
-		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[1], TRUE);
-		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[2], TRUE);
-		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[3], TRUE);
-		DrawExtendGraph(1113 + 750 - (750 * (_hitpoint - 4000) / 1000), 45, 1853, 80, _cgHP[4], TRUE);
-	}
-	if (_phase == 1) {
-		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[0], TRUE);
-		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[1], TRUE);
-		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[2], TRUE);
-		DrawExtendGraph(1113 + 750 - (750 * (_hitpoint - 3000) / 1000), 45, 1853, 80, _cgHP[3], TRUE);
-	}
-	if (_phase == 2) {
-		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[0], TRUE);
-		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[1], TRUE);
-		DrawExtendGraph(1113 + 750 - (750 * (_hitpoint - 2000) / 1000), 45, 1853, 80, _cgHP[2], TRUE);
-	}
-	if (_phase == 3) {
-		DrawExtendGraph(1113, 45, 1853, 80, _cgHP[0], TRUE);
-		DrawExtendGraph(1113 + 750 - (750 * (_hitpoint - 1000) / 1000), 45, 1853, 80, _cgHP[1], TRUE);
-	}
-	if (_phase == 4) {
-		DrawExtendGraph(1113 + 750 - (750 * _hitpoint / 1000), 45, 1853, 80, _cgHP[0], TRUE);
-	}
-
-	DrawExtendGraph(1124 + 738 - (738 *_shield / 1000), 90, 1862, 120, _cgShield, TRUE);
-	DrawGraph(1090, 30, _cgFrame, TRUE);
-	DrawGraph(1650, 130, _cgName, TRUE);
-
 #if 1
 	int y = 750;
 	int size = 24;
@@ -552,7 +513,6 @@ void Boss::Render(){
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダウン時間 = %d", _downTime);   y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ｼｮｯﾄﾊﾟﾀｰﾝ = %d", _shotPattern); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  フェーズ = %d", _phase); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  テスト = %f", _a);
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 10.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
 }

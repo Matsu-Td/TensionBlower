@@ -53,31 +53,19 @@ void PlayerMotion::SwitchMotion(Player* player, Player::STATE oldState) {
 			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "d_back"), -1, FALSE);
 			break;
 		case Player::STATE::WEAK_ATCK1:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "slash_l"), -1, FALSE);
-			break;
 		case Player::STATE::WEAK_ATCK2:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "slash_l"), -1, FALSE);
-			break;
 		case Player::STATE::WEAK_ATCK3:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "slash_l"), -1, FALSE);
-			break;
 		case Player::STATE::WEAK_ATCK4:
 			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "slash_l"), -1, FALSE);
 			break;
 		case Player::STATE::STRG_ATCK1:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "slash_h"), -1, FALSE);
-			break;
 		case Player::STATE::STRG_ATCK2:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "slash_h"), -1, FALSE);
-			break;
 		case Player::STATE::STRG_ATCK3:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "slash_h"), -1, FALSE);
-			break;
 		case Player::STATE::STRG_ATCK4:
 			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "slash_h"), -1, FALSE);
 			break;
 		case Player::STATE::SHOT_ATCK:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "shoot"), -1, FALSE);
+			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "shoot_n"), -1, FALSE);
 			break;
 		case Player::STATE::DEAD:
 			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "dead"), -1, FALSE);

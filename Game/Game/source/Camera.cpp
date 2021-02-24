@@ -69,8 +69,6 @@ void Camera::Process(){
 	float camDis = 25.0f;   // プレイヤーとの距離
 	float camSpd = 4.0f;    // カメラ移動速度
 
-#if 1   // 0:開発用(カメラ自由)、1:本番用
-
 /**
  * カメラ切替
  */
@@ -139,7 +137,7 @@ void Camera::Process(){
 		_oldState = _state;
 
 		_vTarg = bsPos;
-		_vTarg.y = bsPos.y + 3.5f;
+		_vTarg.y = bsPos.y + 8.5f;
 		float sx = plPos.x - _vTarg.x;
 		float sz = plPos.z - _vTarg.z;
 		float camrad = atan2(sz, sx);
@@ -154,7 +152,7 @@ void Camera::Process(){
 			_state = STATE::NORMAL;
 		}
 		// ゲームパッド「LB」長押しでカメラをFPS視点(マルチロックシステム発動)に切替
-		if (key & PAD_INPUT_5 && plEnergy > 12.5f) {
+		if (key & PAD_INPUT_5 && plEnergy > 10.0f) {
 			_state = STATE::MLS_LOCK;
 		}
 		break;
@@ -170,14 +168,14 @@ void Camera::Process(){
 		float sx = plPos.x - _vTarg.x;
 		float sz = plPos.z - _vTarg.z;
 		float camrad = atan2(sz, sx);
-		float length = sqrt(sx * sx + sz * sz) - 0.5f;
+		float length = sqrt(sx * sx + sz * sz) - 2.5f;
 
 		_vPos.x = cos(camrad) * length;
 		_vPos.z = sin(camrad) * length;
 		_vPos.y = plPos.y + 7.0f;
 
 		if (!(key & PAD_INPUT_5)) { _state = STATE::_EOF_; }
-		if (plEnergy < 12.5) { _state = STATE::_EOF_; }
+		if (plEnergy < 10) { _state = STATE::_EOF_; }
 		break;
 	}
 	default:
@@ -190,101 +188,6 @@ void Camera::Process(){
 		}
 		break;
 	}
-
-
-#else
-	if (key & PAD_INPUT_8) {	// W
-	// カメラ位置（注目位置もXZスライド）
-		float sx = _vPos.x - _vTarg.x;
-		float sz = _vPos.z - _vTarg.z;
-		float camrad = atan2(sz, sx);
-
-		// 移動方向を決める(左スティック)
-		{
-			VECTOR vec = { 0,0,0 };
-			float mvSpd = 1.f;
-			float length = sqrt(lx * lx + ly * ly);
-			float rad = atan2(lx, ly);
-			if (length < analogMin) {
-				// 入力が小さかったら動かなかったことにする
-				length = 0.f;
-			}
-			else {
-				length = mvSpd;
-			}
-			// vをrad分回転させる
-			vec.x = cos(rad + camrad) * length;
-			vec.z = sin(rad + camrad) * length;
-
-			// vecの分移動
-			_vPos = VAdd(_vPos, vec);
-			_vTarg = VAdd(_vTarg, vec);
-		}
-
-		// 距離、ターゲットの高さ変更（右スティック）
-		{
-			float sx = _vPos.x - _vTarg.x;
-			float sz = _vPos.z - _vTarg.z;
-			float rad = atan2(sz, sx);
-			float length = sqrt(sz * sz + sx * sx);
-			if (rx < -analogMin) { length -= 0.5f; }
-			if (rx > analogMin) { length += 0.5f; }
-			_vPos.x = _vTarg.x + cos(rad) * length;
-			_vPos.z = _vTarg.z + sin(rad) * length;
-
-			// Y位置
-			if (ry > analogMin) { _vTarg.y -= 0.5f; }
-			if (ry < -analogMin) { _vTarg.y += 0.5f; }
-		}
-	}
-	else {
-		{
-			float sx = _vPos.x - _vTarg.x;
-			float sz = _vPos.z - _vTarg.z;
-			float camrad = atan2(sz, sx);
-
-			// 移動方向を決める
-			VECTOR vec = { 0,0,0 };
-			float mvSpd = 0.3f;
-			// アナログ左スティック用
-			float length = sqrt(lx * lx + ly * ly);
-			float rad = atan2(lx, ly);
-			if (length < analogMin) {
-				// 入力が小さかったら動かなかったことにする
-				length = 0.f;
-			}
-			else {
-				length = mvSpd;
-			}
-
-			// vをrad分回転させる
-			vec.x = cos(rad + camrad) * length;
-			vec.z = sin(rad + camrad) * length;
-
-			_vPos = VAdd(_vPos, vec);
-			_vTarg = VAdd(_vTarg, vec);
-
-			// カメラ操作を行う（右スティック）
-			{
-				// Y軸回転
-				float sx = _vPos.x - _vTarg.x;
-				float sz = _vPos.z - _vTarg.z;
-				float rad = atan2(sz, sx);
-				float length = sqrt(sz * sz + sx * sx);
-				if (rx > analogMin) { rad -= 0.05f; }
-				if (rx < -analogMin) { rad += 0.05f; }
-				_vPos.x = _vTarg.x + cos(rad) * length;
-				_vPos.z = _vTarg.z + sin(rad) * length;
-
-				// Y位置
-				if (ry > analogMin) { _vPos.y -= 0.5f; }
-				if (ry < -analogMin) { _vPos.y += 0.5f; }
-			}
-		}
-	}
-#endif
-
-
 }
 
 /**
@@ -298,7 +201,7 @@ void Camera::Render(){
 	if (_state == STATE::TARG_LOCK_ON) {
 		DrawGraph(_lockOn.x, _lockOn.y, _lockOn.cg, TRUE);
 	}
-	
+
 #if 1
 	// カメラターゲットを中心に短い線を引く
 	{

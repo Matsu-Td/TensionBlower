@@ -89,6 +89,7 @@ bool ModeGame::Render() {
 
 	_cam.Render();
 	_playerStatus.Render();
+	_bossStatus.Render();
 
 	Effekseer_Sync3DSetting();
 	DrawEffekseer3D();

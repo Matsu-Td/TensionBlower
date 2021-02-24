@@ -77,6 +77,21 @@ public:
      */
 	void ShotPattern6();
 
+	/**
+	 * ヒットポイント値取得
+	 */
+	int GetHitPoint() const { return _hitpoint; }
+
+	/**
+	 * シールド値取得
+	 */
+	int GetShield() const { return _shield; }
+
+	/**
+	 * フェーズ数取得
+	 */
+	int GetPhase() const { return _phase; }
+
 	static Boss* GetInstance() { return _pInstance; }
 
 	static Boss* _pInstance;
@@ -86,13 +101,6 @@ public:
 	bool _mlsDownFlag;   // MLSで弾き返された弾でダウンすると「true」
 
 private:
-	int _cgName;
-	int _cgFrame;
-	int _cgFrameBg;
-	int _cgHP[5];
-	int _cgShield;
-	const TCHAR* _cgString[5] = { "res/enemy_hp_1.png","res/enemy_hp_2.png","res/enemy_hp_3.png","res/enemy_hp_4.png","res/enemy_hp_5.png" };
-	
 	int _hitpoint;       // ヒットポイント値
 	int _shield;         // シールド値
 	int _downTime;       // ダウン時間
@@ -108,16 +116,13 @@ private:
 	int _shotPattern;    // 弾幕パターン3種ランダムで切替
 	int _phase;          // フェーズ：HP残量で変化
 	float _height;       // 弾幕を発射する高さ
-	float _upDown;       // 弾幕の発射高さ変化用
 
-
-	int _gameClearCnt;      // クリアカウント
+	int  _gameClearCnt;      // クリアカウント
 	bool _gameClearFlag;    // クリアフラグ
 
-	float _a;        // デバッグ確認用
-
 	static constexpr float SHOT_DISTANCE = 10.0f;  // 弾幕を発生させる位置(ボス中心からの距離)
-	
+	static constexpr float ADD_POS_Y     = 8.5f;  // 当たり判定用Y座標加算値
+
 	static constexpr int PATTERN_CHANGE_CNT = 240; // 弾幕パターンを変化させるカウント最大値
 	static constexpr int SHOT_REVERSE_CNT = 90;    // 弾幕回転方向を変化させるカウント最大値
 	static constexpr int PHASE_ONE_HP   = 4000;    // フェーズ1へ移行する残りHP量
@@ -126,4 +131,5 @@ private:
 	static constexpr int PHASE_FOUR_HP  = 1000;    // フェーズ4へ移行する残りHP量
 	static constexpr int MIN_DOWN_TIME = 180;      // ダウン時間最小値(ダウン時間計算用)
 	static constexpr int DOWN_TIME_ONE_BULLET = 90;      // ダウン時間最小値(ダウン時間計算用)
+
 };

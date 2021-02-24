@@ -159,6 +159,8 @@
     <ClCompile Include="source\ApplicationMain.cpp" />
     <ClCompile Include="source\Boss.cpp" />
     <ClCompile Include="source\BossBullet.cpp" />
+    <ClCompile Include="source\BossMotion.cpp" />
+    <ClCompile Include="source\BossStatus.cpp" />
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\Laser.cpp" />
     <ClCompile Include="source\ModeCredit.cpp" />
@@ -193,6 +195,8 @@
     <ClInclude Include="source\ApplicationMain.h" />
     <ClInclude Include="source\Boss.h" />
     <ClInclude Include="source\BossBullet.h" />
+    <ClInclude Include="source\BossMotion.h" />
+    <ClInclude Include="source\BossStatus.h" />
     <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\Laser.h" />
     <ClInclude Include="source\ModeCredit.h" />
