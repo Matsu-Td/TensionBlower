@@ -1,9 +1,9 @@
-
 /**
- * @file  PlayerStatus.cpp
- * @brief プレイヤーステータスUI描画
- *
- * @date 2021-02-19
+ * @file   PlayerStatus.cpp
+ * @brief  プレイヤーステータスUI描画
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "Player.h"

@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  BossStatus.h
- * @brief ボスステータスUI描画
- *
- * @date 2021-02-25
+ * @file   BossStatus.h
+ * @brief  ボスステータスUI描画
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 

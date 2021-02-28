@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  Camera.h
- * @brief カメラ関連処理
- *
- * @date 2021-02-08
+ * @file   Camera.h
+ * @brief  カメラ関連処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 

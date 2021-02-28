@@ -1,9 +1,9 @@
-
 /**
- * @file  ModeResult.h
- * @brief リザルト画面
- *
- * @date 2021-02-08
+ * @file   ModeResult.h
+ * @brief  リザルト画面
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "appframe.h"

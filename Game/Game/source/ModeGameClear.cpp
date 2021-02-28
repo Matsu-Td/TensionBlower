@@ -1,9 +1,9 @@
-
 /**
- * @file  ModeGameClear.cpp
- * @brief ゲームクリア画面
+ * @file   ModeGameClear.cpp
+ * @brief  ゲームクリア画面
  * 
- * @data 2021-02-08
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"

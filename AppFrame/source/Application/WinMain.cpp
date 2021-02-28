@@ -26,6 +26,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (appBase->GetInstance()->GameEndFlag() == true) {
 			break;
 		}
+
+		if(GetAsyncKeyState(VK_ESCAPE)) { break; }
+
 		appBase->Input();
 		appBase->Process();
 

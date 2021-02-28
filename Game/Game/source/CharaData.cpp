@@ -1,9 +1,9 @@
-
 /**
- * @file  CharaData.cpp
- * @brief キャラデータ読み込み
- *
- * @date 2021-02-08
+ * @file   CharaData.cpp
+ * @brief  キャラデータ読み込み
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #define	_CRT_SECURE_NO_WARNINGS

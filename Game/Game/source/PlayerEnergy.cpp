@@ -1,9 +1,9 @@
-
 /**
- * @file  PlayerEnergy.cpp
- * @brief プレイヤーエネルギー関係処理
- *
- * @date 2021-02-14
+ * @file   PlayerEnergy.cpp
+ * @brief  プレイヤーエネルギー関係処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"

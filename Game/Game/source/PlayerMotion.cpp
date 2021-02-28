@@ -1,9 +1,9 @@
-
 /**
- * @file  PlayerMotion.h
- * @brief プレイヤーモーション切替
+ * @file   PlayerMotion.cpp
+ * @brief  プレイヤーモーション切替
  * 
- * @date 2021-02-13
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "PlayerMotion.h"

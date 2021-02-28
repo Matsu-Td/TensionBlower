@@ -1,9 +1,9 @@
-
 /**
- * @file  ModePause.cpp
- * @brief ポーズ画面
- *
- * @date 2021-02-08
+ * @file   ModePause.cpp
+ * @brief  ポーズ画面
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"
@@ -19,10 +19,10 @@ bool ModePause::Initialize(){
 
 	_cg = ResourceServer::LoadGraph("res/pause.png");
 
-	_ui[0] = ResourceServer::LoadGraph("res/ui/on/pause_on_01.png");
-	_ui[1] = ResourceServer::LoadGraph("res/ui/on/pause_on_02.png");
-	_ui[2] = ResourceServer::LoadGraph("res/ui/off/pause_off_01.png");
-	_ui[3] = ResourceServer::LoadGraph("res/ui/off/pause_off_02.png");
+	_ui[0] = ResourceServer::LoadGraph("res/ui/pause/pause_on_01.png");
+	_ui[1] = ResourceServer::LoadGraph("res/ui/pause/pause_on_02.png");
+	_ui[2] = ResourceServer::LoadGraph("res/ui/pause/pause_off_01.png");
+	_ui[3] = ResourceServer::LoadGraph("res/ui/pause/pause_off_02.png");
 
 	_menuPos = 0;
 

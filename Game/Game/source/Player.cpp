@@ -1,9 +1,9 @@
-
 /**
- * @file  Player.cpp
- * @brief プレイヤー関連処理
- *
- * @date 2021-02-08
+ * @file   Player.cpp
+ * @brief  プレイヤー関連処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"
@@ -359,7 +359,7 @@ void Player::Render(){
 		MV1DrawModel(_mh);
 	}
 
-#if 1  // デバッグ用
+#if 0  // デバッグ用
 	float angle = atan2(_vDir.z ,_vDir.x);
 	float deg = angle * 180.f / DX_PI_F;
 	int x = 100;

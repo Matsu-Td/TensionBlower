@@ -1,9 +1,9 @@
-
 /**
- * @file  Stage.cpp
- * @brief ステージ描画
- *
- * @date 2021-02-08
+ * @file   Stage.cpp
+ * @brief  ステージ描画
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "Stage.h"
@@ -23,7 +23,7 @@ Stage::~Stage(){
  * フレーム処理：描画
  */
 void Stage::Render(){
-#ifdef _DEBUG
+#if 0
 	{
 		float linelength = 1000.0f;
 		VECTOR v = { 0.0f, 0.0f, 0.0f };

@@ -1,9 +1,9 @@
-
 /**
- * @file  ModeTitle.cpp
- * @brief タイトル画面
- *
- * @date 2021-02-09
+ * @file   ModeTitle.cpp
+ * @brief  タイトル画面
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"
@@ -72,6 +72,8 @@ void ModeTitle::MenuSelect() {
 	if (trg & PAD_INPUT_2) {
 		switch (_menuPos) {
 		case MENU::START:
+			// BGM再生停止
+			StopSoundMem(gSound._bgm["titlebgm"]);
 			ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("titlebgm"));
 			ModeChange(NEW ModeGame(),   1, "game");   
 			break;
@@ -84,9 +86,9 @@ void ModeTitle::MenuSelect() {
 		case MENU::CREDIT:
 			ModeChange(NEW ModeCredit(),   1, "credit");   break;
 
-		case MENU::GAME_END:  // 未実装
-//			ModeServer::GetInstance()->Del(this);
-//			ApplicationBase::GetInstance()->GameEnd();
+		case MENU::GAME_END: 
+			ModeServer::GetInstance()->Del(this);
+			ApplicationBase::GetInstance()->GameEnd();
 			break;
 		}
 	}

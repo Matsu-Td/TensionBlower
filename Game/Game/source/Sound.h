@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file Sound.h
- * @brief BGM,SEì«Ç›çûÇ›
+ * @file   Sound.h
+ * @brief  BGM,SEì«Ç›çûÇ›
  * 
- * @date 2021-02-13
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 #include <unordered_map>

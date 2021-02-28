@@ -1,9 +1,9 @@
-
 /**
- * @file  PlayerDash.cpp
- * @brief プレイヤーダッシュ処理
- *
- * @date 2021-02-14
+ * @file   PlayerDash.cpp
+ * @brief  プレイヤーダッシュ処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"

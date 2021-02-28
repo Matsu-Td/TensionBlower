@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file Laser.h
- * @brief ボスのレーザー攻撃
+ * @file   Laser.h
+ * @brief  ボスのレーザー攻撃
  * 
- * @date 2021-02-14
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 

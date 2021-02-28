@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  PlayerMotion.h
- * @brief プレイヤーモーション切替
- *
- * @date 2021-02-13
+ * @file   PlayerMotion.h
+ * @brief  プレイヤーモーション切替
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "Player.h"
 

@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  PlayerEnergy.h
- * @brief プレイヤーエネルギー関係処理
- *
- * @date 2021-02-14
+ * @file   PlayerEnergy.h
+ * @brief  プレイヤーエネルギー関係処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 #include "Player.h"

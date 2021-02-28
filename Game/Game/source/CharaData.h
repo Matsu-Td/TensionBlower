@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  CharaData.h
- * @brief キャラデータ(プレイヤー、ボス)JSONファイル読み込み処理
+ * @file   CharaData.h
+ * @brief  キャラデータ(プレイヤー、ボス)JSONファイル読み込み処理
  * 
- * @date 2021-02-08
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 

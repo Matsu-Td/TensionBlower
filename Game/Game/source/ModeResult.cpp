@@ -1,9 +1,9 @@
-
 /**
- * @file  ModeResult.cpp
- * @brief リザルト画面
- *
- * @date 2021-02-08
+ * @file   ModeResult.cpp
+ * @brief  リザルト画面
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"
@@ -57,19 +57,22 @@ bool ModeResult::Process() {
 bool ModeResult::Render() {
 	base::Render();
 
+	DrawGraph(0, 0, _cg, FALSE);
+
 #if 1  // 仮実装
-	int y = 0;
-	int size =200;
+	int x = 800;
+	int y = 90;
+	int size = 200;
+	int color = GetColor(0, 0, 0);
 	ChangeFontType(DX_FONTTYPE_ANTIALIASING);
-	DrawString(0, y, "リザルト画面", GetColor(255, 255, 255)); y += 200;
-	DrawFormatString(0, y, GetColor(255, 255, 255), "経過時間           : %d秒", gGlobal._gameTime / 1000); y += size;
-	DrawFormatString(0, y, GetColor(255, 255, 255), "残り体力           : %d", gGlobal._remainingHP); y += size;
-	DrawFormatString(0, y, GetColor(255, 255, 255), "弾き返し回数       : %d 回", gGlobal._totalRepelCnt); y += size;
-	DrawFormatString(0, y, GetColor(255, 255, 255), "総獲得エネルギー量 : %d", gGlobal._totalGetEnergy); y += size;
-	DrawFormatString(0, y, GetColor(255, 255, 255), "総スコア 　　　　　: %d", _score);
+	DrawString(0, 0, "スコア計算未実装", GetColor(255, 255, 255)); 
+	DrawFormatString(x, y, color, "%4d 秒", gGlobal._gameTime / 1000); y += size;
+	DrawFormatString(x, y, color, "%4d", gGlobal._remainingHP); y += size;
+	DrawFormatString(x, y, color, "%4d 回", gGlobal._totalRepelCnt); y += size;
+	DrawFormatString(x, y, color, "%4d", gGlobal._totalGetEnergy); y += size;
+	DrawFormatString(x, y, color, "%4d", _score);
 
 #endif
 
-	DrawGraph(0, 0, _cg, FALSE);
 	return true;
 }

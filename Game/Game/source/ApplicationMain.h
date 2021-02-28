@@ -1,9 +1,9 @@
-
 /**
- * @file  ApplicationMain.h
- * @brief アプリケーションメイン
- *
- * @date 2021-02-08
+ * @file   ApplicationMain.h
+ * @brief  アプリケーションメイン
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "appframe.h"

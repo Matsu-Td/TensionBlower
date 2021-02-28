@@ -1,9 +1,9 @@
-
 /**
- * @file  ModeGameOver.h
- * @brief チュートリアル画面
- *
- * @date 2021-02-08
+ * @file   ModeTutorial.h
+ * @brief  チュートリアル画面
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "appframe.h"
@@ -18,13 +18,13 @@ public:
 	virtual bool Render();
 
 protected:
-	int _cg;   // 画像
-	int _menuPos;
+	int _cg[9];   // 説明画像
+	int _menuPos; // メニュー選択位置
 
 	std::unordered_map<std::string, int> _mapUi;
 
 	static constexpr int ALL_MENU_NUM = 20;  // メニューUI画像総数
-	static constexpr int MENU_NUM = 10;       // メニューUI画像数(ON,OFF別)
+	static constexpr int MENU_NUM = 10;      // メニューUI画像数(ON,OFF別)
 
 	// メニューUI画像ファイル名(選択状態:ON)
 	const TCHAR* _fileNameOn[MENU_NUM] =

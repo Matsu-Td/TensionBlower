@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  PlayerJump.h
- * @brief プレイヤージャンプ処理
- *
- * @date 2021-02-19
+ * @file   PlayerJump.h
+ * @brief  プレイヤージャンプ処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 #include "Player.h"

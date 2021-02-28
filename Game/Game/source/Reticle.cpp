@@ -1,9 +1,9 @@
-
 /**
- * @file  Reticle.cpp
- * @brief レチクル処理
- *
- * @date 2021-02-10
+ * @file   Reticle.cpp
+ * @brief  レチクル処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "Reticle.h"

@@ -1,9 +1,9 @@
-
 /**
- * @file  PlayerBullet.cpp
- * @brief プレイヤー射撃用の弾移動処理
- *
- * @date 2021-02-08
+ * @file   PlayerBullet.cpp
+ * @brief  プレイヤー射撃用の弾移動処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "appframe.h"
@@ -76,11 +76,4 @@ void PlayerBullet::Process(){
 
 void PlayerBullet::Render(){
 	
-	// DXライブラリのカメラとEffekseerのカメラを同期する。
-	//	DrawEffekseer3D_Draw(_playingEffectHandle);
-	// Effekseerにより再生中のエフェクトを描画する。
-		
-		
-//	MV1SetPosition(_mh, _vPos);
-//	MV1DrawModel(_mh);
-};
+}

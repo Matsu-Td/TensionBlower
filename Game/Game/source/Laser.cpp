@@ -1,10 +1,11 @@
-
 /**
- * @file Laser.h
- * @brief ボスのレーザー攻撃
- *
- * @date 2021-02-14
+ * @file   Laser.cpp
+ * @brief  ボスのレーザー攻撃
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
 #include "Laser.h"
 
 // 未実装

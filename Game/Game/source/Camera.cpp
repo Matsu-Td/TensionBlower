@@ -1,9 +1,9 @@
-
 /**
- * @file  Camera.cpp
- * @brief カメラ関連処理
- *
- * @date 2021-02-08
+ * @file   Camera.cpp
+ * @brief  カメラ関連処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "Camera.h"
@@ -202,7 +202,7 @@ void Camera::Render(){
 		DrawGraph(_lockOn.x, _lockOn.y, _lockOn.cg, TRUE);
 	}
 
-#if 1
+#if 0
 	// カメラターゲットを中心に短い線を引く
 	{
 		float linelength = 2.f;

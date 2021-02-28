@@ -1,9 +1,9 @@
-
 /**
- * @file  ModeGame.cpp
- * @brief ゲーム本体
- *
- * @date 2021-02-08
+ * @file   ModeGame.cpp
+ * @brief  ゲーム本体
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"

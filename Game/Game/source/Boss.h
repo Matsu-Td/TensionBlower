@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  Boss.h
- * @brief ボス関連処理
- *
- * @date 2021-02-11
+ * @file   Boss.h
+ * @brief  ボス関連処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 #include "BossBullet.h"
@@ -111,14 +112,14 @@ private:
 	int _reverseCnt;     // 弾幕回転方向が反転するカウント
 	float _shotAngle;    // 弾幕の発射角度
 	float _shotAngle1;   // 弾幕の発射角度
-	float _setRotAngle;  
+	float _setRotAngle;  // 発射一定角度セット
 	float shotInterval;  // 弾幕の発射間隔
 	int _shotPattern;    // 弾幕パターン3種ランダムで切替
 	int _phase;          // フェーズ：HP残量で変化
-	float _height;       // 弾幕を発射する高さ
+	float _shotHeight;   // 弾幕を発射する高さ
 
-	int  _gameClearCnt;      // クリアカウント
-	bool _gameClearFlag;    // クリアフラグ
+	int  _gameClearCnt;  // クリアカウント
+	bool _gameClearFlag; // クリアフラグ
 
 	static constexpr float SHOT_DISTANCE = 10.0f;  // 弾幕を発生させる位置(ボス中心からの距離)
 	static constexpr float ADD_POS_Y     = 8.5f;  // 当たり判定用Y座標加算値

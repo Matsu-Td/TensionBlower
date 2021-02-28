@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  PlayerShoot.h
- * @brief プレイヤー射撃攻撃
- *
- * @date 2021-02-14
+ * @file   PlayerShoot.h
+ * @brief  プレイヤー射撃攻撃
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 #include "Player.h"

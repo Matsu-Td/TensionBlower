@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  Reticle.h
- * @brief レチクル処理
- *
- * @date 2021-02-08
+ * @file   Reticle.h
+ * @brief  レチクル処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 

@@ -52,7 +52,16 @@ public:
 	 */
 	virtual int GetTrg() { return _gTrg; }
 
+	/**
+	 * @brief ゲーム終了フラグ.
+	 * 
+	 * @return _gameEnd ゲーム終了フラグ
+	 */
 	bool GameEndFlag() { return _gameEnd; }
+
+	/**
+	 * @brief ゲーム終了フラグを立てる
+	 */
 	void GameEnd() { _gameEnd = true; }
 
 protected:

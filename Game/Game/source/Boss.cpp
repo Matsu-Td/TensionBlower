@@ -1,9 +1,9 @@
-
 /**
- * @file  Boss.cpp
- * @brief ボス関連処理
- *
- * @date 2021-02-11
+ * @file   Boss.cpp
+ * @brief  ボス関連処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "Boss.h"
@@ -49,7 +49,7 @@ void Boss::Initialize() {
 	_mlsCnt = 0;
 	_reverseCnt = 60;
 	_setRotAngle = 1.0f;
-	_height = 0.0f;
+	_shotHeight = 0.0f;
 
 	_hitpoint = CHARA_DATA->_boss.maxHP;
 	_shield = CHARA_DATA->_boss.maxShield;
@@ -165,19 +165,19 @@ void Boss::ShotPattern1and2() {
 			tmpPos.y = 4.5f;
 			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
 			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmpPos);
-			bullet->SetShotSpd(1.0f);
-			bullet->SetAngle(_shotAngle);
-			modeGame->_objServer.Add(bullet);
-			_shotAngle += 45.0f;
+			bullet->SetPos(tmpPos);           // 弾幕発生位置セット
+			bullet->SetShotSpd(1.0f);         // 弾の移動速度セット
+			bullet->SetAngle(_shotAngle);     // 弾の発射角度セット
+			modeGame->_objServer.Add(bullet); // 弾生成
+			_shotAngle += 45.0f;              // 弾発射角度を45°ずつずらす
 		}
 	}
 	else {
 		if (_shotPattern == 1) {
-			_shotAngle += 2.0f;
+			_shotAngle += 2.0f;   // 毎フレーム発射角度を2°ずらす
 		}
 		else if (_shotPattern == 2) {
-			_shotAngle -= 2.0f;
+			_shotAngle -= 2.0f;   // 毎フレーム発射角度を2°ずらす
 		}
 	}
 }
@@ -238,7 +238,7 @@ void Boss::ShotPattern4_1() {
 		}
 	}
 	else {
-		_shotAngle += 2.0f;
+		_shotAngle += 2.0f;    // 毎フレーム発射角度を2°ずらす
 	}
 }
 
@@ -264,7 +264,7 @@ void Boss::ShotPattern4_2() {
 		}
 	}
 	else {
-		_shotAngle1 -= 2.0f;
+		_shotAngle1 -= 2.0f;    // 毎フレーム発射角度を2°ずらす
 	}
 }
 
@@ -274,10 +274,15 @@ void Boss::ShotPattern4_2() {
 void Boss::ShotPattern5() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
+	// プレイヤー位置取得
 	VECTOR plPos = Player::GetInstance()->GetPos();
+
+
+	// 同時に8発弾を発射する
 	if (_shotCnt % 8 == 0) {
 		float angleSide = -30.0f;
-		float height =_height;
+		float height = _shotHeight;
 		for (int i = 0; i < 7; i++) {
 			float sx = plPos.x - _vPos.x;
 			float sz = plPos.z - _vPos.z;
@@ -292,20 +297,20 @@ void Boss::ShotPattern5() {
 			bullet->SetAngle(deg + angleSide);     // 弾発射角度セット
 			modeGame->_objServer.Add(bullet);      // 弾生成
 			angleSide += 10.0f;                    // 発射角度を10°ずつずらす
-			if (_height <= -12.0f) {
-				height += 2.0f;
+			if (_shotHeight <= -12.0f) {
+				height += 2.0f;    // 隣り合う弾と弾の高低差
 			}
 			else {
-				height -= 2.0f;
+				height -= 2.0f;    // 隣り合う弾と弾の高低差
 			}		
 			if (abs(height) >= 12) {
 				height += abs(height) - 12.0f;
 				height *= -1.0f;
 			}	
 		}
-		_height += 3.0f;
-		if (abs(_height) >= 11.0f) {
-			_height *= -1.0f;
+		_shotHeight += 3.0f;  // 弾幕基準位置を3m毎上下に変化させる
+		if (abs(_shotHeight) >= 11.0f) {
+			_shotHeight *= -1.0f;
 		}
 	}
 }
@@ -328,11 +333,11 @@ void Boss::ShotPattern6(){
 			tmpPos = _vPos;
 			tmpPos.y = 3.5f;
 			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmpPos);
-			bullet->SetShotSpd(1.5f);
-			bullet->SetAngle(deg + angleSide);
-			modeGame->_objServer.Add(bullet);
-			angleSide += 10.0f;
+			bullet->SetPos(tmpPos);                // 弾幕発生位置セット
+			bullet->SetShotSpd(1.5f);              // 弾の移動速度セット
+			bullet->SetAngle(deg + angleSide);     // 弾発射角度セット
+			modeGame->_objServer.Add(bullet);      // 弾生成
+			angleSide += 10.0f;                    // 発射角度を10°ずつずらす
 		}
 	}
 }
@@ -501,7 +506,7 @@ void Boss::Render(){
 	MV1SetRotationXYZ(_mh, _vDir);
 	MV1DrawModel(_mh);
 
-#if 1
+#if 0
 	int y = 750;
 	int size = 24;
 	SetFontSize(size);

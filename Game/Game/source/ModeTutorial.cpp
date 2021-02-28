@@ -1,9 +1,9 @@
-
 /**
- * @file  ModeTutorial.cpp
- * @brief チュートリアル画面
- *
- * @date 2021-02-08
+ * @file   ModeTutorial.cpp
+ * @brief  チュートリアル画面
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"
@@ -17,7 +17,15 @@
 bool ModeTutorial::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-	_cg = ResourceServer::LoadGraph("res/仮素材/tutorial.png");
+	_cg[0] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei1.png");
+	_cg[1] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei2.png");
+	_cg[2] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei3.png");
+	_cg[3] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei4.png");
+	_cg[4] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei5.png");
+	_cg[5] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei6.png");
+	_cg[6] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei7.png");
+	_cg[7] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei8.png");
+	_cg[8] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei9.png");
 
 	// メニューUI画像読み込み(選択状:ON)
 	for (int i = 0; i < MENU_NUM; i++) {
@@ -63,11 +71,12 @@ bool ModeTutorial::Process() {
 		_menuPos--;
 	}
 
-	// ゲームパッド「A」ボタンでチュートリアルモードを削除し、
-	// タイトルモード追加
-	if (trg & PAD_INPUT_1) {
-		ModeServer::GetInstance()->Del(this);
-		ModeServer::GetInstance()->Add(new ModeTitle(), 1, "title");
+	// ゲームパッド「A」ボタンで「戻る」を選択するとチュートリアルモードを削除し、タイトルモード追加
+	if (_menuPos == 9) { 
+		if (trg & PAD_INPUT_2) {
+			ModeServer::GetInstance()->Del(this);
+			ModeServer::GetInstance()->Add(new ModeTitle(), 1, "title");
+		}
 	}
 
 	return true;
@@ -79,7 +88,7 @@ bool ModeTutorial::Process() {
 bool ModeTutorial::Render() {
 	base::Render();
 
-	DrawGraph(0, 0, _cg, FALSE);
+	DrawGraph(50, 50, _cg[_menuPos], TRUE);
 
 	// メニューUI画像(未選択状態:OFF)は選択中は表示しない
 	for (int menuNum = 0; menuNum < MENU_NUM; menuNum++) {

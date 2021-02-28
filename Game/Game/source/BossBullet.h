@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  BossBullet.h
- * @brief ボスの弾幕処理
- *
- * @date 2021-02-08
+ * @file   BossBullet.h
+ * @brief  ボスの弾幕処理
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 

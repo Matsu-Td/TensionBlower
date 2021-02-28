@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  PlayerStatus.h
- * @brief プレイヤーステータスUI描画
- *
- * @date 2021-02-19
+ * @file   PlayerStatus.h
+ * @brief  プレイヤーステータスUI描画
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 

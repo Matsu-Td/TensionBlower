@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file  Stage.h
- * @brief ステージ描画
- *
- * @date 2021-02-08
+ * @file   Stage.h
+ * @brief  ステージ描画
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
+
+#pragma once
 
 #include "appframe.h"
 

@@ -1,9 +1,9 @@
-
 /**
- * @file  ApplicationGlobal.cpp
- * @brief グローバル変数定義
- *
- * @date 2021-02-08
+ * @file   ApplicationGlobal.cpp
+ * @brief  グローバル変数定義
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "AppFrame.h"

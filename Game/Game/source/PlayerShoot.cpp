@@ -1,9 +1,9 @@
-
 /**
- * @file  PlayerShoot.cpp
- * @brief プレイヤー射撃攻撃
- *
- * @date 2021-02-14
+ * @file   PlayerShoot.cpp
+ * @brief  プレイヤー射撃攻撃
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"

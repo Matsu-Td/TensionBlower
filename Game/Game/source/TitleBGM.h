@@ -1,9 +1,9 @@
-
 /**
- * @file TitleBGM.h
- * @brief アウトゲーム用BGM再生
+ * @file   TitleBGM.h
+ * @brief  アウトゲーム用BGM再生
  * 
- * @date 2021-02-13
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "appframe.h"

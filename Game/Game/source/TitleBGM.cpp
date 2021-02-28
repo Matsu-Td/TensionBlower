@@ -1,9 +1,9 @@
-
 /**
- * @file TitleBGM.cpp
- * @brief アウトゲーム用BGM再生
- *
- * @date 2021-02-13
+ * @file   TitleBGM.cpp
+ * @brief  アウトゲーム用BGM再生
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "TitleBGM.h"
@@ -15,6 +15,5 @@ TitleBGM::TitleBGM() {
 }
 
 TitleBGM::~TitleBGM() {
-	// BGM再生停止
-	StopSoundMem(gSound._bgm["titlebgm"]);
+
 }

@@ -1,9 +1,9 @@
-
 /**
- * @file Sound.h
- * @brief BGM,SEì«Ç›çûÇ›
- *
- * @date 2021-02-13
+ * @file   Sound.cpp
+ * @brief  BGM,SEì«Ç›çûÇ›
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "Sound.h"

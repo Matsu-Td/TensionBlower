@@ -1,9 +1,9 @@
-
 /**
- * @file  ModeGameStart.cpp
- * @brief MISSION START•¶Žš•\Ž¦
- *
- * @date 2021-02-14
+ * @file   ModeGameStart.cpp
+ * @brief  MISSION START•¶Žš•\Ž¦
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"

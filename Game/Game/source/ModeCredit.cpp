@@ -1,9 +1,9 @@
-
 /**
- * @file  ModeCredit.cpp
- * @brief クレジット画面
- *
- * @date 2021-02-09
+ * @file   ModeCredit.cpp
+ * @brief  クレジット画面
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/01
  */
 
 #include "ApplicationMain.h"
