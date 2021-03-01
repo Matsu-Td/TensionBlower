@@ -1,37 +1,40 @@
-#pragma once
-
 /**
  * @file  ResourceServer.h
  * @brief リソース管理サーバ
  * @brief すべて静的メンバで構成する
- * 
- * @date 2020-12-18
+ *
+ * @date 2020/12/18
  */
+
+#pragma once
 
 #include <unordered_map>
 
 class ResourceServer {
 public:
+	/**
+	 * @brief 初期化
+	 */
 	static void	Init();
 
 	/**
-	 * ClearGraph()呼び出し
+	 * @brief ClearGraph()呼び出し
 	 */
 	static void	Release();
 
 	/**
-	 * すべてのデータ削除
+	 * @brief すべてのデータ削除
 	 */
 	static void	ClearGraph();
 
 	/**
-	 * 画像データ読み込み
+	 * @brief 画像データ読み込み
 	 * @param fileName 読み込む画像データの文字列ポインタ
 	 */
 	static int LoadGraph(const TCHAR* fileName);
 
 	/**
-	 * 画像データ分割読み込み
+	 * @brief 画像データ分割読み込み
 	 * @param fileName 読み込む画像データの文字列ポインタ
 	 * @param allNum 画像の分割総数
 	 * @param xNum 画像の横向きに対する分割数
@@ -44,13 +47,13 @@ public:
 		int xNum, int yNum, int xSize, int ySize, int* handleBuf);
 
 	/**
-	 * 音データ読み込み
+	 * @brief 音データ読み込み
 	 * @param fileName 読み込む画像データの文字列ポインタ
 	 */
 	static int LoadSoundMem(const TCHAR* fileName);
 
 	/**
-	 * 3Dモデルデータ読み込み
+	 * @brief 3Dモデルデータ読み込み
      * @param fileName 読み込む画像データの文字列ポインタ
 	 */
 	static int MV1LoadModel(const TCHAR* fileName);

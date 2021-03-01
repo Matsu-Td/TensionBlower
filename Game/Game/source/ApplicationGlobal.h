@@ -13,6 +13,11 @@ public:
 	ApplicationGlobal();
 	virtual ~ApplicationGlobal();
 
+	/**
+	 * @brief ‰Šú‰».
+	 * 
+	 * @return ‰Šú‰»¬Œ÷‚µ‚½‚© 
+	 */
 	bool Init();
 
 public:

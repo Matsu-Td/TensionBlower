@@ -35,63 +35,63 @@ public:
 	}
 
 	/**
-	 * プロセスを回すための初期化
+	 * @brief プロセスを回すための初期化
 	 */
 	int ProcessInit();	
 
 	/**
-	 * レイヤーの上の方からProcessを回す
+	 * @brief レイヤーの上の方からProcessを回す
 	 */
 	int Process();		     
 
 	/**
-	 * プロセスを回した後の後始末
+	 * @brief プロセスを回した後の後始末
 	 */
 	int ProcessFinish(); 
 
 	/**
-	 * 描画を回すための初期化
+	 * @brief 描画を回すための初期化
 	 */
 	int RenderInit();
 
 	/**
-	 * レイヤーの下の方からRenderを回す
+	 * @brief レイヤーの下の方からRenderを回す
 	 */
 	int Render();	
 
 	/**
-	 * 描画を回した後の後始末
+	 * @brief 描画を回した後の後始末
 	 */
 	int RenderFinish();
 
 	/**
-	 * 現Processで、今処理しているレイヤーより下のレイヤーの処理は呼ばない
+	 * @brief 現Processで、今処理しているレイヤーより下のレイヤーの処理は呼ばない
 	 */
 	int SkipProcessUnderLayer();
 
 	/**
-	 * 現Processで、今処理しているレイヤーより下のレイヤーの描画は呼ばない
+	 * @brief 現Processで、今処理しているレイヤーより下のレイヤーの描画は呼ばない
 	 */
 	int SkipRenderUnderLayer();
 
 	/**
-	 * 現Processで、今処理しているレイヤーより下のレイヤーの時間経過を止める
+	 * @brief 現Processで、今処理しているレイヤーより下のレイヤーの時間経過を止める
 	 */
 	int PauseProcessUnderLayer();
 
 private:
 	/**
-	 * 削除、delete
+	 * @brief 削除、delete
 	 */
 	int Release(ModeBase *mode); 
 
 	/**
-	 * 削除予約されているか確認
+	 * @brief 削除予約されているか確認
 	 */
 	bool IsDelRegist(ModeBase *mode);
 
 	/**
-	 * リストに登録されているか確認
+	 * @brief リストに登録されているか確認
 	 */
 	bool IsAdd(ModeBase *mode);	
 

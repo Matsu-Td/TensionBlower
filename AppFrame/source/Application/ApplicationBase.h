@@ -27,13 +27,13 @@ public:
 	virtual bool AppWindowed() { return true; }
 
 	/**
-	 * ウィンドウ横向きサイズ指定
+	 * @brief  ウィンドウ横向きサイズ指定
 	 * @return サイズ
 	 */
 	virtual int DispSizeW() { return 640; }
 
 	/**
-	 * ウィンドウ縦向きサイズ指定
+	 * @brief  ウィンドウ縦向きサイズ指定
 	 * @return サイズ
 	 */
 	virtual int DispSizeH() { return 480; }
@@ -41,20 +41,19 @@ public:
 	static	ApplicationBase	*GetInstance() { return _pInstance; }
 
 	/**
-	 * キー入力情報取得
+	 * @brief  キー入力情報取得
 	 * @return キー入力情報
 	 */
 	virtual int GetKey() { return _gKey; }
 
 	/**
-	 * キーのトリガ情報取得
+	 * @brief  キーのトリガ情報取得
 	 * @return キーのトリガ情報
 	 */
 	virtual int GetTrg() { return _gTrg; }
 
 	/**
 	 * @brief ゲーム終了フラグ.
-	 * 
 	 * @return _gameEnd ゲーム終了フラグ
 	 */
 	bool GameEndFlag() { return _gameEnd; }

@@ -15,7 +15,7 @@ public:
 	PlayerMotion();
 
 	/**
-	 * プレイヤーモーション切替
+	 * @brief プレイヤーモーション切替
 	 * @param player プレイヤークラスオブジェクトのポインタ
 	 * @param oldState プレイヤーの処理前の状態
 	 */

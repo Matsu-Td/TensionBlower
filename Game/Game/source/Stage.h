@@ -17,7 +17,10 @@ public:
 
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::STAGE; }
 
+	/**
+	 * @brief フレーム処理：描画
+	 */
 	void Render();
 private:
-	int _mhMap;
+	int _mhMap; // ステージモデル
 };

@@ -12,13 +12,13 @@
 class CFile{
 public:
 	/**
-	 * ファイル読み込み
+	 * @brief ファイル読み込み
 	 * @param fileName ファイル名
 	 */
 	CFile(const std::string fileName);
 
 	/**
-	 * ファイル書き込み
+	 * @brief ファイル書き込み
 	 * @param fileName ファイル名
 	 * @param data データ格納
 	 * @param size 書き込むデータサイズ
@@ -26,6 +26,7 @@ public:
 	CFile(const std::string fileName, void* data, int size);		// バイナリデータ
 
 	~CFile();
+
 	std::string	FileName() { return _fileName; }
 	void* Data() { return _data; }
 	std::string DataStr() { return std::string(_data); }

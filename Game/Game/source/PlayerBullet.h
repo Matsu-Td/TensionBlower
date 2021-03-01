@@ -18,9 +18,19 @@ public:
 	~PlayerBullet();
 
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::PLAYER_BULLET; }
-
+	/**
+	 * @brief 初期化
+	 */
 	void Initialize();
+
+	/**
+	 * @brief フレーム処理：計算
+	 */
 	void Process();
+
+	/**
+	 * @brief フレーム処理：描画 
+	 */
 	void Render();
 
 	void SetShotAngle(float shotAngle) { _shotAngle = shotAngle; }

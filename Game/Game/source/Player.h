@@ -8,6 +8,7 @@
 
 #pragma once
 
+
 #include "appframe.h"
 #include "PlayerBullet.h"
 #include "BulletServer.h"
@@ -39,48 +40,48 @@ public:
 	void Render();
 
 	/**
-     * 当たり判定
-     */
+	 * @brief 当たり判定
+	 */
 	void Collision();
 
 	/**
-	 * HP値取得
+	 * @brief  HP値取得
 	 * @return プレイヤーの現在のHP値を取得
 	 */
 	int GetHitPoint() const { return _hitpoint; }
 
 	/**
-	 * エネルギー量取得
+	 * @brief  エネルギー量取得
 	 * @return プレイヤーの現在のエネルギー量を取得
 	 */
 	int GetEnergy() const { return _energy; }
 
 	/**
-	 * 弾の残弾数
+	 * @brief  弾の残弾数
 	 * @return プレイヤーの現在の残弾数を取得
 	 */
 	int GetBulletNum() const { return _bulletNum; }
 
 	/**
-     * 近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
+     * @brief  近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
      * @return プレイヤーの現在の近接攻撃ダメージ量
      */
 	int GetNowDmgHP() const { return _nowDmgHP; }
 
 	/**
-	 * 近接攻撃：シールド状態のボスのシールドに与えるダメージ量取得
+	 * @brief  近接攻撃：シールド状態のボスのシールドに与えるダメージ量取得
 	 * @return プレイヤーの現在の近接攻撃ダメージ量
 	 */
 	int GetNowDmgSld() const { return _nowDmgSld; }
 
 	/**
-	 * 近接攻撃：通常状態のボスのHPに与えるダメージ量取得
+	 * @brief  近接攻撃：通常状態のボスのHPに与えるダメージ量取得
 	 * @return プレイヤーの現在の近接攻撃ダメージ量
 	 */
 	int GetNowDmgNorm() const { return _nowDmgNorm; }
 
 	/**
-	 * プレイヤーインスタンスアクセス用
+	 * @brief  プレイヤーインスタンスアクセス用
 	 * @return _pInstance プレイヤークラスポインタ
 	 */
 	static Player* GetInstance() { return _pInstance; }
@@ -128,22 +129,22 @@ protected:
 
 	std::unordered_map<std::string, int> _attackTotalTime;  // 各攻撃モーションの総再生時間を格納する
 
-	static constexpr int ATTACK_NUM = 8;  // 近接攻撃の種類の数
-	std::string _attackString[ATTACK_NUM] =  // 各近接攻撃の名前を格納
+	static constexpr int ATTACK_NUM = 8;         // 近接攻撃の種類の数
+	std::string _attackString[ATTACK_NUM] =      // 各近接攻撃の名前を格納
 	{ "slash_l" ,"slash_l" ,"slash_l" ,"slash_l", 
 	  "slash_h", "slash_h", "slash_h", "slash_h" };
 
-	const TCHAR* _attackTchar[ATTACK_NUM] =  // 各近接攻撃の名前を格納
+	const TCHAR* _attackTchar[ATTACK_NUM] =      // 各近接攻撃の名前を格納
 	{ "slash_l" ,"slash_l" ,"slash_l" ,"slash_l",
 	  "slash_h", "slash_h", "slash_h", "slash_h" };
 
 	// ゲームオーバー用
 	int  _gameOverCnt;   // プレイヤー死亡からゲームオーバーまでの時間
-	bool _isGameOver;   // ゲームオーバーフラグ
+	bool _isGameOver;    // ゲームオーバーフラグ
 
 	// その他
-	int   _lfAnalogDeg;   // 左アナログスティックの倒した方向(角度)
-	float _bsAngle;     // ボスの位置、角度
+	int   _lfAnalogDeg;  // 左アナログスティックの倒した方向(角度)
+	float _bsAngle;      // ボスの位置、角度
 	bool  _isNearBoss;   // ボスの近くにいるか(true:ボスの近くにいる)	
 	bool  _camStateMLS;  // マルチロックオンシステム発動中か
 

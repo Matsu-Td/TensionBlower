@@ -16,44 +16,44 @@ public:
 	~ObjectServer();
 
 	/**
-	 * 登録したオブジェクトのProcess()を登録順に回す
+	 * @brief 登録したオブジェクトのProcess()を登録順に回す
 	 */
 	void Process();
 
 	/**
-	 * 登録したオブジェクトの Render()を登録順に回す
+	 * @brief 登録したオブジェクトの Render()を登録順に回す
 	 */
 	void Render();
 
 	/**
-	 * Addリストにオブジェクトを追加する
+	 * @brief Addリストにオブジェクトを追加する
 	 */
 	void Add(ObjectBase* obj);
 
 	/**
-	 * Delリストにオブジェクトを追加する
+	 * @brief Delリストにオブジェクトを追加する
 	 */
 	void Del(ObjectBase* obj);
 
 	/**
-	 * リストに登録されているオブジェクトを全て削除
+	 * @brief リストに登録されているオブジェクトを全て削除
 	 */
 	void Clear();
 
 	/**
-	 * _vObjectリストを戻り値として返す 
+	 * @brief  _vObjectリストを戻り値として返す 
 	 * @return _vObjectリスト
 	 */
 	std::vector<ObjectBase*>* List() { return &_vObject; }
 
 private:
 	/**
-	 * Addリストのオブジェクトを追加する
+	 * @brief Addリストのオブジェクトを追加する
 	 */
 	void AddListObjects();
 
 	/**
-	 * Delリストのオブジェクトを追加する
+	 * @brief Delリストのオブジェクトを追加する
 	 */
 	void DelListObjects();
 

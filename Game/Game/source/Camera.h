@@ -18,18 +18,41 @@ public:
 	Camera();
 	~Camera();
 
+	/**
+	 * @brief 初期化
+	 */
 	void Initialize();
+
+	/**
+	 * @brief フレーム処理：計算
+	 */
 	void Process();
+
+	/**
+	 * @brief フレーム処理：描画
+	 */
 	void Render();
 
 	static Camera* GetInstance() { return _pInstance; }
+
+	/**
+	 * @brief 座標取得
+	 * 
+	 * @return 座標
+	 */
 	VECTOR GetPos() const { return _vPos; }
+
+	/**
+	 * @brief ターゲット座標取得
+	 * 
+	 * @return ターゲット座標
+	 */
 	VECTOR GetTarg() const { return _vTarg; }
 
-	enum STATE { // カメラの状態
-		NORMAL,      // 通常状態(TPS視点)
-		TARG_LOCK_ON,   // 敵ターゲットロック状態
-		MLS_LOCK,    // マルチロックシステム発動状態(FPS視点)
+	enum STATE {      // カメラの状態
+		NORMAL,       // 通常状態(TPS視点)
+		TARG_LOCK_ON, // 敵ターゲットロック状態
+		MLS_LOCK,     // マルチロックシステム発動状態(FPS視点)
 		_EOF_,
 	};
 	STATE _state;    // カメラ状態

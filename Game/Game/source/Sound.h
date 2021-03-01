@@ -17,7 +17,7 @@ public:
 	~Sound();
 
 	/**
-     * BGM,SEì«Ç›çûÇ›
+     * @brief BGM,SEì«Ç›çûÇ›
      */
 	void Init();
 

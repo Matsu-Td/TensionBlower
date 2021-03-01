@@ -14,7 +14,7 @@
 class PlayerJump {
 public:
 	/**
-	 * ジャンプ処理
+	 * @brief ジャンプ処理
 	 * @param player プレイヤークラスオブジェクトのポインタ
 	 */
 	void JumpAction(Player* player);

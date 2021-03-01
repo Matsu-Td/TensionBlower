@@ -13,7 +13,7 @@
 class CharaData{
 public:
 	/**
-	 * コンストラクタで読み込むJSONファイル指定
+	 * @brief コンストラクタで読み込むJSONファイル指定
 	 * @param filePath ファイルの場所
 	 * @param fileName ファイル名
 	 */
@@ -90,14 +90,14 @@ public:
 
 private:
 	/**
-     * JSONファイルを開いてデータを取得
+     * @brief JSONファイルを開いてデータを取得
      * @param fileName ファイル名
 	 * @return 読み込んだJSONファイルデータ
      */
 	std::string StringFileLoad(std::string fileName);
 
 	/**
-     * JSONファイルのデータ読み込み
+     * @brief JSONファイルのデータ読み込み
 	 * @param filePath ファイルの場所
      * @param fileName ファイル名
      * @return JSONファイル読み込み失敗で「0」,成功で「1」

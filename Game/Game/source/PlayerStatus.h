@@ -15,6 +15,9 @@ public:
 	PlayerStatus();
 	~PlayerStatus();
 
+	/**
+	 * @brief ƒtƒŒ[ƒ€ˆ—F•`‰æ
+	 */
 	void Render();
 
 private:
