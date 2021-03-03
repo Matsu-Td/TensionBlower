@@ -141,6 +141,12 @@
     <ClCompile Include="source\BossMotion.cpp">
       <Filter>ソース ファイル\Object\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="source\BossBomb.cpp">
+      <Filter>ソース ファイル\Object\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BossAimShot.cpp">
+      <Filter>ソース ファイル\Object\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ApplicationMain.h">
@@ -237,6 +243,12 @@
       <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
     <ClInclude Include="source\BossMotion.h">
+      <Filter>ヘッダー ファイル\Object\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BossBomb.h">
+      <Filter>ヘッダー ファイル\Object\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BossAimShot.h">
       <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
   </ItemGroup>

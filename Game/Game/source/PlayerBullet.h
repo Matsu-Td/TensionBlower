@@ -14,7 +14,7 @@
 
 class PlayerBullet : public ObjectBase {
 public:
-	PlayerBullet();
+	PlayerBullet(VECTOR pos, float angle);
 	~PlayerBullet();
 
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::PLAYER_BULLET; }

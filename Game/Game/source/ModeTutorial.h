@@ -18,6 +18,7 @@ public:
 	virtual bool Render();
 
 protected:
+	int _bg;
 	int _cg[9];   // 説明画像
 	int _menuPos; // メニュー選択位置
 

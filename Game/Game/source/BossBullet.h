@@ -13,7 +13,7 @@
 class BossBullet : public ObjectBase{
 public:
 	BossBullet();
-	virtual ~BossBullet();
+    ~BossBullet();
 
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_BULLET; }
 

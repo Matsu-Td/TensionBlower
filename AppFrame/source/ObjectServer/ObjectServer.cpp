@@ -67,7 +67,7 @@ void ObjectServer::DelListObjects(){
 	for (auto itrDel = _vDel.begin(); itrDel != _vDel.end(); ++itrDel){
 		for (auto itr = _vObject.begin(); itr != _vObject.end();){
 			if ((*itr) == (*itrDel)){
-				delete(*itr);
+				delete (*itr);
 				itr = _vObject.erase(itr);
 			}
 			else{

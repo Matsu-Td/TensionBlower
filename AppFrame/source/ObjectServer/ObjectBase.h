@@ -13,7 +13,7 @@
 class ObjectBase {
 public:
 	ObjectBase();
-	~ObjectBase();
+	virtual ~ObjectBase();
 
 	enum class OBJECTTYPE {
 		PLAYER,

@@ -19,8 +19,12 @@ bool ModeResult::Initialize() {
 	if (!base::Initialize()) { return false; }
 
 	_cg = ResourceServer::LoadGraph("res/result.png");
-	SetFontSize(64);
-	_score = 0;
+
+	_allScore = 0;
+	_timeScore = MAX_SCORE;
+	_hpScore = MAX_SCORE;
+	_repelScore = 0;
+	_energyScore = 0;
 
 	return true;
 }
@@ -48,6 +52,24 @@ bool ModeResult::Process() {
 		ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 	}
 
+	// スコア計算：経過時間
+	int timepoint = gGlobal._gameTime / MMSEC2SEC - 120;  // 120以上時間経過でスコア減点
+	if (timepoint > 0) {
+		_timeScore = MAX_SCORE - timepoint * 200;
+	}
+
+	// スコア計算：残り体力
+	_hpScore = gGlobal._remainingHP * 100;
+
+	// スコア計算：合計弾き回数
+	_repelScore = gGlobal._totalRepelCnt * 3000;
+
+	// スコア計算：総獲得エネルギー量
+	_energyScore = gGlobal._totalGetEnergy * 5;
+
+	//// スコア計算：総スコア
+	_allScore = _timeScore + _hpScore + _repelScore + _energyScore;
+
 	return true;
 }
 
@@ -64,13 +86,20 @@ bool ModeResult::Render() {
 	int y = 90;
 	int size = 200;
 	int color = GetColor(0, 0, 0);
+	SetFontSize(64);
 	ChangeFontType(DX_FONTTYPE_ANTIALIASING);
-	DrawString(0, 0, "スコア計算未実装", GetColor(255, 255, 255)); 
-	DrawFormatString(x, y, color, "%4d 秒", gGlobal._gameTime / 1000); y += size;
+	DrawFormatString(x, y, color, "%4d 秒", gGlobal._gameTime / MMSEC2SEC); y += size;
 	DrawFormatString(x, y, color, "%4d", gGlobal._remainingHP); y += size;
 	DrawFormatString(x, y, color, "%4d 回", gGlobal._totalRepelCnt); y += size;
 	DrawFormatString(x, y, color, "%4d", gGlobal._totalGetEnergy); y += size;
-	DrawFormatString(x, y, color, "%4d", _score);
+	SetFontSize(80);
+	x = 1500;
+	y = 100;
+	DrawFormatString(x, y, color, "%6d", _timeScore); y += size;
+	DrawFormatString(x, y, color, "%6d", _hpScore); y += size;
+	DrawFormatString(x, y, color, "%6d", _repelScore); y += size;
+	DrawFormatString(x, y, color, "%6d", _energyScore); y += size;
+	DrawFormatString(x, y, color, "%6d", _allScore);
 
 #endif
 

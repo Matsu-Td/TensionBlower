@@ -17,6 +17,7 @@
 bool ModeTutorial::Initialize() {
 	if (!base::Initialize()) { return false; }
 
+	_bg    = ResourceServer::LoadGraph("res/title_back.png");
 	_cg[0] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei1.png");
 	_cg[1] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei2.png");
 	_cg[2] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei3.png");
@@ -88,6 +89,7 @@ bool ModeTutorial::Process() {
 bool ModeTutorial::Render() {
 	base::Render();
 
+	DrawGraph(0, 0, _bg, TRUE);
 	DrawGraph(50, 50, _cg[_menuPos], TRUE);
 
 	// メニューUI画像(未選択状態:OFF)は選択中は表示しない

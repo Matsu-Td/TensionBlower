@@ -29,6 +29,7 @@ public:
 	ObjectServer _objServer;
 
 	std::unique_ptr<CharaData> _charaData; // JSONファイルからキャラデータ読み込み
+	bool _stopObjProcess;       // オブジェクト処理をストップ
 
 protected:
 

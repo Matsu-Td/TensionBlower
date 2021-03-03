@@ -37,10 +37,11 @@ void Boss::Initialize() {
 	_vDir = VGet(0.0f, 0.0f, 0.0f);
 	_attachIndex = 0;
 	_totalTime = 0.0f;
+	_state = STATE::NORMAL;
 
+	_attachIndex = -1;
+	_totalTime = 0.0f;
 	_playTime = 0.0f;
-	_attachIndex = MV1AttachAnim(_mh, 0, -1, FALSE);
-	_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
 
 	_shotPattern = 1;
 	_shotAngle = -90.0f;
@@ -278,8 +279,7 @@ void Boss::ShotPattern5() {
 	// プレイヤー位置取得
 	VECTOR plPos = Player::GetInstance()->GetPos();
 
-
-	// 同時に8発弾を発射する
+	// 同時に7発弾を発射する
 	if (_shotCnt % 8 == 0) {
 		float angleSide = -30.0f;
 		float height = _shotHeight;
@@ -342,6 +342,10 @@ void Boss::ShotPattern6(){
 	}
 }
 
+void Boss::ShotPattern7() {
+
+}
+
 /**
  * フェーズ変更処理
  */
@@ -379,12 +383,14 @@ void Boss::StateDown(){
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	// 復帰
-	if (_stateDown) {
+//	if (_stateDown) {
+	if (_state == STATE::DOWN) {
 		_mlsDownFlag = false;	   // マルチロックオンシステムによるダウンフラグ解除
 		_downTime--;               // ダウン時間カウント
 		if (_downTime < 0) {
 			_downTime = 0;         // ダウン時間リセット
-			_stateDown = false;    // ダウン状態解除
+//			_stateDown = false;    // ダウン状態解除
+			_state = STATE::RETURN;
 			_bulletNum = 0;        // 弾の数リセット
 			_shield = CHARA_DATA->_boss.maxShield;  // シールド値全回復
 		}
@@ -394,17 +400,18 @@ void Boss::StateDown(){
 		return;
 	}
 	// ダウン
-	if (!_stateDown) {
+//	if (!_stateDown) {
+	if (_state == STATE::NORMAL) {
 		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
 				_bulletNum++;   // ダウン直前に出現していた弾の数をカウント
 			}
 			int plEnergy = Player::GetInstance()->GetEnergy();            // プレイヤーのエネルギー情報取得
 			_downTime = MIN_DOWN_TIME + plEnergy / 20 + _bulletNum;       // ダウン時間計算
-			_stateDown = true;                                            // ダウン状態にする
+//			_stateDown = true;                                            // ダウン状態にする
+			_state = STATE::DOWN;
 		}
 	}
-	
 }
 
 /**
@@ -415,6 +422,7 @@ void Boss::Process(){
 	// カメラの状態を取得
 	int camState = Camera::GetInstance()->GetCameraState();
 
+	STATE oldState = _state;
 
 	// ゲームクリア処理
 	if (_gameClearFlag) {
@@ -430,10 +438,7 @@ void Boss::Process(){
 		_gameClearFlag = true;
 	}
 
-	// 未実装：アニメーション処理
-	if (_playTime >= _totalTime) {
-		_playTime = 0.0f;
-	}
+
 
 	// 当たり判定用カプセル
 	_capsulePos1 = _vPos;
@@ -441,37 +446,47 @@ void Boss::Process(){
 	_capsulePos2 = _vPos;
 	_capsulePos2.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
 
-	// フェーズ切替
-	FhaseChange();
+	if (_state == STATE::RETURN) {
+		if (_playTime == _totalTime) {
+			_state = STATE::NORMAL;
+		}
+	}
 
-	// 弾幕攻撃処理
-	if (_shield	 > 0) {
-		// マルチロックオンシステム発動中は弾の発射速度を遅くする
-		if (camState == Camera::STATE::MLS_LOCK) {  
-			_mlsCnt++;
-			if (_mlsCnt % 100 == 0) {
+	if (_state == STATE::NORMAL) {
+
+		// 弾幕攻撃処理
+		if (_shield > 0) {
+			// マルチロックオンシステム発動中は弾の発射速度を遅くする
+			if (camState == Camera::STATE::MLS_LOCK) {
+				_mlsCnt++;
+				if (_mlsCnt % 100 == 0) {
+					ShotPatternSwitch();
+				}
+			}
+			// 通常時
+			else {
+				_mlsCnt = 0;
 				ShotPatternSwitch();
 			}
 		}
-		// 通常時
-		else {		
-			_mlsCnt = 0;
-			ShotPatternSwitch();
+
+		{  // 仮実装：プレイヤーがいる方向にボスの正面を向ける
+			VECTOR plPos = Player::GetInstance()->GetPos();
+			float sx = plPos.x - _vPos.x;
+			float sz = plPos.z - _vPos.z;
+			float rad = atan2(sz, sx);
+			float deg = rad * 180.0f / DX_PI_F;           // 制御しやすいように一度ラジアン単位を度単位に変換			
+			float plAngle = (-deg - 90.0f) / 180.0f * DX_PI_F;  // 90度分のずれを補正し、ラジアン単位に戻す
+			// 角速度を加え、プレイヤーがいる位置にゆっくりとボスの正面を向ける
+			if (plAngle > _vDir.y) {
+				_vDir.y += ROT_SPD;
+			}
+			else {
+				_vDir.y -= ROT_SPD;
+			}
+//			_vDir.y = (-deg - 90.0f) / 180.0f * DX_PI_F;   
 		}
 	}
-
-	// ダウン処理
-	StateDown();
-
-	{  // 仮実装：プレイヤーがいる方向にボスの正面を向ける
-		VECTOR plPos = Player::GetInstance()->GetPos();
-		float sx = plPos.x - _vPos.x;
-		float sz = plPos.z - _vPos.z;
-		float rad = atan2(sz, sx);
-		float deg = rad * 180.0f / DX_PI_F;           // 制御しやすいように一度ラジアン単位を度単位に変換
-		_vDir.y = (-deg - 90.0f)/ 180.0f * DX_PI_F;   // 90度分のずれを補正し、ラジアン単位に戻す
-	}
-
 	// プレイヤーの弾との当たり判定、ダメージ処理
 	{
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -480,7 +495,8 @@ void Boss::Process(){
 				if (IsHitLineSegment(*(*itr), 10.0f) == true) {
 					if (_shield > 0) {
 						_hitpoint -= CHARA_DATA->_shotDmgHP;
-    					_shield -= CHARA_DATA->_shotDmgSld;
+//    					_shield -= CHARA_DATA->_shotDmgSld;
+						_shield -= 200;
 						modeGame->_objServer.Del(*itr);
 					}
 					else {
@@ -489,10 +505,40 @@ void Boss::Process(){
 						modeGame->_objServer.Del(*itr);
 					}
 				}
-			}
-			
+			}		
 		}
 	}
+	// フェーズ切替
+	FhaseChange();
+	// ダウン処理
+	StateDown();
+
+	if (oldState == _state) {
+		_playTime += 1.0f;
+	}
+	else {
+		if (_attachIndex != -1) {
+			MV1DetachAnim(_mh, _attachIndex);
+			_attachIndex = -1;
+		}
+		switch (_state) {
+		case STATE::NORMAL:
+//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "wait"), -1, FALSE);
+			_attachIndex = -1;
+			break;
+		case STATE::DOWN:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "down"), -1, FALSE);
+			break;
+		case STATE::RETURN:
+			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "return"), -1, FALSE);
+			break;
+		}
+		// アタッチしたアニメーションの総再生時間を取得する
+		_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
+
+		_playTime = 0.0f;
+	}
+
 }
 
 /**
@@ -506,7 +552,7 @@ void Boss::Render(){
 	MV1SetRotationXYZ(_mh, _vDir);
 	MV1DrawModel(_mh);
 
-#if 0
+#if 1
 	int y = 750;
 	int size = 24;
 	SetFontSize(size);
@@ -518,6 +564,7 @@ void Boss::Render(){
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダウン時間 = %d", _downTime);   y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ｼｮｯﾄﾊﾟﾀｰﾝ = %d", _shotPattern); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  フェーズ = %d", _phase); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  状態 = %d", _state); y += size;
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 10.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
 }
@@ -563,6 +610,7 @@ void Boss::AttackDamage(){
 	}
 	// シールドがないとき
 	else {            
-		_hitpoint -= dmgNorm;
+//		_hitpoint -= dmgNorm;
+		_hitpoint -= 500;
 	}
 }

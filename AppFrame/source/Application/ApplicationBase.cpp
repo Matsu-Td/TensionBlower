@@ -38,7 +38,7 @@ bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 
 	// Effekseerを初期化する
 	// 引数には画面に表示する最大パーティクル数を設定する
-	if (Effekseer_Init(1000) == -1){
+	if (Effekseer_Init(100000) == -1){
 		DxLib_End();
 		return -1;
 	}

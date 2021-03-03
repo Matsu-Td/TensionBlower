@@ -17,7 +17,8 @@
 
 BossBullet::BossBullet(){
 
-	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/karinotama.mv1");
+	_mh = ResourceServer::MV1LoadModel("res/model/boss/bullet.mv1");
+
 	_cg[0] = ResourceServer::LoadGraph("res/仮素材/ロック可能.png");
 	_cg[1] = ResourceServer::LoadGraph("res/仮素材/ロック確定.png");
 	Initialize();
@@ -25,12 +26,10 @@ BossBullet::BossBullet(){
 
 BossBullet::~BossBullet(){
 
-	MV1DeleteModel(_mh);
 }
 
 void BossBullet::Initialize(){
 
-	//_vPos = { 0.0f,0.0f,0.0f };
 	_setAngle = 45.0f;
 	_shotCnt = 0;
 	_mlsCnt = 0;
@@ -57,8 +56,8 @@ void BossBullet::Shot(){
 	}
 	
 	float vx, vz;
-	vx = cos(_shotAngle / 180.f * DX_PI_F) * _mvSpd * _bulletDir;
-	vz = sin(_shotAngle / 180.f * DX_PI_F) * _mvSpd * _bulletDir;
+	vx = cos(_shotAngle / 180.0f * DX_PI_F) * _mvSpd * _bulletDir;
+	vz = sin(_shotAngle / 180.0f * DX_PI_F) * _mvSpd * _bulletDir;
 	_vPos.x += vx;
 	_vPos.z += vz;
 }
@@ -78,6 +77,7 @@ void BossBullet::Process(){
 	
 	_capsulePos1 = _vPos;
 	_capsulePos2 = _vPos;
+	
 
 	/**
 	* 当たり判定
@@ -121,6 +121,8 @@ void BossBullet::Process(){
 
 void BossBullet::Render(){
 
+	float modelSize = 0.005f;
+	MV1SetScale(_mh, VGet(modelSize, modelSize, modelSize));
 	MV1SetPosition(_mh, _vPos);
 	MV1SetRotationXYZ(_mh, VGet(0.f, (_shotAngle + 270.f) / 180.f * DX_PI_F, 0.f));
 	MV1DrawModel(_mh);
@@ -135,7 +137,7 @@ void BossBullet::Render(){
 		}
 	}
 	
-	DrawCapsule3D(_capsulePos1,_capsulePos2, 1.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+//	DrawCapsule3D(_capsulePos1,_capsulePos2, 1.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 	
 //	DrawFormatString(0, 500, GetColor(255, 0, 0), "  出現した弾の数(size())  = %d", _lsBlt.size());
 #if 0

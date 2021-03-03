@@ -36,6 +36,8 @@ bool ModeGame::Initialize() {
 
 	// ゲームスタート表示
 	ModeServer::GetInstance()->Add(NEW ModeGameStart, 2, "start");
+	_objServer.Process();
+	_stopObjProcess = true;
 
 	return true;
 }
@@ -47,7 +49,7 @@ bool ModeGame::Terminate() {
 	base::Terminate();
 
 	// オブジェクトサーバーのコンテナに登録していた要素を全て削除、メモリ解放
-	_objServer.Clear();
+//	_objServer.Clear();
 
 	return true;
 }
@@ -60,8 +62,11 @@ bool ModeGame::Process() {
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
+	
+	if (_stopObjProcess == false) {
+		_objServer.Process();
+	}
 	_cam.Process();
-	_objServer.Process();
 
     // Effekseerにより再生中のエフェクトを更新
 	UpdateEffekseer3D();

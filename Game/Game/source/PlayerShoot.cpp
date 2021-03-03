@@ -33,18 +33,18 @@ void PlayerShoot::ShootingAttack(Player* player) {
 			if (player->_canShot) {
 				player->_state = Player::STATE::SHOT_ATCK;
 				player->_isShooting = true;
-				player->_playTime = 30.0f;
 				player->_reloadTime = Player::RELOAD_TIME;	   // リロード開始時間をセット
 				player->_canShot = false;
 				player->_bulletNum--;
 				ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-				PlayerBullet* bullet = NEW PlayerBullet();
 				float angle = atan2(player->_vDir.z, player->_vDir.x);
 				VECTOR tmp = player->_vPos;
 				tmp.y = player->_vPos.y + 7.0f;
-				bullet->SetPos(tmp);
-				bullet->SetShotAngle(angle);
-				modeGame->_objServer.Add(bullet);  // 弾発生、射撃開始
+				PlayerBullet* pbullet = NEW PlayerBullet(tmp, angle);
+				
+//				bullet->SetPos(tmp);
+//				bullet->SetShotAngle(angle);
+				modeGame->_objServer.Add(pbullet);  // 弾発生、射撃開始
 			}
 			else {
 				player->_shotInterval--;

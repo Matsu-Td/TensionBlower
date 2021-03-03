@@ -21,7 +21,7 @@ Player* Player::_pInstance = NULL;
 Player::Player(){
 
 	_pInstance = this;
-	_mh = MV1LoadModel("res/model/player/pl_model.mv1");
+	_mh = MV1LoadModel("res/model/player/pl_model_mm.mv1");
 
 	Initialize();
 }
@@ -217,6 +217,17 @@ void Player::Process(){
 		_isGameOver = true;
 	}
 
+	// 地上にいないときはジャンプ状態固定
+	if (_vPos.y != GROUND_Y) {
+		_state = STATE::JUMP;
+	}
+
+	// 重力処理
+	_vPos.y -= GRAVITY;
+	if (_vPos.y < 0.0f) {
+		_vPos.y = 0.0f;
+	}
+
 	// 移動処理
 	if (length < ANALOG_MIN) {
 		length = 0.0f;
@@ -225,9 +236,6 @@ void Player::Process(){
 		length = _mvSpd;
 	}
 
-	if (_vPos.y != 0.0f) {
-		_state = STATE::JUMP;
-	}
 
 	// マルチロックシステムが発動していないときは移動可能
 	if (camState != Camera::STATE::MLS_LOCK && !_isAttack && !_isGameOver) {
@@ -264,12 +272,6 @@ void Player::Process(){
 
 		}
 
-		// 重力処理
-		_vPos.y -= GRAVITY;
-		if (_vPos.y < 0.0f) {
-			_vPos.y = 0.0f;
-		}
-		
 		// ジャンプ
 		_JumpCall->JumpAction(this);
 		
@@ -349,7 +351,6 @@ void Player::Process(){
 void Player::Render(){
 
     MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
-//	MV1SetScale(_mh, VGet(0.1f, 0.1f, 0.1f));
 	{
 		MV1SetPosition(_mh, _vPos);
 		// 向きからY軸回転を算出
