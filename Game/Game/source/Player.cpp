@@ -103,9 +103,20 @@ void Player::Collision() {
 				slideVec = VCross(_vDir, (*itr)->_hitPolyDim.Dim->Normal);
 				slideVec = VCross((*itr)->_hitPolyDim.Dim->Normal, slideVec);
 				_vPos = VAdd(_oldPos, slideVec);
-				_vPos = VAdd(_vPos, VScale((*itr)->_hitPolyDim.Dim->Normal, 0.5f));
+				MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
+
+				while (1) {
+					// 位置更新
+					_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
+					_capsulePos2 = VGet(_vPos.x, _vPos.y + 7.0f, _vPos.z);
+
+					if (IsHitStage(*(*itr), 2.0f) == false) { break; }
+
+					_vPos = VAdd(_vPos, VScale((*itr)->_hitPolyDim.Dim->Normal,0.001f));
+					MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
+				}
 			}
-		}
+				}
 		// ボスの弾との当たり判定
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
 			// 着弾
@@ -360,7 +371,7 @@ void Player::Render(){
 		MV1DrawModel(_mh);
 	}
 
-#if 0  // デバッグ用
+#if 1  // デバッグ用
 	float angle = atan2(_vDir.z ,_vDir.x);
 	float deg = angle * 180.f / DX_PI_F;
 	int x = 100;

@@ -11,6 +11,7 @@
 #include "ApplicationMain.h"
 #include "Player.h"
 #include "ModeGameClear.h"
+#include "Sound.h"
 
 Boss* Boss::_pInstance = NULL;
 
@@ -402,6 +403,7 @@ void Boss::StateDown(){
 	// ダウン
 //	if (!_stateDown) {
 	if (_state == STATE::NORMAL) {
+		PlaySoundMem(gSound._se["down"], DX_PLAYTYPE_BACK);
 		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
 				_bulletNum++;   // ダウン直前に出現していた弾の数をカウント
@@ -493,6 +495,7 @@ void Boss::Process(){
 		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER_BULLET) {  
 				if (IsHitLineSegment(*(*itr), 10.0f) == true) {
+					PlaySoundMem(gSound._se["hit"], DX_PLAYTYPE_BACK);
 					if (_shield > 0) {
 						_hitpoint -= CHARA_DATA->_shotDmgHP;
 //    					_shield -= CHARA_DATA->_shotDmgSld;
@@ -575,7 +578,7 @@ void Boss::Render(){
 void Boss::Damage() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-
+	PlaySoundMem(gSound._se["hit"], DX_PLAYTYPE_BACK);
 	// シールドがあるとき
 	if (_shield > 0) {  
 		_hitpoint -= CHARA_DATA->_repelDmgHP;
@@ -599,7 +602,7 @@ void Boss::AttackDamage(){
 	int dmgHP = Player::GetInstance()->GetNowDmgHP();
 	int dmgSld = Player::GetInstance()->GetNowDmgSld();
 	int dmgNorm = Player::GetInstance()->GetNowDmgNorm();
-
+	PlaySoundMem(gSound._se["hit"], DX_PLAYTYPE_BACK);
 	// シールドがあるとき
 	if (_shield > 0) { 
 		_hitpoint -= dmgHP;

@@ -11,7 +11,7 @@
 
 TitleBGM::TitleBGM() {
 	// BGMçƒê∂äJén
-	PlaySoundMem(gSound._bgm["titlebgm"], DX_PLAYTYPE_BACK);
+	PlaySoundMem(gSound._bgm["titlebgm"], DX_PLAYTYPE_LOOP);
 }
 
 TitleBGM::~TitleBGM() {

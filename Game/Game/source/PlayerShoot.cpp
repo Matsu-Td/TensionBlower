@@ -10,6 +10,7 @@
 #include "ApplicationGlobal.h"
 #include "ModeGame.h"
 #include "PlayerShoot.h"
+#include "Sound.h"
 
 /**
  * 射撃攻撃 (ゲームパッド「RT」で射撃)
@@ -31,6 +32,7 @@ void PlayerShoot::ShootingAttack(Player* player) {
 		}
 		if (player->_bulletNum > 0) {
 			if (player->_canShot) {
+				PlaySoundMem(gSound._se["shoot"], DX_PLAYTYPE_BACK);
 				player->_state = Player::STATE::SHOT_ATCK;
 				player->_isShooting = true;
 				player->_reloadTime = Player::RELOAD_TIME;	   // リロード開始時間をセット

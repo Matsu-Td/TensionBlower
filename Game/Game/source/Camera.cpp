@@ -202,7 +202,7 @@ void Camera::Render(){
 		DrawGraph(_lockOn.x, _lockOn.y, _lockOn.cg, TRUE);
 	}
 
-#if 0
+#if 1
 	// カメラターゲットを中心に短い線を引く
 	{
 		float linelength = 2.f;

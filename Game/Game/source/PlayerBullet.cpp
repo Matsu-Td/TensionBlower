@@ -17,8 +17,6 @@ PlayerBullet::PlayerBullet(VECTOR pos, float angle){
 	// “Ç‚Ýž‚ÞŽž‚É‘å‚«‚³‚ðŽw’è‚·‚éB
 
 	_effectResourceHandle = LoadEffekseerEffect("res/effect/effect_shoot.efkefc", 0.05f);
-//	_effectResourceHandle = LoadEffekseerEffect("res/effect/laser.efk", 0.05f);
-//	DrawEffekseer3D_Begin();
 	_playingEffectHandle = PlayEffekseer3DEffect(_effectResourceHandle);
 
 	_vPos = pos;
@@ -28,7 +26,7 @@ PlayerBullet::PlayerBullet(VECTOR pos, float angle){
 
 PlayerBullet::~PlayerBullet(){
 	DeleteEffekseerEffect(_effectResourceHandle);
-	DeleteEffekseerEffect(_playingEffectHandle);
+//	DeleteEffekseerEffect(_playingEffectHandle);
 }
 
 void PlayerBullet::Initialize(){
@@ -39,7 +37,7 @@ void PlayerBullet::Process(){
 	ObjectBase::Process();
 
 	float mvSpd = 4.0f;   // ’e‚Ì‘¬“x
-
+	//DeleteEffekseerEffect(_effectResourceHandle);
 	float vx, vz;
 	vx = cos(_shotAngle) * mvSpd;
 	vz = sin(_shotAngle) * mvSpd;
@@ -66,6 +64,7 @@ void PlayerBullet::Process(){
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
 			if (IsHitStage(*(*itr), r) == true) {				
 				modeGame->_objServer.Del(this);
+				MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
 			}
 		}
 	}

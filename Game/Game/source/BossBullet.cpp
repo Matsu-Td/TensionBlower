@@ -87,6 +87,7 @@ void BossBullet::Process(){
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {   // ステージ
 			if (IsHitStage(*(*itr), 0.8f) == true) {
 				modeGame->_objServer.Del(this);
+				MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
 			}
 		}
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) { // レチクル

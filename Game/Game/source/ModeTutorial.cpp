@@ -10,6 +10,7 @@
 #include "ModeTitle.h"
 #include "ModeGame.h"
 #include "ModeTutorial.h"
+#include "Sound.h"
 
 /**
  * 初期化
@@ -66,9 +67,11 @@ bool ModeTutorial::Process() {
 
 	// ゲームパッドの上下キー及び左アナログスティック上下でメニュー選択
 	if (trg & PAD_INPUT_DOWN) {
+		PlaySoundMem(gSound._se["select"], DX_PLAYTYPE_BACK);
 		_menuPos++;
 	}
 	if (trg & PAD_INPUT_UP) {
+		PlaySoundMem(gSound._se["select"], DX_PLAYTYPE_BACK);
 		_menuPos--;
 	}
 

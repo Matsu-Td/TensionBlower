@@ -10,7 +10,7 @@
 #include "ApplicationMain.h"
 
 Stage::Stage(){
-	_mh = ResourceServer:: MV1LoadModel("res/model/âºÉfÅ[É^/stage_dummy02.mv1");
+	_mh = ResourceServer:: MV1LoadModel("res/model/stage/stage_collision.mv1");
 	_mhMap = ResourceServer::MV1LoadModel("res/model/stage/stage.mv1");
 	MV1SetupCollInfo(_mh, -1, 8, 8, 8);
 }

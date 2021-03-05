@@ -10,6 +10,7 @@
 #include "ApplicationGlobal.h"
 #include "ModeGame.h"
 #include "PlayerAttack.h"
+#include "Sound.h"
 
 PlayerAttack::PlayerAttack() {
 
@@ -71,6 +72,7 @@ void PlayerAttack::NextStrongAttack(Player* player,int attackEnergy, Player::STA
 	if (player->_energy < attackEnergy) {                      // エネルギー残量チェック
 		return;
 	}
+	PlaySoundMem(gSound._se["h_attack"], DX_PLAYTYPE_BACK);
 	player->_state = std::move(nextState);                     // 次の攻撃の状態へ遷移
 	player->_energy -= std::move(attackEnergy);                // エネルギー消費
 	player->_canAutoCharge = false;                            // 強近接攻撃時はエネルギー自動回復停止
@@ -86,6 +88,7 @@ void PlayerAttack::NextStrongAttack(Player* player,int attackEnergy, Player::STA
  */
 void PlayerAttack::NextWeakAttack(Player* player, Player::STATE nextState, std::string attackName) {
 
+//	PlaySoundMem(gSound._se["l_attack"], DX_PLAYTYPE_BACK);
 	player->_state = std::move(nextState);                     // 次の攻撃の状態へ遷移
 	player->_attackCnt = player->_attackTotalTime[attackName]; // 攻撃モーション時間セット
 	player->_receptionTime = RECEPTION_TIME;				   // 次攻撃受付時間セット
