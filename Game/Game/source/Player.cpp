@@ -15,6 +15,7 @@
 #include "ModeGame.h"
 #include "ModeGameOver.h"
 #include "Reticle.h"
+#include "Sound.h"
 
 Player* Player::_pInstance = NULL;
 
@@ -123,6 +124,7 @@ void Player::Collision() {
 			if (IsHitLineSegment(*(*itr), 1.5f)) {
 				modeGame->_objServer.Del(*itr);
 				if (_hitpoint > 0) {
+					PlaySoundMem(gSound._se["hit_player"], DX_PLAYTYPE_BACK);
 					_hitpoint -= CHARA_DATA->_boss.shotDmg;
 				}
 			}

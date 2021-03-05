@@ -21,7 +21,7 @@ bool ModeGameOver::Initialize() {
 
 	// ボスステージのBGM再生停止
 	StopSoundMem(gSound._bgm["boss"]);
-
+	PlaySoundMem(gSound._se["lose"], DX_PLAYTYPE_BACK);
 	_cg[0] = ResourceServer::LoadGraph("res/band.png");
 	_cg[1] = ResourceServer::LoadGraph("res/gameover.png");
 
@@ -50,6 +50,7 @@ bool ModeGameOver::Process(){
 	// ゲームパッド「B」ボタンでゲームオーバーモードとゲームモードを削除し、
 	// タイトルモードを追加
 	if (trg & PAD_INPUT_2) {
+		StopSoundMem(gSound._bgm["lose"]);
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 

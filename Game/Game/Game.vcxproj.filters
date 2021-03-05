@@ -43,6 +43,12 @@
     <Filter Include="ソース ファイル\Object\Boss">
       <UniqueIdentifier>{f6f6dcfd-cf50-4d7a-821f-413907de8802}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Effect">
+      <UniqueIdentifier>{dee4fff0-ac1f-47e4-833a-20a1c2415bdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Effect">
+      <UniqueIdentifier>{ed33cd5c-9ab5-4c5e-a05a-8dee39479e88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\ApplicationMain.cpp">
@@ -147,6 +153,9 @@
     <ClCompile Include="source\BossAimShot.cpp">
       <Filter>ソース ファイル\Object\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="source\Explosion.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ApplicationMain.h">
@@ -250,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="source\BossAimShot.h">
       <Filter>ヘッダー ファイル\Object\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Explosion.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

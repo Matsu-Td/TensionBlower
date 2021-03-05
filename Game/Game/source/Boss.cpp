@@ -85,12 +85,10 @@ void Boss::ShotPatternSwitch() {
 	// 初期フェーズ
 	case 0:                      
 		if(_shotPattern <= 2){
-			//ShotPattern1and2();
-			ShotPattern7();
+			ShotPattern1and2();
 		}
 		else {
-			//ShotPattern3();
-			ShotPattern7();
+			ShotPattern3();
 		}
 		break;
 	// フェーズ1
@@ -111,7 +109,7 @@ void Boss::ShotPatternSwitch() {
 	case 2:
 		if (_shotPattern == 1) {
 			ShotPattern3();
-			ShotPattern6();
+			ShotPattern7();
 		}
 		if (_shotPattern == 2) {
 			ShotPattern4_1();
@@ -143,7 +141,7 @@ void Boss::ShotPatternSwitch() {
 	case 4:
 		if (_shotPattern == 1) {
 			ShotPattern3();
-			ShotPattern6();
+			ShotPattern7();
 		}
 		if (_shotPattern == 2) {
 			ShotPattern4_1();
@@ -507,11 +505,10 @@ void Boss::Process(){
 		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER_BULLET) {  
 				if (IsHitLineSegment(*(*itr), 10.0f) == true) {
-					PlaySoundMem(gSound._se["hit"], DX_PLAYTYPE_BACK);
 					if (_shield > 0) {
 						_hitpoint -= CHARA_DATA->_shotDmgHP;
-//    					_shield -= CHARA_DATA->_shotDmgSld;
-						_shield -= 200;
+    					_shield -= CHARA_DATA->_shotDmgSld;
+//						_shield -= 200;
 						modeGame->_objServer.Del(*itr);
 					}
 					else {
@@ -611,10 +608,10 @@ void Boss::Damage() {
  */
 void Boss::AttackDamage(){
 
+	PlaySoundMem(gSound._se["hit_boss"], DX_PLAYTYPE_BACK);
 	int dmgHP = Player::GetInstance()->GetNowDmgHP();
 	int dmgSld = Player::GetInstance()->GetNowDmgSld();
 	int dmgNorm = Player::GetInstance()->GetNowDmgNorm();
-	PlaySoundMem(gSound._se["hit"], DX_PLAYTYPE_BACK);
 	// シールドがあるとき
 	if (_shield > 0) { 
 		_hitpoint -= dmgHP;
@@ -625,7 +622,7 @@ void Boss::AttackDamage(){
 	}
 	// シールドがないとき
 	else {            
-//		_hitpoint -= dmgNorm;
-		_hitpoint -= 500;
+		_hitpoint -= dmgNorm;
+//		_hitpoint -= 500;
 	}
 }

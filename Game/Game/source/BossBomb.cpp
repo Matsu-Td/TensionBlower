@@ -14,6 +14,8 @@
 #include "Player.h"
 #include "Camera.h"
 #include "ModeGame.h"
+#include "Explosion.h"
+#include "Sound.h"
 
 BossBomb::BossBomb(VECTOR pos) {
 
@@ -66,15 +68,18 @@ void BossBomb::Process() {
 		// ターゲットに向かってボムを発射する
 		VECTOR targ = VSub(_vTarg, _vPos);
 		targ = VNorm(targ);
-		targ = VScale(targ, 2.5);
+		targ = VScale(targ, 2.0f);
 		_vPos = VAdd(_vPos, targ);
 	}
 
-	// ステージまで下降したらボムを削除
+	// ステージ床まで下降したらボムを削除
 	if (_vPos.y <= 0.0f) {
+		PlaySoundMem(gSound._se["explosion1"], DX_PLAYTYPE_BACK);
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		Explosion* explosion = NEW Explosion(_vPos);
+		modeGame->_objServer.Add(explosion);
 		modeGame->_objServer.Del(this);
-		
+
 	}
 }
 

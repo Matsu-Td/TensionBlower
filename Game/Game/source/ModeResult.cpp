@@ -11,6 +11,7 @@
 #include "ModeTitle.h"
 #include "ModeGame.h"
 #include "ModeResult.h"
+#include "Sound.h"
 
 /**
  * 初期化
@@ -48,6 +49,7 @@ bool ModeResult::Process() {
 
 	// ゲームパッド「B」ボタンでリザルトモードを削除し、タイトルモード追加
 	if (trg & PAD_INPUT_2) {
+		PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 	}
@@ -88,9 +90,9 @@ bool ModeResult::Render() {
 	int color = GetColor(0, 0, 0);
 	SetFontSize(64);
 	ChangeFontType(DX_FONTTYPE_ANTIALIASING);
-	DrawFormatString(x, y, color, "%4d 秒", gGlobal._gameTime / MMSEC2SEC); y += size;
+	DrawFormatString(x, y, color, "%4d", gGlobal._gameTime / MMSEC2SEC); y += size;
 	DrawFormatString(x, y, color, "%4d", gGlobal._remainingHP); y += size;
-	DrawFormatString(x, y, color, "%4d 回", gGlobal._totalRepelCnt); y += size;
+	DrawFormatString(x, y, color, "%4d", gGlobal._totalRepelCnt); y += size;
 	DrawFormatString(x, y, color, "%4d", gGlobal._totalGetEnergy); y += size;
 	SetFontSize(80);
 	x = 1500;

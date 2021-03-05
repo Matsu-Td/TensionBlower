@@ -28,6 +28,7 @@ bool ModeTutorial::Initialize() {
 	_cg[6] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei7.png");
 	_cg[7] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei8.png");
 	_cg[8] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei9.png");
+	_cg[9] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei10.png");
 
 	// メニューUI画像読み込み(選択状:ON)
 	for (int i = 0; i < MENU_NUM; i++) {
@@ -78,6 +79,7 @@ bool ModeTutorial::Process() {
 	// ゲームパッド「A」ボタンで「戻る」を選択するとチュートリアルモードを削除し、タイトルモード追加
 	if (_menuPos == 9) { 
 		if (trg & PAD_INPUT_2) {
+			PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
 			ModeServer::GetInstance()->Del(this);
 			ModeServer::GetInstance()->Add(new ModeTitle(), 1, "title");
 		}

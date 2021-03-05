@@ -72,6 +72,7 @@ void ModeTitle::MenuSelect() {
 	}
 
 	if (trg & PAD_INPUT_2) {
+		PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
 		switch (_menuPos) {
 		case MENU::START:
 			// BGMçƒê∂í‚é~

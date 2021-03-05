@@ -88,7 +88,7 @@ void PlayerAttack::NextStrongAttack(Player* player,int attackEnergy, Player::STA
  */
 void PlayerAttack::NextWeakAttack(Player* player, Player::STATE nextState, std::string attackName) {
 
-//	PlaySoundMem(gSound._se["l_attack"], DX_PLAYTYPE_BACK);
+	PlaySoundMem(gSound._se["l_attack"], DX_PLAYTYPE_BACK);
 	player->_state = std::move(nextState);                     // 次の攻撃の状態へ遷移
 	player->_attackCnt = player->_attackTotalTime[attackName]; // 攻撃モーション時間セット
 	player->_receptionTime = RECEPTION_TIME;				   // 次攻撃受付時間セット

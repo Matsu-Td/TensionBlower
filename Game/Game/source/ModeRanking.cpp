@@ -10,6 +10,7 @@
 #include "ModeTitle.h"
 #include "ModeGame.h"
 #include "ModeRanking.h"
+#include "Sound.h"
 
 /**
  * 初期化
@@ -41,6 +42,7 @@ bool ModeRanking::Process() {
 
 	// ゲームパッド「A」ボタンでランキングモードを削除し、タイトルモード追加
 	if (trg & PAD_INPUT_1) {
+		PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Add(new ModeTitle(), 1, "title");
 	}

@@ -25,6 +25,7 @@ public:
 		STAGE,
 		RETICLE,
 		LASER,
+		EXPLOSION,
 	};
 	virtual OBJECTTYPE	GetType() = 0;
 

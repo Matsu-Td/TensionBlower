@@ -30,7 +30,11 @@ void Sound::Init() {
 	_se["explosion2"] = ResourceServer::LoadSoundMem("res/se/explosion_2.wav");
 	_se["h_attack"]   = ResourceServer::LoadSoundMem("res/se/hattack.wav");
 	_se["l_attack"]   = ResourceServer::LoadSoundMem("res/se/lattack.wav");
-	_se["hit"]        = ResourceServer::LoadSoundMem("res/se/hit.wav");
+	_se["hit_boss"]   = ResourceServer::LoadSoundMem("res/se/hit.wav");
+	_se["hit_player"] = ResourceServer::LoadSoundMem("res/se/hit.wav");
 	_se["select"]     = ResourceServer::LoadSoundMem("res/se/select.wav");
 	_se["shoot"]      = ResourceServer::LoadSoundMem("res/se/shoot.wav");
+	_se["decision"]   = ResourceServer::LoadSoundMem("res/se/decision.wav");
+	_se["win"]        = ResourceServer::LoadSoundMem("res/se/win.wav");
+	_se["lose"]       = ResourceServer::LoadSoundMem("res/se/lose.wav");
 }
