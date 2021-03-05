@@ -11,7 +11,10 @@
 #include "ApplicationMain.h"
 #include "Player.h"
 #include "ModeGameClear.h"
+#include "BossBullet.h"
+#include "BossBomb.h"
 #include "Sound.h"
+
 
 Boss* Boss::_pInstance = NULL;
 
@@ -82,10 +85,12 @@ void Boss::ShotPatternSwitch() {
 	// 初期フェーズ
 	case 0:                      
 		if(_shotPattern <= 2){
-			ShotPattern1and2();
+			//ShotPattern1and2();
+			ShotPattern7();
 		}
 		else {
-			ShotPattern3();
+			//ShotPattern3();
+			ShotPattern7();
 		}
 		break;
 	// フェーズ1
@@ -345,6 +350,13 @@ void Boss::ShotPattern6(){
 
 void Boss::ShotPattern7() {
 
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	if (_shotCnt % 48==0) {
+		VECTOR tmpPos = _vPos;
+		tmpPos.y = _vPos.y + 12.0f;
+		BossBomb* bomb = NEW BossBomb(tmpPos);
+		modeGame->_objServer.Add(bomb);
+	}
 }
 
 /**

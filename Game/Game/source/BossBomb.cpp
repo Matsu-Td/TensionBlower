@@ -19,10 +19,12 @@ BossBomb::BossBomb(VECTOR pos) {
 
 	_mh = ResourceServer::MV1LoadModel("res/model/boss/bomb.mv1");
 	_vPos = pos;
+
+	Initialize();
 }
 
 BossBomb::~BossBomb() {
-	MV1DeleteModel(_mh);
+
 }
 
 void BossBomb::Initialize() {
@@ -35,23 +37,43 @@ void BossBomb::Initialize() {
 
 void BossBomb::Process() {
 
+	// 狙撃までのカウント
 	_shotCnt++;
+
+	// 上昇処理
 	if (_state == STATE::UP) {
 		_vPos.y += _upSpd;
-		if (_shotCnt >= 24) {
-			_state = STATE::STOP;
+		if (_shotCnt >= UP_CNT) {
+			_shotCnt = 0;          // カウントリセット
+			_state = STATE::STOP;  // 停止状態に移行
 		}
 	}
 
+	// 停止処理
 	if (_state == STATE::STOP) {
-		if (_shotCnt >= 48) {
+		if (_shotCnt >= STOP_CNT) {
+			_shotCnt = 0;
+			// プレイヤー位置情報取得
 			VECTOR plPos = Player::GetInstance()->GetPos();
-			_vTarg = plPos;
-			_state = STATE::ATTACK;
+			plPos.y = 0.0f;          // プレイヤーの足元(ステージ上)をターゲットとする
+			_vTarg = plPos;          // プレイヤーをターゲットとする
+			_state = STATE::SNIPER;  // 射撃状態に移行
 		}
 	}
 
-	if (_state == STATE::ATTACK) {
+	// 狙撃処理
+	if (_state == STATE::SNIPER) {
+		// ターゲットに向かってボムを発射する
+		VECTOR targ = VSub(_vTarg, _vPos);
+		targ = VNorm(targ);
+		targ = VScale(targ, 2.5);
+		_vPos = VAdd(_vPos, targ);
+	}
+
+	// ステージまで下降したらボムを削除
+	if (_vPos.y <= 0.0f) {
+		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		modeGame->_objServer.Del(this);
 		
 	}
 }
@@ -63,4 +85,6 @@ void BossBomb::Render() {
 	MV1SetPosition(_mh, _vPos);
 	MV1SetRotationXYZ(_mh, VGet(0.f, (_shotAngle + 270.f) / 180.f * DX_PI_F, 0.f));
 	MV1DrawModel(_mh);
+
+	DrawFormatString(960, 540, GetColor(255, 0, 0), "%d",_state);
 }

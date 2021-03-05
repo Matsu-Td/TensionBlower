@@ -20,6 +20,7 @@ public:
 		PLAYER_BULLET,
 		BOSS,
 		BOSS_BULLET,
+		BOSS_BOMB,
 		CAMERA,
 		STAGE,
 		RETICLE,

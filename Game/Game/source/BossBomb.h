@@ -11,15 +11,17 @@
 #include "appframe.h"
 
 class BossBomb : public ObjectBase {
+public:
 	BossBomb(VECTOR pos);
 	~BossBomb();
 
-	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_BULLET; }
+	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_BOMB; }
 
 	void Initialize();
 	void Process();
 	void Render();
 
+private:
 	VECTOR _vTarg;
 	float _shotSpd;         // 弾の移動速度
 	float _upSpd;
@@ -32,11 +34,14 @@ class BossBomb : public ObjectBase {
 	bool _canLockFlag;      // MLSでロック可能距離となる
 	bool _repelFlag;        // 弾かれたか(true:弾かれた, false:弾かれてない)
 	float _bulletDir;       // -1.0fでMLSによる弾のはじき返し
-
-	enum STATE {
-		UP,
-		STOP,
-		ATTACK,
+	
+	enum class STATE {
+		UP,       // 上昇
+		STOP,     // 停止
+		SNIPER,   // 狙撃
 	};
 	STATE _state;
+
+	static constexpr int UP_CNT = 24;    // 上昇カウント
+	static constexpr int STOP_CNT = 24;  // 停止カウント
 };
