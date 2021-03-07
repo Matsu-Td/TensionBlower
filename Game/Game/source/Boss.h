@@ -33,6 +33,16 @@ public:
 	void AttackDamage();
 
 	/**
+	 * @brief ヒットポイントへの爆発ダメージ
+	 */
+	void ExplosionDamageHP();
+
+	/**
+	 * @brief シールドへの爆発ダメージ
+	 */
+	void ExplosionDamageShield();
+
+	/**
 	 * @brief フェーズ変更処理
 	 */
 	void FhaseChange();
@@ -83,6 +93,17 @@ public:
 	void ShotPattern7();
 
 	/**
+	 * @brief 
+	 */
+	void PlayAttackVoiceChange();
+
+	/**
+	 * @brief 声データ再生
+	 * @param voiceName 声データの名前
+	 */
+	void PlayVoice(std::string voiceName);
+
+	/**
 	 * @brief ヒットポイント値取得
 	 */
 	int GetHitPoint() const { return _hitpoint; }
@@ -97,6 +118,11 @@ public:
 	 */
 	int GetPhase() const { return _phase; }
 
+	/**
+	 * @brief 死亡処理
+	 */
+	void Dead();
+
 	static Boss* GetInstance() { return _pInstance; }
 
 	static Boss* _pInstance;
@@ -104,6 +130,15 @@ public:
 	// プレイヤークラスで使用
 	int _bulletNum;      // ダウン直前に出現していた弾の数カウント
 	bool _mlsDownFlag;   // MLSで弾き返された弾でダウンすると「true」
+
+	// 状態
+	enum class STATE {
+		NORMAL,  // 通常
+		DOWN,    // ダウン
+		RETURN,  // 復帰
+		DEAD,    // 死亡、破壊
+	};
+	STATE GetState() const { return _state; };
 
 private:
 	int _hitpoint;       // ヒットポイント値
@@ -122,8 +157,12 @@ private:
 	int _phase;          // フェーズ：HP残量で変化
 	float _shotHeight;   // 弾幕を発射する高さ
 
-	int  _gameClearCnt;  // クリアカウント
-	bool _gameClearFlag; // クリアフラグ
+	int  _deadCnt;  // 死亡カウント
+	bool _deadFlag; // 死亡フラグ
+
+	static constexpr int ATTACK_VOICE_NUM = 6;    // 攻撃時の声データ総数
+	std::string _attackNameNo[ATTACK_VOICE_NUM] =  // 攻撃時の声データの名前を格納
+	{ "attack1","attack1" ,"attack2" ,"attack4" ,"attack5" ,"attack6" };
 
 	static constexpr float SHOT_DISTANCE = 10.0f;  // 弾幕を発生させる位置(ボス中心からの距離)
 	static constexpr float ADD_POS_Y     = 8.5f;   // 当たり判定用Y座標加算値
@@ -137,12 +176,5 @@ private:
 	static constexpr int PHASE_FOUR_HP  = 1000;    // フェーズ4へ移行する残りHP量
 	static constexpr int MIN_DOWN_TIME = 180;      // ダウン時間最小値(ダウン時間計算用)
 	
-
-	enum STATE {
-		NORMAL,
-		DOWN,
-		RETURN,
-		DEAD,
-	};
-	STATE _state;
+	STATE _state;  // 状態
 };

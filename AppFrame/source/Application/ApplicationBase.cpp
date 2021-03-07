@@ -57,7 +57,7 @@ bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 
 	// モードサーバの初期化
 	_serverMode = std::make_unique<ModeServer>();
-
+	
 	return true;
 }
 

@@ -12,6 +12,7 @@
 #include "ModeGameClear.h"
 #include "ModeResult.h"
 #include "Sound.h"
+#include "PlayerVoice.h"
 
 /**
  * 初期化
@@ -21,7 +22,11 @@ bool ModeGameClear::Initialize(){
 
 	// ボスステージのBGM再生停止
 	StopSoundMem(gSound._bgm["boss"]);
+	// クリア音再生
 	PlaySoundMem(gSound._se["win"], DX_PLAYTYPE_BACK);
+	// クリア時の声データ再生
+	PlaySoundMem(gPlayerVoice._vc["clear"], DX_PLAYTYPE_BACK);
+
 	_cg[0] = ResourceServer::LoadGraph("res/band.png");
 	_cg[1] = ResourceServer::LoadGraph("res/missionclear.png");
 
@@ -53,7 +58,7 @@ bool ModeGameClear::Process(){
 	// ゲームパッド「B」ボタンでゲームクリアモードとゲームモードを削除し、
 	// リザルトモード追加
 	if (trg & PAD_INPUT_2) {  
-		StopSoundMem(gSound._bgm["win"]);
+		StopSoundMem(gSound._se["win"]);
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 

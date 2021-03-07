@@ -21,12 +21,14 @@ protected:
 	int _bg;
 	
 	int _menuPos; // メニュー選択位置
+	int _oldMenuPos;
 
 	std::unordered_map<std::string, int> _mapUi;
 
 	static constexpr int ALL_MENU_NUM = 20;  // メニューUI画像総数
 	static constexpr int MENU_NUM = 10;      // メニューUI画像数(ON,OFF別)
 	int _cg[MENU_NUM];                       // 説明画像
+	int _movieHandle[MENU_NUM];
 
 	// メニューUI画像ファイル名(選択状態:ON)
 	const TCHAR* _fileNameOn[MENU_NUM] =

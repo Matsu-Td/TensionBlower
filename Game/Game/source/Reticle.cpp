@@ -42,7 +42,7 @@ void Reticle::Initialize(){
 void Reticle::Process(){
 
 	// カメラの状態取得
-	int camState = Camera::GetInstance()->GetCameraState();
+	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
 
 	// アナログスティック対応
 	DINPUT_JOYSTATE dinput;

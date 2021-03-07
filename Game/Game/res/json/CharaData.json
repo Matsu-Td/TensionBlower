@@ -106,8 +106,8 @@
       "shotDmg" : 0,
       "repelDmg" : 0,
       "bsShotDmg" : 100,
-      "explosionDmg" : 200,
-      "laserDmg" : 300
+      "explosionDmg" : 2,
+      "laserDmg" : 3
    },
    "[2]" : {
       "id" : "",

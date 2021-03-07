@@ -69,14 +69,10 @@ void Camera::Process(){
 	float camDis = 25.0f;   // プレイヤーとの距離
 	float camSpd = 4.0f;    // カメラ移動速度
 
-/**
- * カメラ切替
- */
+    // カメラ切替
 	switch (_state) {
 
-	/**
-　　 * 通常状態
-　　 */
+	// 通常状態
 	case STATE::NORMAL:
 	{	
 		if (_oldState != STATE::NORMAL) {
@@ -99,7 +95,7 @@ void Camera::Process(){
 		sinParam = sin(_angleV / 180.0f * DX_PI_F);
 		cosParam = cos(_angleV / 180.0f * DX_PI_F);
 		tmpPos1.x = 0.f;
-		tmpPos1.y = 8.5f;       // sinParam * camDis;
+		tmpPos1.y = 8.5f;   // ボスの中心の高さ   
 		tmpPos1.z = -cosParam * camDis;
 
 		// 水平角度を反映した位置
@@ -112,9 +108,6 @@ void Camera::Process(){
 		// 水平角度変更
 		if (rx > analogMin)  { _angleH -= camSpd; }
 		if (rx < -analogMin) { _angleH += camSpd; }
-		// 垂直角度変更
-	//	if (ry > analogMin)  { _angleV -= camSpd; }
-	//	if (ry < -analogMin) { _angleV += camSpd; }
 
 		_vPos = VAdd(tmpPos2, _vTarg);
 		
@@ -123,7 +116,7 @@ void Camera::Process(){
 			_state = STATE::TARG_LOCK_ON; 
 		}
 		// ゲームパッド「LB」長押しでカメラをFPS視点(マルチロックシステム発動)に切替
-		if (key & PAD_INPUT_5 && plEnergy > 12.5f) {
+		if (key & PAD_INPUT_5 && plEnergy > 10) {
 			_state = STATE::MLS_LOCK;
 		}
 		break;
@@ -146,7 +139,7 @@ void Camera::Process(){
 		_vPos.x = bsPos.x + cos(camrad) * length;
 		_vPos.z = bsPos.z + sin(camrad) * length;
 		_vPos.y = plPos.y + 12.0f; 
-
+		
 		// ゲームパッド右アナログスティック押し込みでロック解除
 		if (trg & PAD_INPUT_10) {
 			_state = STATE::NORMAL;
@@ -202,7 +195,7 @@ void Camera::Render(){
 		DrawGraph(_lockOn.x, _lockOn.y, _lockOn.cg, TRUE);
 	}
 
-#if 1
+#if 0
 	// カメラターゲットを中心に短い線を引く
 	{
 		float linelength = 2.f;

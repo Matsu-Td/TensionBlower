@@ -65,6 +65,12 @@ public:
      */
 	void SecondAttack(Player* player);
 
-	static constexpr int RECEPTION_TIME = 30;   // 次近接攻撃受付時間
-	static constexpr int ATTACK_RELOAD_TIME = 90;   // 近接・射撃攻撃リロード時間
+	/**
+	 * @brief 攻撃発生時の声データを再生する
+	 * @param voiceName 再生する声データの名前
+	 */
+	void PlayAttackVoice(std::string voiceName);
+
+	static constexpr int RECEPTION_TIME = 30;      // 次近接攻撃受付時間
+	static constexpr int ATTACK_RELOAD_TIME = 90;  // 近接・射撃攻撃リロード時間
 };

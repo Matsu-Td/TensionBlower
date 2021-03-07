@@ -12,9 +12,6 @@
 #include "ModeGame.h"
 
 PlayerBullet::PlayerBullet(VECTOR pos, float angle){
-//	_mh = ResourceServer::MV1LoadModel("res/model/仮データ/karinotama1.mv1");
-	// エフェクトリソースを読み込む。
-	// 読み込む時に大きさを指定する。
 
 	_effectResourceHandle = LoadEffekseerEffect("res/effect/effect_shoot.efkefc", 0.05f);
 	_playingEffectHandle = PlayEffekseer3DEffect(_effectResourceHandle);
@@ -26,7 +23,7 @@ PlayerBullet::PlayerBullet(VECTOR pos, float angle){
 
 PlayerBullet::~PlayerBullet(){
 	DeleteEffekseerEffect(_effectResourceHandle);
-//	DeleteEffekseerEffect(_playingEffectHandle);
+	StopEffekseer3DEffect(_playingEffectHandle);
 }
 
 void PlayerBullet::Initialize(){
@@ -37,7 +34,7 @@ void PlayerBullet::Process(){
 	ObjectBase::Process();
 
 	float mvSpd = 4.0f;   // 弾の速度
-	//DeleteEffekseerEffect(_effectResourceHandle);
+
 	float vx, vz;
 	vx = cos(_shotAngle) * mvSpd;
 	vz = sin(_shotAngle) * mvSpd;
@@ -65,6 +62,7 @@ void PlayerBullet::Process(){
 			if (IsHitStage(*(*itr), r) == true) {				
 				modeGame->_objServer.Del(this);
 				MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
+				StopEffekseer3DEffect(_playingEffectHandle); // 再生停止
 			}
 		}
 	}

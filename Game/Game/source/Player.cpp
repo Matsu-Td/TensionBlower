@@ -16,6 +16,7 @@
 #include "ModeGameOver.h"
 #include "Reticle.h"
 #include "Sound.h"
+#include "PlayerVoice.h"
 
 Player* Player::_pInstance = NULL;
 
@@ -28,6 +29,7 @@ Player::Player(){
 }
 
 Player::~Player(){
+	MV1DeleteModel(_mh);
 }
 
 /**
@@ -97,17 +99,17 @@ void Player::Collision() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-		// ステージとの当たり判定
+		// ステージとの当たり判定(壁ずり)
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
 			if (IsHitStage(*(*itr), 2.0f) == true) {
 				VECTOR slideVec;
 				slideVec = VCross(_vDir, (*itr)->_hitPolyDim.Dim->Normal);
 				slideVec = VCross((*itr)->_hitPolyDim.Dim->Normal, slideVec);
 				_vPos = VAdd(_oldPos, slideVec);
-				MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
+     			MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
 
 				while (1) {
-					// 位置更新
+					// カプセル位置更新
 					_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
 					_capsulePos2 = VGet(_vPos.x, _vPos.y + 7.0f, _vPos.z);
 
@@ -121,9 +123,16 @@ void Player::Collision() {
 		// ボスの弾との当たり判定
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
 			// 着弾
-			if (IsHitLineSegment(*(*itr), 1.5f)) {
+			if (IsHitLineSegment(*(*itr), (*itr)->_r)) {
 				modeGame->_objServer.Del(*itr);
 				if (_hitpoint > 0) {
+					int voiceNo = rand() % 2;
+					if (voiceNo == 0) {
+						PlaySoundMem(gPlayerVoice._vc["hidan"], DX_PLAYTYPE_BACK);
+					}
+					else {
+						PlaySoundMem(gPlayerVoice._vc["hukki"], DX_PLAYTYPE_BACK);
+					}
 					PlaySoundMem(gSound._se["hit_player"], DX_PLAYTYPE_BACK);
 					_hitpoint -= CHARA_DATA->_boss.shotDmg;
 				}
@@ -144,13 +153,18 @@ void Player::Collision() {
 			if (IsHitArc_Sphere(*(*itr)) == true) {
 				if (_canHitFlag && !_hitFlag) {
 					_hitFlag = true;
-					(*itr)->AttackDamage();
+					Boss::GetInstance()->AttackDamage();
 				}
 			}
-			if (IsHitLineSegment(*(*itr), 10.0f)) {
+			if (IsHitLineSegment(*(*itr), (*itr)->_r)) {
 				_vPos = VAdd(_vPos, VScale(_oldPos, 0.4f));
 			}
 		}
+	}
+
+	// HP下限値保持
+	if (_hitpoint <= 0) {
+		_hitpoint = 0;
 	}
 }
 
@@ -173,6 +187,9 @@ void Player::Process(){
 	// アナログスティック対応
 	DINPUT_JOYSTATE dinput;
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
+
+	// ゲームパッド「RT」
+	int rt = dinput.Z;
 	// 左アナログスティック座標
 	float lx, ly;   
 	lx = static_cast<float>(dinput.X);
@@ -231,14 +248,16 @@ void Player::Process(){
 	}
 
 	// 地上にいないときはジャンプ状態固定
-	if (_vPos.y != GROUND_Y) {
-		_state = STATE::JUMP;
-	}
+//	if (_vPos.y != GROUND_Y) {
+//		_state = STATE::JUMP;
+//	}
 
-	// 重力処理
-	_vPos.y -= GRAVITY;
-	if (_vPos.y < 0.0f) {
-		_vPos.y = 0.0f;
+	if (_state == STATE::DEAD) {
+		// 重力処理
+		_vPos.y -= GRAVITY;
+		if (_vPos.y < 0.0f) {
+			_vPos.y = 0.0f;
+		}
 	}
 
 	// 移動処理
@@ -264,7 +283,7 @@ void Player::Process(){
 			if (camState == Camera::STATE::TARG_LOCK_ON){
 				_vDir.x = -cos(_bsAngle);
                 _vDir.z = -sin(_bsAngle);
-				_dashCall->LeftAnalogDeg(this, length);
+				_dashCall->LeftAnalogDeg(this, length, rt);
 				
 				if (!_isDash) {
 					_mvSpd = CHARA_DATA->_mvSpdNorm;
@@ -276,13 +295,23 @@ void Player::Process(){
 					_mvSpd = CHARA_DATA->_mvSpdNorm;
 				}
 				if (_canJump) {
-					_state = STATE::WALK;
+					if (rt < -100) {
+						_state = STATE::FOR_SHOT;
+					}
+					else {
+						_state = STATE::WALK;
+					}
 				}
 			}
 		}
 		else if (_canJump && !_isShooting && !_isAttack) {
 			_state = STATE::WAIT;
 
+		}
+		// 重力処理
+		_vPos.y -= GRAVITY;
+		if (_vPos.y < 0.0f) {
+			_vPos.y = 0.0f;
 		}
 
 		// ジャンプ
@@ -292,7 +321,7 @@ void Player::Process(){
 		float nowAngle = atan2(_vDir.z, _vDir.x);
 
 		// ダッシュ処理
-		_dashCall->Dash(this, nowAngle, length);
+		_dashCall->Dash(this, nowAngle, length, rt);
 
 		// エネルギー溜め
 		if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5)&& _energy < CHARA_DATA->_maxEnergy) {
@@ -313,7 +342,7 @@ void Player::Process(){
 		}
 
         // 射撃攻撃
-		_shootCall->ShootingAttack(this);
+		_shootCall->ShootingAttack(this, rt);
 	}
 
     // 近接攻撃処理(2発目以降)
@@ -373,7 +402,7 @@ void Player::Render(){
 		MV1DrawModel(_mh);
 	}
 
-#if 1  // デバッグ用
+#if 0  // デバッグ用
 	float angle = atan2(_vDir.z ,_vDir.x);
 	float deg = angle * 180.f / DX_PI_F;
 	int x = 100;
@@ -438,10 +467,20 @@ void Player::Render(){
 		DrawString(x, y, "STRG ATTACK4", GetColor(255, 0, 0)); break;
 	case STATE::SHOT_ATCK:
 		DrawString(x, y, "SHOT ATTACK", GetColor(255, 0, 0)); break;
+	case STATE::FOR_SHOT:
+		DrawString(x, y, "FOR SHOT", GetColor(255, 0, 0)); break;
 	}
 
 	DrawFormatString(0, 1000, GetColor(255, 0, 0), "  装弾数 = %d / 100", _bulletNum); 
 //	DrawCapsule3D(_capsulePos1, _capsulePos2, 1.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 //	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.5f, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
 #endif
+}
+
+void Player::ExplosionDamage(){
+	
+	if (_hitpoint > 0) {
+		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		_hitpoint -= CHARA_DATA->_boss.exolosionDmg;
+	}
 }

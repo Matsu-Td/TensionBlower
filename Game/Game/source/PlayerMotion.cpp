@@ -67,6 +67,18 @@ void PlayerMotion::SwitchMotion(Player* player, Player::STATE oldState) {
 		case Player::STATE::SHOT_ATCK:
 			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "shoot_n"), -1, FALSE);
 			break;
+		case Player::STATE::FOR_SHOT:
+			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "shoot_a"), -1, FALSE);
+			break;
+		case Player::STATE::BACK_SHOT:
+			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "shoot_b"), -1, FALSE);
+			break;
+		case Player::STATE::RIGHT_SHOT:
+			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "shoot_r"), -1, FALSE);
+			break;
+		case Player::STATE::LEFT_SHOT:
+			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "shoot_l"), -1, FALSE);
+			break;
 		case Player::STATE::DEAD:
 			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "dead"), -1, FALSE);
 			break;

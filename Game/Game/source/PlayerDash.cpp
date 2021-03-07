@@ -15,15 +15,28 @@ PlayerDash::PlayerDash() {
 
 }
 
+void PlayerDash::MoveAndShotChange(Player* player, float inputRT, Player::STATE shotMotion, Player::STATE moveMotion) {
+	
+	int rtMin = -100;
+	if (inputRT < rtMin) {
+		player->_state = shotMotion;
+	}
+	else {
+		player->_state = moveMotion;
+	}
+}
+
 /**
- * カメラロック中の移動、ダッシュモーション切替処理
+ * カメラロック中の移動、ダッシュモーション,移動射撃モーション切替処理
  * 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移
  */
-void PlayerDash::LeftAnalogDeg(Player* player, float length) {
+void PlayerDash::LeftAnalogDeg(Player* player, float length, float inputRT) {
 
 	if (!player->_canJump) {
 		return;
 	}
+
+	int rtMin = -100;
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
@@ -32,23 +45,43 @@ void PlayerDash::LeftAnalogDeg(Player* player, float length) {
 		player->_mvSpd = CHARA_DATA->_mvSpdDash;
 		// 前方向ダッシュ移動
 		if (player->_lfAnalogDeg >= ANALOG_REG_FOR || player->_lfAnalogDeg <= -ANALOG_REG_FOR) {
-			player->_state = Player::STATE::FOR_DASH;
+			MoveAndShotChange(player, inputRT, Player::STATE::FOR_SHOT, Player::STATE::FOR_DASH);
 		}
 		// 左方向ダッシュ移動
 		else if (player->_lfAnalogDeg < -ANALOG_REG_OTHER && player->_lfAnalogDeg > -ANALOG_REG_FOR) {
-			player->_state = Player::STATE::LEFT_DASH;
+			if (inputRT < rtMin) {
+				player->_state = Player::STATE::LEFT_SHOT;
+			}
+			else {
+				player->_state = Player::STATE::LEFT_DASH;
+			}
 		}
 		// 右方向ダッシュ移動
 		else if (player->_lfAnalogDeg > ANALOG_REG_OTHER && player->_lfAnalogDeg < ANALOG_REG_FOR) {
-			player->_state = Player::STATE::RIGHT_DASH;
+			if (inputRT < rtMin) {
+				player->_state = Player::STATE::RIGHT_SHOT;
+			}
+			else {
+				player->_state = Player::STATE::RIGHT_DASH;
+			}
 		}
 		// 後方向ダッシュ移動
 		else if (player->_lfAnalogDeg >= -ANALOG_REG_OTHER && player->_lfAnalogDeg <= ANALOG_REG_OTHER && length >= Player::ANALOG_MIN) {
-			player->_state = Player::STATE::BACK_DASH;
+			if (inputRT < rtMin) {
+				player->_state = Player::STATE::BACK_SHOT;
+			}
+			else {
+				player->_state = Player::STATE::BACK_DASH;
+			}
 		}
 		// 入力がゲームパッド「RB」のみ場合は前方向ダッシュ移動
 		else {
-			player->_state = Player::STATE::FOR_DASH;
+			if (inputRT < rtMin) {
+				player->_state = Player::STATE::FOR_SHOT;
+			}
+			else {
+				player->_state = Player::STATE::FOR_DASH;
+			}
 		}
 	}
 	else {
@@ -56,24 +89,44 @@ void PlayerDash::LeftAnalogDeg(Player* player, float length) {
 		player->_mvSpd = CHARA_DATA->_mvSpdNorm;
 		// 前方向移動
 		if (player->_lfAnalogDeg >= ANALOG_REG_FOR || player->_lfAnalogDeg <= -ANALOG_REG_FOR) {
-			player->_state = Player::STATE::WALK;
+			if (inputRT < rtMin) {
+				player->_state = Player::STATE::FOR_SHOT;
+			}
+			else {
+				player->_state = Player::STATE::WALK;
+			}
 		}
 		// 左方向移動
 		else if (player->_lfAnalogDeg < -ANALOG_REG_OTHER && player->_lfAnalogDeg > -ANALOG_REG_FOR) {
-			player->_state = Player::STATE::LEFT_MOVE;
+			if (inputRT < rtMin) {
+				player->_state = Player::STATE::LEFT_SHOT;
+			}
+			else {
+				player->_state = Player::STATE::LEFT_MOVE;
+			}
 		}
 		// 右方向移動
 		else if (player->_lfAnalogDeg > ANALOG_REG_OTHER && player->_lfAnalogDeg < ANALOG_REG_FOR) {
-			player->_state = Player::STATE::RIGHT_MOVE;
+			if (inputRT < rtMin) {
+				player->_state = Player::STATE::RIGHT_SHOT;
+			}
+			else {
+				player->_state = Player::STATE::RIGHT_MOVE;
+			}
 		}
 		// 後方向移動
 		else if (player->_lfAnalogDeg >= -ANALOG_REG_OTHER && player->_lfAnalogDeg <= ANALOG_REG_OTHER) {
-			player->_state = Player::STATE::BACK_MOVE;
+			if (inputRT < rtMin) {
+				player->_state = Player::STATE::BACK_SHOT;
+			}
+			else {
+				player->_state = Player::STATE::BACK_MOVE;
+			}
 		}
 	}
 }
 
-void PlayerDash::Dash(Player* player, float nowAngle, float length) {
+void PlayerDash::Dash(Player* player, float nowAngle, float length, float inputRT) {
 
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
@@ -102,7 +155,7 @@ void PlayerDash::Dash(Player* player, float nowAngle, float length) {
 			// キー入力がないとき向いている方向に直線でダッシュする
 			if (length < Player::ANALOG_MIN) {
 				if (camState == Camera::STATE::TARG_LOCK_ON) {
-					LeftAnalogDeg(player, length);
+					LeftAnalogDeg(player, length, inputRT);
 					vDash.x = -cos(player->_bsAngle) * player->_mvSpd;
 					vDash.z = -sin(player->_bsAngle) * player->_mvSpd;
 				}
@@ -133,7 +186,7 @@ void PlayerDash::Dash(Player* player, float nowAngle, float length) {
 			// キー入力がないとき：向いている方向に直線でダッシュする
 			if (length < Player::ANALOG_MIN) {
 				if (camState == Camera::STATE::TARG_LOCK_ON) {
-					LeftAnalogDeg(player, length);
+					LeftAnalogDeg(player, length, inputRT);
 					vDash.x = -cos(player->_bsAngle) * player->_mvSpd;
 					vDash.z = -sin(player->_bsAngle) * player->_mvSpd;
 					player->_vPos.x += vDash.x;

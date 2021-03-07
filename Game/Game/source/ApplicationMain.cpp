@@ -10,8 +10,12 @@
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"
 #include "Sound.h"
+#include "PlayerVoice.h"
+#include "BossVoice.h"
 #include "ModeTitle.h"
 #include "ModeGame.h"
+#include "ModeAmgLogo.h"
+#include "ModeTeamLogo.h"
 
 // 実体
 ApplicationMain	g_oApplicationMain;
@@ -25,11 +29,13 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	// グローバル変数の初期化
 	gGlobal.Init();
 	gSound.Init();
+	gPlayerVoice.Init();
+	gBossVoice.Init();
 
 	// モードの登録
-
-	ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
-
+	//ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
+	ModeServer::GetInstance()->Add(NEW ModeAmgLogo(), 1, "amglogo");
+//	ModeServer::GetInstance()->Add(NEW ModeTeamLogo(), 1, "teamlogo");
 	return true;
 }
 

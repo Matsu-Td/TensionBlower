@@ -14,7 +14,8 @@
 #include "BossBullet.h"
 #include "BossBomb.h"
 #include "Sound.h"
-
+#include "Destruction.h"
+#include "BossVoice.h"
 
 Boss* Boss::_pInstance = NULL;
 
@@ -27,7 +28,7 @@ Boss::Boss(){
 }
 
 Boss::~Boss(){
-
+	MV1DeleteModel(_mh);
 }
 
 /**
@@ -64,8 +65,26 @@ void Boss::Initialize() {
 	_downTime = 0;
 	_phase = 0;
 
-	_gameClearCnt = 60;
-	_gameClearFlag = false;
+	_deadCnt = 140;
+	_deadFlag = false;
+
+	_r = 10.0f;
+}
+
+/**
+ * 声データ再生
+ */
+void Boss::PlayVoice(std::string voiceName) {
+	PlaySoundMem(gBossVoice._vc[voiceName], DX_PLAYTYPE_BACK);
+}
+
+/**
+ * 6種類の声データをランダムで流す
+ */
+void Boss::PlayAttackVoiceChange() {
+
+	int voiceNo = rand() % ATTACK_VOICE_NUM;
+	PlayVoice(_attackNameNo[voiceNo]);
 }
 
 /**
@@ -77,6 +96,7 @@ void Boss::ShotPatternSwitch() {
 
 	// フェーズ毎で発生する弾幕パターンを3セットランダムで変化させる
 	if (_shotCnt % PATTERN_CHANGE_CNT == 0) {
+		PlayAttackVoiceChange();
 		_shotPattern = rand() % 3 + 1;
 	}
 
@@ -86,9 +106,11 @@ void Boss::ShotPatternSwitch() {
 	case 0:                      
 		if(_shotPattern <= 2){
 			ShotPattern1and2();
+//			ShotPattern7();
 		}
 		else {
 			ShotPattern3();
+//			ShotPattern7();
 		}
 		break;
 	// フェーズ1
@@ -349,7 +371,7 @@ void Boss::ShotPattern6(){
 void Boss::ShotPattern7() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	if (_shotCnt % 48==0) {
+	if (_shotCnt % 48 == 0) {
 		VECTOR tmpPos = _vPos;
 		tmpPos.y = _vPos.y + 12.0f;
 		BossBomb* bomb = NEW BossBomb(tmpPos);
@@ -394,14 +416,14 @@ void Boss::StateDown(){
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	// 復帰
-//	if (_stateDown) {
 	if (_state == STATE::DOWN) {
 		_mlsDownFlag = false;	   // マルチロックオンシステムによるダウンフラグ解除
 		_downTime--;               // ダウン時間カウント
 		if (_downTime < 0) {
+			// 復帰時の声データ再生
+			PlayVoice("hukki");
 			_downTime = 0;         // ダウン時間リセット
-//			_stateDown = false;    // ダウン状態解除
-			_state = STATE::RETURN;
+			_state = STATE::RETURN;// 復帰状態にさせる
 			_bulletNum = 0;        // 弾の数リセット
 			_shield = CHARA_DATA->_boss.maxShield;  // シールド値全回復
 		}
@@ -411,7 +433,6 @@ void Boss::StateDown(){
 		return;
 	}
 	// ダウン
-//	if (!_stateDown) {
 	if (_state == STATE::NORMAL) {
 		PlaySoundMem(gSound._se["down"], DX_PLAYTYPE_BACK);
 		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
@@ -419,10 +440,38 @@ void Boss::StateDown(){
 				_bulletNum++;   // ダウン直前に出現していた弾の数をカウント
 			}
 			int plEnergy = Player::GetInstance()->GetEnergy();            // プレイヤーのエネルギー情報取得
-			_downTime = MIN_DOWN_TIME + plEnergy / 20 + _bulletNum;       // ダウン時間計算
-//			_stateDown = true;                                            // ダウン状態にする
+			_downTime = MIN_DOWN_TIME + plEnergy / 20 + _bulletNum;       // ダウン時間計算                                           // ダウン状態にする
 			_state = STATE::DOWN;
 		}
+	}
+}
+
+/**
+ * ゲームクリア処理
+ */
+void Boss::Dead() {
+
+	// ゲームクリア処理スタート
+	if (_deadFlag) {
+		_deadCnt--;
+		if (_deadCnt == 0) {
+			MV1DeleteModel(_mh); // ボスモデルを削除する
+		}
+	}
+	// ヒットポイントゼロでゲームクリアフラグを立てる
+	if (_hitpoint <= 0) {
+		if (!_deadFlag) {
+			// 撃破時の声データ再生
+			PlayVoice("gekiha");
+			VECTOR tmpPos = _vPos;
+			tmpPos.y = 8.5f;
+			Destruction* destruction = NEW Destruction(tmpPos);
+			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+			modeGame->_objServer.Add(destruction);
+
+		}
+		_hitpoint = 0;
+		_deadFlag = true;
 	}
 }
 
@@ -432,26 +481,16 @@ void Boss::StateDown(){
 void Boss::Process(){
 
 	// カメラの状態を取得
-	int camState = Camera::GetInstance()->GetCameraState();
+	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
 
 	STATE oldState = _state;
 
-	// ゲームクリア処理
-	if (_gameClearFlag) {
-		_gameClearCnt--;
-		if (_gameClearCnt == 0) {
-			ModeGameClear* modeGameClear = new ModeGameClear();
-			ModeServer::GetInstance()->Add(modeGameClear, 2, "clear");
-		}
+	// 死亡処理
+	Dead();
+
+	if (_deadFlag) {
+		return;
 	}
-	// ヒットポイントゼロでゲームクリアフラグを立てる
-	if (_hitpoint <= 0) {
-		_hitpoint = 0;
-		_gameClearFlag = true;
-	}
-
-
-
 	// 当たり判定用カプセル
 	_capsulePos1 = _vPos;
 	_capsulePos1.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
@@ -496,7 +535,6 @@ void Boss::Process(){
 			else {
 				_vDir.y -= ROT_SPD;
 			}
-//			_vDir.y = (-deg - 90.0f) / 180.0f * DX_PI_F;   
 		}
 	}
 	// プレイヤーの弾との当たり判定、ダメージ処理
@@ -507,17 +545,18 @@ void Boss::Process(){
 				if (IsHitLineSegment(*(*itr), 10.0f) == true) {
 					if (_shield > 0) {
 						_hitpoint -= CHARA_DATA->_shotDmgHP;
-    					_shield -= CHARA_DATA->_shotDmgSld;
-//						_shield -= 200;
+//    					_shield -= CHARA_DATA->_shotDmgSld;
+						_shield -= 500;
 						modeGame->_objServer.Del(*itr);
 					}
 					else {
 						_shield = 0;
-						_hitpoint -= CHARA_DATA->_shotDmg;
+//						_hitpoint -= CHARA_DATA->_shotDmg;
+						_hitpoint -= 500;
 						modeGame->_objServer.Del(*itr);
 					}
 				}
-			}		
+			}
 		}
 	}
 	// フェーズ切替
@@ -535,8 +574,7 @@ void Boss::Process(){
 		}
 		switch (_state) {
 		case STATE::NORMAL:
-//			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "wait"), -1, FALSE);
-			_attachIndex = -1;
+			_attachIndex = -1; // 通常はモーション無し
 			break;
 		case STATE::DOWN:
 			_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, "down"), -1, FALSE);
@@ -550,7 +588,6 @@ void Boss::Process(){
 
 		_playTime = 0.0f;
 	}
-
 }
 
 /**
@@ -564,7 +601,7 @@ void Boss::Render(){
 	MV1SetRotationXYZ(_mh, _vDir);
 	MV1DrawModel(_mh);
 
-#if 1
+#if 0
 	int y = 750;
 	int size = 24;
 	SetFontSize(size);
@@ -608,7 +645,14 @@ void Boss::Damage() {
  */
 void Boss::AttackDamage(){
 
+	// ダウン状態時のみ被弾時の声データ再生
+	if (_state == STATE::DOWN) {
+		PlayVoice("hidan");
+	}
+	// ヒット音再生
 	PlaySoundMem(gSound._se["hit_boss"], DX_PLAYTYPE_BACK);
+	
+	// ダメージ量格納
 	int dmgHP = Player::GetInstance()->GetNowDmgHP();
 	int dmgSld = Player::GetInstance()->GetNowDmgSld();
 	int dmgNorm = Player::GetInstance()->GetNowDmgNorm();
@@ -622,7 +666,28 @@ void Boss::AttackDamage(){
 	}
 	// シールドがないとき
 	else {            
-		_hitpoint -= dmgNorm;
-//		_hitpoint -= 500;
+//		_hitpoint -= dmgNorm;
+		_hitpoint -= 500;
+	}
+}
+
+void Boss::ExplosionDamageHP(){
+	// シールドがあるとき
+	if (_shield > 0) {
+		_hitpoint -= 1;
+	}
+	// シールドがないとき
+	else {
+		_hitpoint -= 2;
+	}
+}
+
+void Boss::ExplosionDamageShield() {
+	// シールドがあるとき
+	if (_shield > 0) {
+		_shield -= 2;
+		if (_shield <= 0) {
+			_shield = 0;
+		}
 	}
 }

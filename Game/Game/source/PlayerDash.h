@@ -21,16 +21,27 @@ public:
      * @brief 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移
 	 * @param player プレイヤークラスオブジェクトのポインタ
      * @param length  := sqrt(lx * lx + ly * ly) 左アナログスティックの入力値
+	 * @param inputRT ゲームパッド「RT」入力値
      */
-	void LeftAnalogDeg(Player* player, float length);
+	void LeftAnalogDeg(Player* player, float length, float inputRT);
 
 	/**
 	 * @brief ダッシュ処理
 	 * @param player プレイヤークラスオブジェクトのポインタ
 	 * @param nowAngle プレイヤーが向いている方向(角度)
 	 * @param length  := sqrt(lx * lx + ly * ly) 左アナログスティックの入力値
+	 * @param inputRT ゲームパッド「RT」入力値
 	 */
-	void Dash(Player* player, float nowAngle, float length);
+	void Dash(Player* player, float nowAngle, float length, float inputRT);
+
+	/**
+	 * @brief
+	 * @param player
+	 * @param inputRT
+	 * @param shotMotion
+	 * @param moveMotion
+	 */
+	void MoveAndShotChange(Player* player, float inputRT, Player::STATE shotMotion, Player::STATE moveMotion);
 
 private:
     static constexpr int SHORT_DASH_CNT   = 10;   // 短押しダッシュ移動時間

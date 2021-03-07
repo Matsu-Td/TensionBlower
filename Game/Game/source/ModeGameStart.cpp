@@ -10,12 +10,16 @@
 #include "ApplicationGlobal.h"
 #include "ModeGame.h"
 #include "ModeGameStart.h"
+#include "PlayerVoice.h"
 
 /**
  * 初期化
  */
 bool ModeGameStart::Initialize() {
 	if (!base::Initialize()) { return false; }
+
+	// クリア時の声データ再生
+	PlaySoundMem(gPlayerVoice._vc["gamestart"], DX_PLAYTYPE_BACK);
 
 	_cg[0] = ResourceServer::LoadGraph("res/band.png");
 	_cg[1] = ResourceServer::LoadGraph("res/missionstart.png");

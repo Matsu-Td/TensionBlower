@@ -16,32 +16,23 @@ public:
 	virtual ~ObjectBase();
 
 	enum class OBJECTTYPE {
-		PLAYER,
-		PLAYER_BULLET,
-		BOSS,
-		BOSS_BULLET,
-		BOSS_BOMB,
-		CAMERA,
-		STAGE,
-		RETICLE,
-		LASER,
-		EXPLOSION,
+		PLAYER,        // プレイヤー
+		PLAYER_BULLET, // プレイヤーの射撃の弾
+		BOSS,          // ボス
+		BOSS_BULLET,   // ボスの弾幕
+		BOSS_BOMB,     // ボスのボム
+		CAMERA,        // カメラ
+		STAGE,         // ステージ
+		RETICLE,       // 照準
+		LASER,         // レーザーエフェクト
+		EXPLOSION,     // 爆発エフェクト
+		DESTRUCTION,   // ボス破壊、爆発エフェクト
 	};
 	virtual OBJECTTYPE	GetType() = 0;
 
 	virtual void Init();
 	virtual void Process();
 	virtual void Render();
-
-	/**
-	 * ダメージ処理
-	 */
-	virtual void Damage() {}
-
-	/**
-	 * 攻撃ダメージ量計算
-	 */
-	virtual void AttackDamage(){}
 
 	/**
      * モデルとステージの当たり判定
@@ -88,6 +79,8 @@ public:
 	bool _hitFlag;       // 攻撃当たり判定発生フラグ
 	MV1_COLL_RESULT_POLY_DIM _hitPolyDim;
 
+	float _r;            // 半径(当たり判定用)
+
 protected:
 	int _mh;           // モデルハンドル
 	int	_cg;		   // 画像
@@ -107,9 +100,5 @@ protected:
 
 	float _angle;        // 角度(回転、向き)
 	float _mvSpd;        // 移動速度
-	float _r;            // 半径(当たり判定用)
-
-	
-
 };
 

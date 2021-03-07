@@ -15,6 +15,8 @@
 #include "ModeGame.h"
 #include "TitleBGM.h"
 #include "Sound.h"
+#include "PlayerVoice.h"
+#include "BossVoice.h"
 
 /**
  * 初期化
@@ -25,6 +27,17 @@ bool ModeTitle::Initialize() {
 	// BGM再生(再生していない時)
 	if (!CheckSoundMem(gSound._bgm["titlebgm"])) {
 		ModeServer::GetInstance()->Add(NEW TitleBGM(), 0, "titlebgm");
+	}
+
+	// プレイヤーorボスの声でタイトルコールする(ランダム)
+	int voice = rand() % 2;
+	if (voice == 0) {
+		// プレイヤー
+		PlaySoundMem(gPlayerVoice._vc["title"], DX_PLAYTYPE_BACK);
+	}
+	else {
+		// ボス
+		PlaySoundMem(gBossVoice._vc["title"], DX_PLAYTYPE_BACK);
 	}
 
 	_bg      = ResourceServer::LoadGraph("res/title_back.png");

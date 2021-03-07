@@ -19,7 +19,7 @@
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-	PlaySoundMem(gSound._bgm["boss"], DX_PLAYTYPE_BACK);
+	PlaySoundMem(gSound._bgm["boss"], DX_PLAYTYPE_LOOP);
 
 	// JSONファイルからキャラデータ読み込み
 	_charaData = std::make_unique<CharaData>("res/json/", "CharaData");

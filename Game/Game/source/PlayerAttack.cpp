@@ -11,6 +11,7 @@
 #include "ModeGame.h"
 #include "PlayerAttack.h"
 #include "Sound.h"
+#include "PlayerVoice.h"
 
 PlayerAttack::PlayerAttack() {
 
@@ -19,9 +20,17 @@ PlayerAttack::PlayerAttack() {
 void PlayerAttack::Initialize(){
 
 }
- /**
-  * Œ»Ý”­¶’†‚Ì‹ßÚUŒ‚ƒ_ƒ[ƒW—Ê‚ðƒZƒbƒg‚·‚é
-  */
+
+/**
+ * UŒ‚”­¶Žž‚Ìºƒf[ƒ^‚ðÄ¶‚·‚é
+ */
+void PlayerAttack::PlayAttackVoice(std::string voiceName) {
+	PlaySoundMem(gPlayerVoice._vc[voiceName], DX_PLAYTYPE_BACK);
+}
+
+/**
+ * Œ»Ý”­¶’†‚Ì‹ßÚUŒ‚ƒ_ƒ[ƒW—Ê‚ðƒZƒbƒg‚·‚é
+ */
 void PlayerAttack::SetAttackDamage(Player* player, int dmgHP, int dmgSld, int dmgNorm) {
 
 	player->_nowDmgHP = dmgHP;
@@ -137,10 +146,14 @@ void PlayerAttack::AttackAction(Player* player) {
 		if (player->_receptionTime < RECEPTION_TIME) {
 			// ‹­‹ßÚUŒ‚2‚Ö”h¶
 			if (trg & PAD_INPUT_4) {
+				// ‹­‹ßÚUŒ‚‚Ìºƒf[ƒ^Ä¶
+				PlayAttackVoice("strong");
 				NextStrongAttack(player,CHARA_DATA->_egAtck2, Player::STATE::STRG_ATCK2, "slash_h");
 			}
 			// Žã‹ßÚUŒ‚2‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
+				// Žã‹ßÚUŒ‚2‚Ìºƒf[ƒ^Ä¶
+				PlayAttackVoice("weak2");
 				NextWeakAttack(player, Player::STATE::WEAK_ATCK2, "slash_l");
 			}
 		}
@@ -149,10 +162,14 @@ void PlayerAttack::AttackAction(Player* player) {
 		if (player->_receptionTime < RECEPTION_TIME) {
 			// ‹­‹ßÚUŒ‚3‚Ö”h¶
 			if (trg & PAD_INPUT_4) {
+				// ‹­‹ßÚUŒ‚‚Ìºƒf[ƒ^Ä¶
+				PlayAttackVoice("strong");
 				NextStrongAttack(player, CHARA_DATA->_egAtck3, Player::STATE::STRG_ATCK3, "slash_h");
 			}
 			// Žã‹ßÚUŒ‚3‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
+				// Žã‹ßÚUŒ‚3‚Ìºƒf[ƒ^Ä¶
+				PlayAttackVoice("weak3");
 				NextWeakAttack(player, Player::STATE::WEAK_ATCK3, "slash_l");
 			}
 		}
@@ -161,10 +178,14 @@ void PlayerAttack::AttackAction(Player* player) {
 		if (player->_receptionTime < RECEPTION_TIME) {
 			// ‹­‹ßÚUŒ‚4‚Ö”h¶
 			if (trg & PAD_INPUT_4) {
+				// ‹­‹ßÚUŒ‚‚Ìºƒf[ƒ^Ä¶
+				PlayAttackVoice("strong");
 				NextStrongAttack(player, CHARA_DATA->_egAtck4, Player::STATE::STRG_ATCK4, "slash_h");
 			}
 			// Žã‹ßÚUŒ‚4‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
+				// Žã‹ßÚUŒ‚4‚Ìºƒf[ƒ^Ä¶
+				PlayAttackVoice("weak4");
 				NextWeakAttack(player, Player::STATE::WEAK_ATCK4, "slash_l");
 			}
 		}
@@ -193,11 +214,17 @@ void PlayerAttack::FirstAttack(Player* player) {
 
 	if (player->_vPos.y == 0.0f && player->_attackReloadTime == 0) {
 		if (trg & PAD_INPUT_2 && !player->_isAttack) {
+			// Žã‹ßÚUŒ‚1‚Ìºƒf[ƒ^Ä¶
+			PlayAttackVoice("weak1");
+
 			player->_isAttack = true;
 			NextWeakAttack(player, Player::STATE::WEAK_ATCK1, "slash_l");
 
 		}
 		if (trg & PAD_INPUT_4 && !player->_isAttack) {
+			// ‹­‹ßÚUŒ‚‚Ìºƒf[ƒ^Ä¶
+			PlayAttackVoice("strong");
+
 			player->_isAttack = true;
 			NextStrongAttack(player, CHARA_DATA->_egAtck1, Player::STATE::STRG_ATCK1, "slash_h");
 		}

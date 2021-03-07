@@ -40,14 +40,15 @@ void BossBullet::Initialize(){
 	_canLockFlag = false;
 	_repelFlag = false;
 	_bulletDir = 1.0f;
+	_r = 1.5f;
 }
 
 void BossBullet::Shot(){
 	
-	int camState = Camera::GetInstance()->GetCameraState();  // カメラの状態を取得
+	Camera::STATE camState = Camera::GetInstance()->GetCameraState();  // カメラの状態を取得
 
 	if(camState == Camera::STATE::MLS_LOCK){
-		_mvSpd = _shotSpd * 0.01f; // マルチロックオンシステム中は速度0.1倍
+		_mvSpd = _shotSpd * 0.01f; // マルチロックオンシステム中は速度0.01倍
 		_camStateMLS = true;
 	}
 	else {
@@ -102,10 +103,10 @@ void BossBullet::Process(){
 			}
 		}
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) { // ボス
-			if (IsHitLineSegment(*(*itr), 10.0f) == true) {
+			if (IsHitLineSegment(*(*itr), (*itr)->_r) == true) {
 				if (_repelFlag) {
 					modeGame->_objServer.Del(this);
-					(*itr)->Damage();
+					Boss::GetInstance()->Damage();
 				}
 			}
 		}

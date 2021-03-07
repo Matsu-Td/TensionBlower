@@ -12,6 +12,7 @@
 #include "ModeGameOver.h"
 #include "ModeTitle.h"
 #include "Sound.h"
+#include "PlayerVoice.h"
 
 /**
  * 初期化
@@ -21,7 +22,11 @@ bool ModeGameOver::Initialize() {
 
 	// ボスステージのBGM再生停止
 	StopSoundMem(gSound._bgm["boss"]);
+	// ゲームオーバー音再生
 	PlaySoundMem(gSound._se["lose"], DX_PLAYTYPE_BACK);
+	// ゲームオーバー時の声データ再生
+	PlaySoundMem(gPlayerVoice._vc["gameover"], DX_PLAYTYPE_BACK);
+
 	_cg[0] = ResourceServer::LoadGraph("res/band.png");
 	_cg[1] = ResourceServer::LoadGraph("res/gameover.png");
 
@@ -50,7 +55,7 @@ bool ModeGameOver::Process(){
 	// ゲームパッド「B」ボタンでゲームオーバーモードとゲームモードを削除し、
 	// タイトルモードを追加
 	if (trg & PAD_INPUT_2) {
-		StopSoundMem(gSound._bgm["lose"]);
+		StopSoundMem(gSound._se["lose"]);
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 

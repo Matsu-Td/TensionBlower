@@ -18,7 +18,7 @@
 bool ModeCredit::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-	_cg = ResourceServer::LoadGraph("res/âºëfçﬁ/credit.png");
+	_cg = ResourceServer::LoadGraph("res/credit.png");
 
 	return true;
 }

@@ -81,6 +81,11 @@ public:
 	int GetNowDmgNorm() const { return _nowDmgNorm; }
 
 	/**
+	 * @brief ボムの爆発ダメージ
+	 */
+	void ExplosionDamage();
+
+	/**
 	 * @brief  プレイヤーインスタンスアクセス用
 	 * @return _pInstance プレイヤークラスポインタ
 	 */
@@ -171,6 +176,10 @@ protected:
 		STRG_ATCK3,      // 強近接攻撃3
 		STRG_ATCK4,      // 強近接攻撃4
 		SHOT_ATCK,       // 射撃攻撃
+		FOR_SHOT,
+		BACK_SHOT,
+		RIGHT_SHOT,
+		LEFT_SHOT,
 		DEAD,            // 死亡
 	};
 	STATE _state; // プレイヤーの状態

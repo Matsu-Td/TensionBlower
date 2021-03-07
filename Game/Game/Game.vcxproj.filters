@@ -49,6 +49,12 @@
     <Filter Include="ヘッダー ファイル\Effect">
       <UniqueIdentifier>{ed33cd5c-9ab5-4c5e-a05a-8dee39479e88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Voice">
+      <UniqueIdentifier>{2026af07-2eae-4ae2-9d95-a3c6a1361fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Voice">
+      <UniqueIdentifier>{234e6a58-0940-4c37-af8a-861abf079c77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\ApplicationMain.cpp">
@@ -120,12 +126,6 @@
     <ClCompile Include="source\ModePause.cpp">
       <Filter>ソース ファイル\Mode\ModeGame</Filter>
     </ClCompile>
-    <ClCompile Include="source\ModeGameStart.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Laser.cpp">
-      <Filter>ソース ファイル\Object\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="source\TitleBGM.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
@@ -155,6 +155,27 @@
     </ClCompile>
     <ClCompile Include="source\Explosion.cpp">
       <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Laser.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Destruction.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModeAmgLogo.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModeGameStart.cpp">
+      <Filter>ソース ファイル\Mode\ModeGame</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModeTeamLogo.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\PlayerVoice.cpp">
+      <Filter>ソース ファイル\Voice</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BossVoice.cpp">
+      <Filter>ソース ファイル\Voice</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -224,12 +245,6 @@
     <ClInclude Include="source\ModeGameOver.h">
       <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
     </ClInclude>
-    <ClInclude Include="source\ModeGameStart.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Laser.h">
-      <Filter>ヘッダー ファイル\Object\Boss</Filter>
-    </ClInclude>
     <ClInclude Include="source\PlayerMotion.h">
       <Filter>ヘッダー ファイル\Object\Player</Filter>
     </ClInclude>
@@ -262,6 +277,27 @@
     </ClInclude>
     <ClInclude Include="source\Explosion.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Laser.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Destruction.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModeAmgLogo.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModeGameStart.h">
+      <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModeTeamLogo.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\PlayerVoice.h">
+      <Filter>ヘッダー ファイル\Voice</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BossVoice.h">
+      <Filter>ヘッダー ファイル\Voice</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

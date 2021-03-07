@@ -49,7 +49,7 @@ public:
 	 */
 	VECTOR GetTarg() const { return _vTarg; }
 
-	enum STATE {      // カメラの状態
+	enum class STATE {      // カメラの状態
 		NORMAL,       // 通常状態(TPS視点)
 		TARG_LOCK_ON, // 敵ターゲットロック状態
 		MLS_LOCK,     // マルチロックシステム発動状態(FPS視点)

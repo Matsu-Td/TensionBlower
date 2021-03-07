@@ -15,17 +15,12 @@
 /**
  * 射撃攻撃 (ゲームパッド「RT」で射撃)
  */
-void PlayerShoot::ShootingAttack(Player* player) {
+void PlayerShoot::ShootingAttack(Player* player, float inputRT) {
 
-	// アナログスティック対応
-	DINPUT_JOYSTATE dinput;
-	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
-	// ゲームパッド「RT」
-	int rt = dinput.Z;
 	// RT最小値
 	int rtMin = -100;
 
-	if (rt < rtMin && !player->_isCharging && !player->_isZeroShot) { // 溜め状態及び装弾数がゼロになった場合は射撃不可
+	if (inputRT < rtMin && !player->_isCharging && !player->_isZeroShot) { // 溜め状態及び装弾数がゼロになった場合は射撃不可
 		if (player->_bulletNum == 0) {
 			// 弾を打ち切ってしまうとフラグが立つ(= true) ⇒ 射撃不可
 			player->_isZeroShot = true;
@@ -33,7 +28,28 @@ void PlayerShoot::ShootingAttack(Player* player) {
 		if (player->_bulletNum > 0) {
 			if (player->_canShot) {
 				PlaySoundMem(gSound._se["shoot"], DX_PLAYTYPE_BACK);
-				player->_state = Player::STATE::SHOT_ATCK;
+				if (player->_state == Player::STATE::WAIT || player->_state == Player::STATE::JUMP) {
+					player->_state = Player::STATE::SHOT_ATCK;
+				}
+/*
+				switch (player->_state) {
+				case Player::STATE::WAIT:
+				case Player::STATE::JUMP:
+					player->_state = Player::STATE::SHOT_ATCK; break;
+				case Player::STATE::WALK:
+				case Player::STATE::FOR_DASH:
+					player->_state = Player::STATE::FOR_SHOT; break;
+				case Player::STATE::BACK_MOVE:
+				case Player::STATE::BACK_DASH:
+					player->_state = Player::STATE::BACK_SHOT; break;
+				case Player::STATE::RIGHT_MOVE:
+				case Player::STATE::RIGHT_DASH:
+					player->_state = Player::STATE::RIGHT_SHOT; break;
+				case Player::STATE::LEFT_MOVE:
+				case Player::STATE::LEFT_DASH:
+					player->_state = Player::STATE::LEFT_SHOT; break;
+				}
+	*/			
 				player->_isShooting = true;
 				player->_reloadTime = Player::RELOAD_TIME;	   // リロード開始時間をセット
 				player->_canShot = false;

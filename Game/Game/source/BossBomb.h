@@ -22,6 +22,7 @@ public:
 	void Render();
 
 private:
+	int _cg[2];
 	VECTOR _vTarg;
 	float _shotSpd;         // ’e‚ÌˆÚ“®‘¬“x
 	float _upSpd;
@@ -39,6 +40,7 @@ private:
 		UP,       // ã¸
 		STOP,     // ’â~
 		SNIPER,   // ‘_Œ‚
+		REPEL,
 	};
 	STATE _state;
 
