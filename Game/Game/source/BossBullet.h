@@ -20,9 +20,22 @@ public:
 	void Initialize();
 	void Process();
 	void Render();
+
+	/**
+	 * 弾の移動処理
+	 */
 	void Shot();
 
+	/**
+	 * @brief 弾の角度を設定
+	 * @param shotAngle 弾の角度
+	 */
 	void SetAngle(float shotAngle) { _shotAngle = shotAngle; }
+
+	/**
+	 * @brief 弾の速度を設定
+	 * @param shotSpd 弾の速度
+	 */
 	void SetShotSpd(float shotSpd) { _shotSpd = shotSpd; }
 
 private:
@@ -40,4 +53,5 @@ private:
 	float _bulletDir;       // -1.0fでMLSによる弾のはじき返し
 
 	static constexpr float NOR_SPD = 1.0f;
+	static constexpr float MLS_SPD = 0.01f; // マルチロックオンシステム中の速度計算(通常の1/100に)
 };

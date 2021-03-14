@@ -20,7 +20,7 @@ public:
 	void JumpAction(Player* player);
 
 private:
-	static constexpr float IN_VEL = 4.0f;      // ‰‘¬
+	static constexpr float IN_VEL = 5.0f;      // ‰‘¬
 	static constexpr float MULT_HALF = 0.5f;   // 1/2æZ
 	static constexpr float JUMP_CNT = 0.2f;    // ƒWƒƒƒ“ƒvŠÔ
 };

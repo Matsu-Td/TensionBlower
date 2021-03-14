@@ -11,6 +11,11 @@
 
 class Explosion : public ObjectBase{
 public:
+	/**
+	 * @brief ボム攻撃の爆発エフェクト生成
+	 * @param pos 爆発発生位置
+	 * @param repelFlag 弾き返された弾かどうか
+	 */
 	Explosion(VECTOR pos, bool repelFlag);
 	~Explosion();
 

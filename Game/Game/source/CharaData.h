@@ -38,7 +38,7 @@ public:
 	int _egAtck4;       // エネルギー消費量：強近接攻撃4
 
 	int _egAutoRec;     // エネルギー回復量：自動回復
-	float _egAutoXChrg; // エネルギー回復量：溜め行動
+	int _egAutoXChrg; // エネルギー回復量：溜め行動
 	int _egAutoXArea;   // エネルギー回復量：ボス付近での行動
 	int _egAvoid;       // エネルギー回復量：ボスの弾カスリ判定
 	int _egShotNum;     // エネルギー回復量：ボスダウン時の吸収した弾1つ当たり

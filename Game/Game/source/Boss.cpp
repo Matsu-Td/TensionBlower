@@ -16,6 +16,7 @@
 #include "Sound.h"
 #include "Destruction.h"
 #include "BossVoice.h"
+#include "Laser.h"
 
 Boss* Boss::_pInstance = NULL;
 
@@ -38,7 +39,7 @@ void Boss::Initialize() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
-	_vPos = VGet(0.0f, 0.0f, 0.0f);
+	_vPos = VGet(0.0f, 0.5f, 0.0f);
 	_vDir = VGet(0.0f, 0.0f, 0.0f);
 	_attachIndex = 0;
 	_totalTime = 0.0f;
@@ -92,12 +93,12 @@ void Boss::PlayAttackVoiceChange() {
  */
 void Boss::ShotPatternSwitch() {
 
-	_shotCnt++;
 
 	// フェーズ毎で発生する弾幕パターンを3セットランダムで変化させる
 	if (_shotCnt % PATTERN_CHANGE_CNT == 0) {
-		PlayAttackVoiceChange();
-		_shotPattern = rand() % 3 + 1;
+		PlayAttackVoiceChange();       // 声データ再生
+		_shotCnt = 0;                  // カウントリセット
+		_shotPattern = rand() % 3 + 1; // 3パターンをランダムで決定
 	}
 
 	// フェーズ毎の弾幕パターンセット
@@ -106,11 +107,9 @@ void Boss::ShotPatternSwitch() {
 	case 0:                      
 		if(_shotPattern <= 2){
 			ShotPattern1and2();
-//			ShotPattern7();
 		}
 		else {
 			ShotPattern3();
-//			ShotPattern7();
 		}
 		break;
 	// フェーズ1
@@ -140,7 +139,8 @@ void Boss::ShotPatternSwitch() {
 		}
 		if (_shotPattern == 3) {
 			ShotPattern5();
-			ShotPattern6();
+			LaserAttack1_1();
+			LaserAttack1_2();
 		}
 		break;
 	// フェーズ3
@@ -148,15 +148,18 @@ void Boss::ShotPatternSwitch() {
 		if (_shotPattern == 1) {
 			ShotPattern3();
 			ShotPattern6();
+			LaserAttack2();
 		}
 		if (_shotPattern == 2) {
 			ShotPattern4_1();
 			ShotPattern4_2();
-			ShotPattern6();
+			LaserAttack1_1();
+			LaserAttack1_2();
 		}
 		if (_shotPattern == 3) {
 			ShotPattern5();
-			ShotPattern6();
+			LaserAttack1_1();
+			LaserAttack1_2();
 		}
 		break;
 	// フェーズ4
@@ -164,18 +167,24 @@ void Boss::ShotPatternSwitch() {
 		if (_shotPattern == 1) {
 			ShotPattern3();
 			ShotPattern7();
+			LaserAttack2();
 		}
 		if (_shotPattern == 2) {
 			ShotPattern4_1();
 			ShotPattern4_2();
 			ShotPattern6();
+			LaserAttack2();
 		}
 		if (_shotPattern == 3) {
 			ShotPattern5();
 			ShotPattern6();
+			LaserAttack1_1();
+			LaserAttack1_2();
 		}
 		break;
 	}
+
+	_shotCnt++;
 }
 
 /**
@@ -368,6 +377,9 @@ void Boss::ShotPattern6(){
 	}
 }
 
+/**
+ * 弾幕パターン7
+ */
 void Boss::ShotPattern7() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -376,6 +388,57 @@ void Boss::ShotPattern7() {
 		tmpPos.y = _vPos.y + 12.0f;
 		BossBomb* bomb = NEW BossBomb(tmpPos);
 		modeGame->_objServer.Add(bomb);
+	}
+}
+
+/**
+ * レーザー攻撃1-1
+ */
+void Boss::LaserAttack1_1() {
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	float laserAngle = 0.0f;
+	if (_shotCnt == 0) {
+		VECTOR tmpPos = _vPos;
+		tmpPos.x = _vPos.x + cos(0.0f / 180.0f * DX_PI_F) * 10.0f;
+		tmpPos.y = 4.5f;
+		tmpPos.z = _vPos.z + sin(0.0f / 180.0f * DX_PI_F) * 10.0f;
+		Laser* laser = NEW Laser(tmpPos, 10.0f, laserAngle, 1.0f);
+		modeGame->_objServer.Add(laser);
+
+	}
+}
+
+void Boss::LaserAttack1_2() {
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	float laserAngle = 180.0f;
+	if (_shotCnt == 0) {
+		VECTOR tmpPos = _vPos;
+		tmpPos.x = _vPos.x + cos(0.0f / 180.0f * DX_PI_F) * 10.0f;
+		tmpPos.y = 4.5f;
+		tmpPos.z = _vPos.z + sin(0.0f / 180.0f * DX_PI_F) * 10.0f;
+		Laser* laser = NEW Laser(tmpPos, 10.0f, laserAngle, -2.0f);
+		modeGame->_objServer.Add(laser);
+
+	}
+}
+
+/**
+ * レーザー攻撃2
+ */
+void Boss::LaserAttack2() {
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	float laserAngle = 45.0f;
+	if (_shotCnt == 0) {
+		// 同時に4本のレーザーを生成
+		for (int i = 0; i < 4; i++) {
+			VECTOR tmpPos = _vPos;
+			tmpPos.x = _vPos.x + cos(0.0f / 180.0f * DX_PI_F) * 10.0f;
+			tmpPos.y = 4.5f;
+			tmpPos.z = _vPos.z + sin(0.0f / 180.0f * DX_PI_F) * 10.0f;
+			Laser* laser = NEW Laser(tmpPos, 10.0f, laserAngle, 1.0f);
+			modeGame->_objServer.Add(laser);
+			laserAngle += 90.0f;  // レーザー間の角度
+		}
 	}
 }
 
@@ -521,7 +584,7 @@ void Boss::Process(){
 			}
 		}
 
-		{  // 仮実装：プレイヤーがいる方向にボスの正面を向ける
+		{  // プレイヤーがいる方向にボスの正面を向ける
 			VECTOR plPos = Player::GetInstance()->GetPos();
 			float sx = plPos.x - _vPos.x;
 			float sz = plPos.z - _vPos.z;
@@ -542,17 +605,15 @@ void Boss::Process(){
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER_BULLET) {  
-				if (IsHitLineSegment(*(*itr), 10.0f) == true) {
+				if (IsHitLineSegment(*(*itr), 7.0f) == true) {
 					if (_shield > 0) {
 						_hitpoint -= CHARA_DATA->_shotDmgHP;
-//    					_shield -= CHARA_DATA->_shotDmgSld;
-						_shield -= 500;
+    					_shield -= CHARA_DATA->_shotDmgSld;
 						modeGame->_objServer.Del(*itr);
 					}
 					else {
 						_shield = 0;
-//						_hitpoint -= CHARA_DATA->_shotDmg;
-						_hitpoint -= 500;
+						_hitpoint -= CHARA_DATA->_shotDmg;
 						modeGame->_objServer.Del(*itr);
 					}
 				}
@@ -666,26 +727,25 @@ void Boss::AttackDamage(){
 	}
 	// シールドがないとき
 	else {            
-//		_hitpoint -= dmgNorm;
-		_hitpoint -= 500;
+		_hitpoint -= dmgNorm;
 	}
 }
 
 void Boss::ExplosionDamageHP(){
 	// シールドがあるとき
 	if (_shield > 0) {
-		_hitpoint -= 1;
+		_hitpoint -= EXPLOSION_DMG_HP;
 	}
 	// シールドがないとき
 	else {
-		_hitpoint -= 2;
+		_hitpoint -= EXPLOSION_DMG_NORM;
 	}
 }
 
 void Boss::ExplosionDamageShield() {
 	// シールドがあるとき
 	if (_shield > 0) {
-		_shield -= 2;
+		_shield -= EXPLOSION_DMG_SLD;
 		if (_shield <= 0) {
 			_shield = 0;
 		}

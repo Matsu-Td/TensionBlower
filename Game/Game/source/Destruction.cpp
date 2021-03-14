@@ -12,7 +12,7 @@
 
 Destruction::Destruction(VECTOR pos){
 
-	_effectHandle = LoadEffekseerEffect("res/effect/destruction/effect_explosion_2.efkefc", 1.0f);
+	_effectHandle = ResourceServer::LoadEffekseerEffect("res/effect/destruction/effect_explosion_2.efkefc", 1.0f);
 	_playingHandle = PlayEffekseer3DEffect(_effectHandle);
 
 	_vPos = pos;
@@ -20,7 +20,6 @@ Destruction::Destruction(VECTOR pos){
 }
 
 Destruction::~Destruction() {
-	DeleteEffekseerEffect(_effectHandle);
 	StopEffekseer3DEffect(_playingHandle);
 }
 

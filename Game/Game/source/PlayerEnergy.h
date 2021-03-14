@@ -21,7 +21,7 @@ public:
 	 * @param player プレイヤークラスオブジェクトのポインタ
      * @param costEnergy エネルギー消費量
      */
-	void CostEnergy(Player* player, float costEnergy);
+	void CostEnergy(Player* player, int costEnergy);
 
 	/**
      * @brief エネルギー管理

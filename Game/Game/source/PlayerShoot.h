@@ -13,12 +13,11 @@
 
 class PlayerShoot {
 public:
-	PlayerShoot();
 
 	/**
      * @brief 射撃攻撃 :ゲームパッドRTで射撃
 	 * @param player プレイヤークラスオブジェクトのポインタ
 	 * @param inputRT ゲームパッド「RT」入力値
      */
-	void ShootingAttack(Player* player, float inputRT);
+	void ShootingAttack(Player* player, int inputRT);
 };

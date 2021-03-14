@@ -18,7 +18,7 @@ PlayerEnergy::PlayerEnergy() {
 /**
  * エネルギー消費処理
  */
-void PlayerEnergy::CostEnergy(Player* player, float costEnergy) {
+void PlayerEnergy::CostEnergy(Player* player, int costEnergy) {
 	player->_canAutoCharge = false;
 	player->_autoChargeCnt = Player::AUTO_CHARGE_CNT;
 	player->_energy -= costEnergy;
@@ -31,7 +31,7 @@ void PlayerEnergy::EnergyManager(Player* player, Player::STATE oldState) {
 
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	float addEne;
+	int addEne;
 
 	if (player->_energy > 0 || player->_energy < CHARA_DATA->_maxEnergy) {
 		if (player->_swCharge) {               // デバッグ用
@@ -61,7 +61,7 @@ void PlayerEnergy::EnergyManager(Player* player, Player::STATE oldState) {
 				addEne = CHARA_DATA->_egAutoXArea;
 			}
 			else {
-				addEne = 1.0f;
+				addEne = 1;
 			}
 
 			if (player->_energy >= CHARA_DATA->_maxEnergy) {

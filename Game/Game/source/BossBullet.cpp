@@ -19,8 +19,8 @@ BossBullet::BossBullet(){
 
 	_mh = ResourceServer::MV1LoadModel("res/model/boss/bullet.mv1");
 
-	_cg[0] = ResourceServer::LoadGraph("res/仮素材/ロック可能.png");
-	_cg[1] = ResourceServer::LoadGraph("res/仮素材/ロック確定.png");
+	_cg[0] = ResourceServer::LoadGraph("res/ui/lock_ok.png");
+	_cg[1] = ResourceServer::LoadGraph("res/ui/lock_end.png");
 	Initialize();
 }
 
@@ -28,6 +28,9 @@ BossBullet::~BossBullet(){
 
 }
 
+/**
+ * 初期化
+ */
 void BossBullet::Initialize(){
 
 	_setAngle = 45.0f;
@@ -43,12 +46,15 @@ void BossBullet::Initialize(){
 	_r = 1.5f;
 }
 
+/**
+ * 弾の移動処理
+ */
 void BossBullet::Shot(){
 	
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();  // カメラの状態を取得
 
 	if(camState == Camera::STATE::MLS_LOCK){
-		_mvSpd = _shotSpd * 0.01f; // マルチロックオンシステム中は速度0.01倍
+		_mvSpd = _shotSpd * MLS_SPD; // マルチロックオンシステム中は速度0.01倍
 		_camStateMLS = true;
 	}
 	else {
@@ -63,7 +69,9 @@ void BossBullet::Shot(){
 	_vPos.z += vz;
 }
 
-
+/**
+ * フレーム処理：計算
+ */
 void BossBullet::Process(){
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
@@ -121,6 +129,9 @@ void BossBullet::Process(){
 	}
 }
 
+/**
+ * フレーム処理：描画
+ */
 void BossBullet::Render(){
 
 	float modelSize = 0.005f;
@@ -130,18 +141,16 @@ void BossBullet::Render(){
 	MV1DrawModel(_mh);
 	
 	if (_canLockFlag) {
-	//	DrawBox(_scrnPos.x + _hitX, _scrnPos.y + _hitY, _scrnPos.x + _hitW, _scrnPos.y + _hitH, GetColor(255, 0, 0), TRUE);
 		if (_repelFlag) {
-			DrawGraph(_scrnPos.x - 40.0f, _scrnPos.y - 35.0f, _cg[1], TRUE);
+			// ロック確定
+			DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[1], TRUE);
 		}
 		else {
-			DrawGraph(_scrnPos.x - 40.0f, _scrnPos.y - 35.0f, _cg[0], TRUE);
+			// ロック可能
+			DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[0], TRUE);
 		}
 	}
-	
-//	DrawCapsule3D(_capsulePos1,_capsulePos2, 1.f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
-	
-//	DrawFormatString(0, 500, GetColor(255, 0, 0), "  出現した弾の数(size())  = %d", _lsBlt.size());
+
 #if 0
 	int y = 160;
 	int size = 16;

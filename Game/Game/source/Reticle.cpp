@@ -1,6 +1,6 @@
 /**
  * @file   Reticle.cpp
- * @brief  レチクル処理
+ * @brief  照準処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -27,8 +27,8 @@ Reticle::~Reticle(){
 void Reticle::Initialize(){
 
 	// 画面の真ん中に画像を配置
-	_scrnPos.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
-	_scrnPos.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
+	_scrnPos.x = static_cast<float>(ApplicationMain::GetInstance()->DispSizeW() / 2 - 50);
+	_scrnPos.y = static_cast<float>(ApplicationMain::GetInstance()->DispSizeH() / 2 - 50);
 
 	_mvSpd = 16.0f;
 
@@ -68,9 +68,9 @@ void Reticle::Process(){
 
 	// 画面外に画像が出るのを防止
 	if (_scrnPos.x < 0) { _scrnPos.x = 0; }
-	if (_scrnPos.x + 100 > dispSizeW) { _scrnPos.x = dispSizeW - 100; }
-	if (_scrnPos.y < 0) { _scrnPos.y = 0; }
-	if (_scrnPos.y + 100 > dispSizeH) { _scrnPos.y = dispSizeH - 100; }
+	if (_scrnPos.x + 100.0f > dispSizeW) { _scrnPos.x = dispSizeW - 100; }
+	if (_scrnPos.y < 0.0f) { _scrnPos.y = 0.0f; }
+	if (_scrnPos.y + 100.0f > dispSizeH) { _scrnPos.y = dispSizeH - 100; }
 
 	// カメラの状態がマルチロックオンシステムではなくなる
 	if (camState != Camera::STATE::MLS_LOCK){

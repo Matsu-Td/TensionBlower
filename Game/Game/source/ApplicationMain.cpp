@@ -33,9 +33,8 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	gBossVoice.Init();
 
 	// ƒ‚[ƒh‚Ì“o˜^
-	//ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 	ModeServer::GetInstance()->Add(NEW ModeAmgLogo(), 1, "amglogo");
-//	ModeServer::GetInstance()->Add(NEW ModeTeamLogo(), 1, "teamlogo");
+
 	return true;
 }
 

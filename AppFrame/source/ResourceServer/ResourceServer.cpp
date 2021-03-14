@@ -9,12 +9,14 @@
 
 #include "DxLib.h"
 #include "ResourceServer.h"
+#include "EffekseerForDXLib.h"
 
 // Ã“Iƒƒ“ƒoÀ‘Ì
 std::unordered_map<std::string, int> ResourceServer::_mapGraph;
 std::unordered_map<std::string, ResourceServer::DIVGRAPH> ResourceServer::_mapDivGraph;
 std::unordered_map<std::string, int> ResourceServer::_mapSound;
 std::unordered_map<std::string, int> ResourceServer::_mapModel;
+std::unordered_map<std::string, int> ResourceServer::_mapEffect;
 
 void ResourceServer::Init(){
 
@@ -59,6 +61,11 @@ void ResourceServer::ClearGraph(){
         MV1DeleteModel(itr->second);
     }
     _mapModel.clear();
+
+    for (auto itr = _mapEffect.begin(); itr != _mapEffect.end(); itr++) {
+        DeleteEffekseerEffect(itr->second);
+    }
+    _mapEffect.clear();
 }
 
 
@@ -141,3 +148,15 @@ int ResourceServer::MV1LoadModel(const TCHAR* fileName){
     return mh;
 }
 
+int ResourceServer::LoadEffekseerEffect(const char* fileName, float mag) {
+
+    auto itr = _mapEffect.find(fileName);
+    if (itr != _mapEffect.end()) {
+        return itr->second;
+    }
+    int effect = ::LoadEffekseerEffect(fileName, mag);  // DxLib‚ÌAPI
+
+    _mapEffect[fileName] = effect;
+
+    return effect;
+}

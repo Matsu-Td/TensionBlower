@@ -10,8 +10,6 @@
 
 
 #include "appframe.h"
-#include "PlayerBullet.h"
-#include "BulletServer.h"
 #define  CHARA_DATA (modeGame->_charaData)
 
 // プレイヤークラスに関係するクラスの宣言
@@ -19,7 +17,6 @@ class PlayerAttack;
 class PlayerMotion;
 class PlayerEnergy;
 class PlayerDash;
-class PlayerShoot;
 class PlayerJump;
 
 class Player : public ObjectBase{
@@ -27,7 +24,6 @@ class Player : public ObjectBase{
 	friend PlayerMotion;
 	friend PlayerEnergy;
 	friend PlayerDash;
-	friend PlayerShoot;
 	friend PlayerJump;
 public:
 	Player();
@@ -55,12 +51,6 @@ public:
 	 * @return プレイヤーの現在のエネルギー量を取得
 	 */
 	int GetEnergy() const { return _energy; }
-
-	/**
-	 * @brief  弾の残弾数
-	 * @return プレイヤーの現在の残弾数を取得
-	 */
-	int GetBulletNum() const { return _bulletNum; }
 
 	/**
      * @brief  近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
@@ -108,14 +98,6 @@ protected:
 	bool _isDash;        // ダッシュ開始(全種類)
 	bool _isShortDash;   // 短押しダッシュ中か(true:ダッシュ中)
 	bool _canLongDash;   // 長押しダッシュ可否(true:可能, false:不可)
-
-	// 射撃用
-	int  _shotInterval;  // 弾の発射間隔
-	int  _reloadTime;    // リロード開始までの時間
-	int  _bulletNum;     // 弾の残弾数
-	bool _canShot;       // 射撃可否(true:可能, false:不可)
-	bool _isZeroShot;    // 装弾数ゼロフラグ(true:装弾数「0」状態, false:装弾が「1」以上ある状態)
-	bool _isShooting;    // 射撃中か
 	
 	// エネルギー溜め用
 	int  _autoChargeCnt; // エネルギー自動回復開始インターバル
@@ -175,11 +157,11 @@ protected:
 		STRG_ATCK2,      // 強近接攻撃2
 		STRG_ATCK3,      // 強近接攻撃3
 		STRG_ATCK4,      // 強近接攻撃4
-		SHOT_ATCK,       // 射撃攻撃
-		FOR_SHOT,
-		BACK_SHOT,
-		RIGHT_SHOT,
-		LEFT_SHOT,
+		//SHOT_ATCK,       // 射撃攻撃
+		//FOR_SHOT,
+		//BACK_SHOT,
+		//RIGHT_SHOT,
+		//LEFT_SHOT,
 		DEAD,            // 死亡
 	};
 	STATE _state; // プレイヤーの状態
@@ -194,7 +176,6 @@ protected:
 	PlayerMotion* _motionCall;  // 処理呼び出し：モーション切替処理
 	PlayerEnergy* _energyCall;  // 処理呼び出し：エネルギー管理処理
 	PlayerDash*   _dashCall;    // 処理呼び出し：ダッシュ処理
-	PlayerShoot*  _shootCall;   // 処理呼び出し：射撃攻撃処理
 	PlayerJump*   _JumpCall;    // 処理呼び出し：ジャンプ処理
 
 	// デバッグ用
@@ -206,5 +187,4 @@ protected:
 #include "PlayerMotion.h"
 #include "PlayerEnergy.h"
 #include "PlayerDash.h"
-#include "PlayerShoot.h"
 #include "PlayerJump.h"

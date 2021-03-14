@@ -92,6 +92,10 @@ public:
 	 */
 	void ShotPattern7();
 
+	void LaserAttack1_1();
+	void LaserAttack1_2();
+	void LaserAttack2();
+
 	/**
 	 * @brief 
 	 */
@@ -156,6 +160,7 @@ private:
 	int _shotPattern;    // 弾幕パターン3種ランダムで切替
 	int _phase;          // フェーズ：HP残量で変化
 	float _shotHeight;   // 弾幕を発射する高さ
+	float _laserAngle;   // レーザーの発射角度
 
 	int  _deadCnt;  // 死亡カウント
 	bool _deadFlag; // 死亡フラグ
@@ -165,7 +170,7 @@ private:
 	{ "attack1","attack1" ,"attack2" ,"attack4" ,"attack5" ,"attack6" };
 
 	static constexpr float SHOT_DISTANCE = 10.0f;  // 弾幕を発生させる位置(ボス中心からの距離)
-	static constexpr float ADD_POS_Y     = 8.5f;   // 当たり判定用Y座標加算値
+	static constexpr float ADD_POS_Y     = 9.0f;   // 当たり判定用Y座標加算値
 	static constexpr float ROT_SPD       = 0.01f;  // ボスの向き回転用角速度
 
 	static constexpr int PATTERN_CHANGE_CNT = 240; // 弾幕パターンを変化させるカウント最大値
@@ -175,6 +180,8 @@ private:
 	static constexpr int PHASE_THREE_HP = 2000;    // フェーズ3へ移行する残りHP量
 	static constexpr int PHASE_FOUR_HP  = 1000;    // フェーズ4へ移行する残りHP量
 	static constexpr int MIN_DOWN_TIME = 180;      // ダウン時間最小値(ダウン時間計算用)
-	
+	static constexpr int EXPLOSION_DMG_NORM = 2;   // 爆発HPダメージ量：通常時(シールド無)
+	static constexpr int EXPLOSION_DMG_HP = 1;     // 爆発HPダメージ量(シールド有)
+	static constexpr int EXPLOSION_DMG_SLD = 2;    // 爆発シールドダメージ量(シールド有)
 	STATE _state;  // 状態
 };

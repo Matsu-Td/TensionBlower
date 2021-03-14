@@ -158,7 +158,6 @@
     <ClCompile Include="source\ApplicationGlobal.cpp" />
     <ClCompile Include="source\ApplicationMain.cpp" />
     <ClCompile Include="source\Boss.cpp" />
-    <ClCompile Include="source\BossAimShot.cpp" />
     <ClCompile Include="source\BossBomb.cpp" />
     <ClCompile Include="source\BossBullet.cpp" />
     <ClCompile Include="source\BossMotion.cpp" />
@@ -190,7 +189,12 @@
     <ClCompile Include="source\PlayerEnergy.cpp" />
     <ClCompile Include="source\PlayerJump.cpp" />
     <ClCompile Include="source\PlayerMotion.cpp" />
-    <ClCompile Include="source\PlayerShoot.cpp" />
+    <ClCompile Include="source\PlayerShoot.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="source\PlayerStatus.cpp" />
     <ClCompile Include="source\Reticle.cpp" />
     <ClCompile Include="source\Sound.cpp" />
@@ -202,7 +206,6 @@
     <ClInclude Include="source\ApplicationGlobal.h" />
     <ClInclude Include="source\ApplicationMain.h" />
     <ClInclude Include="source\Boss.h" />
-    <ClInclude Include="source\BossAimShot.h" />
     <ClInclude Include="source\BossBomb.h" />
     <ClInclude Include="source\BossBullet.h" />
     <ClInclude Include="source\BossMotion.h" />
@@ -234,7 +237,12 @@
     <ClInclude Include="source\PlayerEnergy.h" />
     <ClInclude Include="source\PlayerJump.h" />
     <ClInclude Include="source\PlayerMotion.h" />
-    <ClInclude Include="source\PlayerShoot.h" />
+    <ClInclude Include="source\PlayerShoot.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="source\PlayerStatus.h" />
     <ClInclude Include="source\Reticle.h" />
     <ClInclude Include="source\Sound.h" />

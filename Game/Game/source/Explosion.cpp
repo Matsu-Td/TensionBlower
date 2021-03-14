@@ -17,7 +17,7 @@ Explosion::Explosion(VECTOR pos, bool repelFlag) {
 	// 生成時、爆発音再生
 	PlaySoundMem(gSound._se["explosion1"], DX_PLAYTYPE_BACK);
 
-	_effectHandle = LoadEffekseerEffect("res/effect/explosion/explosion.efkefc", 1.0f);
+	_effectHandle = ResourceServer::LoadEffekseerEffect("res/effect/explosion/explosion.efkefc", 1.0f);
 	_playingHandle = PlayEffekseer3DEffect(_effectHandle);
 
 	_vPos = pos;
@@ -27,8 +27,7 @@ Explosion::Explosion(VECTOR pos, bool repelFlag) {
 }
 
 Explosion::~Explosion() {
-	DeleteEffekseerEffect(_effectHandle);
-	StopEffekseer3DEffect(_playingHandle);
+
 }
 
 /**
@@ -73,6 +72,9 @@ void Explosion::CollisionToPlayer() {
 	}
 }
 
+/**
+ * フレーム処理：計算
+ */
 void Explosion::Process(){
 
 	_effectCnt++;
@@ -104,7 +106,9 @@ void Explosion::Process(){
 	}
 }
 
-
+/**
+ * フレーム処理：描画
+ */
 void Explosion::Render(){
 
 //	DrawCapsule3D(_capsulePos1, _capsulePos2, _r, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);

@@ -58,6 +58,8 @@ public:
 	 */
 	static int MV1LoadModel(const TCHAR* fileName);
 
+	static int LoadEffekseerEffect(const char* fileName,float mag);
+
 private:
 	static std::unordered_map<std::string, int>	_mapGraph;         // 画像データ格納
 	typedef struct {
@@ -68,5 +70,6 @@ private:
 
 	static std::unordered_map<std::string, int>	_mapSound;   // 音データ格納
 	static std::unordered_map<std::string, int>	_mapModel;   // モデルデータ格納
+	static std::unordered_map<std::string, int>	_mapEffect;  // エフェクトデータ格納
 };
 

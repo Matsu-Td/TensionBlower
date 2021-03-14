@@ -21,8 +21,8 @@ BossBomb::BossBomb(VECTOR pos) {
 
 	_mh = ResourceServer::MV1LoadModel("res/model/boss/bomb.mv1");
 
-	_cg[0] = ResourceServer::LoadGraph("res/仮素材/ロック可能.png");
-	_cg[1] = ResourceServer::LoadGraph("res/仮素材/ロック確定.png");
+	_cg[0] = ResourceServer::LoadGraph("res/ui/lock_ok.png");
+	_cg[1] = ResourceServer::LoadGraph("res/ui/lock_end.png");
 
 	_vPos = pos;
 
@@ -33,6 +33,9 @@ BossBomb::~BossBomb() {
 
 }
 
+/**
+ * 初期化
+ */
 void BossBomb::Initialize() {
 
 	_mvSpd = 2.0f;
@@ -50,6 +53,9 @@ void BossBomb::Initialize() {
 	_r = 1.5f;
 }
 
+/**
+ * フレーム処理：計算
+ */
 void BossBomb::Process() {
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
@@ -57,7 +63,7 @@ void BossBomb::Process() {
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();  // カメラの状態を取得
 
 	if (camState == Camera::STATE::MLS_LOCK) {
-		_mvSpd = _shotSpd * 0.01f; // マルチロックオンシステム中は速度0.01倍
+		_mvSpd = _shotSpd * MLS_SPD; // マルチロックオンシステム中は速度0.01倍
 		_camStateMLS = true;
 	}
 	else {
@@ -143,7 +149,7 @@ void BossBomb::Process() {
 			}
 			
 		}
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) { // レチクル
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) { // 照準
 			if (IsHitScrnPos(*(*itr)) == true) {
 				if (_canLockFlag) {
 					if (trg & PAD_INPUT_2) {
@@ -178,22 +184,22 @@ void BossBomb::Process() {
 	}
 }
 
+/**
+ * フレーム計算：描画
+ */
 void BossBomb::Render() {
 	
 	float modelSize = 0.005f;
 	MV1SetScale(_mh, VGet(modelSize, modelSize, modelSize));
 	MV1SetPosition(_mh, _vPos);
-	MV1SetRotationXYZ(_mh, VGet(0.f, (_shotAngle + 270.f) / 180.f * DX_PI_F, 0.f));
 	MV1DrawModel(_mh);
 
 	if (_canLockFlag) {
-		//	DrawBox(_scrnPos.x + _hitX, _scrnPos.y + _hitY, _scrnPos.x + _hitW, _scrnPos.y + _hitH, GetColor(255, 0, 0), TRUE);
 		if (_repelFlag) {
-			DrawGraph(_scrnPos.x - 40.0f, _scrnPos.y - 35.0f, _cg[1], TRUE);
+			DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[1], TRUE);
 		}
 		else {
-			DrawGraph(_scrnPos.x - 40.0f, _scrnPos.y - 35.0f, _cg[0], TRUE);
+			DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[0], TRUE);
 		}
 	}
-//	DrawCapsule3D(_capsulePos1, _capsulePos2, _r, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
 }

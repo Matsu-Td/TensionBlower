@@ -150,9 +150,6 @@
     <ClCompile Include="source\BossBomb.cpp">
       <Filter>ソース ファイル\Object\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="source\BossAimShot.cpp">
-      <Filter>ソース ファイル\Object\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="source\Explosion.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
@@ -270,9 +267,6 @@
       <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
     <ClInclude Include="source\BossBomb.h">
-      <Filter>ヘッダー ファイル\Object\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BossAimShot.h">
       <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
     <ClInclude Include="source\Explosion.h">

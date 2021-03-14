@@ -27,17 +27,7 @@ private:
 	int _cgFrameBg;    // ステータスのフレームの背景
 	int _cgBarHP;      // HPバー
 	int _cgBarEnergy;  // エネルギーバー
-	int _cgRemainFrame;// 装弾数表示フレーム
 
-	static constexpr int ALL_NUM = 10; // 数字の数(0～9)
-	int _cgRemainNum[ALL_NUM];         // 装弾数表示用数字画像格納
-
-	const TCHAR* _numString[ALL_NUM]=  // 数字ファイル名
-	{"res/ui/player/remain_0.png", "res/ui/player/remain_1.png", 
-	 "res/ui/player/remain_2.png", "res/ui/player/remain_3.png", 
-	 "res/ui/player/remain_4.png", "res/ui/player/remain_5.png",
-	 "res/ui/player/remain_6.png", "res/ui/player/remain_7.png", 
-	 "res/ui/player/remain_8.png", "res/ui/player/remain_9.png" };
 
 	// 画像描画座標　定数定義
 	static constexpr int STATUS_FRAME_POS = 30; // ステータスバー座標
@@ -57,9 +47,4 @@ private:
 
 	static constexpr int NAME_POS_X = 0;   // プレイヤー名X座標
 	static constexpr int NAME_POS_Y = 130; // プレイヤー名Y座標
-
-	static constexpr int NUM_POS_X1 = 45;  // 装弾数用数字のX座標(100の位)
-	static constexpr int NUM_POS_X2 = 100; // 装弾数用数字のX座標(10の位)
-	static constexpr int NUM_POS_X3 = 155; // 装弾数用数字のX座標(1の位)
-	static constexpr int NUM_POS_Y = 920;  // 装弾数用数字のY座標(共通)
 };

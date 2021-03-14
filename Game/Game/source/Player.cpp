@@ -11,7 +11,6 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Boss.h"
-#include "BulletServer.h"
 #include "ModeGame.h"
 #include "ModeGameOver.h"
 #include "Reticle.h"
@@ -69,14 +68,6 @@ void Player::Initialize(){
 	_receptionTime = 0;
 	_hitFlag = false;
 	_canHitFlag = false;
-
-	// 射撃
-	_bulletNum = MAX_BULLET;
-	_canShot = true;
-	_shotInterval = 5;
-	_reloadTime = RELOAD_TIME;
-	_isZeroShot = false;
-	_isShooting = false;
 
 	// ゲームオーバー
 	_gameOverCnt = 160;
@@ -158,6 +149,12 @@ void Player::Collision() {
 			}
 			if (IsHitLineSegment(*(*itr), (*itr)->_r)) {
 				_vPos = VAdd(_vPos, VScale(_oldPos, 0.4f));
+			}
+		}
+		// レーザーとの当たり判定
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::LASER) {
+			if (IsHitLineSegment(*(*itr),(*itr)->_r) == true) {
+				_hitpoint -= 5;
 			}
 		}
 	}
@@ -247,11 +244,7 @@ void Player::Process(){
 		_isGameOver = true;
 	}
 
-	// 地上にいないときはジャンプ状態固定
-//	if (_vPos.y != GROUND_Y) {
-//		_state = STATE::JUMP;
-//	}
-
+	// 死亡モーションは地上で行う
 	if (_state == STATE::DEAD) {
 		// 重力処理
 		_vPos.y -= GRAVITY;
@@ -283,7 +276,7 @@ void Player::Process(){
 			if (camState == Camera::STATE::TARG_LOCK_ON){
 				_vDir.x = -cos(_bsAngle);
                 _vDir.z = -sin(_bsAngle);
-				_dashCall->LeftAnalogDeg(this, length, rt);
+				_dashCall->LeftAnalogDeg(this, length);
 				
 				if (!_isDash) {
 					_mvSpd = CHARA_DATA->_mvSpdNorm;
@@ -295,16 +288,11 @@ void Player::Process(){
 					_mvSpd = CHARA_DATA->_mvSpdNorm;
 				}
 				if (_canJump) {
-					if (rt < -100) {
-						_state = STATE::FOR_SHOT;
-					}
-					else {
-						_state = STATE::WALK;
-					}
+					_state = STATE::WALK;
 				}
 			}
 		}
-		else if (_canJump && !_isShooting && !_isAttack) {
+		else if (_canJump && !_isAttack) {
 			_state = STATE::WAIT;
 
 		}
@@ -321,7 +309,7 @@ void Player::Process(){
 		float nowAngle = atan2(_vDir.z, _vDir.x);
 
 		// ダッシュ処理
-		_dashCall->Dash(this, nowAngle, length, rt);
+		_dashCall->Dash(this, nowAngle, length);
 
 		// エネルギー溜め
 		if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5)&& _energy < CHARA_DATA->_maxEnergy) {
@@ -342,7 +330,7 @@ void Player::Process(){
 		}
 
         // 射撃攻撃
-		_shootCall->ShootingAttack(this, rt);
+//		_shootCall->ShootingAttack(this, rt);
 	}
 
     // 近接攻撃処理(2発目以降)
@@ -354,7 +342,7 @@ void Player::Process(){
 		_state = STATE::NONE;
 	}
 		
-	// マルチロックシステム用レチクル追加
+	// マルチロックシステム用照準追加
 	if (trg & PAD_INPUT_5) {
 		_camStateMLS = true;
 		Reticle* reticle = NEW Reticle();
@@ -368,7 +356,7 @@ void Player::Process(){
 	_energyCall->EnergyManager(this, oldState);
 
 	// デバッグ用
-	if (trg & PAD_INPUT_7) {
+/*	if (trg & PAD_INPUT_7) {
 		if (_swCharge) {
 			_swCharge = false;
 		}
@@ -376,7 +364,7 @@ void Player::Process(){
 			_swCharge = true;
 		}
 	}
-
+*/
 	// 当たり判定
 	Collision();
 
