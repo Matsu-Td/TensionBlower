@@ -11,6 +11,10 @@
 
 class Destruction : public ObjectBase{
 public:
+	/**
+	 * @brief ボスの死亡エフェクト生成
+	 * @param pos エフェクト発生位置
+	 */
 	Destruction(VECTOR pos);
 	~Destruction();
 
@@ -20,8 +24,7 @@ public:
 	void Render();
 
 private:
-	int _gameClearCnt; // ゲームクリア表示までのカウント
-
+	int _gameClearCnt;  // ゲームクリア表示までのカウント
 	int	_effectHandle;  // エフェクトファイルをロードするハンドル
 	int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
 };

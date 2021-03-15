@@ -25,7 +25,7 @@ public:
 	/**
 	 * @brief プレイヤーに弾き返された弾によるダメージ処理
      */
-	void Damage();
+	void RepelDamage();
 
 	/**
 	 * @brief プレイヤーから受けたダメージ量計算
@@ -92,12 +92,23 @@ public:
 	 */
 	void ShotPattern7();
 
+	/**
+	 * @brief レーザー攻撃1-1
+	 */
 	void LaserAttack1_1();
+
+	/**
+	 * @brief レーザー攻撃1-2
+	 */
 	void LaserAttack1_2();
+
+	/**
+	 * @brief レーザー攻撃2
+	 */
 	void LaserAttack2();
 
 	/**
-	 * @brief 
+	 * @brief 6種類の声データをランダムで流す
 	 */
 	void PlayAttackVoiceChange();
 

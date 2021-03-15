@@ -78,9 +78,6 @@
     <ClCompile Include="source\BossBullet.cpp">
       <Filter>ソース ファイル\Object\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="source\PlayerBullet.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
     <ClCompile Include="source\ModeCredit.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
@@ -133,9 +130,6 @@
       <Filter>ソース ファイル\Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="source\PlayerEnergy.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\PlayerShoot.cpp">
       <Filter>ソース ファイル\Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="source\PlayerStatus.cpp">
@@ -197,9 +191,6 @@
     <ClInclude Include="source\BossBullet.h">
       <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="source\PlayerBullet.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
     <ClInclude Include="source\ModeCredit.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
@@ -252,9 +243,6 @@
       <Filter>ヘッダー ファイル\Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="source\PlayerEnergy.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\PlayerShoot.h">
       <Filter>ヘッダー ファイル\Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="source\PlayerStatus.h">

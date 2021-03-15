@@ -102,7 +102,6 @@ int CharaData::JsonLoad(std::string filePath, std::string fileName){
 	_stDmgHP2    = static_cast<int>(playerData["stDmgHP2"].get<double>());
 	_stDmgHP3    = static_cast<int>(playerData["stDmgHP3"].get<double>());
 	_stDmgHP4    = static_cast<int>(playerData["stDmgHP4"].get<double>());
-	_shotDmgHP   = static_cast<int>(playerData["shotDmgHP"].get<double>());
 	_repelDmgHP  = static_cast<int>(playerData["repelDmgHP"].get<double>());
 
 	_wkDmgSld1   = static_cast<int>(playerData["wkDmgSld1"].get<double>());
@@ -113,7 +112,6 @@ int CharaData::JsonLoad(std::string filePath, std::string fileName){
 	_stDmgSld2   = static_cast<int>(playerData["stDmgSld2"].get<double>());
 	_stDmgSld3   = static_cast<int>(playerData["stDmgSld3"].get<double>());
 	_stDmgSld4   = static_cast<int>(playerData["stDmgSld4"].get<double>());
-	_shotDmgSld  = static_cast<int>(playerData["shotDmgSld"].get<double>());
 	_repelDmgSld = static_cast<int>(playerData["repelDmgSld"].get<double>());
 
 	_wkDmg1   = static_cast<int>(playerData["wkDmg1"].get<double>());
@@ -124,7 +122,6 @@ int CharaData::JsonLoad(std::string filePath, std::string fileName){
 	_stDmg2   = static_cast<int>(playerData["stDmg2"].get<double>());
 	_stDmg3   = static_cast<int>(playerData["stDmg3"].get<double>());
 	_stDmg4   = static_cast<int>(playerData["stDmg4"].get<double>());
-	_shotDmg  = static_cast<int>(playerData["shotDmg"].get<double>());
 	_repelDmg = static_cast<int>(playerData["repelDmg"].get<double>());
 
 	// ボス関連データ読み込み

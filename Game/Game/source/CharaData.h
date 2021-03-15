@@ -51,7 +51,6 @@ public:
 	int _stDmgHP2;      // HPダメージ量(シールド有)：強近接攻撃2
 	int _stDmgHP3;      // HPダメージ量(シールド有)：強近接攻撃3
 	int _stDmgHP4;      // HPダメージ量(シールド有)：強近接攻撃4
-	int _shotDmgHP;     // HPダメージ量(シールド有)：射撃攻撃 
 	int _repelDmgHP;    // HPダメージ量(シールド有)：弾き返し
 
 	int _wkDmgSld1;     // シールドダメージ量：弱近接攻撃1
@@ -62,7 +61,6 @@ public:
 	int _stDmgSld2;     // シールドダメージ量：強近接攻撃2
 	int _stDmgSld3;     // シールドダメージ量：強近接攻撃3
 	int _stDmgSld4;     // シールドダメージ量：強近接攻撃4
-	int _shotDmgSld;    // シールドダメージ量：射撃攻撃
 	int _repelDmgSld;   // シールドダメージ量：弾き返し
 
 	int _wkDmg1;        // HPダメージ量(シールド無)：弱近接攻撃1
@@ -73,7 +71,6 @@ public:
 	int _stDmg2;        // HPダメージ量(シールド無)：強近接攻撃2
 	int _stDmg3;        // HPダメージ量(シールド無)：強近接攻撃3
 	int _stDmg4;        // HPダメージ量(シールド無)：強近接攻撃4
-	int _shotDmg;       // HPダメージ量(シールド無)：射撃攻撃
 	int _repelDmg;      // HPダメージ量(シールド無)：弾き返し
 
 	/**

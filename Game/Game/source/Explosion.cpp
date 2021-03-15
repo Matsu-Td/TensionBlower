@@ -27,13 +27,14 @@ Explosion::Explosion(VECTOR pos, bool repelFlag) {
 }
 
 Explosion::~Explosion() {
-
+	StopEffekseer3DEffect(_playingHandle);
 }
 
 /**
  * 初期化
  */
 void Explosion::Initialize() {
+
 	_effectCnt = 0;
 	_r = 0.0f;
 }
@@ -79,11 +80,13 @@ void Explosion::Process(){
 
 	_effectCnt++;
 
+	// 当たり判定用半径をエフェクトサイズに合わせて徐々に大きくする
 	_r += 0.3f;
 	if (_r >= MAX_RADIUS) {
 		_r = MAX_RADIUS;
 	}
 
+	// 当たり判定用カプセル
 	_capsulePos1 = _vPos;
 	_capsulePos2 = _vPos;
 
@@ -111,5 +114,4 @@ void Explosion::Process(){
  */
 void Explosion::Render(){
 
-//	DrawCapsule3D(_capsulePos1, _capsulePos2, _r, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
 }

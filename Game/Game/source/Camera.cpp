@@ -138,7 +138,7 @@ void Camera::Process(){
 
 		_vPos.x = bsPos.x + cos(camrad) * length;
 		_vPos.z = bsPos.z + sin(camrad) * length;
-		_vPos.y = plPos.y + 12.0f; 
+		_vPos.y = plPos.y + 14.0f; 
 		
 		// ゲームパッド右アナログスティック押し込みでロック解除
 		if (trg & PAD_INPUT_10) {

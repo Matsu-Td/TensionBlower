@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Boss.h"
+#include "BossBullet.h"
 #include "ModeGame.h"
 #include "ModeGameOver.h"
 #include "Reticle.h"
@@ -75,7 +76,6 @@ void Player::Initialize(){
 
 	// その他
 	_camStateMLS = false;
-	_swCharge = true;
 
 	// 各近接攻撃のアニメーション総再生時間を格納
 	for (int i = 0; i < ATTACK_NUM; i++) {
@@ -204,7 +204,6 @@ void Player::Process(){
 		float dx = _vPos.x - bsPos.x;
 		float dz = _vPos.z - bsPos.z;
 		float len = sqrt(dx * dx + dz * dz);
-		_len = len;            //デバッグ用
 		_bsAngle = atan2(dz, dx);
 		if (len <= 50) {
 			_isNearBoss = true;
@@ -328,9 +327,6 @@ void Player::Process(){
 		if (_vPos.y == 0.0f) {
 			_attackCall->FirstAttack(this);
 		}
-
-        // 射撃攻撃
-//		_shootCall->ShootingAttack(this, rt);
 	}
 
     // 近接攻撃処理(2発目以降)
@@ -355,16 +351,6 @@ void Player::Process(){
 	// エネルギー管理
 	_energyCall->EnergyManager(this, oldState);
 
-	// デバッグ用
-/*	if (trg & PAD_INPUT_7) {
-		if (_swCharge) {
-			_swCharge = false;
-		}
-		else {
-			_swCharge = true;
-		}
-	}
-*/
 	// 当たり判定
 	Collision();
 
@@ -406,9 +392,7 @@ void Player::Render(){
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  dash   = %d", _isDash); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  左ST角度 = %d", _lfAnalogDeg); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  HP     = %d", _hitpoint); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  energy = %d, ON(1) / OFF(0) = %d (BACKキーで切替)", _energy, _swCharge); y += size;
 
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  ボスとの距離 = %4.2f", _len); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  攻撃カウント = %d", _attackCnt); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  攻撃受付時間 = %d", _receptionTime); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  攻撃ﾘﾛｰﾄﾞ時間 = %d", _attackReloadTime); y += size;
@@ -453,15 +437,8 @@ void Player::Render(){
 		DrawString(x, y, "STRG ATTACK3", GetColor(255, 0, 0)); break;
 	case STATE::STRG_ATCK4:
 		DrawString(x, y, "STRG ATTACK4", GetColor(255, 0, 0)); break;
-	case STATE::SHOT_ATCK:
-		DrawString(x, y, "SHOT ATTACK", GetColor(255, 0, 0)); break;
-	case STATE::FOR_SHOT:
-		DrawString(x, y, "FOR SHOT", GetColor(255, 0, 0)); break;
 	}
 
-	DrawFormatString(0, 1000, GetColor(255, 0, 0), "  装弾数 = %d / 100", _bulletNum); 
-//	DrawCapsule3D(_capsulePos1, _capsulePos2, 1.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
-//	DrawCapsule3D(_capsulePos1, _capsulePos2, 2.5f, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
 #endif
 }
 

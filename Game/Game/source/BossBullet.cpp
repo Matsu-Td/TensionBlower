@@ -15,12 +15,17 @@
 #include "Camera.h"
 #include "ModeGame.h"
 
-BossBullet::BossBullet(){
+BossBullet::BossBullet(VECTOR pos, float shotSpd, float shotAngle){
 
 	_mh = ResourceServer::MV1LoadModel("res/model/boss/bullet.mv1");
 
 	_cg[0] = ResourceServer::LoadGraph("res/ui/lock_ok.png");
 	_cg[1] = ResourceServer::LoadGraph("res/ui/lock_end.png");
+
+	_vPos = pos;
+	_shotSpd = shotSpd;
+	_shotAngle = shotAngle;
+
 	Initialize();
 }
 
@@ -33,10 +38,6 @@ BossBullet::~BossBullet(){
  */
 void BossBullet::Initialize(){
 
-	_setAngle = 45.0f;
-	_shotCnt = 0;
-	_mlsCnt = 0;
-	_pattern = 0;
 	_camStateMLS = false;
 	_hitX = _hitY = -25.0f;
 	_hitW = _hitH = 25.0f;
@@ -49,9 +50,10 @@ void BossBullet::Initialize(){
 /**
  * 弾の移動処理
  */
-void BossBullet::Shot(){
+void BossBullet::MoveShot(){
 	
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();  // カメラの状態を取得
+	// カメラの状態を取得
+	Camera::STATE camState = Camera::GetInstance()->GetCameraState(); 
 
 	if(camState == Camera::STATE::MLS_LOCK){
 		_mvSpd = _shotSpd * MLS_SPD; // マルチロックオンシステム中は速度0.01倍
@@ -70,55 +72,61 @@ void BossBullet::Shot(){
 }
 
 /**
- * フレーム処理：計算
+ * 弾き返し処理
  */
-void BossBullet::Process(){
+void BossBullet::Repel() {
 
+	_bulletDir = -1.0f;       // 弾がはじき返される
+	_shotSpd = REPEL_SPD;     // 弾の移動速度変更(加速)
+	_repelFlag = true;        // 弾き返されたのでフラグを立てる
+	gGlobal._totalRepelCnt++; // 弾き返し回数カウント(スコア計算用)
+}
+
+/**
+ * 当たり判定
+ */
+void BossBullet::Collision() {
+
+	// キーのトリガ入力取得
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
+	// プレイヤーの位置情報取得
 	VECTOR plPos = Player::GetInstance()->GetPos();
 	float sx = plPos.x - _vPos.x;
 	float sz = plPos.z - _vPos.z;
-	float length = sqrt(sx * sx + sz * sz);
-	Shot(); // 弾発生処理
+	float length = sqrt(sx * sx + sz * sz);  // プレイヤーとの距離計算
 
-	_scrnPos = ConvWorldPosToScreenPos(_vPos);  // ワールド座標 ⇒ スクリーン座標へ変換
-	
-	_capsulePos1 = _vPos;
-	_capsulePos2 = _vPos;
-	
-
-	/**
-	* 当たり判定
-	*/
+	// 当たり判定
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {   // ステージ
+		// ステージ
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
 			if (IsHitStage(*(*itr), 0.8f) == true) {
 				modeGame->_objServer.Del(this);
 				MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
 			}
 		}
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) { // レチクル
+		// 照準
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) {
 			if (IsHitScrnPos(*(*itr)) == true) {
 				if (_canLockFlag) {
 					if (trg & PAD_INPUT_2) {
-						_bulletDir = -1.0f;   // 弾がはじき返される
-						_repelFlag = true;    // 弾き返されたのでフラグを立てる
-						gGlobal._totalRepelCnt++;    // 弾き返し回数カウント(スコア計算用)
+						Repel(); // 弾き返し処理
 					}
 				}
 			}
 		}
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) { // ボス
+		// ボス
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
 			if (IsHitLineSegment(*(*itr), (*itr)->_r) == true) {
 				if (_repelFlag) {
 					modeGame->_objServer.Del(this);
-					Boss::GetInstance()->Damage();
+					Boss::GetInstance()->RepelDamage();
 				}
 			}
 		}
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {  // プレイヤー
+		// プレイヤー
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
 			if (IsDot(*(*itr)) == true && _camStateMLS) {
 				_canLockFlag = true;
 			}
@@ -126,7 +134,33 @@ void BossBullet::Process(){
 				_canLockFlag = false;
 			}
 		}
+		// プレイヤーの近接攻撃による弾き返し
+		if (Player::GetInstance()->_canHitFlag && !(*itr)->_hitFlag) {
+			if (length < 4.0f) {
+				Repel(); // 弾き返し処理
+				(*itr)->_hitFlag = true;
+			}
+		}
 	}
+}
+
+/**
+ * フレーム処理：計算
+ */
+void BossBullet::Process(){
+
+	// 弾の移動処理
+	MoveShot();
+
+	// ワールド座標 ⇒ スクリーン座標へ変換
+	_scrnPos = ConvWorldPosToScreenPos(_vPos);  
+	
+	// 当たり判定用カプセル
+	_capsulePos1 = _vPos;
+	_capsulePos2 = _vPos;
+	
+	// 当たり判定
+	Collision();
 }
 
 /**
@@ -137,7 +171,6 @@ void BossBullet::Render(){
 	float modelSize = 0.005f;
 	MV1SetScale(_mh, VGet(modelSize, modelSize, modelSize));
 	MV1SetPosition(_mh, _vPos);
-	MV1SetRotationXYZ(_mh, VGet(0.f, (_shotAngle + 270.f) / 180.f * DX_PI_F, 0.f));
 	MV1DrawModel(_mh);
 	
 	if (_canLockFlag) {
@@ -150,15 +183,4 @@ void BossBullet::Render(){
 			DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[0], TRUE);
 		}
 	}
-
-#if 0
-	int y = 160;
-	int size = 16;
-	SetFontSize(size);
-	DrawFormatString(0, y, GetColor(255, 0, 0), "BossBullet:"); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  screenPos    = (%5.2f, %5.2f, %5.2f)", _scrnPos.x, _scrnPos.y, _scrnPos.z); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  出現した弾の数(size())  = %d", _lsBlt.size());
-	
-#endif
 }

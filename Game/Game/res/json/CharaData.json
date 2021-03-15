@@ -39,7 +39,7 @@
       "stDmgSld3" : 5,
       "stDmgSld4" : 5,
       "shotDmgSld" : 1,
-      "repelDmgSld" : 200,
+      "repelDmgSld" : 100,
       "wkDmg1" : 100,
       "wkDmg2" : 100,
       "wkDmg3" : 120,

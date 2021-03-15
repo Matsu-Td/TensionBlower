@@ -39,29 +39,52 @@ bool ModeGame::Initialize() {
 	_objServer.Process();
 	_stopObjProcess = true;
 
-	// ライトの設定
 	SetLightEnable(FALSE);
-	SetGlobalAmbientLight(GetColorF(0.0f, 0.0f, 0.0f, 0.0f));
+	SetGlobalAmbientLight(GetColorF(0.164f, 0.164f, 0.164f, 0.0f));
 
-	int Light0Handle = CreatePointLightHandle(VGet(-125.000f, 100.000f, 0.000f), 2000.000f, 2.500f, 0.000f, 0.000f);
+	int Light0Handle = CreateDirLightHandle(VGet(0.062f, -0.479f, 0.875f));
 	SetLightDifColorHandle(Light0Handle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
 	SetLightSpcColorHandle(Light0Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
 	SetLightAmbColorHandle(Light0Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
 
-	int Light1Handle = CreatePointLightHandle(VGet(125.000f, 100.000f, 0.000f), 2000.000f, 2.500f, 0.000f, 0.000f);
-	SetLightDifColorHandle(Light1Handle, GetColorF(1.000f, 1.000f, 1.000f, 0.000f));
+	int Light1Handle = CreateDirLightHandle(VGet(-0.878f, 0.479f, 0.000f));
+	SetLightDifColorHandle(Light1Handle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
 	SetLightSpcColorHandle(Light1Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
 	SetLightAmbColorHandle(Light1Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
 
-	int Light2Handle = CreatePointLightHandle(VGet(0.000f, 100.000f, -125.000f), 2000.000f, 2.500f, 0.000f, 0.000f);
+	int Light2Handle = CreateDirLightHandle(VGet(0.878f, 0.479f, 0.000f));
 	SetLightDifColorHandle(Light2Handle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
 	SetLightSpcColorHandle(Light2Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
 	SetLightAmbColorHandle(Light2Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
 
-	int Light3Handle = CreatePointLightHandle(VGet(0.000f, 100.000f, 125.000f), 2000.000f, 2.500f, 0.000f, 0.000f);
+	int Light3Handle = CreateDirLightHandle(VGet(0.062f, 0.479f, -0.875f));
 	SetLightDifColorHandle(Light3Handle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
 	SetLightSpcColorHandle(Light3Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
 	SetLightAmbColorHandle(Light3Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
+
+	//// ライトの設定
+	//SetLightEnable(FALSE);
+	//SetGlobalAmbientLight(GetColorF(0.0f, 0.0f, 0.0f, 0.0f));
+
+	//int Light0Handle = CreatePointLightHandle(VGet(-125.000f, 100.000f, 0.000f), 2000.000f, 2.500f, 0.000f, 0.000f);
+	//SetLightDifColorHandle(Light0Handle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
+	//SetLightSpcColorHandle(Light0Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
+	//SetLightAmbColorHandle(Light0Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
+
+	//int Light1Handle = CreatePointLightHandle(VGet(125.000f, 100.000f, 0.000f), 2000.000f, 2.500f, 0.000f, 0.000f);
+	//SetLightDifColorHandle(Light1Handle, GetColorF(1.000f, 1.000f, 1.000f, 0.000f));
+	//SetLightSpcColorHandle(Light1Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
+	//SetLightAmbColorHandle(Light1Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
+
+	//int Light2Handle = CreatePointLightHandle(VGet(0.000f, 100.000f, -125.000f), 2000.000f, 2.500f, 0.000f, 0.000f);
+	//SetLightDifColorHandle(Light2Handle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
+	//SetLightSpcColorHandle(Light2Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
+	//SetLightAmbColorHandle(Light2Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
+
+	//int Light3Handle = CreatePointLightHandle(VGet(0.000f, 100.000f, 125.000f), 2000.000f, 2.500f, 0.000f, 0.000f);
+	//SetLightDifColorHandle(Light3Handle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
+	//SetLightSpcColorHandle(Light3Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
+	//SetLightAmbColorHandle(Light3Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
 
 	return true;
 }
@@ -72,8 +95,8 @@ bool ModeGame::Initialize() {
 bool ModeGame::Terminate() {
 	base::Terminate();
 
-	// オブジェクトサーバーのコンテナに登録していた要素を全て削除、メモリ解放
-//	_objServer.Clear();
+	// ライトハンドル削除
+	DeleteLightHandleAll();
 
 	return true;
 }

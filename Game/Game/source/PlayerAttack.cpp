@@ -130,15 +130,6 @@ void PlayerAttack::AttackAction(Player* player) {
 		player->_isAttack = false;
 	}
 
-	// ‹ßÚUŒ‚“–‚½‚è”»’è”­¶
-	if (!player->_hitFlag) {
-		if (player->_attackCnt >= 20 && player->_attackCnt < 35) {
-			player->_canHitFlag = true;
-		}
-		else {
-			player->_canHitFlag = false;
-		}
-	}
 
 	// ‹ßÚUŒ‚Ø‘Ö
 	switch (player->_state) {
@@ -197,10 +188,21 @@ void PlayerAttack::AttackAction(Player* player) {
 	case Player::STATE::STRG_ATCK3:
 	case Player::STATE::STRG_ATCK4:
 		if (player->_attackCnt <= 0) {
+			player->_canHitFlag = false;
 			player->_isAttack = false;               // ‹ßÚUŒ‚I—¹
 			player->_attackReloadTime = ATTACK_RELOAD_TIME;   // ‹ßÚUŒ‚ƒŠƒ[ƒhŽžŠÔƒZƒbƒg
 		}
 		break;
+	}
+
+	// ‹ßÚUŒ‚“–‚½‚è”»’è”­¶
+	if (!player->_hitFlag) {
+		if (player->_attackCnt >= 20 && player->_attackCnt < 35) {
+			player->_canHitFlag = true;
+		}
+		else {
+			player->_canHitFlag = false;
+		}
 	}
 }
 

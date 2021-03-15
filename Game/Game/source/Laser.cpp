@@ -11,7 +11,8 @@
 #include "Boss.h"
 
 Laser::Laser(VECTOR pos, float radius, float angle, float roteSpd) {
-	_effectHandle = LoadEffekseerEffect("res/effect/beam/effect_beam.efkefc", 1.0f);
+
+	_effectHandle = ResourceServer::LoadEffekseerEffect("res/effect/beam/effect_beam.efkefc", 1.0f);
 	_playingHandle = PlayEffekseer3DEffect(_effectHandle);
 
 	_vPos = pos;
@@ -23,7 +24,6 @@ Laser::Laser(VECTOR pos, float radius, float angle, float roteSpd) {
 }
 
 Laser::~Laser() {
-	DeleteEffekseerEffect(_effectHandle);
 	StopEffekseer3DEffect(_playingHandle);
 }
 
@@ -65,9 +65,6 @@ void Laser::Process() {
 	// レーザー当たり判定の長さ指定
 	float length = 125.0f;
 
-	// 回転速度
-	
-
 	// 発射位置
 	_vPos.x = cos(_roteAngle / 180.0f * DX_PI_F) * _radius;
 	_vPos.z = sin(_roteAngle / 180.0f * DX_PI_F) * _radius;
@@ -104,5 +101,4 @@ void Laser::Process() {
  */
 void Laser::Render() {
 
-//	DrawCapsule3D(_capsulePos1, _capsulePos2, _r, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 }

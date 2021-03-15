@@ -84,6 +84,7 @@ public:
 
 	static constexpr float GROUND_Y = 0.0f;  // 地上のY座標
 
+	int  _canHitFlag;       // 近接攻撃当たり判定可否(true:可能, false:不可)
 protected:
 	// ステータス
 	int _hitpoint;       // ヒットポイント値
@@ -108,7 +109,6 @@ protected:
 	int  _attackCnt;        // 攻撃遷移、終了カウント(攻撃モーション総再生時間を代入)
 	int  _attackReloadTime; // 近接攻撃用リロード時間(リロード中は近接攻撃不可)
 	int  _receptionTime;    // 次の近接攻撃遷移受付時間
-	int  _canHitFlag;       // 近接攻撃当たり判定可否(true:可能, false:不可)
 	int  _nowDmgHP;         // 発動中近接攻撃のHPへ与えるダメージ量(シールド有)
 	int  _nowDmgSld;        // 発動中近接攻撃のシールドへ与えるダメージ量
 	int  _nowDmgNorm;       // 発動中近接攻撃のHPへ与えるダメージ量(シールド無)
@@ -157,11 +157,6 @@ protected:
 		STRG_ATCK2,      // 強近接攻撃2
 		STRG_ATCK3,      // 強近接攻撃3
 		STRG_ATCK4,      // 強近接攻撃4
-		//SHOT_ATCK,       // 射撃攻撃
-		//FOR_SHOT,
-		//BACK_SHOT,
-		//RIGHT_SHOT,
-		//LEFT_SHOT,
 		DEAD,            // 死亡
 	};
 	STATE _state; // プレイヤーの状態
@@ -177,10 +172,6 @@ protected:
 	PlayerEnergy* _energyCall;  // 処理呼び出し：エネルギー管理処理
 	PlayerDash*   _dashCall;    // 処理呼び出し：ダッシュ処理
 	PlayerJump*   _JumpCall;    // 処理呼び出し：ジャンプ処理
-
-	// デバッグ用
-	float _len;          // デバッグ用（プレイヤーとボスの距離）
-	bool _swCharge;      // デバッグ用(エネルギー消費ON/OFF切替)
 };
 
 #include "PlayerAttack.h"

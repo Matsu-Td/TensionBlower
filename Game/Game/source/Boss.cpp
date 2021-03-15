@@ -93,7 +93,6 @@ void Boss::PlayAttackVoiceChange() {
  */
 void Boss::ShotPatternSwitch() {
 
-
 	// フェーズ毎で発生する弾幕パターンを3セットランダムで変化させる
 	if (_shotCnt % PATTERN_CHANGE_CNT == 0) {
 		PlayAttackVoiceChange();       // 声データ再生
@@ -200,10 +199,7 @@ void Boss::ShotPattern1and2() {
 			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
 			tmpPos.y = 4.5f;
 			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
-			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmpPos);           // 弾幕発生位置セット
-			bullet->SetShotSpd(1.0f);         // 弾の移動速度セット
-			bullet->SetAngle(_shotAngle);     // 弾の発射角度セット
+			BossBullet* bullet = NEW BossBullet(tmpPos, 1.0f, _shotAngle);
 			modeGame->_objServer.Add(bullet); // 弾生成
 			_shotAngle += 45.0f;              // 弾発射角度を45°ずつずらす
 		}
@@ -238,10 +234,7 @@ void Boss::ShotPattern3() {
 			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			tmpPos.y = 4.5f;
 			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmpPos);           // 弾幕発生位置セット
-			bullet->SetShotSpd(1.3f);         // 弾の移動速度セット
-			bullet->SetAngle(_shotAngle);     // 弾の発射角度セット
+			BossBullet* bullet = NEW BossBullet(tmpPos, 1.3f, _shotAngle);
 			modeGame->_objServer.Add(bullet); // 弾生成
 			_shotAngle += 45.0f;              // 弾発射角度を45°ずつずらす
 		}
@@ -265,10 +258,7 @@ void Boss::ShotPattern4_1() {
 			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			tmpPos.y = 3.5f;
 			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmpPos);           // 弾幕発生位置セット
-			bullet->SetShotSpd(1.2f);         // 弾の移動速度セット
-			bullet->SetAngle(_shotAngle);     // 弾の発射角度セット
+			BossBullet* bullet = NEW BossBullet(tmpPos, 1.2f, _shotAngle);
 			modeGame->_objServer.Add(bullet); // 弾生成
 			_shotAngle += 45.0f;              // 弾発射角度を45°ずつずらす
 		}
@@ -291,10 +281,7 @@ void Boss::ShotPattern4_2() {
 			tmpPos.x = _vPos.x + cos(_shotAngle1 / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 			tmpPos.y = 5.0f;
 			tmpPos.z = _vPos.z + sin(_shotAngle1 / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmpPos);           // 弾幕発生位置セット
-			bullet->SetShotSpd(1.2f);         // 弾の移動速度セット
-			bullet->SetAngle(_shotAngle1);    // 弾発射角度セット
+			BossBullet* bullet = NEW BossBullet(tmpPos, 1.2f, _shotAngle1);
 			modeGame->_objServer.Add(bullet); // 弾生成
 			_shotAngle1 += 45.0f;             // 弾発射角度を45°ずつずらす
 		}
@@ -326,10 +313,7 @@ void Boss::ShotPattern5() {
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			tmpPos = _vPos;
 			tmpPos.y = abs(height) + 1.0f;         // 地上から高さ1mより上
-			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmpPos);                // 弾幕発生位置セット
-			bullet->SetShotSpd(1.0f);              // 弾の移動速度セット
-			bullet->SetAngle(deg + angleSide);     // 弾発射角度セット
+			BossBullet* bullet = NEW BossBullet(tmpPos, 1.0f, deg + angleSide);
 			modeGame->_objServer.Add(bullet);      // 弾生成
 			angleSide += 10.0f;                    // 発射角度を10°ずつずらす
 			if (_shotHeight <= -12.0f) {
@@ -367,10 +351,7 @@ void Boss::ShotPattern6(){
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			tmpPos = _vPos;
 			tmpPos.y = 3.5f;
-			BossBullet* bullet = NEW BossBullet();
-			bullet->SetPos(tmpPos);                // 弾幕発生位置セット
-			bullet->SetShotSpd(1.5f);              // 弾の移動速度セット
-			bullet->SetAngle(deg + angleSide);     // 弾発射角度セット
+			BossBullet* bullet = NEW BossBullet(tmpPos, 1.5f, deg + angleSide);
 			modeGame->_objServer.Add(bullet);      // 弾生成
 			angleSide += 10.0f;                    // 発射角度を10°ずつずらす
 		}
@@ -408,6 +389,9 @@ void Boss::LaserAttack1_1() {
 	}
 }
 
+/**
+ * レーザー攻撃1-2
+ */
 void Boss::LaserAttack1_2() {
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	float laserAngle = 180.0f;
@@ -595,31 +579,12 @@ void Boss::Process(){
 			if (plAngle > _vDir.y) {
 				_vDir.y += ROT_SPD;
 			}
-			else {
+			else if (plAngle < _vDir.y) {
 				_vDir.y -= ROT_SPD;
 			}
 		}
 	}
-	// プレイヤーの弾との当たり判定、ダメージ処理
-	{
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER_BULLET) {  
-				if (IsHitLineSegment(*(*itr), 7.0f) == true) {
-					if (_shield > 0) {
-						_hitpoint -= CHARA_DATA->_shotDmgHP;
-    					_shield -= CHARA_DATA->_shotDmgSld;
-						modeGame->_objServer.Del(*itr);
-					}
-					else {
-						_shield = 0;
-						_hitpoint -= CHARA_DATA->_shotDmg;
-						modeGame->_objServer.Del(*itr);
-					}
-				}
-			}
-		}
-	}
+
 	// フェーズ切替
 	FhaseChange();
 	// ダウン処理
@@ -658,7 +623,6 @@ void Boss::Render(){
 
 	MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
 	MV1SetPosition(_mh, _vPos);
-
 	MV1SetRotationXYZ(_mh, _vDir);
 	MV1DrawModel(_mh);
 
@@ -672,8 +636,8 @@ void Boss::Render(){
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ｼｰﾙﾄﾞ値 = %d", _shield);  y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  出現している弾の数 = %d", _bulletNum);  y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダウン時間 = %d", _downTime);   y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  ｼｮｯﾄﾊﾟﾀｰﾝ = %d", _shotPattern); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  フェーズ = %d", _phase); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  plangle = %f", a); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  _vDir.y = %f", _vDir.y); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  状態 = %d", _state); y += size;
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 10.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
@@ -682,7 +646,7 @@ void Boss::Render(){
 /**
  * プレイヤーに弾き返された弾によるダメージ処理
  */
-void Boss::Damage() {
+void Boss::RepelDamage() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	PlaySoundMem(gSound._se["hit"], DX_PLAYTYPE_BACK);
@@ -690,6 +654,7 @@ void Boss::Damage() {
 	if (_shield > 0) {  
 		_hitpoint -= CHARA_DATA->_repelDmgHP;
 		_shield -= CHARA_DATA->_repelDmgSld;
+
 		if (_shield <= 0) {
 			_shield = 0;
 			_mlsDownFlag = true;  // プレイヤーに弾き返された弾でシールドが破壊されるとtrue
@@ -731,6 +696,9 @@ void Boss::AttackDamage(){
 	}
 }
 
+/**
+ * ヒットポイントへの爆発ダメージ
+ */
 void Boss::ExplosionDamageHP(){
 	// シールドがあるとき
 	if (_shield > 0) {
@@ -742,6 +710,9 @@ void Boss::ExplosionDamageHP(){
 	}
 }
 
+/**
+ * シールドへの爆発ダメージ
+ */
 void Boss::ExplosionDamageShield() {
 	// シールドがあるとき
 	if (_shield > 0) {

@@ -17,7 +17,6 @@ public:
 
 	enum class OBJECTTYPE {
 		PLAYER,        // プレイヤー
-		PLAYER_BULLET, // プレイヤーの射撃の弾
 		BOSS,          // ボス
 		BOSS_BULLET,   // ボスの弾幕
 		BOSS_BOMB,     // ボスのボム

@@ -81,6 +81,9 @@ bool ObjectBase::IsHitScrnPos(ObjectBase& obj){
 	return false;
 }
 
+/**
+ * “àÏ‚Å‚Ì“–‚½‚è”»’è
+ */
 bool ObjectBase::IsDot(ObjectBase& obj){
 
 	float sx = obj._vPos.x - _vPos.x;
@@ -97,6 +100,9 @@ bool ObjectBase::IsDot(ObjectBase& obj){
 	return false;
 }
 
+/**
+ * ‰~ŒÊ‚Æ‹…‚Ì“–‚½‚è”»’è
+ */
 bool ObjectBase::IsHitArc_Sphere(ObjectBase& obj){
 
 	float sx = obj._vPos.x - _vPos.x;
