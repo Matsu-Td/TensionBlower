@@ -1,11 +1,12 @@
-#pragma once
-
 /**
- * @file CFile.h
+ * @file  CFile.h
  * @brief 外部ファイルの読み込み、書き込み
  *
- * @date 2020-12-18
+ * @author matsuo tadahiko
+ * @date 2020/12/18
  */
+
+#pragma once
 
 #include <string>
 

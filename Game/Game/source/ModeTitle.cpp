@@ -96,10 +96,6 @@ void ModeTitle::MenuSelect() {
 		case MENU::TUTORIAL:
 			ModeChange(NEW ModeTutorial(), 1, "tutorial"); break;
 
-// TODO: ランキング機能未完の為、一時的に処理を削除する(実装予定)
-		//case MENU::RANKING:
-		//	ModeChange(NEW ModeRanking(),  1, "ranking");  break;
-
 		case MENU::CREDIT:
 			ModeChange(NEW ModeCredit(),   1, "credit");   break;
 

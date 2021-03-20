@@ -13,17 +13,34 @@
 
 class BossBullet : public ObjectBase{
 public:
+	/**
+	 * @brief  弾幕用弾生成
+	 * @param  pos 弾生成位置
+	 * @param  shotSpd 弾の移動処理
+	 * @param  shotAngle 弾の移動角度
+	 */
 	BossBullet(VECTOR pos, float shotSpd, float shotAngle);
     ~BossBullet();
 
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_BULLET; }
 
+	/**
+	 * @brief 初期化
+	 */
 	void Initialize();
+
+	/**
+	 * @brief フレーム処理：計算
+	 */
 	void Process();
+
+	/**
+	 * @brief フレーム処理：描画
+	 */
 	void Render();
 
 	/**
-	 * 弾の移動処理
+	 * @brief 弾の移動処理
 	 */
 	void MoveShot();
 

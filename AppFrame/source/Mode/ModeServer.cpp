@@ -1,9 +1,10 @@
 ﻿
 /**
- * @file ModeServer.cpp
- * @brief モード管理サーバー
+ * @file  ModeServer.cpp
+ * @brief モード管理クラス
  *
- * @date 2020-12-18
+ * @author matsuo tadahiko
+ * @date   2020/12/18
  */
 
 #include <cstddef>

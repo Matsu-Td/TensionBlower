@@ -17,18 +17,13 @@ public:
 	~PlayerAttack();
 
 	/**
-	 * @brief 初期化
-	 */
-	void Initialize();
-
-	/**
 	 * @brief 近接攻撃のダメージ量を近接攻撃の種類によって切替
 	 */
 	void SwitchAttackDamage(Player* player);
 
 	/**
      * @brief 現在発生中の近接攻撃ダメージ量をセットする
-	 * @param player プレイヤークラスオブジェクトのポインタ
+	 * @param player  プレイヤークラスオブジェクトのポインタ
      * @param dmgHP   シールド状態のボスのヒットポイントに与えるダメージ量
      * @param dmgSld  シールド状態のボスのシールドに与えるダメージ量
      * @param dmgNorm シールドがない状態のボスのヒットポイントに与えるダメージ量

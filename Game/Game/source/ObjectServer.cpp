@@ -1,9 +1,8 @@
-
 /**
- * @file ObjectServer.cpp
+ * @file  ObjectServer.cpp
  * @brief オブジェクト管理サーバー
  *
- * @date 2021-01-15
+ * @date 2021/01/15
  */
 
 #include "DxLib.h"

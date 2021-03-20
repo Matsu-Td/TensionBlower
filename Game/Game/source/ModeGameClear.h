@@ -14,25 +14,25 @@ class ModeGameClear : public ModeBase{
 public:
 	/**
 	 * @brief  ‰Šú‰»
-	 * @return ˆ—‚Ì¬Œ÷or¸”s
+	 * @return ˆ—‚Ì¬”Û
 	 */
 	virtual bool Initialize();
 
 	/**
 	 * @brief  ‰ğ•ú
-	 * @return ˆ—‚Ì¬Œ÷or¸”s
+	 * @return ˆ—‚Ì¬”Û
 	 */
 	virtual bool Terminate();
 
 	/**
 	 * @brief  ƒtƒŒ[ƒ€ˆ—FŒvZ
-	 * @return ˆ—‚Ì¬Œ÷or¸”s
+	 * @return ˆ—‚Ì¬”Û
 	 */
 	virtual bool Process();
 
 	/**
 	 * @brief  ƒtƒŒ[ƒ€ˆ—F•`‰æ
-	 * @return ˆ—‚Ì¬Œ÷or¸”s
+	 * @return ˆ—‚Ì¬”Û
 	 */
 	virtual bool Render();
 

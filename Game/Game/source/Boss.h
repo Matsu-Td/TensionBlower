@@ -19,8 +19,19 @@ public:
 
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS; }
 
+	/**
+	 * @brief 初期化
+	 */
 	void Initialize();
+
+	/**
+	 * @brief フレーム処理：計算
+	 */
 	void Process();
+
+	/**
+	 * @brief フレーム処理：描画
+	 */
 	void Render();
 
 	/**
@@ -130,7 +141,7 @@ public:
 	int GetShield() const { return _shield; }
 
 	/**
-	 * フェーズ数取得
+	 * @brief フェーズ数取得
 	 */
 	int GetPhase() const { return _phase; }
 
@@ -157,27 +168,26 @@ public:
 	STATE GetState() const { return _state; };
 
 private:
-	int _hitpoint;       // ヒットポイント値
-	int _shield;         // シールド値
-	int _downTime;       // ダウン時間
+	int  _hitpoint;      // ヒットポイント値
+	int  _shield;        // シールド値
+	int  _downTime;      // ダウン時間
 	bool _stateDown;     // ダウン状態か(true:ダウン状態)
 
-	int _shotCnt;        // 弾幕発射タイミングカウント
-	int _mlsCnt;         // マルチロックオンシステム発動時のカウント
-	int _reverseCnt;     // 弾幕回転方向が反転するカウント
+	int   _shotCnt;      // 弾幕発射タイミングカウント
+	int   _mlsCnt;       // マルチロックオンシステム発動時のカウント
+	int   _reverseCnt;   // 弾幕回転方向が反転するカウント
 	float _shotAngle;    // 弾幕の発射角度
 	float _shotAngle1;   // 弾幕の発射角度
 	float _setRotAngle;  // 発射一定角度セット
-	float shotInterval;  // 弾幕の発射間隔
-	int _shotPattern;    // 弾幕パターン3種ランダムで切替
-	int _phase;          // フェーズ：HP残量で変化
+	int   _shotPattern;  // 弾幕パターン3種ランダムで切替
+	int   _phase;        // フェーズ：HP残量で変化
 	float _shotHeight;   // 弾幕を発射する高さ
 	float _laserAngle;   // レーザーの発射角度
 
 	int  _deadCnt;  // 死亡カウント
 	bool _deadFlag; // 死亡フラグ
 
-	static constexpr int ATTACK_VOICE_NUM = 6;    // 攻撃時の声データ総数
+	static constexpr int ATTACK_VOICE_NUM = 6;     // 攻撃時の声データ総数
 	std::string _attackNameNo[ATTACK_VOICE_NUM] =  // 攻撃時の声データの名前を格納
 	{ "attack1","attack1" ,"attack2" ,"attack4" ,"attack5" ,"attack6" };
 

@@ -1,8 +1,9 @@
 
 /**
- * @file WinMain.cpp
+ * @file  WinMain.cpp
  * @brief エントリーポイント
  * 
+ * @author matsuo tadahiko
  * @date 2020-12-18
  */
 

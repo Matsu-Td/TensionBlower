@@ -22,8 +22,19 @@ public:
 
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_BOMB; }
 
+	/**
+	 * @brief 初期化
+	 */
 	void Initialize();
+
+	/**
+	 * @brief フレーム処理：計算
+	 */
 	void Process();
+
+	/**
+	 * @brief フレーム処理：描画
+	 */
 	void Render();
 
 private:

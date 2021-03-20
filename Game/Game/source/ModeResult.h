@@ -12,9 +12,28 @@ class ModeResult : public ModeBase{
 	typedef ModeBase base;
 
 public:
+	/**
+	 * @brief  初期化
+	 * @return 処理の成否
+	 */
 	virtual bool Initialize();
+
+	/**
+	 * @brief  解放
+	 * @return 処理の成否
+	 */
 	virtual bool Terminate();
+
+	/**
+	 * @brief  フレーム処理：計算
+	 * @return 処理の成否
+	 */
 	virtual bool Process();
+
+	/**
+	 * @brief  フレーム処理：描画
+	 * @return 処理の成否
+	 */
 	virtual bool Render();
 
 protected:
@@ -27,5 +46,5 @@ protected:
 
 	static constexpr int MMSEC2SEC = 1000;      // ミリ秒⇒秒変換用
 	static constexpr int MAX_SCORE = 100000;    // スコア最大値(経過時間、残りHP量用)
-	static constexpr int TIME_LOWER_LIMIT = 120;
+	static constexpr int TIME_LOWER = 120;      // 経過時間スコア計算用
 };

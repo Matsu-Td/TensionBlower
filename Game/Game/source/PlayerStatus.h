@@ -21,7 +21,6 @@ public:
 	void Render();
 
 private:
-	// 画像
 	int _cgName;       // 名前    
 	int _cgFrame;      // ステータスのフレーム
 	int _cgFrameBg;    // ステータスのフレームの背景

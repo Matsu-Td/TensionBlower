@@ -17,10 +17,6 @@ PlayerAttack::PlayerAttack() {
 
 }
 
-void PlayerAttack::Initialize(){
-
-}
-
 /**
  * UŒ‚”­¶‚Ìºƒf[ƒ^‚ğÄ¶‚·‚é
  */

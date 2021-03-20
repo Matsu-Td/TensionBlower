@@ -1,9 +1,10 @@
 /**
  * @file  ResourceServer.h
- * @brief リソース管理サーバ
+ * @brief リソース管理クラス
  * @brief すべて静的メンバで構成する
  *
- * @date 2020/12/18
+ * @author matsuo tadahiko
+ * @date   2020/12/18
  */
 
 #pragma once
@@ -30,6 +31,7 @@ public:
 	/**
 	 * @brief 画像データ読み込み
 	 * @param fileName 読み込む画像データの文字列ポインタ
+	 * @return ハンドル
 	 */
 	static int LoadGraph(const TCHAR* fileName);
 
@@ -42,23 +44,32 @@ public:
 	 * @param xSize 分割された画像1つの横向きの大きさ
 	 * @param ySize 分割された画像1つの縦向きの大きさ
 	 * @param handleBuf 読み込んだグラフィックハンドルを保存するint型配列へのポインタ
+	 * @return ハンドル
 	 */
 	static int LoadDivGraph(const TCHAR* fileName, int allNum,
 		int xNum, int yNum, int xSize, int ySize, int* handleBuf);
 
 	/**
 	 * @brief 音データ読み込み
-	 * @param fileName 読み込む画像データの文字列ポインタ
+	 * @param fileName 読み込むデータの文字列ポインタ
+	 * @return ハンドル
 	 */
 	static int LoadSoundMem(const TCHAR* fileName);
 
 	/**
 	 * @brief 3Dモデルデータ読み込み
-     * @param fileName 読み込む画像データの文字列ポインタ
+     * @param fileName 読み込むデータの文字列ポインタ
+     * @return ハンドル
 	 */
 	static int MV1LoadModel(const TCHAR* fileName);
 
-	static int LoadEffekseerEffect(const char* fileName,float mag);
+	/**
+	 * @brief  エフェクトデータ読み込み
+	 * @param  fileName  読み込むデータの文字列ポインタ
+	 * @param  mag　エフェクトの拡大率
+	 * @return ハンドル
+	 */
+	static int LoadEffekseerEffect(const char* fileName, float mag);
 
 private:
 	static std::unordered_map<std::string, int>	_mapGraph;         // 画像データ格納

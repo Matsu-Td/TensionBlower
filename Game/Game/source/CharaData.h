@@ -20,11 +20,9 @@ public:
 	CharaData(std::string filePath, std::string fileName);
 	~CharaData();
 
-	/**
-	 * プレイヤーデータ
-	 */
-	int _maxHP;         // 最大HP
-	int _maxEnergy;     // 最大エネルギー
+	// プレイヤーデータ
+	int   _maxHP;       // 最大HP
+	int   _maxEnergy;   // 最大エネルギー
 	float _mvSpdNorm;   // 移動速度(通常状態)
 	float _mvSpdChrg;   // 移動速度(溜め状態)  
 	float _mvSpdDash;   // 移動速度(ダッシュ状態)
@@ -38,7 +36,7 @@ public:
 	int _egAtck4;       // エネルギー消費量：強近接攻撃4
 
 	int _egAutoRec;     // エネルギー回復量：自動回復
-	int _egAutoXChrg; // エネルギー回復量：溜め行動
+	int _egAutoXChrg;   // エネルギー回復量：溜め行動
 	int _egAutoXArea;   // エネルギー回復量：ボス付近での行動
 	int _egAvoid;       // エネルギー回復量：ボスの弾カスリ判定
 	int _egShotNum;     // エネルギー回復量：ボスダウン時の吸収した弾1つ当たり
@@ -73,9 +71,7 @@ public:
 	int _stDmg4;        // HPダメージ量(シールド無)：強近接攻撃4
 	int _repelDmg;      // HPダメージ量(シールド無)：弾き返し
 
-	/**
-	 * ボスデータ
-	 */
+	// ボスデータ
 	struct BOSS {
 		int maxHP;       // 最大HP
 		int maxShield;   // 最大シールド値

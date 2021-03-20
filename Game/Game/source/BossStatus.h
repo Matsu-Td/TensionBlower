@@ -15,6 +15,9 @@ public:
 	BossStatus();
 	~BossStatus();
 
+	/**
+	 * @brief フレーム処理：計算
+	 */
 	void Render();
 
 private:

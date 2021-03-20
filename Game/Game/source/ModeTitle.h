@@ -14,18 +14,37 @@ class ModeTitle : public ModeBase{
 	typedef ModeBase base;
 
 public:
+	/**
+	 * @brief  初期化
+	 * @return 処理の成否
+	 */
 	virtual bool Initialize();
+
+	/**
+	 * @brief  解放
+	 * @return 処理の成否
+	 */
 	virtual bool Terminate();
+
+	/**
+	 * @brief  フレーム処理：計算
+	 * @return 処理の成否
+	 */
 	virtual bool Process();
+
+	/**
+	 * @brief  フレーム処理：描画
+	 * @return 処理の成否
+	 */
 	virtual bool Render();
 
 	/**
-	 * タイトルメニュー選択
+	 * @brief タイトルメニュー選択
 	 */
 	void MenuSelect();
 
 	/**
-	 * タイトル削除、次のモード登録
+	 * @brief タイトル削除、次のモード登録
 	 * @param nextMode 登録するモード 
 	 * @param layer    登録するモードのレイヤー
 	 * @param name     登録するモードの名前
@@ -44,7 +63,6 @@ protected:
 	const TCHAR* _fileNameOn[MENU_NUM] =
 	{ "res/ui/title/on/title_on_1.png",
 	  "res/ui/title/on/title_on_2.png",
-//	  "res/ui/title/on/title_on_3.png",
 	  "res/ui/title/on/title_on_5.png",
       "res/ui/title/on/title_on_6.png" };
 
@@ -52,7 +70,6 @@ protected:
 	const TCHAR* _fileNameOff[MENU_NUM] =
 	{ "res/ui/title/off/title_off_1.png",
 	  "res/ui/title/off/title_off_2.png",
-//	  "res/ui/title/off/title_off_3.png",
 	  "res/ui/title/off/title_off_5.png",
 	  "res/ui/title/off/title_off_6.png" };
 
@@ -66,8 +83,6 @@ protected:
 	enum MENU {
 		START,     // ゲームスタート
 		TUTORIAL,  // チュートリアル
-		// TODO:ランキング機能未完の為、一時的に処理を削除する(実装予定)
-//		RANKING,   // ランキング
 		CREDIT,    // クレジット
 		GAME_END,  // 終了
 	};

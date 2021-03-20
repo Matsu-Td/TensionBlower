@@ -1,11 +1,11 @@
-#pragma once
-
 /**
  * @file ObjectServer.h
  * @brief オブジェクト管理サーバー
  *
- * @date 2021-01-15
+ * @date 2021/01/15
  */
+
+#pragma once
 
 #include <vector>
 #include "ObjectBase.h"

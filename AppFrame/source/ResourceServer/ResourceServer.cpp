@@ -1,10 +1,11 @@
 
 /**
  * @file  ResourceServer.cpp
- * @brief リソース管理サーバ
+ * @brief リソース管理クラス
  * @brief すべて静的メンバで構成する
  *
- * @date 2020-12-18
+ * @author matsuo tadahiko
+ * @date   2020/12/18
  */
 
 #include "DxLib.h"

@@ -1,9 +1,10 @@
 
 /**
- * @file ModeBase.cpp
- * @brief モードベース
+ * @file  ModeBase.cpp
+ * @brief モード基底クラス
  * 
- * @data 2020-12-18
+ * @author matsuo tadahiko
+ * @date   2020/12/18
  */
 
 #include "ModeBase.h"

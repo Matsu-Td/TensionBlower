@@ -172,10 +172,10 @@
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
     <ClCompile Include="source\ObjectBase.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="source\ObjectServer.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -294,10 +294,10 @@
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
     <ClInclude Include="source\ObjectBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="source\ObjectServer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

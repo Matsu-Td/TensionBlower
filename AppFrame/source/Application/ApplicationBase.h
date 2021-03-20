@@ -1,9 +1,10 @@
 
 /**
- * @file ApplicationBase.h
+ * @file  ApplicationBase.h
  * @brief アプリケーションベース
  * 
- * @date 2020-12-18
+ * @author matsuo tadahiko
+ * @date  2020/12/18
  */
 
 #include "dxlib.h"

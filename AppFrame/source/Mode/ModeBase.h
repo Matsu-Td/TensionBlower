@@ -1,10 +1,11 @@
 #pragma once
 
 /**
-* @file ModeBase.h
-* @brief モードベース
+* @file  ModeBase.h
+* @brief モード基底クラス
 *
-* @data 2020-12-18
+* @author matsuo tadahiko
+* @date   2020/12/18
 */
 
 #include <string>
