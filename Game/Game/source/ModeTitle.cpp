@@ -40,8 +40,13 @@ bool ModeTitle::Initialize() {
 		PlaySoundMem(gBossVoice._vc["title"], DX_PLAYTYPE_BACK);
 	}
 
-	_bg      = ResourceServer::LoadGraph("res/title_back.png");
+	_movieHandle = ResourceServer::LoadGraph("res/movie/title_bg.mp4");
 	_cgtitle = ResourceServer::LoadGraph("res/logo_title.png");
+
+	// 動画の再生位置を最初にする
+	SeekMovieToGraph(_movieHandle, 0);
+	// 動画再生開始
+	PlayMovieToGraph(_movieHandle);
 
 	// メニューUI画像読み込み(選択状:ON)
 	for (int i = 0; i < MENU_NUM; i++) {
@@ -105,6 +110,12 @@ void ModeTitle::MenuSelect() {
 			break;
 		}
 	}
+
+	// 背景の動画をループ再生させる
+	if (GetMovieStateToGraph(_movieHandle) == 0) {
+		SeekMovieToGraph(_movieHandle, 0);
+		PlayMovieToGraph(_movieHandle);
+	}
 }
 
 /**
@@ -137,7 +148,7 @@ bool ModeTitle::Process() {
 bool ModeTitle::Render() {
 	base::Render();
 
-	DrawGraph(0, 0, _bg, TRUE);
+	DrawGraph(0, 0, _movieHandle, TRUE);
 	DrawGraph(0, 0, _cgtitle, TRUE);
 
 	// メニューUI画像(未選択状態:OFF)は選択中は表示しない

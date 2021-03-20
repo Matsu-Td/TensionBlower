@@ -52,9 +52,9 @@ public:
 	void ModeChange(ModeBase* nextMode, int layer, const char* modeName);
 
 protected:
-	int _bg;       // 背景
-	int _cgtitle;  // タイトルロゴ画像
-	int _menuPos;  // メニュー選択位置
+	int _movieHandle; // 動画(背景)
+	int _cgtitle;     // タイトルロゴ画像
+	int _menuPos;     // メニュー選択位置
 
 	static constexpr int ALL_MENU_NUM = 8;  // メニューUI画像総数
 	static constexpr int MENU_NUM = 4;       // メニューUI画像数(ON,OFF別)

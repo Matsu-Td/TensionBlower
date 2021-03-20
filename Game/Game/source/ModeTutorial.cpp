@@ -54,7 +54,7 @@ bool ModeTutorial::Initialize() {
 	
 	// “®‰æ‚ÌÄ¶ˆÊ’u‚ğÅ‰‚É‚·‚é
 	SeekMovieToGraph(_movieHandle[_menuPos], 0);
-	// æ“ª‚Ì“®‰æ‚ğÄ¶‚·‚é
+	// æ“ª‚Ì“®‰æÄ¶ŠJn
 	PlayMovieToGraph(_movieHandle[0]);
 
 	return true;
