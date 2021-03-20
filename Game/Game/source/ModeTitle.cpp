@@ -3,7 +3,7 @@
  * @brief  タイトル画面
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2021/03/15
  */
 
 #include "ApplicationMain.h"
@@ -75,11 +75,11 @@ void ModeTitle::MenuSelect() {
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
 	// ゲームパッドの上下キー及び左アナログスティック上下でメニュー選択
-	if (trg & PAD_INPUT_DOWN) {
+	if (trg & PAD_INPUT_RIGHT) {
 		PlaySoundMem(gSound._se["select"], DX_PLAYTYPE_BACK);
 		_menuPos++;
 	}
-	if (trg & PAD_INPUT_UP) {
+	if (trg & PAD_INPUT_LEFT) {
 		PlaySoundMem(gSound._se["select"], DX_PLAYTYPE_BACK);
 		_menuPos--;
 	}
@@ -146,12 +146,12 @@ bool ModeTitle::Render() {
 
 	// メニューUI画像(未選択状態:OFF)は選択中は表示しない
 	for (int menuNum = 0; menuNum < MENU_NUM; menuNum++) {
-		if (_menuPos != menuNum) { DrawGraph(MENU_POS_X[menuNum], MENU_POS_Y[menuNum], _uiOff[menuNum], TRUE); }
+		if (_menuPos != menuNum) { DrawGraph(MENU_POS_X[menuNum], MENU_POS_Y, _uiOff[menuNum], TRUE); }
 	}
 
 	// メニューUI画像(選択状態:ON)は選択中のみ表示する
 	for (int menuNum = 0; menuNum < MENU_NUM; menuNum++) {
-		if (_menuPos == menuNum) { DrawGraph(MENU_POS_X[menuNum], MENU_POS_Y[menuNum], _uiOn[menuNum], TRUE); }
+		if (_menuPos == menuNum) { DrawGraph(MENU_POS_X[menuNum], MENU_POS_Y, _uiOn[menuNum], TRUE); }
 	}
 
 	return true;

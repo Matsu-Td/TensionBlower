@@ -146,6 +146,7 @@ void PlayerAttack::AttackAction(Player* player) {
 				// ã‹ßÚUŒ‚2‚Ìºƒf[ƒ^Ä¶
 				PlayAttackVoice("weak2");
 				NextWeakAttack(player, Player::STATE::WEAK_ATCK2, "slash_l");
+
 			}
 		}
 		break;

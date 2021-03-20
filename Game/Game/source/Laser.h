@@ -9,6 +9,7 @@
 #pragma once
 
 #include "appframe.h"
+#include "ObjectBase.h"
 
 class Laser : public ObjectBase{
 public:
@@ -24,13 +25,24 @@ public:
 
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::LASER; }
 
+	/**
+	 * @brief 初期化
+	 */
 	void Initialize();
+
+	/**
+	 * @brief フレーム処理：計算
+	 */
 	void Process();
+
+	/**
+	 * @brief フレーム計算：描画
+	 */
 	void Render();
 
 private:
-	int	_effectHandle;  // エフェクトファイルをロードするハンドル
-	int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
+	int	  _effectHandle;  // エフェクトファイルをロードするハンドル
+	int	  _playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
 
 	float _roteAngle; // 回転角度
 	float _roteSpd;   // 回転速度

@@ -13,9 +13,6 @@
     <Filter Include="ResourceServer">
       <UniqueIdentifier>{c93aa2ee-8ff3-48cf-9c51-1a0f26c2b845}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ObjectServer">
-      <UniqueIdentifier>{caea1e15-5290-43f7-a9d4-0737a9f205e9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application\ApplicationBase.cpp">
@@ -35,12 +32,6 @@
     </ClCompile>
     <ClCompile Include="source\ResourceServer\ResourceServer.cpp">
       <Filter>ResourceServer</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ObjectServer\ObjectBase.cpp">
-      <Filter>ObjectServer</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ObjectServer\ObjectServer.cpp">
-      <Filter>ObjectServer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -62,12 +53,6 @@
     </ClInclude>
     <ClInclude Include="source\ResourceServer\ResourceServer.h">
       <Filter>ResourceServer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ObjectServer\ObjectBase.h">
-      <Filter>ObjectServer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ObjectServer\ObjectServer.h">
-      <Filter>ObjectServer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

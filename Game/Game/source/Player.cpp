@@ -17,6 +17,7 @@
 #include "Reticle.h"
 #include "Sound.h"
 #include "PlayerVoice.h"
+#include "BossHit.h"
 
 Player* Player::_pInstance = NULL;
 
@@ -145,6 +146,9 @@ void Player::Collision() {
 				if (_canHitFlag && !_hitFlag) {
 					_hitFlag = true;
 					Boss::GetInstance()->AttackDamage();
+					VECTOR tmpPos = MV1GetFramePosition(_mh, MV1SearchFrame(_mh, "weapon3"));
+					BossHit* bossHit = NEW BossHit(tmpPos);
+					modeGame->_objServer.Add(bossHit);
 				}
 			}
 			if (IsHitLineSegment(*(*itr), (*itr)->_r)) {
@@ -218,6 +222,8 @@ void Player::Process(){
 	VECTOR camTarg = Camera::GetInstance()->GetTarg();    // カメラの注視点
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();  // カメラの状態
 
+
+
 	// カメラの向いている角度取得
 	float disX = camPos.x - camTarg.x;
 	float disZ = camPos.z - camTarg.z;
@@ -260,7 +266,7 @@ void Player::Process(){
 		length = _mvSpd;
 	}
 
-
+	// TODO: カメラの仕様変更(デフォルトがロック状態になった)によりプレイヤーの移動処理の見直しが必要
 	// マルチロックシステムが発動していないときは移動可能
 	if (camState != Camera::STATE::MLS_LOCK && !_isAttack && !_isGameOver) {
 		// vecをrad分回転させる

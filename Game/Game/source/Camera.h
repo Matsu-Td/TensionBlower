@@ -3,7 +3,7 @@
  * @brief  カメラ関連処理
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2021/03/15
  */
 
 #pragma once
@@ -50,10 +50,8 @@ public:
 	VECTOR GetTarg() const { return _vTarg; }
 
 	enum class STATE {      // カメラの状態
-		NORMAL,       // 通常状態(TPS視点)
-		TARG_LOCK_ON, // 敵ターゲットロック状態
+		TARG_LOCK_ON, // 敵ターゲットロック状態(デフォルト)
 		MLS_LOCK,     // マルチロックシステム発動状態(FPS視点)
-		_EOF_,
 	};
 	STATE _state;    // カメラ状態
 	STATE GetCameraState() { return _state; }

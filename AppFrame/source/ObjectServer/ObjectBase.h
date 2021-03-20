@@ -26,6 +26,7 @@ public:
 		LASER,         // レーザーエフェクト
 		EXPLOSION,     // 爆発エフェクト
 		DESTRUCTION,   // ボス破壊、爆発エフェクト
+		BOSS_HIT,
 	};
 	virtual OBJECTTYPE	GetType() = 0;
 

@@ -8,8 +8,8 @@
 
 #pragma once
 
-
 #include "appframe.h"
+#include "ObjectBase.h"
 #define  CHARA_DATA (modeGame->_charaData)
 
 // プレイヤークラスに関係するクラスの宣言
@@ -20,6 +20,7 @@ class PlayerDash;
 class PlayerJump;
 
 class Player : public ObjectBase{
+	// 下記ファイルからのprivateへのアクセスを可能にする
 	friend PlayerAttack;
 	friend PlayerMotion;
 	friend PlayerEnergy;
@@ -31,8 +32,19 @@ public:
 
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::PLAYER; }
 
+	/**
+	 * @brief 初期化
+	 */
 	void Initialize();
+
+	/**
+	 * @brief フレーム処理：計算
+	 */
 	void Process();
+
+	/**
+	 * @brief フレーム処理：描画
+	 */
 	void Render();
 
 	/**

@@ -9,6 +9,7 @@
 #pragma once
 
 #include "appframe.h"
+#include "ObjectBase.h"
 #define  CHARA_DATA (modeGame->_charaData)
 
 class Boss : public ObjectBase{

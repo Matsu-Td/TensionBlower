@@ -3,7 +3,7 @@
  * @brief  カメラ関連処理
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2021/03/15
  */
 
 #include "Camera.h"
@@ -31,7 +31,7 @@ void Camera::Initialize(){
 
 	_vPos = VGet(0.f, 10.f, -140.f);
 	_oldvPos = _vPos;
-	_state = STATE::NORMAL;
+	_state = STATE::TARG_LOCK_ON;
 	_oldState = _state;
 	_angleH = 0.0f;
 	_angleV = 20.0f;
@@ -71,60 +71,7 @@ void Camera::Process(){
 
     // カメラ切替
 	switch (_state) {
-
-	// 通常状態
-	case STATE::NORMAL:
-	{	
-		if (_oldState != STATE::NORMAL) {
-			_vTarg = plPos;
-			_vTarg.y = plPos.y + 3.5f;
-			float disX = _vPos.x - bsPos.x;
-			float disZ = _vPos.z - bsPos.z;
-			float rad = atan2(disZ, disX);
-			float deg = RAD2DEG(rad);
-			_angleH = deg + 90.0f;
-		}
-		_oldState = _state;
-
-		VECTOR tmpPos1, tmpPos2;
-		float sinParam, cosParam;
-		_vTarg = plPos;
-		_vTarg.y = plPos.y + 3.5f;
-
-		// 垂直角度を反映した位置
-		sinParam = sin(_angleV / 180.0f * DX_PI_F);
-		cosParam = cos(_angleV / 180.0f * DX_PI_F);
-		tmpPos1.x = 0.f;
-		tmpPos1.y = 8.5f;   // ボスの中心の高さ   
-		tmpPos1.z = -cosParam * camDis;
-
-		// 水平角度を反映した位置
-		sinParam = sin(_angleH / 180.0f * DX_PI_F);
-		cosParam = cos(_angleH / 180.0f * DX_PI_F);
-		tmpPos2.x = cosParam * tmpPos1.x - sinParam * tmpPos1.z;
-		tmpPos2.y = tmpPos1.y;
-		tmpPos2.z = sinParam * tmpPos1.x + cosParam * tmpPos1.z;
-
-		// 水平角度変更
-		if (rx > analogMin)  { _angleH -= camSpd; }
-		if (rx < -analogMin) { _angleH += camSpd; }
-
-		_vPos = VAdd(tmpPos2, _vTarg);
-		
-		// ゲームパッド右アナログスティック押し込みでボスへカメラロック
-		if (trg & PAD_INPUT_10) { 
-			_state = STATE::TARG_LOCK_ON; 
-		}
-		// ゲームパッド「LB」長押しでカメラをFPS視点(マルチロックシステム発動)に切替
-		if (key & PAD_INPUT_5 && plEnergy > 10) {
-			_state = STATE::MLS_LOCK;
-		}
-		break;
-	}
-
-	/**
-　　 * ボスへカメラロックオン状態
-　　 */
+	// ボスへカメラロックオン状態
 	case STATE::TARG_LOCK_ON:
 	{
 		_oldState = _state;
@@ -140,10 +87,6 @@ void Camera::Process(){
 		_vPos.z = bsPos.z + sin(camrad) * length;
 		_vPos.y = plPos.y + 14.0f; 
 		
-		// ゲームパッド右アナログスティック押し込みでロック解除
-		if (trg & PAD_INPUT_10) {
-			_state = STATE::NORMAL;
-		}
 		// ゲームパッド「LB」長押しでカメラをFPS視点(マルチロックシステム発動)に切替
 		if (key & PAD_INPUT_5 && plEnergy > 10.0f) {
 			_state = STATE::MLS_LOCK;
@@ -151,9 +94,7 @@ void Camera::Process(){
 		break;
 	}
 
-	/**
-	 * マルチロックオンシステム発動状態
-	 */
+	// マルチロックオンシステム発動状態
 	case STATE::MLS_LOCK:
 	{
 		_vTarg = bsPos;
@@ -167,19 +108,10 @@ void Camera::Process(){
 		_vPos.z = sin(camrad) * length;
 		_vPos.y = plPos.y + 7.0f;
 
-		if (!(key & PAD_INPUT_5)) { _state = STATE::_EOF_; }
-		if (plEnergy < 10) { _state = STATE::_EOF_; }
+		if (!(key & PAD_INPUT_5)) { _state = STATE::TARG_LOCK_ON; }
+		if (plEnergy < 10) { _state = STATE::TARG_LOCK_ON; }
 		break;
 	}
-	default:
-		if (_oldState == STATE::NORMAL) {
-			_state = STATE::NORMAL;
-			_oldState = STATE::MLS_LOCK;
-		}
-		else {
-			_state = STATE::TARG_LOCK_ON;
-		}
-		break;
 	}
 }
 
@@ -218,8 +150,6 @@ void Camera::Render(){
 		float deg = RAD2DEG(rad);
 		DrawFormatString(x, y, GetColor(255, 0, 0), "  len = %5.2f, rad = %5.2f, deg = %5.2f", rLength, rad, deg); y += size;
 		switch (_state) {
-		case STATE::NORMAL:
-			DrawString(x, y, "　状態：NORMAL", GetColor(255, 0, 0)); break;
 		case STATE::TARG_LOCK_ON:
 			DrawString(x, y, "　状態：TARGET_LOCK", GetColor(255, 0, 0)); break;
 		case STATE::MLS_LOCK:

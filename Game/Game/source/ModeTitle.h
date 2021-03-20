@@ -3,7 +3,7 @@
  * @brief  タイトル画面
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2021/03/15
  */
 
 #include "appframe.h"
@@ -59,8 +59,8 @@ protected:
 	int _uiOn[MENU_NUM];  // メニューUI画像(選択状態:ON)
 	int _uiOff[MENU_NUM]; // メニューUI画像(未選択状態:OFF)
 
-	static constexpr int MENU_POS_X[MENU_NUM] = { 120,435,120,435 }; // メニューUI画像のX座標
-	static constexpr int MENU_POS_Y[MENU_NUM] = { 480,575,670,765 }; // メニューUI画像のY座標
+	static constexpr int MENU_POS_X[MENU_NUM] = { 125,565,1005,1445 }; // メニューUI画像のX座標
+	static constexpr int MENU_POS_Y = 720; // メニューUI画像のY座標(共通)
 
 	// メニュー名
 	enum MENU {

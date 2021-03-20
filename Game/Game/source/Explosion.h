@@ -8,6 +8,7 @@
 
 #pragma once
 #include "appframe.h"
+#include "ObjectBase.h"
 
 class Explosion : public ObjectBase{
 public:
@@ -21,8 +22,19 @@ public:
 
 	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::EXPLOSION; }
 
+	/**
+	 * @brief 初期化
+	 */
 	void Initialize();
+
+	/**
+	 * @brief フレーム処理：計算
+	 */
 	void Process();
+
+	/**
+	 * @brief フレーム処理：描画
+	 */
 	void Render();
 
 	/**
@@ -41,6 +53,6 @@ private:
 	int	_effectHandle;  // エフェクトファイルをロードするハンドル
 	int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
 
-	static constexpr int ALL_EFFECT_TIME = 180;  // エフェクト総再生時間
-	static constexpr float MAX_RADIUS = 10.0f;   // 最大半径サイズ
+	static constexpr int ALL_EFFECT_TIME = 180;   // エフェクト総再生時間
+	static constexpr float MAX_RADIUS    = 10.0f; // 最大半径サイズ
 };

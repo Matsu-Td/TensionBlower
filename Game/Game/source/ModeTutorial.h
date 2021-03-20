@@ -3,7 +3,7 @@
  * @brief  チュートリアル画面
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2021/03/15
  */
 
 #include "appframe.h"
@@ -61,6 +61,6 @@ protected:
 
 	// メニューUI画像のY座標
 	static constexpr int MENU_POS_Y[MENU_NUM] = 
-	{ 50,145,240,335,430,525,620,715 };
+	{ 50,145,240,335,430,525,620,905 };
 };
 

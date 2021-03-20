@@ -164,8 +164,6 @@
     <ClCompile Include="source\CFile\CFile.cpp" />
     <ClCompile Include="source\Mode\ModeBase.cpp" />
     <ClCompile Include="source\Mode\ModeServer.cpp" />
-    <ClCompile Include="source\ObjectServer\ObjectBase.cpp" />
-    <ClCompile Include="source\ObjectServer\ObjectServer.cpp" />
     <ClCompile Include="source\ResourceServer\ResourceServer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -175,8 +173,6 @@
     <ClInclude Include="source\CFile\CFile.h" />
     <ClInclude Include="source\Mode\ModeBase.h" />
     <ClInclude Include="source\Mode\ModeServer.h" />
-    <ClInclude Include="source\ObjectServer\ObjectBase.h" />
-    <ClInclude Include="source\ObjectServer\ObjectServer.h" />
     <ClInclude Include="source\ResourceServer\ResourceServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

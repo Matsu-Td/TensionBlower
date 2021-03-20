@@ -9,6 +9,7 @@
 #pragma once
 
 #include "appframe.h"
+#include "ObjectBase.h"
 
 class BossBullet : public ObjectBase{
 public:

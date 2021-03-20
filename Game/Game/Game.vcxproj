@@ -166,6 +166,7 @@
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\Destruction.cpp" />
     <ClCompile Include="source\Explosion.cpp" />
+    <ClCompile Include="source\BossHit.cpp" />
     <ClCompile Include="source\Laser.cpp" />
     <ClCompile Include="source\ModeAmgLogo.cpp" />
     <ClCompile Include="source\ModeCredit.cpp" />
@@ -179,6 +180,8 @@
     <ClCompile Include="source\ModeTeamLogo.cpp" />
     <ClCompile Include="source\ModeTitle.cpp" />
     <ClCompile Include="source\ModeTutorial.cpp" />
+    <ClCompile Include="source\ObjectBase.cpp" />
+    <ClCompile Include="source\ObjectServer.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\PlayerAttack.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -207,6 +210,7 @@
     <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\Destruction.h" />
     <ClInclude Include="source\Explosion.h" />
+    <ClInclude Include="source\BossHit.h" />
     <ClInclude Include="source\Laser.h" />
     <ClInclude Include="source\ModeAmgLogo.h" />
     <ClInclude Include="source\ModeCredit.h" />
@@ -220,6 +224,8 @@
     <ClInclude Include="source\ModeTeamLogo.h" />
     <ClInclude Include="source\ModeTitle.h" />
     <ClInclude Include="source\ModeTutorial.h" />
+    <ClInclude Include="source\ObjectBase.h" />
+    <ClInclude Include="source\ObjectServer.h" />
     <ClInclude Include="source\Player.h" />
     <ClInclude Include="source\PlayerAttack.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

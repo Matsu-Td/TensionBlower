@@ -17,4 +17,3 @@
 #include "Application/ApplicationBase.h"
 #include "CFile/CFile.h"
 #include "ResourceServer/ResourceServer.h"
-#include "ObjectServer/ObjectServer.h"

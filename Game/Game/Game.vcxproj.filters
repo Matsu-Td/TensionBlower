@@ -168,6 +168,15 @@
     <ClCompile Include="source\BossVoice.cpp">
       <Filter>ソース ファイル\Voice</Filter>
     </ClCompile>
+    <ClCompile Include="source\BossHit.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ObjectBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ObjectServer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ApplicationMain.h">
@@ -280,6 +289,15 @@
     </ClInclude>
     <ClInclude Include="source\BossVoice.h">
       <Filter>ヘッダー ファイル\Voice</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BossHit.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ObjectBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ObjectServer.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
