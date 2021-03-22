@@ -10,6 +10,7 @@
 
 #include "appframe.h"
 #include "ObjectBase.h"
+#include "BossDamage.h"
 #define  CHARA_DATA (modeGame->_charaData)
 
 // プレイヤークラスに関係するクラスの宣言
@@ -184,6 +185,8 @@ protected:
 	PlayerEnergy* _energyCall;  // 処理呼び出し：エネルギー管理処理
 	PlayerDash*   _dashCall;    // 処理呼び出し：ダッシュ処理
 	PlayerJump*   _JumpCall;    // 処理呼び出し：ジャンプ処理
+
+	std::unique_ptr<BossDamage> _bossDamageCall;  	// ボスへのダメージ処理呼び出し
 };
 
 #include "PlayerAttack.h"

@@ -61,11 +61,20 @@
     <Filter Include="ヘッダー ファイル\Object\Boss\Shot">
       <UniqueIdentifier>{42cbf9cf-74f9-4659-a407-d551443bb03c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Mode\Logo">
+      <UniqueIdentifier>{3219f0cf-87e0-47d9-a2a5-42f2d9bed22b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mode\Logo">
+      <UniqueIdentifier>{5b3bf9a8-a763-4302-a32e-5ee98f4c4761}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application">
+      <UniqueIdentifier>{8573a396-7e76-4b3a-85ac-addc74cc416b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application">
+      <UniqueIdentifier>{bb841859-8f1e-42c2-b882-4eff50c976d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\ApplicationMain.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\ModeTitle.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
@@ -89,9 +98,6 @@
     </ClCompile>
     <ClCompile Include="source\ModeRanking.cpp">
       <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ApplicationGlobal.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\Reticle.cpp">
       <Filter>ソース ファイル\Object\Player</Filter>
@@ -153,14 +159,8 @@
     <ClCompile Include="source\Destruction.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="source\ModeAmgLogo.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
     <ClCompile Include="source\ModeGameStart.cpp">
       <Filter>ソース ファイル\Mode\ModeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeTeamLogo.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
     <ClCompile Include="source\PlayerVoice.cpp">
       <Filter>ソース ファイル\Voice</Filter>
@@ -189,11 +189,26 @@
     <ClCompile Include="source\ShotBase.cpp">
       <Filter>ソース ファイル\Object\Boss\Shot</Filter>
     </ClCompile>
+    <ClCompile Include="source\ModeAmgLogo.cpp">
+      <Filter>ソース ファイル\Mode\Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModeTeamLogo.cpp">
+      <Filter>ソース ファイル\Mode\Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ApplicationGlobal.cpp">
+      <Filter>ソース ファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ApplicationMain.cpp">
+      <Filter>ソース ファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ShotPattern.cpp">
+      <Filter>ソース ファイル\Object\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BossDamage.cpp">
+      <Filter>ソース ファイル\Object\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\ApplicationMain.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="source\ModeTitle.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
@@ -217,9 +232,6 @@
     </ClInclude>
     <ClInclude Include="source\ModeRanking.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ApplicationGlobal.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\Reticle.h">
       <Filter>ヘッダー ファイル\Object\Player</Filter>
@@ -281,14 +293,8 @@
     <ClInclude Include="source\Destruction.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="source\ModeAmgLogo.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
     <ClInclude Include="source\ModeGameStart.h">
       <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeTeamLogo.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
     <ClInclude Include="source\PlayerVoice.h">
       <Filter>ヘッダー ファイル\Voice</Filter>
@@ -316,6 +322,24 @@
     </ClInclude>
     <ClInclude Include="source\ShotBase.h">
       <Filter>ヘッダー ファイル\Object\Boss\Shot</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModeAmgLogo.h">
+      <Filter>ヘッダー ファイル\Mode\Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModeTeamLogo.h">
+      <Filter>ヘッダー ファイル\Mode\Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ApplicationGlobal.h">
+      <Filter>ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ApplicationMain.h">
+      <Filter>ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ShotPattern.h">
+      <Filter>ヘッダー ファイル\Object\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BossDamage.h">
+      <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

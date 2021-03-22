@@ -161,6 +161,7 @@
     <ClCompile Include="source\BossAimShot.cpp" />
     <ClCompile Include="source\BossBomb.cpp" />
     <ClCompile Include="source\BossBullet.cpp" />
+    <ClCompile Include="source\BossDamage.cpp" />
     <ClCompile Include="source\BossMotion.cpp" />
     <ClCompile Include="source\BossStatus.cpp" />
     <ClCompile Include="source\BossVoice.cpp" />
@@ -195,6 +196,7 @@
     <ClCompile Include="source\PlayerMotion.cpp" />
     <ClCompile Include="source\PlayerStatus.cpp" />
     <ClCompile Include="source\Reticle.cpp" />
+    <ClCompile Include="source\ShotPattern.cpp" />
     <ClCompile Include="source\Sound.cpp" />
     <ClCompile Include="source\Stage.cpp" />
     <ClCompile Include="source\TitleBGM.cpp" />
@@ -207,6 +209,7 @@
     <ClInclude Include="source\BossAimShot.h" />
     <ClInclude Include="source\BossBomb.h" />
     <ClInclude Include="source\BossBullet.h" />
+    <ClInclude Include="source\BossDamage.h" />
     <ClInclude Include="source\BossMotion.h" />
     <ClInclude Include="source\BossStatus.h" />
     <ClInclude Include="source\BossVoice.h" />
@@ -241,6 +244,7 @@
     <ClInclude Include="source\PlayerMotion.h" />
     <ClInclude Include="source\PlayerStatus.h" />
     <ClInclude Include="source\Reticle.h" />
+    <ClInclude Include="source\ShotPattern.h" />
     <ClInclude Include="source\Sound.h" />
     <ClInclude Include="source\Stage.h" />
     <ClInclude Include="source\TitleBGM.h" />

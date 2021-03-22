@@ -9,6 +9,7 @@
 #pragma once
 #include "appframe.h"
 #include "ObjectBase.h"
+#include "BossDamage.h"
 
 class Explosion : public ObjectBase{
 public:
@@ -55,4 +56,6 @@ private:
 
 	static constexpr int ALL_EFFECT_TIME = 180;   // エフェクト総再生時間
 	static constexpr float MAX_RADIUS    = 10.0f; // 最大半径サイズ
+
+	std::unique_ptr<BossDamage> _bossDamageCall;  	// ボスへのダメージ処理呼び出し
 };

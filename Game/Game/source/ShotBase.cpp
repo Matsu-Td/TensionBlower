@@ -1,6 +1,6 @@
 /**
- * @file   BulletBase.cpp
- * @brief  ボスの弾幕関係の基底クラス
+ * @file   ShotBase.cpp
+ * @brief  弾幕処理クラスの基底クラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/22
@@ -126,7 +126,7 @@ void ShotBase::Collision(){
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
 				if (IsHitLineSegment(*(*itr), (*itr)->_r) == true) {
 					modeGame->_objServer.Del(this);
-					Boss::GetInstance()->RepelDamage();
+					_bossDamageCall->RepelDamage(Boss::GetInstance());
 				}
 			}
 		}

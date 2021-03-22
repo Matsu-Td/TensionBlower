@@ -1,7 +1,16 @@
+/**
+ * @file   ShotBase.h
+ * @brief  弾幕処理クラスの基底クラス
+ * 
+ * @author matsuo tadahiko
+ * @date   2021/03/22
+ */
+
 #pragma once
 
 #include "appframe.h"
 #include "ObjectBase.h"
+#include "BossDamage.h"
 #include <list>
 
 class ShotBase : public ObjectBase{
@@ -55,4 +64,7 @@ protected:
 
 	static constexpr float REPEL_SPD = 3.0f; // 弾き返された後の弾の移動速度
 	static constexpr float MLS_SPD = 0.01f; // マルチロックオンシステム中の速度計算(通常の1/100に)
+
+private:
+	std::unique_ptr<BossDamage> _bossDamageCall;  	// ボスへのダメージ処理呼び出し
 };

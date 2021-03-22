@@ -13,6 +13,7 @@
 #include "Sound.h"
 #include "Camera.h"
 
+
 Explosion::Explosion(VECTOR pos, bool repelFlag) {
 	// 生成時、爆発音再生
 	PlaySoundMem(gSound._se["explosion1"], DX_PLAYTYPE_BACK);
@@ -49,10 +50,10 @@ void Explosion::CollisionToBoss() {
 			if (IsHitLineSegment(*(*itr), _r)) {
 				// ヒットポイントへのダメージ：6フレーム毎にダメージ判定
 				if (_effectCnt % 6 == 0) {
-					Boss::GetInstance()->ExplosionDamageHP();
+					_bossDamageCall->ExplosionDamageHP(Boss::GetInstance());
 				}
 				// シールドへのダメージ：毎フレームダメージ判定
-				Boss::GetInstance()->ExplosionDamageShield();
+				_bossDamageCall->ExplosionDamageShield(Boss::GetInstance());
 			}
 		}
 	}
