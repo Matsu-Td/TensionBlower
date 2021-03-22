@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "BulletBase.h"
+#include "ShotBase.h"
 
-class BossBomb : public BulletBase {
+class BossBomb : public ShotBase {
 public:
 	/**
 	 * @brief É{ÉÄê∂ê¨

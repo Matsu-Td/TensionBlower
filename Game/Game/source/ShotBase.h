@@ -4,7 +4,7 @@
 #include "ObjectBase.h"
 #include <list>
 
-class BulletBase : public ObjectBase{
+class ShotBase : public ObjectBase{
 public:
 	/**
 	 * @brief ‰Šú‰»

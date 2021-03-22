@@ -6,7 +6,7 @@
  * @date   2021/03/22
  */
 
-#include "BulletBase.h"
+#include "ShotBase.h"
 #include "Boss.h"
 #include "ApplicationMain.h"
 #include "ApplicationGlobal.h"
@@ -18,7 +18,7 @@
 /**
  * ‰Šú‰»
  */
-void BulletBase::Initialize() {
+void ShotBase::Initialize() {
 
 	_state = STATE::NORMAL;
 	_camStateMLS = false;
@@ -33,7 +33,7 @@ void BulletBase::Initialize() {
 /**
  * ’e‚ÌˆÚ“®ˆ—
  */
-void BulletBase::Move() {
+void ShotBase::Move() {
 
 	// ƒJƒƒ‰‚Ìó‘Ô‚ðŽæ“¾
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
@@ -78,7 +78,7 @@ void BulletBase::Move() {
 	}
 }
 
-void BulletBase::Process()
+void ShotBase::Process()
 {
 
 }
@@ -86,7 +86,7 @@ void BulletBase::Process()
 /**
  * ƒtƒŒ[ƒ€ˆ—F•`‰æ
  */
-void BulletBase::Render()
+void ShotBase::Render()
 {
 	float modelSize = 0.005f;
 	MV1SetScale(_mh, VGet(modelSize, modelSize, modelSize));
@@ -108,7 +108,7 @@ void BulletBase::Render()
 /**
  * “–‚½‚è”»’è
  */
-void BulletBase::Collision(){
+void ShotBase::Collision(){
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 

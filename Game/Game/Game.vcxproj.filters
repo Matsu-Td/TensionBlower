@@ -55,6 +55,12 @@
     <Filter Include="ヘッダー ファイル\Voice">
       <UniqueIdentifier>{234e6a58-0940-4c37-af8a-861abf079c77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Object\Boss\Shot">
+      <UniqueIdentifier>{5f2a2601-e687-41c7-8655-2a26638f2f22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Object\Boss\Shot">
+      <UniqueIdentifier>{42cbf9cf-74f9-4659-a407-d551443bb03c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\ApplicationMain.cpp">
@@ -74,9 +80,6 @@
     </ClCompile>
     <ClCompile Include="source\Stage.cpp">
       <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="source\BossBullet.cpp">
-      <Filter>ソース ファイル\Object\Boss</Filter>
     </ClCompile>
     <ClCompile Include="source\ModeCredit.cpp">
       <Filter>ソース ファイル\Mode</Filter>
@@ -141,9 +144,6 @@
     <ClCompile Include="source\BossMotion.cpp">
       <Filter>ソース ファイル\Object\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="source\BossBomb.cpp">
-      <Filter>ソース ファイル\Object\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="source\Explosion.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
@@ -178,10 +178,16 @@
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="source\BossAimShot.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Object\Boss\Shot</Filter>
     </ClCompile>
-    <ClCompile Include="source\BulletBase.cpp">
-      <Filter>ソース ファイル\Object\Boss</Filter>
+    <ClCompile Include="source\BossBomb.cpp">
+      <Filter>ソース ファイル\Object\Boss\Shot</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BossBullet.cpp">
+      <Filter>ソース ファイル\Object\Boss\Shot</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ShotBase.cpp">
+      <Filter>ソース ファイル\Object\Boss\Shot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -202,9 +208,6 @@
     </ClInclude>
     <ClInclude Include="source\Stage.h">
       <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BossBullet.h">
-      <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
     <ClInclude Include="source\ModeCredit.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
@@ -269,9 +272,6 @@
     <ClInclude Include="source\BossMotion.h">
       <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="source\BossBomb.h">
-      <Filter>ヘッダー ファイル\Object\Boss</Filter>
-    </ClInclude>
     <ClInclude Include="source\Explosion.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
@@ -306,10 +306,16 @@
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="source\BossAimShot.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Object\Boss\Shot</Filter>
     </ClInclude>
-    <ClInclude Include="source\BulletBase.h">
-      <Filter>ヘッダー ファイル\Object\Boss</Filter>
+    <ClInclude Include="source\BossBomb.h">
+      <Filter>ヘッダー ファイル\Object\Boss\Shot</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BossBullet.h">
+      <Filter>ヘッダー ファイル\Object\Boss\Shot</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ShotBase.h">
+      <Filter>ヘッダー ファイル\Object\Boss\Shot</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

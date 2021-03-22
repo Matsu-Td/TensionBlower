@@ -38,7 +38,7 @@ BossBomb::~BossBomb() {
  */
 void BossBomb::Initialize() {
 
-	BulletBase::Initialize();
+	ShotBase::Initialize();
 
 	_mvSpd = 2.0f;
 	_shotCnt = 0;
@@ -55,7 +55,7 @@ void BossBomb::Process() {
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
 	// ’e‚ÌˆÚ“®ˆ—(’e–‹‹¤’Êˆ—)
-	BulletBase::Move();
+	ShotBase::Move();
 
 	// ‘_Œ‚‚Ü‚Å‚ÌƒJƒEƒ“ƒg
 	_shotCnt++;

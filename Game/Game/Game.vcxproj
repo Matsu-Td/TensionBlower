@@ -164,7 +164,7 @@
     <ClCompile Include="source\BossMotion.cpp" />
     <ClCompile Include="source\BossStatus.cpp" />
     <ClCompile Include="source\BossVoice.cpp" />
-    <ClCompile Include="source\BulletBase.cpp" />
+    <ClCompile Include="source\ShotBase.cpp" />
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\Destruction.cpp" />
     <ClCompile Include="source\Explosion.cpp" />
@@ -210,7 +210,7 @@
     <ClInclude Include="source\BossMotion.h" />
     <ClInclude Include="source\BossStatus.h" />
     <ClInclude Include="source\BossVoice.h" />
-    <ClInclude Include="source\BulletBase.h" />
+    <ClInclude Include="source\ShotBase.h" />
     <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\Destruction.h" />
     <ClInclude Include="source\Explosion.h" />

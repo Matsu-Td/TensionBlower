@@ -27,7 +27,7 @@ BossBullet::BossBullet(VECTOR pos, float shotSpd, float shotAngle){
 	_shotAngle = shotAngle;
 
 	// 初期化
-	BulletBase::Initialize();
+	ShotBase::Initialize();
 }
 
 BossBullet::~BossBullet(){
@@ -59,7 +59,7 @@ void BossBullet::Collision() {
 	float length = sqrt(sx * sx + sz * sz);  // プレイヤーとの距離計算
 
 	// 当たり判定
-	BulletBase::Collision();
+	ShotBase::Collision();
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
@@ -80,7 +80,7 @@ void BossBullet::Collision() {
 void BossBullet::Process(){
 
 	// 弾の移動処理
-	BulletBase::Move();
+	ShotBase::Move();
 	
 	// 当たり判定
 	Collision();
