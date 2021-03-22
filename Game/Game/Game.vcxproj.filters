@@ -168,7 +168,7 @@
     <ClCompile Include="source\BossVoice.cpp">
       <Filter>ソース ファイル\Voice</Filter>
     </ClCompile>
-    <ClCompile Include="source\BossHit.cpp">
+    <ClCompile Include="source\HitEffect.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
     <ClCompile Include="source\ObjectBase.cpp">
@@ -176,6 +176,12 @@
     </ClCompile>
     <ClCompile Include="source\ObjectServer.cpp">
       <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BossAimShot.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BulletBase.cpp">
+      <Filter>ソース ファイル\Object\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,7 +296,7 @@
     <ClInclude Include="source\BossVoice.h">
       <Filter>ヘッダー ファイル\Voice</Filter>
     </ClInclude>
-    <ClInclude Include="source\BossHit.h">
+    <ClInclude Include="source\HitEffect.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
     <ClInclude Include="source\ObjectBase.h">
@@ -298,6 +304,12 @@
     </ClInclude>
     <ClInclude Include="source\ObjectServer.h">
       <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BossAimShot.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BulletBase.h">
+      <Filter>ヘッダー ファイル\Object\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

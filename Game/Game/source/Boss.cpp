@@ -13,6 +13,7 @@
 #include "ModeGameClear.h"
 #include "BossBullet.h"
 #include "BossBomb.h"
+#include "BossAimShot.h"
 #include "Sound.h"
 #include "Destruction.h"
 #include "BossVoice.h"
@@ -106,9 +107,13 @@ void Boss::ShotPatternSwitch() {
 	case 0:                      
 		if(_shotPattern <= 2){
 			ShotPattern1and2();
+			ShotPattern6();
+			ShotPattern7();
 		}
 		else {
-			ShotPattern3();
+//			ShotPattern3();
+			ShotPattern6();
+			ShotPattern7();
 		}
 		break;
 	// フェーズ1
@@ -351,8 +356,8 @@ void Boss::ShotPattern6(){
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			tmpPos = _vPos;
 			tmpPos.y = 3.5f;
-			BossBullet* bullet = NEW BossBullet(tmpPos, 1.5f, deg + angleSide);
-			modeGame->_objServer.Add(bullet);      // 弾生成
+			BossAimShot* bossAimShot = NEW BossAimShot(tmpPos, 1.5f, deg + angleSide);
+			modeGame->_objServer.Add(bossAimShot);      // 弾生成
 			angleSide += 10.0f;                    // 発射角度を10°ずつずらす
 		}
 	}

@@ -40,7 +40,10 @@ bool ModeTitle::Initialize() {
 		PlaySoundMem(gBossVoice._vc["title"], DX_PLAYTYPE_BACK);
 	}
 
+	// 背景用動画読み込み
 	_movieHandle = ResourceServer::LoadGraph("res/movie/title_bg.mp4");
+
+	// タイトルロゴ読み込み
 	_cgtitle = ResourceServer::LoadGraph("res/logo_title.png");
 
 	// 動画の再生位置を最初にする
@@ -57,8 +60,9 @@ bool ModeTitle::Initialize() {
 	for (int i = 0; i < MENU_NUM; i++) {
 		_uiOff[i] = ResourceServer::LoadGraph(_fileNameOff[i]);
 	}
-	
-	_menuPos = MENU::START;  // 初期位置
+
+	// 初期位置
+	_menuPos = MENU::START;
 
 	return true;
 }
@@ -79,7 +83,7 @@ void ModeTitle::MenuSelect() {
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	// ゲームパッドの上下キー及び左アナログスティック上下でメニュー選択
+	// ゲームパッドの左右キー及び左アナログスティック左右でメニュー選択
 	if (trg & PAD_INPUT_RIGHT) {
 		PlaySoundMem(gSound._se["select"], DX_PLAYTYPE_BACK);
 		_menuPos++;
@@ -113,8 +117,8 @@ void ModeTitle::MenuSelect() {
 
 	// 背景の動画をループ再生させる
 	if (GetMovieStateToGraph(_movieHandle) == 0) {
-		SeekMovieToGraph(_movieHandle, 0);
-		PlayMovieToGraph(_movieHandle);
+		SeekMovieToGraph(_movieHandle, 0);  // 動画の先頭に再生位置を移動
+		PlayMovieToGraph(_movieHandle);     // 動画再生開始
 	}
 }
 
@@ -137,6 +141,7 @@ bool ModeTitle::Process() {
 	int menuNum = ALL_MENU_NUM / 2;
 	_menuPos = (_menuPos + menuNum) % menuNum;
 
+	// メニュー選択
 	MenuSelect();
 
 	return true;

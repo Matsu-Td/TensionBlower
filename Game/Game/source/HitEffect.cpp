@@ -1,15 +1,15 @@
 /**
- * @file   BossHit.cpp
- * @brief  ボスへのヒットエフェクト
+ * @file   HitEffect.cpp
+ * @brief  近接攻撃のヒットエフェクト
  *
  * @author matsuo tadahiko
  * @date   2021/03/15
  */
 
 #include "ModeGame.h"
-#include "BossHit.h"
+#include "HitEffect.h"
 
-BossHit::BossHit(VECTOR pos) {
+HitEffect::HitEffect(VECTOR pos) {
 
 	_effectHandle = ResourceServer::LoadEffekseerEffect("res/effect/hit/hit.efkefc", 1.5f);
 	_playingHandle = PlayEffekseer3DEffect(_effectHandle);
@@ -19,14 +19,14 @@ BossHit::BossHit(VECTOR pos) {
 	Initialize();
 }
 
-BossHit::~BossHit() {
+HitEffect::~HitEffect() {
 	StopEffekseer3DEffect(_playingHandle);
 }
 
 /**
  * 初期化
  */
-void BossHit::Initialize() {
+void HitEffect::Initialize() {
 
 	_effectCnt = 0;
 }
@@ -34,7 +34,7 @@ void BossHit::Initialize() {
 /**
  * フレーム処理：計算
  */
-void BossHit::Process() {
+void HitEffect::Process() {
 
 	_effectCnt++;
 
@@ -50,6 +50,6 @@ void BossHit::Process() {
 /**
  * フレーム処理：描画
  */
-void BossHit::Render() {
+void HitEffect::Render() {
 
 }

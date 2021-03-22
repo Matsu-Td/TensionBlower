@@ -57,14 +57,14 @@ void Camera::Process(){
 	VECTOR bsPos = Boss::GetInstance()->GetPos();       // ボス位置情報取得
 
 	// アナログスティック対応
-	DINPUT_JOYSTATE dinput;
-	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
-	float lx, ly, rx, ry;           // 左右アナログスティックの座標
-	float analogMin = 0.3f;
-	lx = static_cast<float>(dinput.X);
-	ly = static_cast<float>(dinput.Y);
-	rx = static_cast<float>(dinput.Rx);
-	ry = static_cast<float>(dinput.Ry);
+	//DINPUT_JOYSTATE dinput;
+	//GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
+	//float lx, ly, rx, ry;           // 左右アナログスティックの座標
+	//float analogMin = 0.3f;
+	//lx = static_cast<float>(dinput.X);
+	//ly = static_cast<float>(dinput.Y);
+//	rx = static_cast<float>(dinput.Rx);
+//	ry = static_cast<float>(dinput.Ry);
 
 	float camDis = 25.0f;   // プレイヤーとの距離
 	float camSpd = 4.0f;    // カメラ移動速度
@@ -108,8 +108,12 @@ void Camera::Process(){
 		_vPos.z = sin(camrad) * length;
 		_vPos.y = plPos.y + 7.0f;
 
-		if (!(key & PAD_INPUT_5)) { _state = STATE::TARG_LOCK_ON; }
-		if (plEnergy < 10) { _state = STATE::TARG_LOCK_ON; }
+		if (!(key & PAD_INPUT_5)) { 
+			_state = STATE::TARG_LOCK_ON; 
+		}
+		if (plEnergy < 10) { 
+			_state = STATE::TARG_LOCK_ON;
+		}
 		break;
 	}
 	}

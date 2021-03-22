@@ -1,6 +1,6 @@
 /**
- * @file   BossHit.h
- * @brief  ボスへのヒットエフェクト
+ * @file   HitEffect.h
+ * @brief  近接攻撃のヒットエフェクト
  *
  * @author matsuo tadahiko
  * @date   2021/03/15
@@ -10,16 +10,16 @@
 #include "appframe.h"
 #include "ObjectBase.h"
 
-class BossHit : public ObjectBase {
+class HitEffect : public ObjectBase {
 public:
 	/**
 	 * @brief ボスへのヒットエフェクト生成
 	 * @param 生成位置
 	 */
-	BossHit(VECTOR pos);
-	~BossHit();
+	HitEffect(VECTOR pos);
+	~HitEffect();
 
-	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_HIT; }
+	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::HIT_EFFECT; }
 
 	/**
 	 * @brief 初期化

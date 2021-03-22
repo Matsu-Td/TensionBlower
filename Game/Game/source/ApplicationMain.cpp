@@ -27,7 +27,7 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	if (!base::Initialize(hInstance)) { return false; }
 
 	// ƒOƒ[ƒoƒ‹•Ï”‚Ì‰Šú‰»
-	gGlobal.Init();
+	gGlobal.Init();  
 	gSound.Init();
 	gPlayerVoice.Init();
 	gBossVoice.Init();

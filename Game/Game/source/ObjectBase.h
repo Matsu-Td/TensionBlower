@@ -23,13 +23,14 @@ public:
 		BOSS,          // ボス
 		BOSS_BULLET,   // ボスの弾幕
 		BOSS_BOMB,     // ボスのボム
+//		BOSS_AIM_SHOT, // ボスの狙い撃ち弾
 		CAMERA,        // カメラ
 		STAGE,         // ステージ
 		RETICLE,       // 照準
 		LASER,         // レーザーエフェクト
 		EXPLOSION,     // 爆発エフェクト
 		DESTRUCTION,   // ボス破壊、爆発エフェクト
-		BOSS_HIT,      // ボスへのヒットエフェクト
+		HIT_EFFECT,    // 近接攻撃のヒットエフェクト
 	};
 
 	/**

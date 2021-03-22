@@ -3,7 +3,7 @@
  * @brief 外部ファイルの読み込み、書き込み
  *
  * @author matsuo tadahiko
- * @date 2020/12/18
+ * @date   2020/12/18
  */
 
 #pragma once

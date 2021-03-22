@@ -38,19 +38,13 @@ BossBomb::~BossBomb() {
  */
 void BossBomb::Initialize() {
 
+	BulletBase::Initialize();
+
 	_mvSpd = 2.0f;
 	_shotCnt = 0;
 	_shotSpd = 2.0f;
 	_upSpd = 0.5f;
 	_state = STATE::UP;
-
-	_camStateMLS = false;
-	_hitX = _hitY = -25.0f;
-	_hitW = _hitH = 25.0f;
-	_canLockFlag = false;
-	_repelFlag = false;
-
-	_r = 1.5f;
 }
 
 /**
@@ -60,25 +54,11 @@ void BossBomb::Process() {
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();  // カメラの状態を取得
-
-	if (camState == Camera::STATE::MLS_LOCK) {
-		_mvSpd = _shotSpd * MLS_SPD; // マルチロックオンシステム中は速度0.01倍
-		_camStateMLS = true;
-	}
-	else {
-		_mvSpd = _shotSpd;   // 通常時の弾の速度
-		_camStateMLS = false;
-	}
+	// 弾の移動処理
+	BulletBase::Move();
 
 	// 狙撃までのカウント
 	_shotCnt++;
-
-	// 当たり判定用カプセル
-	_capsulePos1 = _vPos;
-	_capsulePos2 = _vPos;
-
-	_scrnPos = ConvWorldPosToScreenPos(_vPos);  // ワールド座標 ⇒ スクリーン座標へ変換
 
 	// 上昇処理
 	if (_state == STATE::UP) {
@@ -110,19 +90,6 @@ void BossBomb::Process() {
 		_vPos = VAdd(_vPos, targ);
 	}
 
-	// 弾き返し処理
-	if (_state == STATE::REPEL) {
-		_repelFlag = true;
-		VECTOR bsPos = Boss::GetInstance()->GetPos();
-		bsPos.y += 8.5f;
-		_vTarg = bsPos;
-		// ターゲットに向かってボムを発射する
-		VECTOR targ = VSub(_vTarg, _vPos);
-		targ = VNorm(targ);
-		targ = VScale(targ, _mvSpd);
-		_vPos = VAdd(_vPos, targ);
-	}
-
 	// ステージ床まで下降したらボムを削除
 	if (_vPos.y <= 0.0f) {
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -131,11 +98,11 @@ void BossBomb::Process() {
 		modeGame->_objServer.Del(this);
 	}
 
-	// プレイヤーとの当たり判定(当たった時点で爆発する)
+
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
+		// プレイヤーとの当たり判定(当たった時点で爆発する)
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
-			// 着弾
 			if (IsHitLineSegment(*(*itr), _r)) {
 				Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
 				modeGame->_objServer.Add(explosion);
@@ -146,10 +113,10 @@ void BossBomb::Process() {
 			}
 			else {
 				_canLockFlag = false;
-			}
-			
+			}	
 		}
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) { // 照準
+		// 照準
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) {
 			if (IsHitScrnPos(*(*itr)) == true) {
 				if (_canLockFlag) {
 					if (trg & PAD_INPUT_2) {
@@ -159,19 +126,7 @@ void BossBomb::Process() {
 				}
 			}
 		}
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
-			if (IsHitLineSegment(*(*itr), _r)) {
-				Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
-				modeGame->_objServer.Add(explosion);
-				modeGame->_objServer.Del(this);
-			}
-			if (IsDot(*(*itr)) == true && _camStateMLS) {
-				_canLockFlag = true;
-			}
-			else {
-				_canLockFlag = false;
-			}
-		}
+		// ボス（弾き返された弾のみ当たり判定発生）
 		if (_state == STATE::REPEL) {
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
 				if (IsHitLineSegment(*(*itr), (*itr)->_r)) {
@@ -180,26 +135,6 @@ void BossBomb::Process() {
 					modeGame->_objServer.Del(this);
 				}
 			}
-		}
-	}
-}
-
-/**
- * フレーム計算：描画
- */
-void BossBomb::Render() {
-	
-	float modelSize = 0.005f;
-	MV1SetScale(_mh, VGet(modelSize, modelSize, modelSize));
-	MV1SetPosition(_mh, _vPos);
-	MV1DrawModel(_mh);
-
-	if (_canLockFlag) {
-		if (_repelFlag) {
-			DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[1], TRUE);
-		}
-		else {
-			DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[0], TRUE);
 		}
 	}
 }

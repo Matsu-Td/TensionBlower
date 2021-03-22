@@ -13,7 +13,7 @@
 BossStatus::BossStatus() {
 
 	_cgName    = ResourceServer::LoadGraph("res/ui/boss/enemy_name.png");
-	_cgFrame   = ResourceServer::LoadGraph("res/ui/boss/enemy_status.png");
+	_cgFrame   = ResourceServer::LoadGraph("res/ui/boss/enemy_status_1.png");
 	_cgFrameBg = ResourceServer::LoadGraph("res/ui/boss/enemy_status_2.png");
 	_cgShield  = ResourceServer::LoadGraph("res/ui/boss/enemy_shield.png");
 	for (int i = 0; i < HP_BAR_NUM; i++) {

@@ -17,7 +17,7 @@
 #include "Reticle.h"
 #include "Sound.h"
 #include "PlayerVoice.h"
-#include "BossHit.h"
+#include "HitEffect.h"
 
 Player* Player::_pInstance = NULL;
 
@@ -147,8 +147,9 @@ void Player::Collision() {
 					_hitFlag = true;
 					Boss::GetInstance()->AttackDamage();
 					VECTOR tmpPos = MV1GetFramePosition(_mh, MV1SearchFrame(_mh, "weapon3"));
-					BossHit* bossHit = NEW BossHit(tmpPos);
-					modeGame->_objServer.Add(bossHit);
+					// ヒットエフェクト生成
+					HitEffect* hitEffect = NEW HitEffect(tmpPos);
+					modeGame->_objServer.Add(hitEffect);
 				}
 			}
 			if (IsHitLineSegment(*(*itr), (*itr)->_r)) {
