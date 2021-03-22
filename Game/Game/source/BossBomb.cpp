@@ -54,7 +54,7 @@ void BossBomb::Process() {
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	// ’e‚ÌˆÚ“®ˆ—
+	// ’e‚ÌˆÚ“®ˆ—(’e–‹‹¤’Êˆ—)
 	BulletBase::Move();
 
 	// ‘_Œ‚‚Ü‚Å‚ÌƒJƒEƒ“ƒg
