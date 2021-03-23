@@ -18,32 +18,32 @@
 #include "BossStatus.h"
 
 class ModeGame : public ModeBase{
-	typedef ModeBase base;
+	using base = ModeBase;
 
 public:
 	/**
 	 * @brief  初期化
 	 * @return 処理の成否
 	 */
-	virtual bool Initialize();
+	bool Initialize() override;
 
 	/**
 	 * @brief  解放 
 	 * @return 処理の成否
 	 */
-	virtual bool Terminate();
+	bool Terminate() override;
 
 	/**
 	 * @brief  フレーム処理：計算
 	 * @return 処理の成否 
 	 */
-	virtual bool Process();
+	bool Process() override;
 
 	/**
 	 * @brief  フレーム処理：描画
 	 * @return 処理の成否 
 	 */
-	virtual bool Render();
+	bool Render() override;
 
 	Camera       _cam;
 	ObjectServer _objServer;

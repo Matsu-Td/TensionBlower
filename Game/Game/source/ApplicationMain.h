@@ -10,7 +10,7 @@
 
 class ApplicationMain : public ApplicationBase{
 
-	typedef ApplicationBase base;
+	using base = ApplicationBase;
 
 public:
 	virtual bool Initialize(HINSTANCE hInstance);

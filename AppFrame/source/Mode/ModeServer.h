@@ -12,7 +12,7 @@
 #include "ModeBase.h"
 
 class ModeServer{
-	typedef	std::list<ModeBase*> lstModeBase;
+	using lstModeBase = std::list<ModeBase*>;
 
 public:
 	ModeServer();
