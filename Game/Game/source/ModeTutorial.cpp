@@ -22,23 +22,25 @@ bool ModeTutorial::Initialize() {
 	_bg    = ResourceServer::LoadGraph("res/title_back.png");
 
 	// 画像読み込み
-	_cg[0] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei1.png");
-	_cg[1] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei2.png");
-	_cg[2] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei3.png");
-	_cg[3] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei5.png");
-	_cg[4] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei7.png");
-	_cg[5] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei8.png");
-	_cg[6] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei9.png");
-	_cg[7] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei10.png");
+	_cg[0] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei11.png");
+	_cg[1] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei12.png");
+	_cg[2] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei1.png");
+	_cg[3] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei2.png");
+	_cg[4] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei3.png");
+	_cg[5] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei5.png");
+	_cg[6] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei7.png");
+	_cg[7] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei8.png");
+	_cg[8] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei9.png");
+	_cg[9] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei10.png");
 
 	// 動画読み込み
-	_movieHandle[0] = ResourceServer::LoadGraph("res/movie/move.mp4");
-	_movieHandle[1] = ResourceServer::LoadGraph("res/movie/dash.mp4");
-	_movieHandle[2] = ResourceServer::LoadGraph("res/movie/jump.mp4");
-	_movieHandle[3] = ResourceServer::LoadGraph("res/movie/MLS.mp4");
-	_movieHandle[4] = ResourceServer::LoadGraph("res/movie/lattack.mp4");
-	_movieHandle[5] = ResourceServer::LoadGraph("res/movie/hattack.mp4");
-	_movieHandle[6] = ResourceServer::LoadGraph("res/movie/charge.mp4");
+	_movieHandle[2] = ResourceServer::LoadGraph("res/movie/move.mp4");
+	_movieHandle[3] = ResourceServer::LoadGraph("res/movie/dash.mp4");
+	_movieHandle[4] = ResourceServer::LoadGraph("res/movie/jump.mp4");
+	_movieHandle[5] = ResourceServer::LoadGraph("res/movie/MLS.mp4");
+	_movieHandle[6] = ResourceServer::LoadGraph("res/movie/lattack.mp4");
+	_movieHandle[7] = ResourceServer::LoadGraph("res/movie/hattack.mp4");
+	_movieHandle[8] = ResourceServer::LoadGraph("res/movie/charge.mp4");
 	
 	// メニューUI画像読み込み(選択状態:ON)
 	for (int i = 0; i < MENU_NUM; i++) {
@@ -109,7 +111,7 @@ bool ModeTutorial::Process() {
 	}
 
 	// ゲームパッド「A」ボタンで「戻る」を選択するとチュートリアルモードを削除し、タイトルモード追加
-	if (_menuPos == 7) { 
+	if (_menuPos == 9) { 
 		if (trg & PAD_INPUT_2) {
 			// 決定音再生
 			PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
@@ -129,10 +131,10 @@ bool ModeTutorial::Render() {
 
 	DrawGraph(0, 0, _bg, TRUE);
 
-	DrawGraph(50, 50, _cg[_menuPos], TRUE);
+	DrawGraph(SETSUMEI_POS, SETSUMEI_POS, _cg[_menuPos], TRUE);
 
 	if (_menuPos < MENU_NUM) {
-		DrawGraph(120, 130, _movieHandle[_menuPos], FALSE);
+		DrawGraph(MOVIE_POS_X, MOVIE_POS_Y, _movieHandle[_menuPos], FALSE);
 	}
 
 	// メニューUI画像(未選択状態:OFF)は選択中は表示しない
