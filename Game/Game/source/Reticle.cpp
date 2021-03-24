@@ -39,7 +39,6 @@ void Reticle::Initialize(){
 
 	// 照準発生＝MLS発動中はBGMの再生周波数を小さくする(スロー再生にする)
 	SetFrequencySoundMem(23000, gSound._bgm["boss"]);
-	
 }
 
 /**
@@ -49,6 +48,10 @@ void Reticle::Process(){
 
 	// カメラの状態取得
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+
+	// 画面サイズ取得
+	int dispSizeW = ApplicationMain::GetInstance()->DispSizeW();
+	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();
 
 	// アナログスティック対応
 	DINPUT_JOYSTATE dinput;
@@ -62,15 +65,25 @@ void Reticle::Process(){
 	// 左アナログスティックを倒したときの最小値
 	float analogMin = 0.3f;
 
-	// 画面サイズ取得
-	int dispSizeW = ApplicationMain::GetInstance()->DispSizeW();
-	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();
-	
-	// レチクル操作
-	if (lx < analogMin)  { _scrnPos.x -= _mvSpd; }
-	if (lx > -analogMin) { _scrnPos.x += _mvSpd; }
-	if (ly < analogMin)  { _scrnPos.y -= _mvSpd; }
-	if (ly > -analogMin) { _scrnPos.y += _mvSpd; }
+	// 移動方向を決める
+	float length = sqrt(lx * lx + ly * ly);;
+	float rad = atan2(ly, lx);
+	VECTOR vec = { 0.0f,0.0f,0.0f };
+
+	// 移動処理
+	if (length < analogMin) {
+		length = 0.0f;
+	}
+	else {
+		length = _mvSpd;;
+	}
+
+	// vecをrad分回転させる
+	vec.x = cos(rad) * length;
+	vec.y = sin(rad) * length;
+
+	// vecの分移動
+	_scrnPos = VAdd(_scrnPos, vec);
 
 	// 画面外に画像が出るのを防止
 	if (_scrnPos.x < 0) { _scrnPos.x = 0; }

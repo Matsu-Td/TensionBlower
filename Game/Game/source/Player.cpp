@@ -127,6 +127,7 @@ void Player::CollisionToBossBullet() {
 			if (IsHitLineSegment(*(*itr), (*itr)->_r)) {
 				modeGame->_objServer.Del(*itr);
 				if (_hitpoint > 0) {
+					// 声データ再生(2種類をランダムで再生)
 					int voiceNo = rand() % 2;
 					if (voiceNo == 0) {
 						PlaySoundMem(gPlayerVoice._vc["hidan"], DX_PLAYTYPE_BACK);
@@ -136,7 +137,7 @@ void Player::CollisionToBossBullet() {
 					}
 					PlaySoundMem(gSound._se["hit_player"], DX_PLAYTYPE_BACK);
 					_hitpoint -= modeGame->_charaData->_boss.shotDmg;
-
+					// ヒットエフェクト生成
 					VECTOR tmpPos = _vPos;
 					tmpPos.y = 4.0f;
 					HitEffect* hitEffect = NEW HitEffect(tmpPos);
