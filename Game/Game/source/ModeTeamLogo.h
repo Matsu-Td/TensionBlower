@@ -37,7 +37,7 @@ public:
 	 */
 	bool Render() override;
 
-protected:
+private:
 	int _bg;      // 背景
 	int _cg;      // 画像
 	int _mode;    // フェード制御モード
@@ -45,9 +45,9 @@ protected:
 	int _dispCnt; // 表示カウント
 	int _alpha;   // 画像のα値
 
-	static constexpr int MAX_ALPHA = 255;    // 画像α値の最大値
-	static constexpr int MAX_FADE_CNT = 30;  // フェードカウント最大値
-	static constexpr int MAX_DISP_CNT = 90;  // 描画カウント最大値
-	static constexpr int LOGO_POS_X = 460;   // ロゴ画像X座標
-	static constexpr int LOGO_POS_Y = 425;   // ロゴ画像Y座標
+	const int MAX_ALPHA = 255;    // 画像α値の最大値
+	const int MAX_FADE_CNT = 30;  // フェードカウント最大値
+	const int MAX_DISP_CNT = 90;  // 描画カウント最大値
+	const int LOGO_POS_X = 460;   // ロゴ画像X座標
+	const int LOGO_POS_Y = 425;   // ロゴ画像Y座標
 };

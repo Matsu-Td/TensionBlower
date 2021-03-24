@@ -12,26 +12,26 @@
 class BossDamage {
 public:
 	/**
-     * @brief プレイヤーに弾き返された弾によるダメージ処理
+     * プレイヤーに弾き返された弾によるダメージ処理
      */
 	void RepelDamage(Boss* boss);
 
 	/**
-	 * @brief プレイヤーから受けたダメージ量計算
+	 * プレイヤーから受けたダメージ量計算
 	 */
 	void AttackDamage(Boss* boss);
 
 	/**
-	 * @brief ヒットポイントへの爆発ダメージ
+	 * ヒットポイントへの爆発ダメージ
 	 */
 	void ExplosionDamageHP(Boss* boss);
 
 	/**
-	 * @brief シールドへの爆発ダメージ
+	 * シールドへの爆発ダメージ
 	 */
 	void ExplosionDamageShield(Boss* boss);
 private:
-	static constexpr int EXPLOSION_DMG_NORM = 2;   // 爆発HPダメージ量：通常時(シールド無)
-	static constexpr int EXPLOSION_DMG_HP = 1;     // 爆発HPダメージ量(シールド有)
-	static constexpr int EXPLOSION_DMG_SLD = 2;    // 爆発シールドダメージ量(シールド有)
+	const int EXPLOSION_DMG_NORM = 2;   // 爆発HPダメージ量：通常時(シールド無)
+	const int EXPLOSION_DMG_HP = 1;     // 爆発HPダメージ量(シールド有)
+	const int EXPLOSION_DMG_SLD = 2;    // 爆発シールドダメージ量(シールド有)
 };

@@ -13,25 +13,25 @@
 class BossBomb : public ShotBase {
 public:
 	/**
-	 * @brief ボム生成
+	 * ボム生成
 	 * @param pos ボムの発生位置
 	 */
 	BossBomb(VECTOR pos);
 	~BossBomb();
 
-	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_BOMB; }
+	OBJECTTYPE GetType()  override { return ObjectBase::OBJECTTYPE::BOSS_BOMB; }
 
 	/**
-	 * @brief 初期化
+	 * 初期化
 	 */
-	void Initialize();
+	void Initialize() override;
 
 	/**
-	 * @brief フレーム処理：計算
+	 * フレーム処理：計算
 	 */
-	void Process();
+	void Process() override;
 
 private:
-	static constexpr int UP_CNT = 24;    // 上昇カウント
-	static constexpr int STOP_CNT = 24;  // 停止カウント
+	const int UP_CNT = 24;    // 上昇カウント
+	const int STOP_CNT = 24;  // 停止カウント
 };

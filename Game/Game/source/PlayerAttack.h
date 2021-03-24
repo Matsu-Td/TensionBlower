@@ -11,18 +11,17 @@
 #include "Player.h"
 
 class PlayerAttack{
-	friend Player;
 public:
 	PlayerAttack();
 	~PlayerAttack();
 
 	/**
-	 * @brief 近接攻撃のダメージ量を近接攻撃の種類によって切替
+	 * 近接攻撃のダメージ量を近接攻撃の種類によって切替
 	 */
 	void SwitchAttackDamage(Player* player);
 
 	/**
-     * @brief 現在発生中の近接攻撃ダメージ量をセットする
+     * 現在発生中の近接攻撃ダメージ量をセットする
 	 * @param player  プレイヤークラスオブジェクトのポインタ
      * @param dmgHP   シールド状態のボスのヒットポイントに与えるダメージ量
      * @param dmgSld  シールド状態のボスのシールドに与えるダメージ量
@@ -31,7 +30,7 @@ public:
 	void SetAttackDamage(Player* player, int dmgHP, int dmgSld, int dmgNorm);
 
 	/**
-     * @brief 強近接攻撃への派生関連処理
+     * 強近接攻撃への派生関連処理
      * @param attackEnergy 指定された強近接攻撃での消費エネルギー量
      * @param nextState    派生する強近接攻撃の種類
      * @param attackName   派生する強近接攻撃の名前(攻撃モーション時間セット用)
@@ -39,29 +38,29 @@ public:
 	void NextStrongAttack(Player* player,int attackEnergy, Player::STATE nextState, std::string attackName);
 
 	/**
-	 * @brief 弱近接攻撃への派生関連処理
+	 * 弱近接攻撃への派生関連処理
 	 * @param nextState    派生する弱近接攻撃の種類
 	 * @param attackName   派生する弱近接攻撃の名前(攻撃モーション時間セット用)
 	 */
 	void NextWeakAttack(Player* player, Player:: STATE nextState, std::string attackName);
 	
 	/**
-	 * @brief 各近接攻撃へのキー入力処理
+	 * 各近接攻撃へのキー入力処理
 	 */
 	void AttackAction(Player* player);
 
 	/**
-     * @brief 近接攻撃処理(初手のみ)
+     * 近接攻撃処理(初手のみ)
      */
 	void FirstAttack(Player* player);
 
 	/**
-     * @brief 近接攻撃処理(2発目以降)
+     * 近接攻撃処理(2発目以降)
      */
 	void SecondAttack(Player* player);
 
 	/**
-	 * @brief 攻撃発生時の声データを再生する
+	 * 攻撃発生時の声データを再生する
 	 * @param voiceName 再生する声データの名前
 	 */
 	void PlayAttackVoice(std::string voiceName);

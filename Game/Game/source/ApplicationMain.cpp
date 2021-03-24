@@ -27,10 +27,10 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	if (!base::Initialize(hInstance)) { return false; }
 
 	// グローバル変数の初期化
-	gGlobal.Init();  
-	gSound.Init();
-	gPlayerVoice.Init();
-	gBossVoice.Init();
+	gGlobal.Initialize();
+	gSound.Initialize();
+	gPlayerVoice.Initialize();
+	gBossVoice.Initialize();
 
 	// モードの登録
 	ModeServer::GetInstance()->Add(NEW ModeAmgLogo(), 1, "amglogo");

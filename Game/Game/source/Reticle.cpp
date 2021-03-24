@@ -10,6 +10,7 @@
 #include "ApplicationMain.h"
 #include "Camera.h"
 #include "ModeGame.h"
+#include "Sound.h"
 
 Reticle::Reticle(){
 
@@ -18,7 +19,8 @@ Reticle::Reticle(){
 }
 
 Reticle::~Reticle(){
-
+    // BGMの再生周波数をデフォルトに戻す
+	SetFrequencySoundMem(-1, gSound._bgm["boss"]);
 }
 
 /**
@@ -34,6 +36,10 @@ void Reticle::Initialize(){
 
 	_hitX = _hitY = 20.0f;
 	_hitW = _hitH = 80.0f;
+
+	// 照準発生＝MLS発動中はBGMの再生周波数を小さくする(スロー再生にする)
+	SetFrequencySoundMem(23000, gSound._bgm["boss"]);
+	
 }
 
 /**

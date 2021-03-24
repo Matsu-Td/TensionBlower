@@ -16,7 +16,7 @@ public:
 	/**
 	 * @brief ê∫ÉfÅ[É^ì«Ç›çûÇ›
 	 */
-	void Init();
+	void Initialize();
 
 	int LoadVoice(const TCHAR* filePath);
 

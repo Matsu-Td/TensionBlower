@@ -19,7 +19,7 @@
 #include "PlayerVoice.h"
 #include "HitEffect.h"
 
-Player* Player::_pInstance = NULL;
+Player* Player::_pInstance = nullptr;
 
 Player::Player(){
 
@@ -40,13 +40,13 @@ void Player::Initialize(){
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	_vPos = VGet(0.0f, 0.0f, -115.0f);
 	_vDir = VGet(0, 0, 1);
-	_mvSpd = CHARA_DATA->_mvSpdNorm;
+	_mvSpd = modeGame->_charaData->_mvSpdNorm;
 	_attachIndex = -1;
 	_totalTime = 0;
 	_playTime = 0.0f;
 
 	// ヒットポイント
-	_hitpoint = CHARA_DATA->_maxHP;
+	_hitpoint = modeGame->_charaData->_maxHP;
 
 	// ジャンプ
 	_jumpTime = 0.0f;
@@ -58,7 +58,7 @@ void Player::Initialize(){
 	_canLongDash = false;
 
 	// エネルギー
-	_energy = CHARA_DATA->_maxEnergy;
+	_energy = modeGame->_charaData->_maxEnergy;
 	_isCharging = false;
 	_canAutoCharge = true;
 	_autoChargeCnt = 30;
@@ -126,15 +126,20 @@ void Player::Collision() {
 						PlaySoundMem(gPlayerVoice._vc["hukki"], DX_PLAYTYPE_BACK);
 					}
 					PlaySoundMem(gSound._se["hit_player"], DX_PLAYTYPE_BACK);
-					_hitpoint -= CHARA_DATA->_boss.shotDmg;
+					_hitpoint -= modeGame->_charaData->_boss.shotDmg;
+
+					VECTOR tmpPos = _vPos;
+					tmpPos.y = 4.0f;
+					HitEffect* hitEffect = NEW HitEffect(tmpPos);
+					modeGame->_objServer.Add(hitEffect);
 				}
 			}
 			// カスリ判定(エネルギー回復)
 			if (IsHitLineSegment(*(*itr), 2.5f)) {
-				if (_energy < CHARA_DATA->_maxEnergy) {
-					_energy += CHARA_DATA->_egAvoid;
+				if (_energy < modeGame->_charaData->_maxEnergy) {
+					_energy += modeGame->_charaData->_egAvoid;
 				}
-				gGlobal._totalGetEnergy += CHARA_DATA->_egAvoid;
+				gGlobal._totalGetEnergy += modeGame->_charaData->_egAvoid;
 			}
 			if (Boss::GetInstance()->_mlsDownFlag) {
 				modeGame->_objServer.Del(*itr);
@@ -223,8 +228,6 @@ void Player::Process(){
 	VECTOR camTarg = Camera::GetInstance()->GetTarg();    // カメラの注視点
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();  // カメラの状態
 
-
-
 	// カメラの向いている角度取得
 	float disX = camPos.x - camTarg.x;
 	float disZ = camPos.z - camTarg.z;
@@ -240,7 +243,7 @@ void Player::Process(){
 	if (_isGameOver) {
 		_gameOverCnt--;
 		if (_gameOverCnt == 0) {
-			ModeGameOver* modeGameOver = new ModeGameOver();
+			ModeGameOver* modeGameOver = NEW ModeGameOver();
 			ModeServer::GetInstance()->Add(modeGameOver, 2, "over");
 		}
 	}
@@ -285,13 +288,13 @@ void Player::Process(){
 				_dashCall->LeftAnalogDeg(this, length);
 				
 				if (!_isDash) {
-					_mvSpd = CHARA_DATA->_mvSpdNorm;
+					_mvSpd = modeGame->_charaData->_mvSpdNorm;
 				}				
 			}
 			else {
 				_vDir = vec;
 				if (_state != STATE::FOR_DASH) {
-					_mvSpd = CHARA_DATA->_mvSpdNorm;
+					_mvSpd = modeGame->_charaData->_mvSpdNorm;
 				}
 				if (_canJump) {
 					_state = STATE::WALK;
@@ -318,10 +321,10 @@ void Player::Process(){
 		_dashCall->Dash(this, nowAngle, length);
 
 		// エネルギー溜め
-		if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5)&& _energy < CHARA_DATA->_maxEnergy) {
+		if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5)&& _energy < modeGame->_charaData->_maxEnergy) {
 			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
 				if (!_isDash) {           // ダッシュしてなければ溜め可能
-					_mvSpd = CHARA_DATA->_mvSpdChrg;
+					_mvSpd = modeGame->_charaData->_mvSpdChrg;
 					_isCharging = true;
 				}
 			}
@@ -453,6 +456,6 @@ void Player::ExplosionDamage(){
 	
 	if (_hitpoint > 0) {
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-		_hitpoint -= CHARA_DATA->_boss.exolosionDmg;
+		_hitpoint -= modeGame->_charaData->_boss.exolosionDmg;
 	}
 }

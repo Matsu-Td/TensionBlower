@@ -12,7 +12,7 @@
 class BossAimShot :public ShotBase {
 public:
 	/**
-	 * @brief  狙い撃ち弾の生成
+	 * 狙い撃ち弾の生成
 	 * @param  pos 生成位置
 	 * @param  shotSpd 弾の移動速度
 	 * @param  shotAngle 弾の移動角度、方向　
@@ -20,10 +20,10 @@ public:
 	BossAimShot(VECTOR pos, float shotSpd, float shotAngle);
 	~BossAimShot();
 
-	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_BULLET; }
+	OBJECTTYPE GetType()  override { return ObjectBase::OBJECTTYPE::BOSS_BULLET; }
 
 	/**
-	 * @brief フレーム処理：計算
+	 * フレーム処理：計算
 	 */
-	void Process();
+	void Process() override;
 };

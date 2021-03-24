@@ -13,23 +13,23 @@
 class Destruction : public ObjectBase{
 public:
 	/**
-	 * @brief ボスの死亡エフェクト生成
+	 * ボスの死亡エフェクト生成
 	 * @param pos エフェクト生成位置
 	 */
 	Destruction(VECTOR pos);
 	~Destruction();
 
-	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::DESTRUCTION; }
+	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::DESTRUCTION; }
 
 	/**
-	 * @brief フレーム処理：計算
+	 * フレーム処理：計算
 	 */
-	void Process();
+	void Process() override;
 
 	/**
-	 * @brief フレーム処理：描画
+	 * フレーム処理：描画
 	 */
-	void Render();
+	void Render() override;
 
 private:
 	int _gameClearCnt;  // ゲームクリア表示までのカウント

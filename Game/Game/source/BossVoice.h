@@ -14,9 +14,9 @@
 class BossVoice {
 public:
 	/**
-	 * @brief 声データ読み込み
+	 * 声データ読み込み
 	 */
-	void Init();
+	void Initialize();
 
 	int LoadVoice(const TCHAR* filePath);
 

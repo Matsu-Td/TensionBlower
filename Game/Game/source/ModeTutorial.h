@@ -36,7 +36,7 @@ public:
 	 */
 	bool Render() override;
 
-protected:
+private:
 	int _bg;  // 背景
 	
 	int _menuPos;     // メニュー選択位置
@@ -44,8 +44,8 @@ protected:
 
 	std::unordered_map<std::string, int> _mapUi;  // UI用コンテナ
 
-	static constexpr int ALL_MENU_NUM = 16;  // メニューUI画像総数
-	static constexpr int MENU_NUM = 8;		 // メニューUI画像数(ON,OFF別)
+	const int ALL_MENU_NUM = 16;  // メニューUI画像総数
+	static const int MENU_NUM = 8;		 // メニューUI画像数(ON,OFF別)
 	int _cg[MENU_NUM];                       // 説明画像
 	int _movieHandle[MENU_NUM];              // 動画
 
@@ -75,11 +75,11 @@ protected:
 	int _uiOff[MENU_NUM]; // メニューUI画像(未選択状態:OFF)
 
 	// メニューUI画像のX座標
-	static constexpr int MENU_POS_X[MENU_NUM] =
+	const int MENU_POS_X[MENU_NUM] =
 	{ 1200,1515,1200,1515,1200,1515,1200,1515 }; 
 
 	// メニューUI画像のY座標
-	static constexpr int MENU_POS_Y[MENU_NUM] = 
+	const int MENU_POS_Y[MENU_NUM] =
 	{ 50,145,240,335,430,525,620,905 };
 };
 

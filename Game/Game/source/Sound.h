@@ -19,7 +19,7 @@ public:
 	/**
      * @brief BGM,SEì«Ç›çûÇ›
      */
-	void Init();
+	void Initialize();
 
 	std::unordered_map<std::string, int> _bgm;  // BGM
 	std::unordered_map<std::string, int> _se;   // SE

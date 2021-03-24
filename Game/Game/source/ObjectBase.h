@@ -16,15 +16,13 @@ public:
 	virtual ~ObjectBase();
 
 	/**
-	 * @brief オブジェクトの種類を定義
+	 * オブジェクトの種類を定義
 	 */
 	enum class OBJECTTYPE {
 		PLAYER,        // プレイヤー
 		BOSS,          // ボス
 		BOSS_BULLET,   // ボスの弾幕
 		BOSS_BOMB,     // ボスのボム
-//		BOSS_AIM_SHOT, // ボスの狙い撃ち弾
-		CAMERA,        // カメラ
 		STAGE,         // ステージ
 		RETICLE,       // 照準
 		LASER,         // レーザーエフェクト
@@ -34,64 +32,64 @@ public:
 	};
 
 	/**
-	 * @brief  オブジェクトの種類を返す
+	 * オブジェクトの種類を返す
 	 */
 	virtual OBJECTTYPE	GetType() = 0;
 
 	/**
-	 * @brief 初期化
+	 * 初期化
 	 */
-	virtual void Init();
+	virtual void Initialize();
 
 	/**
-	 * @brief フレーム処理：計算
+	 * フレーム処理：計算
 	 */
 	virtual void Process();
 
 	/**
-	 * @brief フレーム処理：描画
+	 * フレーム処理：描画
 	 */
 	virtual void Render();
 
 	/**
-	 * @brief モデルとステージの当たり判定
+	 * モデルとステージの当たり判定
 	 * @param r カプセルの半径
 	 */
 	virtual bool IsHitStage(ObjectBase& obj, float r);
 
 	/**
-	 * @brief カプセル同士の当たり判定
+	 * カプセル同士の当たり判定
 	 * @param r カプセルの半径
 	 */
 	virtual bool IsHitLineSegment(ObjectBase& obj, float r);
 
 	/**
-	 * @brief スクリーン座標上の当たり判定
+	 * スクリーン座標上の当たり判定
 	 */
 	virtual bool IsHitScrnPos(ObjectBase& obj);
 
 	/**
-	 * @brief 内積での当たり判定
+	 * 内積での当たり判定
 	 */
 	virtual bool IsDot(ObjectBase& obj);
 
 	/**
-	 * @brief 円弧と球の当たり判定
+	 * 円弧と球の当たり判定
 	 */
 	virtual bool IsHitArc_Sphere(ObjectBase& obj);
 
 	/**
-	 * @brief 座標をセットする
+	 * 座標を設定する
 	 */
 	void SetPos(VECTOR vPos) { _vPos = vPos; }
 
 	/**
-	 * @brief 座標を取得する
+	 * 座標を取得する
 	 */
 	VECTOR GetPos()const { return _vPos; }
 
 	/**
-	 * @brief 向きを取得する
+	 * 向きを取得する
 	 */
 	VECTOR GetDir()const { return _vDir; }
 

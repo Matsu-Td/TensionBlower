@@ -19,17 +19,17 @@ void PlayerJump::JumpAction(Player* player) {
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	// エネルギー量確認
-	if (player->_energy >= CHARA_DATA->_egJump) {
+	if (player->_energy >= modeGame->_charaData->_egJump) {
 		if (trg & PAD_INPUT_1 && player->_canJump && !player->_isCharging) {
 			player->_state = Player::STATE::JUMP;
 			player->_canJump = false;
-			player->_mvSpd = CHARA_DATA->_mvSpdNorm;
+			player->_mvSpd = modeGame->_charaData->_mvSpdNorm;
 			player->_jumpTime = 0.0f;
 		}
 	}
 	// ジャンプ制御
 	if (!player->_canJump) {
-		player->_vPos.y = IN_VEL * player->_jumpTime - MULT_HALF * Player::GRAVITY * player->_jumpTime * player->_jumpTime;
+		player->_vPos.y = IN_VEL * player->_jumpTime - MULT_HALF * GRAVITY * player->_jumpTime * player->_jumpTime;
 	}
 
 	player->_jumpTime += JUMP_CNT;

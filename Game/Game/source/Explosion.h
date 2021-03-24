@@ -14,37 +14,37 @@
 class Explosion : public ObjectBase{
 public:
 	/**
-	 * @brief ボム攻撃の爆発エフェクト生成
+	 * ボム攻撃の爆発エフェクト生成
 	 * @param pos 爆発発生位置
 	 * @param repelFlag 弾き返された弾かどうか
 	 */
 	Explosion(VECTOR pos, bool repelFlag);
 	~Explosion();
 
-	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::EXPLOSION; }
+	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::EXPLOSION; }
 
 	/**
-	 * @brief 初期化
+	 * 初期化
 	 */
-	void Initialize();
+	void Initialize() override;
 
 	/**
-	 * @brief フレーム処理：計算
+	 * フレーム処理：計算
 	 */
-	void Process();
+	void Process() override;
 
 	/**
-	 * @brief フレーム処理：描画
+	 * フレーム処理：描画
 	 */
-	void Render();
+	void Render() override;
 
 	/**
-	 * @brief ボスとの当たり判定
+	 * ボスとの当たり判定
 	 */
 	void CollisionToBoss();
 
 	/**
-	 * @brief プレイヤーとの当たり判定
+	 * プレイヤーとの当たり判定
 	 */
 	void CollisionToPlayer();
 
@@ -54,8 +54,8 @@ private:
 	int	_effectHandle;  // エフェクトファイルをロードするハンドル
 	int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
 
-	static constexpr int ALL_EFFECT_TIME = 180;   // エフェクト総再生時間
-	static constexpr float MAX_RADIUS    = 10.0f; // 最大半径サイズ
+	const int ALL_EFFECT_TIME = 180;   // エフェクト総再生時間
+	const float MAX_RADIUS    = 10.0f; // 最大半径サイズ
 
 	std::unique_ptr<BossDamage> _bossDamageCall;  	// ボスへのダメージ処理呼び出し
 };

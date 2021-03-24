@@ -30,7 +30,7 @@ std::string CharaData::StringFileLoad(std::string fileName){
 	FILE* fp;
 	fp = fopen(fileName.c_str(), "rb");
 
-	if (fp == NULL){
+	if (fp == nullptr){
 		// ファイルが開けなかった
 		return "";
 	}

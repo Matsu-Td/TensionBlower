@@ -11,7 +11,7 @@
 #include "Player.h"
 #include "Boss.h"
 
-Camera* Camera::_pInstance = NULL;
+Camera* Camera::_pInstance = nullptr;
 
 Camera::Camera(){
 
@@ -55,16 +55,6 @@ void Camera::Process(){
 	int plEnergy = Player::GetInstance()->GetEnergy();  // プレイヤーエネルギー量取得
 
 	VECTOR bsPos = Boss::GetInstance()->GetPos();       // ボス位置情報取得
-
-	// アナログスティック対応
-	//DINPUT_JOYSTATE dinput;
-	//GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
-	//float lx, ly, rx, ry;           // 左右アナログスティックの座標
-	//float analogMin = 0.3f;
-	//lx = static_cast<float>(dinput.X);
-	//ly = static_cast<float>(dinput.Y);
-//	rx = static_cast<float>(dinput.Rx);
-//	ry = static_cast<float>(dinput.Ry);
 
 	float camDis = 25.0f;   // プレイヤーとの距離
 	float camSpd = 4.0f;    // カメラ移動速度

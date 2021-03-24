@@ -18,7 +18,7 @@ int PlayerVoice::LoadVoice(const TCHAR* filePath) {
 /**
  * ê∫ÉfÅ[É^ì«Ç›çûÇ›
  */
-void PlayerVoice::Init() {
+void PlayerVoice::Initialize() {
 
 	_vc["clear"]     = LoadVoice("res/voice/player/clear.wav");
 	_vc["gameover"]  = LoadVoice("res/voice/player/gameover.wav");

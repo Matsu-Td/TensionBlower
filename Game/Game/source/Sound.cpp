@@ -20,7 +20,7 @@ Sound::~Sound() {
 /**
  * BGM,SE読み込み
  */
-void Sound::Init() {
+void Sound::Initialize() {
 
 	_bgm["titlebgm"] = ResourceServer::LoadSoundMem("res/bgm/title.wav");  // アウトゲーム側(タイトル画面等)のBGM
 	_bgm["boss"]     = ResourceServer::LoadSoundMem("res/bgm/boss.wav");   // ボスステージのBGM

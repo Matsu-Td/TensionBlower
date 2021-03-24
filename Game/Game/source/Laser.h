@@ -14,7 +14,7 @@
 class Laser : public ObjectBase{
 public:
 	/**
-	 * @brief レーザー生成
+	 * レーザー生成
 	 * @param pos     レーザー発射位置
 	 * @param radius  ボスからの半径
 	 * @param angle   レーザーの発射角度、位置
@@ -23,22 +23,22 @@ public:
 	Laser(VECTOR pos,float radius, float angle, float roteSpd);
 	~Laser();
 
-	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::LASER; }
+	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::LASER; }
 
 	/**
-	 * @brief 初期化
+	 * 初期化
 	 */
-	void Initialize();
+	void Initialize() override;
 
 	/**
-	 * @brief フレーム処理：計算
+	 * フレーム処理：計算
 	 */
-	void Process();
+	void Process() override;
 
 	/**
-	 * @brief フレーム計算：描画
+	 * フレーム計算：描画
 	 */
-	void Render();
+	void Render() override;
 
 private:
 	int	  _effectHandle;  // エフェクトファイルをロードするハンドル
@@ -50,5 +50,5 @@ private:
 	int _effectCnt;   // エフェクト再生カウント
 	int _mlsCnt;      // マルチロックオンシステム発動中のカウント
 
-	static constexpr float MLS_SPD = 0.01f; // マルチロックオンシステム中の速度計算(通常の1/100に)
+	const float MLS_SPD = 0.01f; // マルチロックオンシステム中の速度計算(通常の1/100に)
 };

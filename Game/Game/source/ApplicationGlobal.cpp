@@ -23,7 +23,7 @@ ApplicationGlobal::~ApplicationGlobal()
 /**
  * èâä˙âª
  */
-bool ApplicationGlobal::Init() {
+bool ApplicationGlobal::Initialize() {
 
 	_gameEndFlag = false;
 

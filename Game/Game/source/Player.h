@@ -11,7 +11,6 @@
 #include "appframe.h"
 #include "ObjectBase.h"
 #include "BossDamage.h"
-#define  CHARA_DATA (modeGame->_charaData)
 
 // プレイヤークラスに関係するクラスの宣言
 class PlayerAttack;
@@ -31,65 +30,65 @@ public:
 	Player();
 	~Player();
 
-	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::PLAYER; }
+	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::PLAYER; }
 
 	/**
-	 * @brief 初期化
+	 * 初期化
 	 */
-	void Initialize();
+	void Initialize() override;
 
 	/**
-	 * @brief フレーム処理：計算
+	 * フレーム処理：計算
 	 */
-	void Process();
+	void Process() override;
 
 	/**
-	 * @brief フレーム処理：描画
+	 * フレーム処理：描画
 	 */
-	void Render();
+	void Render() override;
 
 	/**
-	 * @brief 当たり判定
+	 * 当たり判定
 	 */
 	void Collision();
 
 	/**
-	 * @brief  HP値取得
+	 * HP値取得
 	 * @return プレイヤーの現在のHP値を取得
 	 */
 	int GetHitPoint() const { return _hitpoint; }
 
 	/**
-	 * @brief  エネルギー量取得
+	 * エネルギー量取得
 	 * @return プレイヤーの現在のエネルギー量を取得
 	 */
 	int GetEnergy() const { return _energy; }
 
 	/**
-     * @brief  近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
+     * 近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
      * @return プレイヤーの現在の近接攻撃ダメージ量
      */
 	int GetNowDmgHP() const { return _nowDmgHP; }
 
 	/**
-	 * @brief  近接攻撃：シールド状態のボスのシールドに与えるダメージ量取得
+	 * 近接攻撃：シールド状態のボスのシールドに与えるダメージ量取得
 	 * @return プレイヤーの現在の近接攻撃ダメージ量
 	 */
 	int GetNowDmgSld() const { return _nowDmgSld; }
 
 	/**
-	 * @brief  近接攻撃：通常状態のボスのHPに与えるダメージ量取得
+	 * 近接攻撃：通常状態のボスのHPに与えるダメージ量取得
 	 * @return プレイヤーの現在の近接攻撃ダメージ量
 	 */
 	int GetNowDmgNorm() const { return _nowDmgNorm; }
 
 	/**
-	 * @brief ボムの爆発ダメージ
+	 * ボムの爆発ダメージ
 	 */
 	void ExplosionDamage();
 
 	/**
-	 * @brief  プレイヤーインスタンスアクセス用
+	 * プレイヤーインスタンスアクセス用
 	 * @return _pInstance プレイヤークラスポインタ
 	 */
 	static Player* GetInstance() { return _pInstance; }
@@ -98,7 +97,7 @@ public:
 	static constexpr float GROUND_Y = 0.0f;  // 地上のY座標
 
 	int  _canHitFlag;       // 近接攻撃当たり判定可否(true:可能, false:不可)
-protected:
+private:
 	// ステータス
 	int _hitpoint;       // ヒットポイント値
 	int _energy;         // エネルギー値
@@ -175,7 +174,6 @@ protected:
 	STATE _state; // プレイヤーの状態
 
 	static constexpr float GRAVITY       = 0.9f; // 重力加速度値
-	static constexpr int MAX_BULLET      = 100;  // 最大装弾数
 	static constexpr int RELOAD_TIME     = 90;   // 近接・射撃攻撃リロード時間
 	static constexpr int AUTO_CHARGE_CNT = 120;  // 自動回復開始カウント
 	static constexpr float ANALOG_MIN    = 0.3f; // アナログスティック入力反応の最小値

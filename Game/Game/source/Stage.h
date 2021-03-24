@@ -16,12 +16,12 @@ public:
 	Stage();
 	~Stage();
 
-	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::STAGE; }
+	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::STAGE; }
 
 	/**
-	 * @brief フレーム処理：描画
+	 * フレーム処理：描画
 	 */
-	void Render();
+	void Render() override;
 private:
 	int _mhMap; // ステージモデル
 };

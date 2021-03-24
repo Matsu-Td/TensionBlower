@@ -19,8 +19,8 @@ void BossDamage::RepelDamage(Boss* boss) {
 	PlaySoundMem(gSound._se["hit"], DX_PLAYTYPE_BACK);
 	// シールドがあるとき
 	if (boss->_shield > 0) {
-		boss->_hitpoint -= CHARA_DATA->_repelDmgHP;
-		boss->_shield -= CHARA_DATA->_repelDmgSld;
+		boss->_hitpoint -= modeGame->_charaData->_repelDmgHP;
+		boss->_shield -= modeGame->_charaData->_repelDmgSld;
 
 		if (boss->_shield <= 0) {
 			boss->_shield = 0;
@@ -29,7 +29,7 @@ void BossDamage::RepelDamage(Boss* boss) {
 	}
 	// シールドがないとき
 	else {
-		boss->_hitpoint -= CHARA_DATA->_repelDmg;
+		boss->_hitpoint -= modeGame->_charaData->_repelDmg;
 	}
 }
 

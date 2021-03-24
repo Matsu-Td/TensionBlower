@@ -9,7 +9,7 @@
 
 #include "ApplicationBase.h"
 
-ApplicationBase	*ApplicationBase::_pInstance = NULL;
+ApplicationBase	*ApplicationBase::_pInstance = nullptr;
 
 
 ApplicationBase::ApplicationBase() {

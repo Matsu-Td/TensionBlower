@@ -18,7 +18,7 @@ int BossVoice::LoadVoice(const TCHAR* filePath) {
 /**
  * ê∫ÉfÅ[É^ì«Ç›çûÇ›
  */
-void BossVoice::Init() {
+void BossVoice::Initialize() {
 
 	_vc["attack1"] = LoadVoice("res/voice/boss/attack1.wav");
 	_vc["attack2"] = LoadVoice("res/voice/boss/attack2.wav");

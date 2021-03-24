@@ -16,27 +16,27 @@
 class ShotBase : public ObjectBase{
 public:
 	/**
-	 * @brief 初期化
+	 * 初期化
 	 */
 	virtual void Initialize();
 
 	/**
-	 * @brief フレーム処理：計算
+	 * フレーム処理：計算
 	 */
 	virtual void Process();
 
 	/**
-	 * @brief フレーム処理：描画
+	 * フレーム処理：描画
 	 */
 	virtual void Render();
 
 	/**
-	 * @brief 弾の移動処理
+	 * 弾の移動処理
 	 */
 	virtual void Move();
 
 	/**
-	 * @brief 当たり判定
+	 * 当たり判定
 	 */
 	virtual void Collision();
 
@@ -62,8 +62,8 @@ protected:
 	};
 	STATE _state; // 状態
 
-	static constexpr float REPEL_SPD = 3.0f; // 弾き返された後の弾の移動速度
-	static constexpr float MLS_SPD = 0.01f; // マルチロックオンシステム中の速度計算(通常の1/100に)
+	const float REPEL_SPD = 3.0f; // 弾き返された後の弾の移動速度
+	const float MLS_SPD = 0.01f; // マルチロックオンシステム中の速度計算(通常の1/100に)
 
 private:
 	std::unique_ptr<BossDamage> _bossDamageCall;  	// ボスへのダメージ処理呼び出し

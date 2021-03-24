@@ -31,13 +31,9 @@ void ShotPattern::ShotPatternSwitch(Boss* boss) {
 	case 0:
 		if (boss->_shotPattern <= 2) {
 			ShotPattern1and2(boss);
-			ShotPattern6(boss);
-			ShotPattern7(boss);
 		}
 		else {
-			//			ShotPattern3();
-			ShotPattern6(boss);
-			ShotPattern7(boss);
+			ShotPattern3(boss);
 		}
 		break;
 		// フェーズ1

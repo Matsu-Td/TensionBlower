@@ -16,20 +16,20 @@ public:
 	Reticle();
 	~Reticle();
 
-	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::RETICLE; }
+	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::RETICLE; }
 
 	/**
-	 * @brief 初期化
+	 * 初期化
 	 */
-	void Initialize();
+	void Initialize() override;
 
 	/**
-	 * @brief フレーム処理：計算
+	 * フレーム処理：計算
 	 */
-	void Process();
+	void Process() override;
 
 	/**
-	 * @brief フレーム処理：描画
+	 * フレーム処理：描画
 	 */
-	void Render();
+	void Render() override;
 };

@@ -14,11 +14,10 @@ public:
 	virtual ~ApplicationGlobal();
 
 	/**
-	 * @brief 初期化.
-	 * 
+	 * 初期化
 	 * @return 初期化成功したか 
 	 */
-	bool Init();
+	bool Initialize();
 
 public:
 	bool _gameEndFlag;    // ゲーム終了フラグ(true:ゲーム終了)

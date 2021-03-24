@@ -46,8 +46,6 @@ bool ModeTitle::Initialize() {
 	// タイトルロゴ読み込み
 	_cgtitle = ResourceServer::LoadGraph("res/logo_title.png");
 
-	// 動画の再生位置を最初にする
-	SeekMovieToGraph(_movieHandle, 0);
 	// 動画再生開始
 	PlayMovieToGraph(_movieHandle);
 

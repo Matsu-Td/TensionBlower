@@ -19,7 +19,7 @@
 #include "BossVoice.h"
 #include "Laser.h"
 
-Boss* Boss::_pInstance = NULL;
+Boss* Boss::_pInstance = nullptr;
 
 Boss::Boss(){
 
@@ -53,14 +53,14 @@ void Boss::Initialize() {
 	_shotPattern = 1;
 	_shotAngle = -90.0f;
 	_shotAngle1 = -90.0f;
-	_shotCnt = 0;
+	_shotCnt = 1;
 	_mlsCnt = 0;
 	_reverseCnt = 60;
 	_setRotAngle = 1.0f;
 	_shotHeight = 0.0f;
 
-	_hitpoint = CHARA_DATA->_boss.maxHP;
-	_shield = CHARA_DATA->_boss.maxShield;
+	_hitpoint = modeGame->_charaData->_boss.maxHP;
+	_shield = modeGame->_charaData->_boss.maxShield;
 	_bulletNum = 0;
 	_stateDown = false;
 	_mlsDownFlag = false;
@@ -135,7 +135,7 @@ void Boss::StateDown(){
 			_downTime = 0;         // ダウン時間リセット
 			_state = STATE::RETURN;// 復帰状態にさせる
 			_bulletNum = 0;        // 弾の数リセット
-			_shield = CHARA_DATA->_boss.maxShield;  // シールド値全回復
+			_shield = modeGame->_charaData->_boss.maxShield;  // シールド値全回復
 		}
 	}
 
@@ -214,12 +214,13 @@ void Boss::Process(){
 	}
 
 	if (_state == STATE::NORMAL) {
-
+		float rotSpd = 1.0f;
 		// 弾幕攻撃処理
 		if (_shield > 0) {
 			// マルチロックオンシステム発動中は弾の発射速度を遅くする
 			if (camState == Camera::STATE::MLS_LOCK) {
 				_mlsCnt++;
+				rotSpd = 0.01f;
 				if (_mlsCnt % 100 == 0) {
 					_patternCall->ShotPatternSwitch(this);
 				}
@@ -240,10 +241,10 @@ void Boss::Process(){
 			float plAngle = (-deg - 90.0f) / 180.0f * DX_PI_F;  // 90度分のずれを補正し、ラジアン単位に戻す
 			// 角速度を加え、プレイヤーがいる位置にゆっくりとボスの正面を向ける
 			if (plAngle > _vDir.y) {
-				_vDir.y += ROT_SPD;
+				_vDir.y += ROT_SPD * rotSpd;
 			}
 			else if (plAngle < _vDir.y) {
-				_vDir.y -= ROT_SPD;
+				_vDir.y -= ROT_SPD * rotSpd;
 			}
 		}
 	}

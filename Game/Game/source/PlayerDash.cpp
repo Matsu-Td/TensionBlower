@@ -29,7 +29,7 @@ void PlayerDash::LeftAnalogDeg(Player* player, float length) {
 
 	if (player->_isDash) {
 		// ダッシュ用移動速度セット
-		player->_mvSpd = CHARA_DATA->_mvSpdDash;
+		player->_mvSpd = modeGame->_charaData->_mvSpdDash;
 		// 前方向ダッシュ移動
 		if (player->_lfAnalogDeg >= ANALOG_REG_FOR || player->_lfAnalogDeg <= -ANALOG_REG_FOR) {
 			player->_state = Player::STATE::FOR_DASH;
@@ -45,7 +45,7 @@ void PlayerDash::LeftAnalogDeg(Player* player, float length) {
 			
 		}
 		// 後方向ダッシュ移動
-		else if (player->_lfAnalogDeg >= -ANALOG_REG_OTHER && player->_lfAnalogDeg <= ANALOG_REG_OTHER && length >= Player::ANALOG_MIN) {
+		else if (player->_lfAnalogDeg >= -ANALOG_REG_OTHER && player->_lfAnalogDeg <= ANALOG_REG_OTHER && length >= ANALOG_MIN) {
 			player->_state = Player::STATE::BACK_DASH;
 		}
 		// 入力がゲームパッド「RB」のみ場合は前方向ダッシュ移動
@@ -55,7 +55,7 @@ void PlayerDash::LeftAnalogDeg(Player* player, float length) {
 	}
 	else {
 		// 通常移動速度セット
-		player->_mvSpd = CHARA_DATA->_mvSpdNorm;
+		player->_mvSpd = modeGame->_charaData->_mvSpdNorm;
 		// 前方向移動
 		if (player->_lfAnalogDeg >= ANALOG_REG_FOR || player->_lfAnalogDeg <= -ANALOG_REG_FOR) {
 			player->_state = Player::STATE::WALK;
@@ -86,8 +86,8 @@ void PlayerDash::Dash(Player* player, float nowAngle, float length) {
 
 	// 短押しダッシュ
 	VECTOR vDash{ 0.0f,0.0f,00.f };      // ダッシュする方向
-	if (trg & PAD_INPUT_6 && (player->_state != Player::STATE::JUMP) && player->_energy > CHARA_DATA->_egDash) {
-		player->_mvSpd = CHARA_DATA->_mvSpdDash;  // ダッシュ移動速度セット
+	if (trg & PAD_INPUT_6 && (player->_state != Player::STATE::JUMP) && player->_energy > modeGame->_charaData->_egDash) {
+		player->_mvSpd = modeGame->_charaData->_mvSpdDash;  // ダッシュ移動速度セット
 		player->_isShortDash = true;              // 短押しダッシュ移動スタート
 		player->_canLongDash = true;              // 短押しダッシュ発動 ⇒ 長押しダッシュ発動可能となる
 		player->_shortDashTime = SHORT_DASH_CNT;  // 短押しダッシュ移動時間をセット
@@ -103,7 +103,7 @@ void PlayerDash::Dash(Player* player, float nowAngle, float length) {
 			}
 			player->_isCharging = false;   // ダッシュ中溜め行動不可
 			// キー入力がないとき向いている方向に直線でダッシュする
-			if (length < Player::ANALOG_MIN) {
+			if (length < ANALOG_MIN) {
 				if (camState == Camera::STATE::TARG_LOCK_ON) {
 					LeftAnalogDeg(player, length);
 					vDash.x = -cos(player->_bsAngle) * player->_mvSpd;
@@ -134,7 +134,7 @@ void PlayerDash::Dash(Player* player, float nowAngle, float length) {
 				player->_state = Player::STATE::FOR_DASH;
 			}
 			// キー入力がないとき：向いている方向に直線でダッシュする
-			if (length < Player::ANALOG_MIN) {
+			if (length < ANALOG_MIN) {
 				if (camState == Camera::STATE::TARG_LOCK_ON) {
 					LeftAnalogDeg(player, length);
 					vDash.x = -cos(player->_bsAngle) * player->_mvSpd;

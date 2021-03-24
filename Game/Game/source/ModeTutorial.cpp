@@ -114,7 +114,7 @@ bool ModeTutorial::Process() {
 			// Œˆ’è‰¹Ä¶
 			PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
 			ModeServer::GetInstance()->Del(this);
-			ModeServer::GetInstance()->Add(new ModeTitle(), 1, "title");
+			ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 		}
 	}
 

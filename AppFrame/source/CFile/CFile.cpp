@@ -77,7 +77,7 @@ CFile::~CFile() {
  */
 void CFile::Init() {
 	_size = 0;
-	_data = NULL;
+	_data = nullptr;
 	_fileName = "";
 	_success = false;
 }

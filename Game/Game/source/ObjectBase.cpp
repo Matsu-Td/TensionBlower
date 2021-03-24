@@ -11,7 +11,7 @@
 
 ObjectBase::ObjectBase() {
 
-	Init();
+	Initialize();
 }
 
 ObjectBase::~ObjectBase() {
@@ -20,7 +20,7 @@ ObjectBase::~ObjectBase() {
 /**
  * èâä˙âª
  */
-void ObjectBase::Init() {
+void ObjectBase::Initialize() {
 
 	_cut = 0;
 }

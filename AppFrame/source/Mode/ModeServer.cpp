@@ -12,22 +12,22 @@
 #include "ModeServer.h"
 
 /// インスタンス 
-ModeServer	*ModeServer::_pInstance = NULL;
+ModeServer	*ModeServer::_pInstance = nullptr;
 
 ModeServer::ModeServer(){
 
 	_pInstance = this;
 	_uid_count = 1;
-	_nowMode	= NULL;
-	_skipProcessMode	= NULL;
-	_skipRenderMode		= NULL;
-	_pauseProcessMode	= NULL;
+	_nowMode	= nullptr;
+	_skipProcessMode	= nullptr;
+	_skipRenderMode		= nullptr;
+	_pauseProcessMode	= nullptr;
 }
 
 ModeServer::~ModeServer(){
 
 	Clear();
-	_pInstance = NULL;
+	_pInstance = nullptr;
 }
 
 // 登録はするが、一度メインを回さないといけない
@@ -117,7 +117,7 @@ ModeBase *ModeServer::Get(int uid) {
 	for (; ite != _vModeAdd.end(); ++ite) {
 		if (!IsDelRegist((*ite)) && (*ite)->_uid == uid) { return (*ite); }
 	}
-	return NULL;
+	return nullptr;
 }
 
 // 名前から検索
@@ -132,7 +132,7 @@ ModeBase *ModeServer::Get(const char *name) {
 	for (; ite != _vModeAdd.end(); ++ite) {
 		if (!IsDelRegist((*ite)) && (*ite)->_szName == name) { return (*ite); }
 	}
-	return NULL;
+	return nullptr;
 }
 
 // ID取得
@@ -151,7 +151,7 @@ const char *ModeServer::GetName(ModeBase* mode) {
 	if (IsAdd(mode)) {
 		return mode->_szName.c_str();
 	}
-	return NULL;
+	return nullptr;
 }
 
 const char *ModeServer::GetName(int uid) {
@@ -182,9 +182,9 @@ int ModeServer::ProcessInit() {
 	}
 
 	// スキップ、ポーズの解除
-	_skipProcessMode = NULL;
-	_skipRenderMode = NULL;
-	_pauseProcessMode = NULL;
+	_skipProcessMode = nullptr;
+	_skipRenderMode = nullptr;
+	_pauseProcessMode = nullptr;
 	return 0;
 }
 
@@ -221,7 +221,7 @@ int ModeServer::Process() {
 		if (_skipProcessMode == (*ite)) { break; }
 		if (_pauseProcessMode == (*ite)) { pause = true; }
 	}
-	_nowMode = NULL;
+	_nowMode = nullptr;
 
 	return 0;
 }
@@ -241,14 +241,14 @@ int ModeServer::Render() {
 	lstModeBase::iterator ite = _vMode.begin();
 	for (; ite != _vMode.end(); ++ite) {
 		if (_skipRenderMode && _skipRenderMode != (*ite)) { continue; }
-		_skipRenderMode = NULL;
+		_skipRenderMode = nullptr;
 
 		if (!IsDelRegist(*ite)) {
 			_nowMode = (*ite);
 			(*ite)->Render();
 		}
 	}
-	_nowMode = NULL;
+	_nowMode = nullptr;
 	return 0;
 }
 

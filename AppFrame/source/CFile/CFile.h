@@ -13,13 +13,13 @@
 class CFile{
 public:
 	/**
-	 * @brief ファイル読み込み
+	 * ファイル読み込み
 	 * @param fileName ファイル名
 	 */
 	CFile(const std::string fileName);
 
 	/**
-	 * @brief ファイル書き込み
+	 * ファイル書き込み
 	 * @param fileName ファイル名
 	 * @param data データ格納
 	 * @param size 書き込むデータサイズ

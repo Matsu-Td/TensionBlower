@@ -43,28 +43,28 @@ void PlayerAttack::SwitchAttackDamage(Player* player) {
 
 	switch (player->_state) {
 	case Player::STATE::WEAK_ATCK1:
-		SetAttackDamage(player, CHARA_DATA->_wkDmgHP1, CHARA_DATA->_wkDmgSld1, CHARA_DATA->_wkDmg1);
+		SetAttackDamage(player, modeGame->_charaData->_wkDmgHP1, modeGame->_charaData->_wkDmgSld1, modeGame->_charaData->_wkDmg1);
 		break;
 	case Player::STATE::WEAK_ATCK2:
-		SetAttackDamage(player, CHARA_DATA->_wkDmgHP2, CHARA_DATA->_wkDmgSld2, CHARA_DATA->_wkDmg2);
+		SetAttackDamage(player, modeGame->_charaData->_wkDmgHP2, modeGame->_charaData->_wkDmgSld2, modeGame->_charaData->_wkDmg2);
 		break;
 	case Player::STATE::WEAK_ATCK3:
-		SetAttackDamage(player, CHARA_DATA->_wkDmgHP3, CHARA_DATA->_wkDmgSld3, CHARA_DATA->_wkDmg3);
+		SetAttackDamage(player, modeGame->_charaData->_wkDmgHP3, modeGame->_charaData->_wkDmgSld3, modeGame->_charaData->_wkDmg3);
 		break;
 	case Player::STATE::WEAK_ATCK4:
-		SetAttackDamage(player, CHARA_DATA->_wkDmgHP4, CHARA_DATA->_wkDmgSld4, CHARA_DATA->_wkDmg4);
+		SetAttackDamage(player, modeGame->_charaData->_wkDmgHP4, modeGame->_charaData->_wkDmgSld4, modeGame->_charaData->_wkDmg4);
 		break;
 	case Player::STATE::STRG_ATCK1:
-		SetAttackDamage(player, CHARA_DATA->_stDmgHP1, CHARA_DATA->_stDmgSld1, CHARA_DATA->_stDmg1);
+		SetAttackDamage(player, modeGame->_charaData->_stDmgHP1, modeGame->_charaData->_stDmgSld1, modeGame->_charaData->_stDmg1);
 		break;
 	case Player::STATE::STRG_ATCK2:
-		SetAttackDamage(player, CHARA_DATA->_stDmgHP2, CHARA_DATA->_stDmgSld2, CHARA_DATA->_stDmg2);
+		SetAttackDamage(player, modeGame->_charaData->_stDmgHP2, modeGame->_charaData->_stDmgSld2, modeGame->_charaData->_stDmg2);
 		break;
 	case Player::STATE::STRG_ATCK3:
-		SetAttackDamage(player, CHARA_DATA->_stDmgHP3, CHARA_DATA->_stDmgSld3, CHARA_DATA->_stDmg3);
+		SetAttackDamage(player, modeGame->_charaData->_stDmgHP3, modeGame->_charaData->_stDmgSld3, modeGame->_charaData->_stDmg3);
 		break;
 	case Player::STATE::STRG_ATCK4:
-		SetAttackDamage(player, CHARA_DATA->_stDmgHP4, CHARA_DATA->_stDmgSld4, CHARA_DATA->_stDmg4);
+		SetAttackDamage(player, modeGame->_charaData->_stDmgHP4, modeGame->_charaData->_stDmgSld4, modeGame->_charaData->_stDmg4);
 		break;
 	}
 }
@@ -135,7 +135,7 @@ void PlayerAttack::AttackAction(Player* player) {
 			if (trg & PAD_INPUT_4) {
 				// ‹­‹ßÚUŒ‚‚Ìºƒf[ƒ^Ä¶
 				PlayAttackVoice("strong");
-				NextStrongAttack(player,CHARA_DATA->_egAtck2, Player::STATE::STRG_ATCK2, "slash_h");
+				NextStrongAttack(player, modeGame->_charaData->_egAtck2, Player::STATE::STRG_ATCK2, "slash_h");
 			}
 			// Žã‹ßÚUŒ‚2‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
@@ -152,7 +152,7 @@ void PlayerAttack::AttackAction(Player* player) {
 			if (trg & PAD_INPUT_4) {
 				// ‹­‹ßÚUŒ‚‚Ìºƒf[ƒ^Ä¶
 				PlayAttackVoice("strong");
-				NextStrongAttack(player, CHARA_DATA->_egAtck3, Player::STATE::STRG_ATCK3, "slash_h");
+				NextStrongAttack(player, modeGame->_charaData->_egAtck3, Player::STATE::STRG_ATCK3, "slash_h");
 			}
 			// Žã‹ßÚUŒ‚3‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
@@ -168,7 +168,7 @@ void PlayerAttack::AttackAction(Player* player) {
 			if (trg & PAD_INPUT_4) {
 				// ‹­‹ßÚUŒ‚‚Ìºƒf[ƒ^Ä¶
 				PlayAttackVoice("strong");
-				NextStrongAttack(player, CHARA_DATA->_egAtck4, Player::STATE::STRG_ATCK4, "slash_h");
+				NextStrongAttack(player, modeGame->_charaData->_egAtck4, Player::STATE::STRG_ATCK4, "slash_h");
 			}
 			// Žã‹ßÚUŒ‚4‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
@@ -225,7 +225,7 @@ void PlayerAttack::FirstAttack(Player* player) {
 			PlayAttackVoice("strong");
 
 			player->_isAttack = true;
-			NextStrongAttack(player, CHARA_DATA->_egAtck1, Player::STATE::STRG_ATCK1, "slash_h");
+			NextStrongAttack(player, modeGame->_charaData->_egAtck1, Player::STATE::STRG_ATCK1, "slash_h");
 		}
 	}
 }

@@ -13,29 +13,29 @@ class ModeRanking : public ModeBase{
 
 public:
 	/**
-	 * @brief  初期化
+	 * 初期化
 	 * @return 処理の成否
 	 */
 	bool Initialize() override;
 
 	/**
-	 * @brief  解放
+	 * 解放
 	 * @return 処理の成否
 	 */
 	bool Terminate() override;
 
 	/**
-	 * @brief  フレーム処理：計算
+	 * フレーム処理：計算
 	 * @return 処理の成否
 	 */
 	bool Process() override;
 
 	/**
-	 * @brief  フレーム処理：描画
+	 * フレーム処理：描画
 	 * @return 処理の成否
 	 */
 	bool Render() override;
 
-protected:
+private:
 	int _cg;  // 画像
 };

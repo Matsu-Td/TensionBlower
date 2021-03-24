@@ -13,33 +13,33 @@
 class HitEffect : public ObjectBase {
 public:
 	/**
-	 * @brief ボスへのヒットエフェクト生成
+	 * ボスへのヒットエフェクト生成
 	 * @param 生成位置
 	 */
 	HitEffect(VECTOR pos);
 	~HitEffect();
 
-	virtual OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::HIT_EFFECT; }
+	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::HIT_EFFECT; }
 
 	/**
-	 * @brief 初期化
+	 * 初期化
 	 */
-	void Initialize();
+	void Initialize() override;
 
 	/**
-	 * @brief フレーム処理：計算
+	 * フレーム処理：計算
 	 */
-	void Process();
+	void Process() override;
 
 	/**
-	 * @brief フレーム処理：描画
+	 * フレーム処理：描画
 	 */
-	void Render();
+	void Render() override;
 
 private:
 	int _effectCnt;     // エフェクトカウント
 	int	_effectHandle;  // エフェクトファイルをロードするハンドル
 	int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
 
-	static constexpr int ALL_EFFECT_TIME = 30;  // エフェクト総再生時間
+	const int ALL_EFFECT_TIME = 30;  // エフェクト総再生時間
 };

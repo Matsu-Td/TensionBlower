@@ -23,4 +23,5 @@ private:
 	static constexpr float IN_VEL = 5.0f;      // 初速
 	static constexpr float MULT_HALF = 0.5f;   // 1/2乗算
 	static constexpr float JUMP_CNT = 0.2f;    // ジャンプ時間
+	static constexpr float GRAVITY = 0.9f; // 重力加速度値
 };
