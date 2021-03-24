@@ -48,9 +48,54 @@ public:
 	void Render() override;
 
 	/**
-	 * 当たり判定
+	 * 移動処理
 	 */
-	void Collision();
+	void Move();
+
+	/**
+	 * 重力処理
+	 */
+	void Gravity();
+
+	/**
+	 * エネルギー溜め処理
+	 */
+	void Charge();
+
+	/**
+	 * マルチロックオンシステム用照準追加
+	 */
+	void ReticleGeneration();
+
+	/**
+	 * ボスとの距離を確認(自動回復用)
+	 */
+	void CheckDistanceToBoss();
+
+	/**
+	 * 当たり判定：ステージ
+	 */
+	void CollisionToStage();
+
+	/**
+	 * 当たり判定：ボスの弾
+	 */
+	void CollisionToBossBullet();
+
+	/**
+	 * 当たり判定：ボス
+	 */
+	void CollisionToBoss();
+
+	/**
+	 * 当たり判定：ボスのレーザー攻撃
+	 */
+	void CollisionToLaser();
+
+	/**
+	 * ゲームオーバー処理
+	 */
+	void GameOver();
 
 	/**
 	 * HP値取得
@@ -98,6 +143,7 @@ public:
 
 	int  _canHitFlag;       // 近接攻撃当たり判定可否(true:可能, false:不可)
 private:
+	float _analogLength;
 	// ステータス
 	int _hitpoint;       // ヒットポイント値
 	int _energy;         // エネルギー値
@@ -128,7 +174,7 @@ private:
 
 	std::unordered_map<std::string, int> _attackTotalTime;  // 各攻撃モーションの総再生時間を格納する
 
-	static constexpr int ATTACK_NUM = 8;         // 近接攻撃の種類の数
+	static const int ATTACK_NUM = 8;         // 近接攻撃の種類の数
 	std::string _attackString[ATTACK_NUM] =      // 各近接攻撃の名前を格納
 	{ "slash_l" ,"slash_l" ,"slash_l" ,"slash_l", 
 	  "slash_h", "slash_h", "slash_h", "slash_h" };

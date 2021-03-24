@@ -290,7 +290,7 @@ void Boss::Render(){
 	MV1SetRotationXYZ(_mh, _vDir);
 	MV1DrawModel(_mh);
 
-#if 0
+#ifdef _DEBUG
 	int y = 750;
 	int size = 24;
 	SetFontSize(size);
@@ -300,7 +300,6 @@ void Boss::Render(){
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ｼｰﾙﾄﾞ値 = %d", _shield);  y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  出現している弾の数 = %d", _bulletNum);  y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダウン時間 = %d", _downTime);   y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  plangle = %f", a); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  _vDir.y = %f", _vDir.y); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  状態 = %d", _state); y += size;
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 10.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);

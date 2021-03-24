@@ -83,7 +83,7 @@ bool ModeResult::Render() {
 
 	DrawGraph(0, 0, _cg, FALSE);
 
-#if 1  // âºé¿ëï
+	// ÉXÉRÉAï`âÊ
 	int x = 800;
 	int y = 90;
 	int size = 200;
@@ -102,8 +102,6 @@ bool ModeResult::Render() {
 	DrawFormatString(x, y, color, "%6d", _repelScore); y += size;
 	DrawFormatString(x, y, color, "%6d", _energyScore); y += size;
 	DrawFormatString(x, y, color, "%6d", _allScore);
-
-#endif
 
 	return true;
 }

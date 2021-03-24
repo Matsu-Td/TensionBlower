@@ -85,9 +85,9 @@ void Player::Initialize(){
 }
 
 /**
- * 当たり判定
+ * 当たり判定：ステージ
  */
-void Player::Collision() {
+void Player::CollisionToStage() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
@@ -98,7 +98,7 @@ void Player::Collision() {
 				slideVec = VCross(_vDir, (*itr)->_hitPolyDim.Dim->Normal);
 				slideVec = VCross((*itr)->_hitPolyDim.Dim->Normal, slideVec);
 				_vPos = VAdd(_oldPos, slideVec);
-     			MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
+				MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
 
 				while (1) {
 					// カプセル位置更新
@@ -107,12 +107,21 @@ void Player::Collision() {
 
 					if (IsHitStage(*(*itr), 2.0f) == false) { break; }
 
-					_vPos = VAdd(_vPos, VScale((*itr)->_hitPolyDim.Dim->Normal,0.001f));
+					_vPos = VAdd(_vPos, VScale((*itr)->_hitPolyDim.Dim->Normal, 0.001f));
 					MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
 				}
 			}
-				}
-		// ボスの弾との当たり判定
+		}
+	}
+}
+
+/**
+ * 当たり判定：ボスとの弾
+ */
+void Player::CollisionToBossBullet() {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
 			// 着弾
 			if (IsHitLineSegment(*(*itr), (*itr)->_r)) {
@@ -145,7 +154,16 @@ void Player::Collision() {
 				modeGame->_objServer.Del(*itr);
 			}
 		}
-		// ボスとの当たり判定
+	}
+}
+
+/**
+ * 当たり判定：ボス
+ */
+void Player::CollisionToBoss() {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
 			if (IsHitArc_Sphere(*(*itr)) == true) {
 				if (_canHitFlag && !_hitFlag) {
@@ -161,85 +179,29 @@ void Player::Collision() {
 				_vPos = VAdd(_vPos, VScale(_oldPos, 0.4f));
 			}
 		}
-		// レーザーとの当たり判定
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::LASER) {
-			if (IsHitLineSegment(*(*itr),(*itr)->_r) == true) {
-				_hitpoint -= 5;
-			}
-		}
-	}
-
-	// HP下限値保持
-	if (_hitpoint <= 0) {
-		_hitpoint = 0;
 	}
 }
 
 /**
- * フレーム処理：計算
+ * 当たり判定：ボスのレーザー攻撃
  */
-void Player::Process(){
+void Player::CollisionToLaser() {
 
-	// キーの取得
-	int key = ApplicationMain::GetInstance()->GetKey();
-	int trg = ApplicationMain::GetInstance()->GetTrg();
-
-	// モードゲーム取得
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-
-	// 当たり判定用カプセル情報
-	_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
-	_capsulePos2 = VGet(_vPos.x, _vPos.y + 7.0f, _vPos.z);
-
-	// アナログスティック対応
-	DINPUT_JOYSTATE dinput;
-	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
-
-	// ゲームパッド「RT」
-	int rt = dinput.Z;
-	// 左アナログスティック座標
-	float lx, ly;   
-	lx = static_cast<float>(dinput.X);
-	ly = static_cast<float>(dinput.Y);
-
-	// 処理前のステータスを保存
-	STATE oldState = _state;
-
-	// 処理前の位置を保存
-	_oldPos = _vPos;
-
-	// ボスデータ取得
-	{
-		VECTOR bsPos = Boss::GetInstance()->GetPos();
-		float dx = _vPos.x - bsPos.x;
-		float dz = _vPos.z - bsPos.z;
-		float len = sqrt(dx * dx + dz * dz);
-		_bsAngle = atan2(dz, dx);
-		if (len <= 50) {
-			_isNearBoss = true;
-		}
-		else {
-			_isNearBoss = false;
+	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
+		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::LASER) {
+			if (IsHitLineSegment(*(*itr), (*itr)->_r) == true) {
+				_hitpoint -= 5;
+			}
 		}
 	}
+}
 
-	// カメラデータ取得
-	VECTOR camPos = Camera::GetInstance()->GetPos();      // カメラ位置
-	VECTOR camTarg = Camera::GetInstance()->GetTarg();    // カメラの注視点
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();  // カメラの状態
+/**
+ * ゲームオーバー処理
+ */
+void Player::GameOver() {
 
-	// カメラの向いている角度取得
-	float disX = camPos.x - camTarg.x;
-	float disZ = camPos.z - camTarg.z;
-	float camRad = atan2(disZ, disX);
-
-	// 移動方向を決める
-	VECTOR vec = { 0.0f,0.0f,0.0f };
-	float length = sqrt(lx * lx + ly * ly);
-	float rad = atan2(lx, ly);
-	_lfAnalogDeg = static_cast<int>(rad * 180.0f / DX_PI_F);
-
-	// ゲームオーバー処理
 	if (_isGameOver) {
 		_gameOverCnt--;
 		if (_gameOverCnt == 0) {
@@ -248,68 +210,191 @@ void Player::Process(){
 		}
 	}
 	// ヒットポイント 0 でゲームオーバー
-	if (_hitpoint <= 0) { 
+	if (_hitpoint <= 0) {
 		_state = STATE::DEAD;
 		_isGameOver = true;
 	}
+}
+
+/**
+ * 重力処理
+ */
+void Player::Gravity() {
+	_vPos.y -= GRAVITY;
+	if (_vPos.y < 0.0f) {
+		_vPos.y = 0.0f;
+	}
+}
+
+/**
+ * 移動処理
+ */
+void Player::Move() {
+
+	// アナログスティック対応
+	DINPUT_JOYSTATE dinput;
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
+
+	// 左アナログスティック座標
+	float lx, ly;
+	lx = static_cast<float>(dinput.X);
+	ly = static_cast<float>(dinput.Y);
+
+	// カメラデータ取得
+	VECTOR camPos = Camera::GetInstance()->GetPos();      // カメラ位置
+	VECTOR camTarg = Camera::GetInstance()->GetTarg();    // カメラの注視点
+	// カメラの向いている角度取得
+	float disX = camPos.x - camTarg.x;
+	float disZ = camPos.z - camTarg.z;
+	float camRad = atan2(disZ, disX);
+
+	// 移動方向を決める
+	VECTOR vec = { 0.0f,0.0f,0.0f };
+	_analogLength = sqrt(lx * lx + ly * ly);
+	float rad = atan2(lx, ly);
+	_lfAnalogDeg = static_cast<int>(rad * 180.0f / DX_PI_F);
+
+
+	// 移動処理
+	if (_analogLength < ANALOG_MIN) {
+		_analogLength = 0.0f;
+	}
+	else {
+		_analogLength = _mvSpd;
+	}
+
+	// vecをrad分回転させる
+	vec.x = cos(rad + camRad) * _analogLength;
+	vec.z = sin(rad + camRad) * _analogLength;
+
+	// vecの分移動
+	_vPos = VAdd(_vPos, vec);
+
+	// 移動量をそのままキャラの向きにする
+	if (VSize(vec) > 0.0f) {		// 移動していない時は無視する
+		_vDir.x = -cos(_bsAngle);
+		_vDir.z = -sin(_bsAngle);
+		_dashCall->LeftAnalogDeg(this, _analogLength);
+
+		if (!_isDash) {
+			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+			_mvSpd = modeGame->_charaData->_mvSpdNorm;
+		}
+
+	}
+	else if (_canJump && !_isAttack) {
+		_state = STATE::WAIT;
+
+	}
+}
+
+/**
+ * エネルギー溜め処理
+ */
+void Player::Charge() {
+
+	// キー入力情報取得
+	int key = ApplicationMain::GetInstance()->GetKey();
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));	
+	if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5) && _energy < modeGame->_charaData->_maxEnergy) {
+		if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
+			if (!_isDash) {           // ダッシュしてなければ溜め可能
+				_mvSpd = modeGame->_charaData->_mvSpdChrg;
+				_isCharging = true;
+			}
+		}
+	}
+	else {
+		_isCharging = false;
+	}
+
+	// 近接攻撃(初手のみ)
+	if (_vPos.y == 0.0f) {
+		_attackCall->FirstAttack(this);
+	}
+}
+
+/**
+ * ボスとの距離を確認(自動回復用)
+ */
+void Player::CheckDistanceToBoss() {
+
+	// ボス位置情報取得
+	VECTOR bsPos = Boss::GetInstance()->GetPos();
+	float dx = _vPos.x - bsPos.x;
+	float dz = _vPos.z - bsPos.z;
+	float len = sqrt(dx * dx + dz * dz);
+	_bsAngle = atan2(dz, dx);
+	if (len <= 50) {
+		_isNearBoss = true;
+	}
+	else {
+		_isNearBoss = false;
+	}
+}
+
+/**
+ * マルチロックオンシステム用照準追加
+ */
+void Player::ReticleGeneration() {
+
+	// キーのトリガ情報取得	
+	int trg = ApplicationMain::GetInstance()->GetTrg();
+	
+	// ゲームパッド「LBボタン」でマルチロックオンシステム用照準追加
+	if (trg & PAD_INPUT_5) {
+		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		_camStateMLS = true;
+		Reticle* reticle = NEW Reticle();
+		modeGame->_objServer.Add(reticle);
+	}
+	else {
+		_camStateMLS = false;
+	}
+}
+
+/**
+ * フレーム処理：計算
+ */
+void Player::Process(){
+
+	// モードゲーム取得
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
+	// 当たり判定用カプセル情報
+	_capsulePos1 = VGet(_vPos.x, _vPos.y + 2.1f, _vPos.z);
+	_capsulePos2 = VGet(_vPos.x, _vPos.y + 7.0f, _vPos.z);
+
+	// 処理前のステータスを保存
+	STATE oldState = _state;
+
+	// 処理前の位置を保存
+	_oldPos = _vPos;
+
+	// ボスとの距離を確認
+	CheckDistanceToBoss();
+
+	// ゲームオーバー処理
+	GameOver();
 
 	// 死亡モーションは地上で行う
 	if (_state == STATE::DEAD) {
 		// 重力処理
-		_vPos.y -= GRAVITY;
-		if (_vPos.y < 0.0f) {
-			_vPos.y = 0.0f;
-		}
+		Gravity();
 	}
 
-	// 移動処理
-	if (length < ANALOG_MIN) {
-		length = 0.0f;
-	}
-	else {
-		length = _mvSpd;
-	}
+	// カメラデータ取得
+	Camera::STATE camState = Camera::GetInstance()->GetCameraState();  // カメラの状態
 
-	// TODO: カメラの仕様変更(デフォルトがロック状態になった)によりプレイヤーの移動処理の見直しが必要
-	// マルチロックシステムが発動していないときは移動可能
+	// マルチロックシステムが発動していないとき
 	if (camState != Camera::STATE::MLS_LOCK && !_isAttack && !_isGameOver) {
-		// vecをrad分回転させる
-		vec.x = cos(rad + camRad) * length;
-		vec.z = sin(rad + camRad) * length;
+		
+		// 移動処理
+		Move();
 
-		// vecの分移動
-		_vPos = VAdd(_vPos, vec);
-
-		// 移動量をそのままキャラの向きにする
-		if (VSize(vec) > 0.0f) {		// 移動していない時は無視する
-			if (camState == Camera::STATE::TARG_LOCK_ON){
-				_vDir.x = -cos(_bsAngle);
-                _vDir.z = -sin(_bsAngle);
-				_dashCall->LeftAnalogDeg(this, length);
-				
-				if (!_isDash) {
-					_mvSpd = modeGame->_charaData->_mvSpdNorm;
-				}				
-			}
-			else {
-				_vDir = vec;
-				if (_state != STATE::FOR_DASH) {
-					_mvSpd = modeGame->_charaData->_mvSpdNorm;
-				}
-				if (_canJump) {
-					_state = STATE::WALK;
-				}
-			}
-		}
-		else if (_canJump && !_isAttack) {
-			_state = STATE::WAIT;
-
-		}
 		// 重力処理
-		_vPos.y -= GRAVITY;
-		if (_vPos.y < 0.0f) {
-			_vPos.y = 0.0f;
-		}
+		Gravity();
 
 		// ジャンプ
 		_JumpCall->JumpAction(this);
@@ -318,51 +403,31 @@ void Player::Process(){
 		float nowAngle = atan2(_vDir.z, _vDir.x);
 
 		// ダッシュ処理
-		_dashCall->Dash(this, nowAngle, length);
+		_dashCall->Dash(this, nowAngle, _analogLength);
 
-		// エネルギー溜め
-		if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5)&& _energy < modeGame->_charaData->_maxEnergy) {
-			if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能
-				if (!_isDash) {           // ダッシュしてなければ溜め可能
-					_mvSpd = modeGame->_charaData->_mvSpdChrg;
-					_isCharging = true;
-				}
-			}
-		}
-		else {
-			_isCharging = false;
-		}
-
-		// 近接攻撃(初手のみ)
-		if (_vPos.y == 0.0f) {
-			_attackCall->FirstAttack(this);
-		}
+		// 溜めチャージ処理
+		Charge();
 	}
 
     // 近接攻撃処理(2発目以降)
 	_attackCall->SecondAttack(this);
 
-	if (_camStateMLS) {
-		_vDir.x = -cos(_bsAngle);
-		_vDir.z = -sin(_bsAngle);
-		_state = STATE::NONE;
-	}
-		
-	// マルチロックシステム用照準追加
-	if (trg & PAD_INPUT_5) {
-		_camStateMLS = true;
-		Reticle* reticle = NEW Reticle();
-		modeGame->_objServer.Add(reticle);
-	}
-	else {
-		_camStateMLS = false;
-	}
+	// マルチロックオンシステム用照準追加
+	ReticleGeneration();
 
 	// エネルギー管理
 	_energyCall->EnergyManager(this, oldState);
 
 	// 当たり判定
-	Collision();
+	CollisionToStage();
+	CollisionToBossBullet();
+	CollisionToBoss();
+	CollisionToLaser();
+
+	// HP下限値保持
+	if (_hitpoint <= 0) {
+		_hitpoint = 0;
+	}
 
 	// モデルモーション切替
 	_motionCall->SwitchMotion(this, oldState);
@@ -386,7 +451,7 @@ void Player::Render(){
 		MV1DrawModel(_mh);
 	}
 
-#if 0  // デバッグ用
+#ifdef _DEBUG
 	float angle = atan2(_vDir.z ,_vDir.x);
 	float deg = angle * 180.f / DX_PI_F;
 	int x = 100;
