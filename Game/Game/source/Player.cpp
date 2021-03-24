@@ -308,11 +308,6 @@ void Player::Charge() {
 	else {
 		_isCharging = false;
 	}
-
-	// 近接攻撃(初手のみ)
-	if (_vPos.y == 0.0f) {
-		_attackCall->FirstAttack(this);
-	}
 }
 
 /**
@@ -326,6 +321,7 @@ void Player::CheckDistanceToBoss() {
 	float dz = _vPos.z - bsPos.z;
 	float len = sqrt(dx * dx + dz * dz);
 	_bsAngle = atan2(dz, dx);
+	// ボスとの距離が50m以下かどうか
 	if (len <= 50) {
 		_isNearBoss = true;
 	}
@@ -407,6 +403,11 @@ void Player::Process(){
 
 		// 溜めチャージ処理
 		Charge();
+
+		// 近接攻撃(初手のみ)
+		if (_vPos.y == 0.0f) {
+			_attackCall->FirstAttack(this);
+		}
 	}
 
     // 近接攻撃処理(2発目以降)
