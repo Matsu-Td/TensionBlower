@@ -31,7 +31,7 @@ public:
 	 */
 	void ExplosionDamageShield(Boss* boss);
 private:
-	const int EXPLOSION_DMG_NORM = 2;   // 爆発HPダメージ量：通常時(シールド無)
-	const int EXPLOSION_DMG_HP = 1;     // 爆発HPダメージ量(シールド有)
-	const int EXPLOSION_DMG_SLD = 2;    // 爆発シールドダメージ量(シールド有)
+	static constexpr int EXPLOSION_DMG_NORM = 2;   // 爆発HPダメージ量：通常時(シールド無)
+	static constexpr int EXPLOSION_DMG_HP = 1;     // 爆発HPダメージ量(シールド有)
+	static constexpr int EXPLOSION_DMG_SLD = 2;    // 爆発シールドダメージ量(シールド有)
 };

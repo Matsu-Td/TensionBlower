@@ -40,36 +40,13 @@ void BossStatus::Render(){
 	DrawGraph(FRAME_POS_X, FRAME_BG_POS_Y, _cgFrameBg, TRUE);
 
 	// 5重のHPバーをフェーズ毎に制御する
-	if (phase == 0) {
-		DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[0], TRUE);
-		DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[1], TRUE);
-		DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[2], TRUE);
-		DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[3], TRUE);
-		DrawExtendGraph(HP_POS_X_L + HP_SIZE - (HP_SIZE * (hitpoint - 4000) / HP_ONE),
-			            HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[4], TRUE);
+	int nowBarNum = HP_BAR_NUM - 1 - phase;  // 現在の残りHPバー本数-1
+	for (int i = 0; i < nowBarNum; i++) {
+		DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[i], TRUE);
 	}
-	if (phase == 1) {
-		DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[0], TRUE);
-		DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[1], TRUE);
-		DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[2], TRUE);
-		DrawExtendGraph(HP_POS_X_L + HP_SIZE - (HP_SIZE * (hitpoint - 3000) / HP_ONE), 
-			            HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[3], TRUE);
-	}
-	if (phase == 2) {
-		DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[0], TRUE);
-		DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[1], TRUE);
-		DrawExtendGraph(HP_POS_X_L + HP_SIZE - (HP_SIZE * (hitpoint - 2000) / HP_ONE),
-			            HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[2], TRUE);
-	}
-	if (phase == 3) {
-		DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[0], TRUE);
-		DrawExtendGraph(HP_POS_X_L + HP_SIZE - (HP_SIZE * (hitpoint - HP_ONE) / HP_ONE), 
-			            HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[1], TRUE);
-	}
-	if (phase == 4) {
-		DrawExtendGraph(HP_POS_X_L + HP_SIZE - (HP_SIZE * hitpoint / HP_ONE), 
-			            HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[0], TRUE);
-	}
+	// 一番上に表示するHPバー
+	DrawExtendGraph(HP_POS_X_L + HP_SIZE - (HP_SIZE * (hitpoint - (HP_ONE * nowBarNum)) / HP_ONE),
+		            HP_POS_Y_L, HP_POS_X_R, HP_POS_Y_R, _cgHP[nowBarNum], TRUE);
 
 	// HPバー残り本数表示
 	if (hitpoint > 0) {
