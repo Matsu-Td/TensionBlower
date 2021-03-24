@@ -60,6 +60,12 @@ public:
 	void PlayVoice(std::string voiceName);
 
 	/**
+	 * ボス正面方向回転処理
+	 * @param  rotSpdChenge 回転速度切替用
+	 */
+	void DirectionalRotation(float rotSpdChenge);
+
+	/**
 	 * ヒットポイント値取得
 	 */
 	int GetHitPoint() const { return _hitpoint; }
@@ -79,6 +85,9 @@ public:
 	 */
 	void Dead();
 
+	/**
+	 * ボスのインスタンスを取得する
+	 */
 	static Boss* GetInstance() { return _pInstance; }
 
 	static Boss* _pInstance;
@@ -96,11 +105,18 @@ public:
 	};
 	STATE GetState() const { return _state; };
 
+	/**
+	 * モーション切替
+	 * @param  oldState 処理前の状態
+	 */
+	void MotionSwitch(STATE oldState);
+
 private:
 	int  _hitpoint;      // ヒットポイント値
 	int  _shield;        // シールド値
 	int  _downTime;      // ダウン時間
 	bool _stateDown;     // ダウン状態か(true:ダウン状態)
+	float _sinCnt;       // 上下運動用サイン波カウント
 
 	int   _shotCnt;      // 弾幕発射タイミングカウント
 	int   _mlsCnt;       // マルチロックオンシステム発動時のカウント
@@ -132,8 +148,8 @@ private:
 
 	STATE _state;  // 状態
 
-	std::unique_ptr<ShotPattern> _patternCall;
-	std::unique_ptr<BossDamage> _damageCall;
+	std::unique_ptr<ShotPattern> _patternCall; // 処理呼び出し：弾幕パターン
+	std::unique_ptr<BossDamage>  _damageCall;  // 処理呼び出し：ダメージ処理
 };
 
 #include "ShotPattern.h"

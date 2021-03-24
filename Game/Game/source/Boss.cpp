@@ -40,11 +40,12 @@ void Boss::Initialize() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
-	_vPos = VGet(0.0f, 0.5f, 0.0f);
+	_vPos = VGet(0.0f, 0.0f, 0.0f);
 	_vDir = VGet(0.0f, 0.0f, 0.0f);
 	_attachIndex = 0;
 	_totalTime = 0.0f;
 	_state = STATE::NORMAL;
+	_sinCnt = 0.0f;
 
 	_attachIndex = -1;
 	_totalTime = 0.0f;
@@ -127,6 +128,7 @@ void Boss::StateDown(){
 
 	// 復帰
 	if (_state == STATE::DOWN) {
+		_vPos.y = 0.0f;
 		_mlsDownFlag = false;	   // マルチロックオンシステムによるダウンフラグ解除
 		_downTime--;               // ダウン時間カウント
 		if (_downTime < 0) {
@@ -186,73 +188,9 @@ void Boss::Dead() {
 }
 
 /**
- * フレーム処理：計算
+ * モーション切替
  */
-void Boss::Process(){
-
-	// カメラの状態を取得
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
-
-	STATE oldState = _state;
-
-	// 死亡処理
-	Dead();
-
-	if (_deadFlag) {
-		return;
-	}
-	// 当たり判定用カプセル
-	_capsulePos1 = _vPos;
-	_capsulePos1.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
-	_capsulePos2 = _vPos;
-	_capsulePos2.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
-
-	if (_state == STATE::RETURN) {
-		if (_playTime == _totalTime) {
-			_state = STATE::NORMAL;
-		}
-	}
-
-	if (_state == STATE::NORMAL) {
-		float rotSpd = 1.0f;
-		// 弾幕攻撃処理
-		if (_shield > 0) {
-			// マルチロックオンシステム発動中は弾の発射速度を遅くする
-			if (camState == Camera::STATE::MLS_LOCK) {
-				_mlsCnt++;
-				rotSpd = 0.01f;
-				if (_mlsCnt % 100 == 0) {
-					_patternCall->ShotPatternSwitch(this);
-				}
-			}
-			// 通常時
-			else {
-				_mlsCnt = 0;
-				_patternCall->ShotPatternSwitch(this);
-			}
-		}
-
-		{  // プレイヤーがいる方向にボスの正面を向ける
-			VECTOR plPos = Player::GetInstance()->GetPos();
-			float sx = plPos.x - _vPos.x;
-			float sz = plPos.z - _vPos.z;
-			float rad = atan2(sz, sx);
-			float deg = rad * 180.0f / DX_PI_F;           // 制御しやすいように一度ラジアン単位を度単位に変換			
-			float plAngle = (-deg - 90.0f) / 180.0f * DX_PI_F;  // 90度分のずれを補正し、ラジアン単位に戻す
-			// 角速度を加え、プレイヤーがいる位置にゆっくりとボスの正面を向ける
-			if (plAngle > _vDir.y) {
-				_vDir.y += ROT_SPD * rotSpd;
-			}
-			else if (plAngle < _vDir.y) {
-				_vDir.y -= ROT_SPD * rotSpd;
-			}
-		}
-	}
-
-	// フェーズ切替
-	FhaseChange();
-	// ダウン処理
-	StateDown();
+void Boss::MotionSwitch(STATE oldState) {
 
 	if (oldState == _state) {
 		_playTime += 1.0f;
@@ -278,6 +216,96 @@ void Boss::Process(){
 
 		_playTime = 0.0f;
 	}
+
+}
+
+/**
+ * ボス正面方向回転処理
+ */
+void Boss::DirectionalRotation(float rotSpdChenge) {
+
+	VECTOR plPos = Player::GetInstance()->GetPos();
+	float sx = plPos.x - _vPos.x;
+	float sz = plPos.z - _vPos.z;
+	float rad = atan2(sz, sx);
+	float deg = rad * 180.0f / DX_PI_F;           // 制御しやすいように一度ラジアン単位を度単位に変換			
+	float plAngle = (-deg - 90.0f) / 180.0f * DX_PI_F;  // 90度分のずれを補正し、ラジアン単位に戻す
+	// 角速度を加え、プレイヤーがいる位置にゆっくりとボスの正面を向ける
+	if (plAngle > _vDir.y) {
+		_vDir.y += ROT_SPD * rotSpdChenge;
+	}
+	else if (plAngle < _vDir.y) {
+		_vDir.y -= ROT_SPD * rotSpdChenge;
+	}
+}
+
+/**
+ * フレーム処理：計算
+ */
+void Boss::Process(){
+
+	// カメラの状態を取得
+	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+	
+	STATE oldState = _state;
+
+	// 死亡処理
+	Dead();
+
+	if (_deadFlag) {
+		return;
+	}
+	// 当たり判定用カプセル
+	_capsulePos1 = _vPos;
+	_capsulePos1.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
+	_capsulePos2 = _vPos;
+	_capsulePos2.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
+
+	// 復帰状態
+	if (_state == STATE::RETURN) {
+		if (_playTime == _totalTime) {
+			_state = STATE::NORMAL;
+		}
+	}
+
+	// 通常状態
+	if (_state == STATE::NORMAL) {
+		// ボスの回転速度切替用
+		float rotSpdChenge = 1.0f;
+
+		// 弾幕攻撃処理
+		if (_shield > 0) {
+			// マルチロックオンシステム発動中は弾の発射速度を遅くする
+			if (camState == Camera::STATE::MLS_LOCK) {
+				_mlsCnt++;
+				rotSpdChenge = 0.01f;
+				if (_mlsCnt % 100 == 0) {
+					_patternCall->ShotPatternSwitch(this);
+				}
+			}
+			// 通常時
+			else {
+				_mlsCnt = 0;
+				_patternCall->ShotPatternSwitch(this);
+			}
+		}
+		// ボスの上下運動
+		_sinCnt += 1.0f * rotSpdChenge;
+		_vPos.y = 2.0f - sin(DX_PI_F / 90.0f * _sinCnt) * 2.0f;
+
+		// プレイヤーがいる方向にボスの正面を向ける
+		DirectionalRotation(rotSpdChenge);
+		
+	}
+
+	// フェーズ切替
+	FhaseChange();
+	
+	// ダウン処理
+	StateDown();
+
+	// モーション切替
+	MotionSwitch(oldState);
 }
 
 /**
