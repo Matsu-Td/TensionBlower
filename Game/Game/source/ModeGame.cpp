@@ -39,6 +39,7 @@ bool ModeGame::Initialize() {
 	_objServer.Process();
 	_stopObjProcess = true;
 
+	// ライトの設定
 	SetLightEnable(FALSE);
 	SetGlobalAmbientLight(GetColorF(0.164f, 0.164f, 0.164f, 0.0f));
 
@@ -62,12 +63,6 @@ bool ModeGame::Initialize() {
 	SetLightSpcColorHandle(Light3Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
 	SetLightAmbColorHandle(Light3Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
 
-	//_shadowMapHandle = MakeShadowMap(1024, 1024);
-	//SetLightDirection(VGet(0.0f, -0.5f, 0.0f));
-	//SetShadowMapLightDirection(_shadowMapHandle, VGet(0.0f, -0.5f, 0.0f));
-	//SetShadowMapDrawArea(_shadowMapHandle, VGet(-124.0f, -1.0f, -124.0f), VGet(124.0f, 250.0f, 124.0f));
-
-
 	return true;
 }
 
@@ -89,8 +84,10 @@ bool ModeGame::Terminate() {
 bool ModeGame::Process() {
 	base::Process();
 
+	// キーのトリガ情報取得
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 	
+	// オブジェクトの処理停止要否
 	if (_stopObjProcess == false) {
 		_objServer.Process();
 	}
@@ -114,26 +111,22 @@ bool ModeGame::Process() {
 bool ModeGame::Render() {
 	base::Render();
 	
+	// 3D描画設定
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
 	SetUseBackCulling(TRUE);	
-	
 
-	//SetShadowMapAdjustDepth(_shadowMapHandle, 0.022f);
-
-	//ShadowMap_DrawSetup(_shadowMapHandle);
-
+	// オブジェクトの描画
 	_objServer.Render();
-	//ShadowMap_DrawEnd();
 
-	//SetUseShadowMap(0, _shadowMapHandle);
-	//_objServer.Render();
-	//SetUseShadowMap(0, -1);
-
+	// カメラ情報の描画
 	_cam.Render();
+
+	// インゲームのUI描画
 	_playerStatus.Render();
 	_bossStatus.Render();
 
+	// エフェクシアデータの再生、描画
 	Effekseer_Sync3DSetting();
 	DrawEffekseer3D();
 

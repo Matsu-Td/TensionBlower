@@ -15,6 +15,7 @@
 Reticle::Reticle(){
 
 	_cg = ResourceServer::LoadGraph("res/ui/player/mls_reticle.png");
+
 	Initialize();
 }
 
@@ -102,9 +103,6 @@ void Reticle::Process(){
  * ƒtƒŒ[ƒ€ˆ—F•`‰æ
  */
 void Reticle::Render(){
-	// ‰e•`‰æ‚µ‚È‚¢
-	//ShadowMap_DrawEnd();
 
 	DrawGraph(static_cast<int>(_scrnPos.x), static_cast<int>(_scrnPos.y), _cg, TRUE);
-
 }
