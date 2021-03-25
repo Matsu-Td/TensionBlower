@@ -32,4 +32,7 @@ public:
 	 * フレーム処理：描画
 	 */
 	void Render() override;
+
+private:
+	const float ANALOG_MIN = 0.3f; // アナログスティック入力反応の最小値
 };

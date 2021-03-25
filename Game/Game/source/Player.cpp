@@ -177,7 +177,7 @@ void Player::CollisionToBoss() {
 				}
 			}
 			if (IsHitLineSegment(*(*itr), (*itr)->_r)) {
-				_vPos = VAdd(_vPos, VScale(_oldPos, 0.4f));
+				_vPos = VAdd(_vPos, VScale(_oldPos, 0.18f));
 			}
 		}
 	}

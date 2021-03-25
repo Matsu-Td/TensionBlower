@@ -46,6 +46,7 @@ void Boss::Initialize() {
 	_totalTime = 0.0f;
 	_state = STATE::NORMAL;
 	_sinCnt = 0.0f;
+	_angle = 90.0f / 180.0f * DX_PI_F;
 
 	_attachIndex = -1;
 	_totalTime = 0.0f;
@@ -216,7 +217,6 @@ void Boss::MotionSwitch(STATE oldState) {
 
 		_playTime = 0.0f;
 	}
-
 }
 
 /**
@@ -224,19 +224,26 @@ void Boss::MotionSwitch(STATE oldState) {
  */
 void Boss::DirectionalRotation(float rotSpdChenge) {
 
+	// プレイヤーの位置情報取得
 	VECTOR plPos = Player::GetInstance()->GetPos();
-	float sx = plPos.x - _vPos.x;
-	float sz = plPos.z - _vPos.z;
-	float rad = atan2(sz, sx);
-	float deg = rad * 180.0f / DX_PI_F;           // 制御しやすいように一度ラジアン単位を度単位に変換			
-	float plAngle = (-deg - 90.0f) / 180.0f * DX_PI_F;  // 90度分のずれを補正し、ラジアン単位に戻す
-	// 角速度を加え、プレイヤーがいる位置にゆっくりとボスの正面を向ける
-	if (plAngle > _vDir.y) {
-		_vDir.y += ROT_SPD * rotSpdChenge;
+
+	// ボスのフォワードベクトル
+	VECTOR forward = { cos(_angle),0.0f,sin(_angle) };
+
+	// プレイヤーに向かうベクトル
+	VECTOR dis = VSub(plPos, _vPos);
+	// 単位ベクトル化
+	dis = VNorm(dis);
+
+	// 外積でプレイヤーの位置を左右判定し、ボスの向きを回転させる
+	_cross = VCross(forward, dis);
+	if (_cross.y > 0.0f) {
+		_angle += ROT_SPD * rotSpdChenge;
 	}
-	else if (plAngle < _vDir.y) {
-		_vDir.y -= ROT_SPD * rotSpdChenge;
+	else if (_cross.y < 0.0f) {
+		_angle -= ROT_SPD * rotSpdChenge;
 	}
+	_vDir = { cos(_angle),0.0f,sin(_angle) };
 }
 
 /**
@@ -315,7 +322,9 @@ void Boss::Render(){
 
 	MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
 	MV1SetPosition(_mh, _vPos);
-	MV1SetRotationXYZ(_mh, _vDir);
+	VECTOR vRot = { 0,0,0 };
+	vRot.y = atan2(_vDir.x, _vDir.z);
+	MV1SetRotationXYZ(_mh, vRot);
 	MV1DrawModel(_mh);
 
 #ifdef _DEBUG
@@ -324,6 +333,8 @@ void Boss::Render(){
 	SetFontSize(size);
 	DrawFormatString(0, y, GetColor(255, 0, 0), "Boss:"); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  pos     = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  dir     = (%5.2f, %5.2f, %5.2f)", _vDir.x, _vDir.y, _vDir.z); y += size;
+	DrawFormatString(0, y, GetColor(255, 0, 0), "  cross     = (%5.2f, %5.2f, %5.2f)", _cross.x, _cross.y, _cross.z); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  HP　    = %d", _hitpoint); y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  ｼｰﾙﾄﾞ値 = %d", _shield);  y += size;
 	DrawFormatString(0, y, GetColor(255, 0, 0), "  出現している弾の数 = %d", _bulletNum);  y += size;

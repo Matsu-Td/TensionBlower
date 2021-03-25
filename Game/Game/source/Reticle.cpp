@@ -71,7 +71,7 @@ void Reticle::Process(){
 	VECTOR vec = { 0.0f,0.0f,0.0f };
 
 	// ˆÚ“®ˆ—
-	if (length < analogMin) {
+	if (length < ANALOG_MIN) {
 		length = 0.0f;
 	}
 	else {

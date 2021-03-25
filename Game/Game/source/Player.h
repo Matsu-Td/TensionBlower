@@ -220,9 +220,9 @@ private:
 	STATE _state; // プレイヤーの状態
 
 	static constexpr float GRAVITY       = 0.9f; // 重力加速度値
-	static constexpr int RELOAD_TIME     = 90;   // 近接・射撃攻撃リロード時間
 	static constexpr int AUTO_CHARGE_CNT = 120;  // 自動回復開始カウント
-	static constexpr float ANALOG_MIN    = 0.3f; // アナログスティック入力反応の最小値
+	const int RELOAD_TIME     = 90;   // 近接・射撃攻撃リロード時間
+	const float ANALOG_MIN    = 0.3f; // アナログスティック入力反応の最小値
 
 	PlayerAttack* _attackCall;  // 処理呼び出し：近接攻撃処理
 	PlayerMotion* _motionCall;  // 処理呼び出し：モーション切替処理

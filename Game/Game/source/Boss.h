@@ -136,7 +136,6 @@ private:
 	std::string _attackNameNo[ATTACK_VOICE_NUM] =  // 攻撃時の声データの名前を格納
 	{ "attack1","attack1" ,"attack2" ,"attack4" ,"attack5" ,"attack6" };
 
-
 	const float ADD_POS_Y     = 9.0f;   // 当たり判定用Y座標加算値
 	const float ROT_SPD       = 0.01f;  // ボスの向き回転用角速度
 
@@ -150,6 +149,8 @@ private:
 
 	std::unique_ptr<ShotPattern> _patternCall; // 処理呼び出し：弾幕パターン
 	std::unique_ptr<BossDamage>  _damageCall;  // 処理呼び出し：ダメージ処理
+
+	VECTOR _cross;
 };
 
 #include "ShotPattern.h"
