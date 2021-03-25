@@ -62,6 +62,12 @@ bool ModeGame::Initialize() {
 	SetLightSpcColorHandle(Light3Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
 	SetLightAmbColorHandle(Light3Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
 
+	//_shadowMapHandle = MakeShadowMap(1024, 1024);
+	//SetLightDirection(VGet(0.0f, -0.5f, 0.0f));
+	//SetShadowMapLightDirection(_shadowMapHandle, VGet(0.0f, -0.5f, 0.0f));
+	//SetShadowMapDrawArea(_shadowMapHandle, VGet(-124.0f, -1.0f, -124.0f), VGet(124.0f, 250.0f, 124.0f));
+
+
 	return true;
 }
 
@@ -112,7 +118,17 @@ bool ModeGame::Render() {
 	SetWriteZBuffer3D(TRUE);
 	SetUseBackCulling(TRUE);	
 	
+
+	//SetShadowMapAdjustDepth(_shadowMapHandle, 0.022f);
+
+	//ShadowMap_DrawSetup(_shadowMapHandle);
+
 	_objServer.Render();
+	//ShadowMap_DrawEnd();
+
+	//SetUseShadowMap(0, _shadowMapHandle);
+	//_objServer.Render();
+	//SetUseShadowMap(0, -1);
 
 	_cam.Render();
 	_playerStatus.Render();

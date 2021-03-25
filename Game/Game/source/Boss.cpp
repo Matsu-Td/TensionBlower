@@ -25,6 +25,7 @@ Boss::Boss(){
 
 	_pInstance = this;
 	_mh = MV1LoadModel("res/model/boss/Tboss_model_mm.mv1");
+	_shadowModel = MV1LoadModel("res/model/boss/Tboss_model_mm_shadow.mv1");
 
 	Initialize();
 }
@@ -319,6 +320,8 @@ void Boss::Process(){
  * ƒtƒŒ[ƒ€ˆ—F•`‰æ
  */
 void Boss::Render(){
+
+	ObjectBase::ShadowRender();
 
 	MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
 	MV1SetPosition(_mh, _vPos);

@@ -115,7 +115,7 @@ void Camera::Process(){
 void Camera::Render(){
 
 	SetCameraPositionAndTarget_UpVecY(_vPos, _vTarg);
-	SetCameraNearFar(0.1f, 5000.f);
+	SetCameraNearFar(0.1f, 5000.0f);
 
 	if (_state == STATE::TARG_LOCK_ON) {
 		DrawGraph(_lockOn.x, _lockOn.y, _lockOn.cg, TRUE);

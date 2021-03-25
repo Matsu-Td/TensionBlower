@@ -50,8 +50,9 @@ public:
 
 	std::unique_ptr<CharaData> _charaData; // JSONファイルからキャラデータ読み込み
 	bool _stopObjProcess;       // オブジェクト処理をストップ
-
+	int _shadowMapHandle;
 private:
 	PlayerStatus _playerStatus;
 	BossStatus   _bossStatus;
+	
 }; 

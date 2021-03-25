@@ -89,19 +89,23 @@ void ShotBase::Process()
 void ShotBase::Render()
 {
 	float modelSize = 0.005f;
+	ObjectBase::ShadowRender(modelSize);
 	MV1SetScale(_mh, VGet(modelSize, modelSize, modelSize));
 	MV1SetPosition(_mh, _vPos);
 	MV1DrawModel(_mh);
+	{
+		// マルチロックオンが可能か
+		if (_canLockFlag) {
+			// 弾き返されたかどうか
+			if (_repelFlag) {
+				DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[1], TRUE);
+			}
+			else {
+				DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[0], TRUE);
+			}
+		}
+		
 
-	// マルチロックオンが可能か
-	if (_canLockFlag) {
-		// 弾き返されたかどうか
-		if (_repelFlag) {
-			DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[1], TRUE);
-		}
-		else {
-			DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[0], TRUE);
-		}
 	}
 }
 

@@ -24,13 +24,17 @@ Player* Player::_pInstance = nullptr;
 Player::Player(){
 
 	_pInstance = this;
-	_mh = MV1LoadModel("res/model/player/pl_model_mm.mv1");
 
+	_mh = MV1LoadModel("res/model/player/pl_model_mm.mv1");
+	_shadowModel = MV1LoadModel("res/model/player/pl_model_mm_shadow.mv1");
+	MV1SetAttachAnimTime(_shadowModel, MV1AttachAnim(_shadowModel, 0, -1, FALSE), 0.0f);
+	
 	Initialize();
 }
 
 Player::~Player(){
 	MV1DeleteModel(_mh);
+	MV1DeleteModel(_shadowModel);
 }
 
 /**
@@ -443,6 +447,8 @@ void Player::Process(){
  */
 void Player::Render(){
 
+	ObjectBase::ShadowRender();
+
     MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
 	{
 		MV1SetPosition(_mh, _vPos);
@@ -455,7 +461,7 @@ void Player::Render(){
 
 #ifdef _DEBUG
 	float angle = atan2(_vDir.z ,_vDir.x);
-	float deg = angle * 180.f / DX_PI_F;
+	float deg = angle * 180.0f / DX_PI_F;
 	int x = 100;
 	int y = 340;
 	int size = 24;

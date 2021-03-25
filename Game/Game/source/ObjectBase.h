@@ -79,6 +79,12 @@ public:
 	virtual bool IsHitArc_Sphere(ObjectBase& obj);
 
 	/**
+	 * @brief モデルの影を描画
+	 * @param modelScale モデルの拡大率(デフォルトは 1.0f)
+	 */
+	void ShadowRender(float modelScale = 1.0f);
+
+	/**
 	 * 座標を設定する
 	 */
 	void SetPos(VECTOR vPos) { _vPos = vPos; }
@@ -100,6 +106,7 @@ public:
 
 protected:
 	int _mh;           // モデルハンドル
+	int _shadowModel;  // 影用モデルハンドル
 	int	_cg;		   // 画像
 	int	_cut;		   // 動作カウンタ
 	int _attachIndex;  // アニメーションをアタッチ

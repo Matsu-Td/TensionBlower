@@ -123,3 +123,22 @@ bool ObjectBase::IsHitArc_Sphere(ObjectBase& obj) {
 	}
 	return false;
 }
+
+/**
+ * ƒ‚ƒfƒ‹‚Ì‰e‚ğ•`‰æ
+ */
+void ObjectBase::ShadowRender(float modelScale){
+	
+	// Šg‘å—¦İ’è
+	MV1SetScale(_shadowModel, VGet(modelScale, 0.0f, modelScale));
+
+	// ‰e‚ÌˆÊ’u
+	VECTOR shadowPos = _vPos;
+	shadowPos.y = 0.0f;
+	MV1SetPosition(_shadowModel, shadowPos);
+	// ƒ‚ƒfƒ‹‚Ì‰ñ“]‚É‡‚í‚¹‚Ä‰e‚à‰ñ“]
+	VECTOR vRot = { 0,0,0 };
+	vRot.y = atan2(_vDir.x * -1, _vDir.z * -1);
+	MV1SetRotationXYZ(_shadowModel, vRot);
+	MV1DrawModel(_shadowModel);
+}
