@@ -1,6 +1,6 @@
 /**
  * @file   ShotBase.h
- * @brief  弾幕処理クラスの基底クラス
+ * @brief  弾幕系処理クラスの基底クラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/22
@@ -12,6 +12,9 @@
 #include "../Object/ObjectBase.h"
 #include "BossDamage.h"
 
+/**
+ * 弾幕系処理クラスの基底クラス
+ */
 class ShotBase : public ObjectBase{
 public:
 	/**

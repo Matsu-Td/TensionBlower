@@ -1,6 +1,6 @@
 /**
  * @file   ShotBase.cpp
- * @brief  弾幕処理クラスの基底クラス
+ * @brief  弾幕系処理クラスの基底クラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/22

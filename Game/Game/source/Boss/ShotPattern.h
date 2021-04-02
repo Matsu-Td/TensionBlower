@@ -10,6 +10,9 @@
 
 #include "Boss.h"
 
+/**
+ * ’e–‹ƒpƒ^[ƒ“ˆ—
+ */
 class ShotPattern {
 public:
 	/**

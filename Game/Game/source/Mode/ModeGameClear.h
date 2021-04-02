@@ -1,6 +1,6 @@
 /**
  * @file   ModeGameClear.h
- * @brief  ゲームクリア画面
+ * @brief  ゲームクリアモードクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -8,6 +8,9 @@
 
 #include "appframe.h"
 
+/**
+ * ゲームクリアモードクラス
+ */
 class ModeGameClear : public ModeBase{
 	using base = ModeBase;
 

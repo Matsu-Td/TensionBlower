@@ -1,6 +1,6 @@
 /**
  * @file   BossStatus.h
- * @brief  ボスステータスUI描画
+ * @brief  ボスステータスUI描画処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -10,6 +10,9 @@
 
 #include "appframe.h"
 
+/**
+ * ボスステータスUI描画処理
+ */
 class BossStatus {
 public:
 	BossStatus();

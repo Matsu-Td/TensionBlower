@@ -1,6 +1,6 @@
 /**
  * @file   ModeAmgLogo.h
- * @brief  AMGƒƒS•\¦
+ * @brief  AMGƒƒS•`‰æˆ—
  * 
  * @author matsuo tadahiko
  * @date   2021/03/07
@@ -10,6 +10,9 @@
 
 #include "appframe.h"
 
+/**
+ * AMGƒƒS•`‰æˆ—
+ */
 class ModeAmgLogo :public ModeBase {
 	using base = ModeBase;
 

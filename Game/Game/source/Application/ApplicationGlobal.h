@@ -8,6 +8,9 @@
 
 #include "appframe.h"
 
+/**
+ * グローバル変数定義
+ */
 class ApplicationGlobal{
 public:
 	ApplicationGlobal();
@@ -15,7 +18,7 @@ public:
 
 	/**
 	 * 初期化
-	 * @return 初期化成功したか 
+	 * @return 処理の成否 
 	 */
 	bool Initialize();
 

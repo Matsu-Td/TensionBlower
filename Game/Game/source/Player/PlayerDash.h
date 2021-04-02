@@ -11,11 +11,11 @@
 #include "appframe.h"
 #include "Player.h"
 
+/**
+ * プレイヤーダッシュ処理
+ */
 class PlayerDash {
 public:
-	PlayerDash();
-	~PlayerDash();
-
 	/**
      * カメラロック中の移動、ダッシュモーション切替処理／
      * 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移

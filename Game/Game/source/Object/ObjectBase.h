@@ -10,6 +10,9 @@
 #include "appframe.h"
 #include <iostream>
 
+/**
+ * オブジェクト基底クラス
+ */
 class ObjectBase {
 public:
 	ObjectBase();

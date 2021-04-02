@@ -90,9 +90,6 @@
     <ClCompile Include="source\Mode\ModePause.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
-    <ClCompile Include="source\Mode\ModeRanking.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
     <ClCompile Include="source\Mode\ModeResult.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
@@ -240,9 +237,6 @@
       <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
     <ClInclude Include="source\Mode\ModePause.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Mode\ModeRanking.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
     <ClInclude Include="source\Mode\ModeResult.h">

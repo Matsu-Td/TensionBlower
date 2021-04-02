@@ -1,6 +1,6 @@
 /**
  * @file   ModeGame.h
- * @brief  ゲーム本体
+ * @brief  ゲームモードクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -17,6 +17,9 @@
 #include "../Player/PlayerStatus.h"
 #include "../Boss/BossStatus.h"
 
+/**
+ * ゲームモードクラス
+ */
 class ModeGame : public ModeBase{
 	using base = ModeBase;
 

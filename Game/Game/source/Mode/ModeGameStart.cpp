@@ -1,6 +1,6 @@
 /**
  * @file   ModeGameStart.cpp
- * @brief  MISSION START•¶š•\¦
+ * @brief  MISSION START‰æ‘œ•`‰æˆ—
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01

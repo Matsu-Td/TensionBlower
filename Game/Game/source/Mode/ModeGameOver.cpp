@@ -1,6 +1,6 @@
 /**
  * @file   ModeGameOver.cpp
- * @brief  ゲームオーバー画面
+ * @brief  ゲームオーバーモードクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01

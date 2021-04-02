@@ -1,6 +1,6 @@
 /**
  * @file   ModeTutorial.cpp
- * @brief  チュートリアル画面
+ * @brief  チュートリアルモードクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/15

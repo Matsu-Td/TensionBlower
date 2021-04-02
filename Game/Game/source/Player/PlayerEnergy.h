@@ -11,11 +11,11 @@
 #include "appframe.h"
 #include "Player.h"
 
+/**
+ * プレイヤーエネルギー関係処理
+ */
 class PlayerEnergy {
 public:
-	PlayerEnergy();
-	~PlayerEnergy();
-
 	/**
      * @brief エネルギー消費処理
 	 * @param player プレイヤークラスオブジェクトのポインタ

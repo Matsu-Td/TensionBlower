@@ -11,10 +11,6 @@
 #include "../Mode/ModeGame.h"
 #include "PlayerEnergy.h"
 
-PlayerEnergy::PlayerEnergy() {
-
-}
-
 /**
  * ƒGƒlƒ‹ƒM[Á”ïˆ—
  */

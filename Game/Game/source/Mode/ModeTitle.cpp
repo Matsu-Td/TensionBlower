@@ -1,6 +1,6 @@
 /**
  * @file   ModeTitle.cpp
- * @brief  タイトル画面
+ * @brief  タイトルモードクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/15
@@ -11,7 +11,6 @@
 #include "ModeGameStart.h"
 #include "ModeCredit.h"
 #include "ModeTutorial.h"
-#include "ModeRanking.h"
 #include "ModeGame.h"
 #include "TitleBGM.h"
 #include "../Sound/Sound.h"

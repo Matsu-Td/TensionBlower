@@ -1,5 +1,5 @@
 /**
- * @file ObjectServer.h
+ * @file  ObjectServer.h
  * @brief オブジェクト管理サーバー
  *
  * @date 2021/01/15
@@ -10,6 +10,9 @@
 #include <vector>
 #include "ObjectBase.h"
 
+/**
+ * オブジェクト管理サーバー
+ */
 class ObjectServer {
 public:
 	ObjectServer();

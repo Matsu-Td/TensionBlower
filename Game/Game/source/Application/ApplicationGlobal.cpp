@@ -12,12 +12,12 @@
 // ŽÀ‘Ì
 ApplicationGlobal	gGlobal;
 
-ApplicationGlobal::ApplicationGlobal() 
-{
+ApplicationGlobal::ApplicationGlobal() {
+	// ‰½‚à‚µ‚È‚¢
 }
 
-ApplicationGlobal::~ApplicationGlobal() 
-{
+ApplicationGlobal::~ApplicationGlobal() {
+	// ‰½‚à‚µ‚È‚¢
 }
 
 /**

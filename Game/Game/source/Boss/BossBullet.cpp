@@ -32,7 +32,7 @@ BossBullet::BossBullet(VECTOR pos, float shotSpd, float shotAngle){
 }
 
 BossBullet::~BossBullet(){
-
+	// ‰½‚à‚µ‚È‚¢
 }
 
 /**

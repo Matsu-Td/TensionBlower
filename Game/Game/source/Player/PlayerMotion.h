@@ -1,6 +1,6 @@
 /**
  * @file   PlayerMotion.h
- * @brief  プレイヤーモーション切替
+ * @brief  プレイヤーモーション切替処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -10,10 +10,11 @@
 
 #include "Player.h"
 
+/**
+ * プレイヤーモーション切替処理
+ */
 class PlayerMotion {
 public:
-	PlayerMotion();
-
 	/**
 	 * @brief プレイヤーモーション切替
 	 * @param player プレイヤークラスオブジェクトのポインタ

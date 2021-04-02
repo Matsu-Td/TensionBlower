@@ -1,6 +1,6 @@
 /**
  * @file   ModeResult.h
- * @brief  リザルト画面
+ * @brief  リザルトモードクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -8,6 +8,9 @@
 
 #include "appframe.h"
 
+/**
+ * リザルトモードクラス
+ */
 class ModeResult : public ModeBase{
 	using base = ModeBase;
 

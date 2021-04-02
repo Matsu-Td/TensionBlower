@@ -1,6 +1,6 @@
 /**
  * @file   Camera.h
- * @brief  カメラ関連処理
+ * @brief  カメラクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/15
@@ -9,10 +9,12 @@
 #pragma once
 
 #include "appframe.h"
-
 #define	DEG2RAD(x)			( ((x) / 180.0f ) * DX_PI_F )
 #define	RAD2DEG(x)			( ((x) * 180.0f ) / DX_PI_F )
 
+/**
+ * カメラクラス
+ */
 class Camera{
 public:
 	Camera();

@@ -28,13 +28,13 @@ public:
 	virtual bool AppWindowed() { return true; }
 
 	/**
-	 * ウィンドウ横向きサイズ指定
+	 * 表示するウィンドウの横幅
 	 * @return サイズ
 	 */
 	virtual int DispSizeW() { return 640; }
 
 	/**
-	 * ウィンドウ縦向きサイズ指定
+	 * 表示するウィンドウの縦幅
 	 * @return サイズ
 	 */
 	virtual int DispSizeH() { return 480; }

@@ -1,6 +1,6 @@
 /**
  * @file   BossAimShot.h
- * @brief  ƒ{ƒX‚Ì‘_‚¢Œ‚‚¿’e
+ * @brief  ƒ{ƒX‚Ì‘_‚¢Œ‚‚¿’eˆ—
  * 
  * @author matsuo tadahiko
  * @date   2021/03/15
@@ -10,6 +10,9 @@
 
 #include "ShotBase.h"
 
+/**
+ * ƒ{ƒX‚Ì‘_‚¢Œ‚‚¿’eˆ—
+ */
 class BossAimShot :public ShotBase {
 public:
 	/**

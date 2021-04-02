@@ -11,6 +11,9 @@
 #include "appframe.h"
 #include "Player.h"
 
+/**
+ * プレイヤージャンプ処理
+ */
 class PlayerJump {
 public:
 	/**

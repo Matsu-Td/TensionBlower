@@ -10,6 +10,9 @@
 
 #include "ShotBase.h"
 
+/**
+ * ƒ{ƒX‚Ìƒ{ƒ€UŒ‚ˆ—
+ */
 class BossBomb : public ShotBase {
 public:
 	/**

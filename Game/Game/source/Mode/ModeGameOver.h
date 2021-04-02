@@ -1,6 +1,6 @@
 /**
  * @file   ModeGameOver.h
- * @brief  ゲームオーバー画面
+ * @brief  ゲームオーバークラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -8,6 +8,9 @@
 
 #include "appframe.h"
 
+/**
+ * ゲームオーバークラス
+ */
 class ModeGameOver : public ModeBase{
 	using base = ModeBase;
 

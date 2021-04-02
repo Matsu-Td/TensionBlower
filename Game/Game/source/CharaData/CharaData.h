@@ -10,6 +10,9 @@
 
 #include "appframe.h"
 
+/**
+ * キャラデータ(プレイヤー、ボス)JSONファイル読み込み処理
+ */
 class CharaData{
 public:
 	/**

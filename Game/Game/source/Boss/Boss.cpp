@@ -1,6 +1,6 @@
 /**
  * @file   Boss.cpp
- * @brief  ボス関連処理
+ * @brief  ボスクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/14

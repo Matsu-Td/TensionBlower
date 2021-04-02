@@ -1,6 +1,6 @@
 /**
  * @file   ModeTutorial.h
- * @brief  チュートリアル画面
+ * @brief  チュートリアルモードクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/15
@@ -8,6 +8,9 @@
 
 #include "appframe.h"
 
+/**
+ * チュートリアルモードクラス
+ */
 class ModeTutorial : public ModeBase{
 	using base = ModeBase;
 

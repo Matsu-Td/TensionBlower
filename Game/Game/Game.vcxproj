@@ -179,7 +179,6 @@
     <ClCompile Include="source\Mode\ModeGameOver.cpp" />
     <ClCompile Include="source\Mode\ModeGameStart.cpp" />
     <ClCompile Include="source\Mode\ModePause.cpp" />
-    <ClCompile Include="source\Mode\ModeRanking.cpp" />
     <ClCompile Include="source\Mode\ModeResult.cpp" />
     <ClCompile Include="source\Mode\ModeTeamLogo.cpp" />
     <ClCompile Include="source\Mode\ModeTitle.cpp" />
@@ -224,7 +223,6 @@
     <ClInclude Include="source\Mode\ModeGameOver.h" />
     <ClInclude Include="source\Mode\ModeGameStart.h" />
     <ClInclude Include="source\Mode\ModePause.h" />
-    <ClInclude Include="source\Mode\ModeRanking.h" />
     <ClInclude Include="source\Mode\ModeResult.h" />
     <ClInclude Include="source\Mode\ModeTeamLogo.h" />
     <ClInclude Include="source\Mode\ModeTitle.h" />

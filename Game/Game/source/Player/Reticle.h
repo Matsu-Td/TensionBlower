@@ -1,6 +1,6 @@
 /**
  * @file   Reticle.h
- * @brief  照準処理
+ * @brief  プレイヤー照準処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -11,6 +11,9 @@
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
+/**
+ * プレイヤー照準処理
+ */
 class Reticle : public ObjectBase{
 public:
 	Reticle();

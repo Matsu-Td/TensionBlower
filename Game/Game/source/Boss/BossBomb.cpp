@@ -31,7 +31,7 @@ BossBomb::BossBomb(VECTOR pos) {
 }
 
 BossBomb::~BossBomb() {
-
+	// ‰½‚à‚µ‚È‚¢
 }
 
 /**

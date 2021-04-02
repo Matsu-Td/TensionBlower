@@ -11,10 +11,6 @@
 #include "../Mode/ModeGame.h"
 #include "PlayerDash.h"
 
-PlayerDash::PlayerDash() {
-
-}
-
 /**
  * カメラロック中の移動、ダッシュモーション,移動射撃モーション切替処理
  * 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移

@@ -1,6 +1,6 @@
 /**
  * @file   Player.h
- * @brief  プレイヤー関連処理
+ * @brief  プレイヤークラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -19,6 +19,9 @@ class PlayerEnergy;
 class PlayerDash;
 class PlayerJump;
 
+/**
+ * プレイヤークラス
+ */
 class Player : public ObjectBase{
 	// 下記ファイルからのprivateへのアクセスを可能にする
 	friend PlayerAttack;

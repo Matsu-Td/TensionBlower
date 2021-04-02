@@ -1,6 +1,6 @@
 /**
  * @file   BossDamage.h
- * @brief  ボスへのダメージ処理
+ * @brief  ボスが受けるダメージ処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/22
@@ -9,6 +9,9 @@
 
 #include "Boss.h"
 
+/**
+ * ボスが受けるダメージ処理
+ */
 class BossDamage {
 public:
 	/**

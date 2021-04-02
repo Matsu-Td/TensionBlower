@@ -1,6 +1,6 @@
 /**
  * @file   BossStatus.cpp
- * @brief  ボスステータスUI描画
+ * @brief  ボスステータスUI描画処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -25,7 +25,7 @@ BossStatus::BossStatus() {
 }
 
 BossStatus::~BossStatus() {
-
+	// 何もしない
 }
 
 /**

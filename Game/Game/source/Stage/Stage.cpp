@@ -1,6 +1,6 @@
 /**
  * @file   Stage.cpp
- * @brief  ステージ描画
+ * @brief  ステージクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -16,7 +16,7 @@ Stage::Stage(){
 }
 
 Stage::~Stage(){
-
+	// 何もしない
 }
 
 /**

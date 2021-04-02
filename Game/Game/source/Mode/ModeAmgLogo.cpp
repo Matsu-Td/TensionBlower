@@ -1,6 +1,6 @@
 /**
  * @file   ModeAmgLogo.cpp
- * @brief  AMGƒƒS•\¦
+ * @brief  AMGƒƒS•`‰æˆ—
  * 
  * @author matsuo tadahiko
  * @date   2021/03/07

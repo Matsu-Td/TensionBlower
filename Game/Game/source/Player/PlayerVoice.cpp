@@ -1,6 +1,6 @@
 /**
  * @file   PlayerVoice.cpp
- * @brief  プレイヤー声優 声データ読み込み
+ * @brief  プレイヤー声優 声データ読み込み処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/07
@@ -11,6 +11,9 @@
 // 実体：声データ呼び出し
 PlayerVoice gPlayerVoice;
 
+/**
+ * 声データ読み込み
+ */
 int PlayerVoice::LoadVoice(const TCHAR* filePath) {
 	return ResourceServer::LoadSoundMem(filePath);
 }

@@ -10,11 +10,11 @@
 
 #include "Player.h"
 
+/**
+ * プレイヤー近接攻撃処理
+ */
 class PlayerAttack{
 public:
-	PlayerAttack();
-	~PlayerAttack();
-
 	/**
 	 * 近接攻撃のダメージ量を近接攻撃の種類によって切替
 	 * @param player  プレイヤークラスオブジェクトのポインタ

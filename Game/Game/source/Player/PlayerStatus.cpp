@@ -1,6 +1,6 @@
 /**
  * @file   PlayerStatus.cpp
- * @brief  プレイヤーステータスUI描画
+ * @brief  プレイヤーステータスUI描画処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -20,7 +20,7 @@ PlayerStatus::PlayerStatus() {
 }
 
 PlayerStatus::~PlayerStatus() {
-
+	// 何もしない
 }
 
 /**

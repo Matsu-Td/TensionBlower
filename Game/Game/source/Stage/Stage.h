@@ -1,6 +1,6 @@
 /**
  * @file   Stage.h
- * @brief  ステージ描画
+ * @brief  ステージクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -11,6 +11,9 @@
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
+/**
+ * ステージクラス
+ */
 class Stage : public ObjectBase{
 public:
 	Stage();

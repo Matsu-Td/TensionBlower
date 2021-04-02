@@ -1,6 +1,6 @@
 /**
  * @file   Player.cpp
- * @brief  プレイヤー関連処理
+ * @brief  プレイヤークラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01

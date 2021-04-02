@@ -1,6 +1,6 @@
 /**
  * @file   ModeGameStart.h
- * @brief  MISSION START•¶š•\¦
+ * @brief  MISSION START‰æ‘œ•`‰æˆ—
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -8,6 +8,9 @@
 
 #include "appframe.h"
 
+/**
+ * MISSION START‰æ‘œ•`‰æˆ—
+ */
 class ModeGameStart : public ModeBase{
 	using base = ModeBase;
 

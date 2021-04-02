@@ -1,6 +1,6 @@
 /**
  * @file   PlayerMotion.cpp
- * @brief  プレイヤーモーション切替
+ * @brief  プレイヤーモーション切替処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01

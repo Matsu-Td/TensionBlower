@@ -13,10 +13,6 @@
 #include "../Sound/Sound.h"
 #include "PlayerVoice.h"
 
-PlayerAttack::PlayerAttack() {
-	
-}
-
 /**
  * UŒ‚”­¶‚Ìºƒf[ƒ^‚ğÄ¶‚·‚é
  */

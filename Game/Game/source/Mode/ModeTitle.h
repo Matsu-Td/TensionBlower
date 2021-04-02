@@ -1,6 +1,6 @@
 /**
  * @file   ModeTitle.h
- * @brief  タイトル画面
+ * @brief  タイトルモードクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/15
@@ -9,6 +9,9 @@
 #include "appframe.h"
 #include <string>
 
+/**
+ * タイトルモードクラス
+ */
 class ModeTitle : public ModeBase{
 	using base = ModeBase;
 

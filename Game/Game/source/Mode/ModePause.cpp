@@ -1,6 +1,6 @@
 /**
  * @file   ModePause.cpp
- * @brief  ポーズ画面
+ * @brief  ポーズモードクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01

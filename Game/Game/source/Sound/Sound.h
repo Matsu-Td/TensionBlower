@@ -1,6 +1,6 @@
 /**
  * @file   Sound.h
- * @brief  BGM,SE“Ç‚İ‚İ
+ * @brief  BGM,SE“Ç‚İ‚İˆ—
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -11,13 +11,13 @@
 #include "appframe.h"
 #include <unordered_map>
 
+/**
+ * BGM,SE“Ç‚İ‚İˆ—
+ */
 class Sound {
 public:
-	Sound();
-	~Sound();
-
 	/**
-     * @brief BGM,SE“Ç‚İ‚İ
+     * BGM,SE“Ç‚İ‚İˆ—
      */
 	void Initialize();
 

@@ -1,6 +1,6 @@
 /**
  * @file   ModePause.h
- * @brief  ポーズ画面
+ * @brief  ポーズモードクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -8,6 +8,9 @@
 
 #include "appframe.h"
 
+/**
+ * ポーズモードクラス
+ */
 class ModePause : public ModeBase{
 	using base = ModeBase;
 

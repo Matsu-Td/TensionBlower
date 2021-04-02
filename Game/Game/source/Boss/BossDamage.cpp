@@ -1,6 +1,6 @@
 /**
  * @file   BossDamage.cpp
- * @brief　ボスへのダメージ処理
+ * @brief　ボスが受けるダメージ処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/22

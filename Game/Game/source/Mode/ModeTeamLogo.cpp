@@ -1,6 +1,6 @@
 /**
  * @file   ModeTeamLogo.cpp
- * @brief  チームロゴ表示
+ * @brief  チームロゴ描画処理
  *
  * @author matsuo tadahiko
  * @date   2021/03/07

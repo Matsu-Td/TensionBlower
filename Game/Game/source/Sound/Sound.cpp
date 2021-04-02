@@ -1,6 +1,6 @@
 /**
  * @file   Sound.cpp
- * @brief  BGM,SE“Ç‚İ‚İ
+ * @brief  BGM,SE“Ç‚İ‚İˆ—
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -10,12 +10,6 @@
 
  // À‘ÌFBGM,SEŒÄ‚Ño‚µ
 Sound gSound; 
-
-Sound::Sound() {
-}
-
-Sound::~Sound() {
-}
 
 /**
  * BGM,SE“Ç‚İ‚İ

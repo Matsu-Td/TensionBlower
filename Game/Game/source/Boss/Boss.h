@@ -1,6 +1,6 @@
 /**
  * @file   Boss.h
- * @brief  ボス関連処理
+ * @brief  ボスクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -14,6 +14,9 @@
 class ShotPattern;
 class BossDamage;
 
+/**
+ * ボスクラス
+ */
 class Boss : public ObjectBase{
 	friend ShotPattern;
 	friend BossDamage;

@@ -1,6 +1,6 @@
 /**
  * @file   BossVoice.cpp
- * @brief  ボス声優 声データ読み込み
+ * @brief  ボス声優 声データ読み込み処理
  *
  * @author matsuo tadahiko
  * @date   2021/03/07

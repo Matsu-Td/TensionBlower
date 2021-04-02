@@ -1,6 +1,6 @@
 /**
  * @file   CharaData.cpp
- * @brief  キャラデータ読み込み
+ * @brief  キャラデータ(プレイヤー、ボス)JSONファイル読み込み処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -19,7 +19,7 @@ CharaData::CharaData(std::string filePath, std::string fileName){
 }
 
 CharaData::~CharaData(){
-
+	// 何もしない
 }
 
 /**

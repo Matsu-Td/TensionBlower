@@ -1,6 +1,6 @@
 /**
  * @file   ModeCredit.h
- * @brief  クレジット画面
+ * @brief  クレジットモードクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -8,6 +8,9 @@
 
 #include "appframe.h"
 
+/**
+ * クレジットモードクラス
+ */
 class ModeCredit : public ModeBase{
 	using base = ModeBase;
 

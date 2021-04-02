@@ -1,6 +1,6 @@
 /**
  * @file   ModeTeamLogo.h
- * @brief  チームロゴ表示
+ * @brief  チームロゴ描画処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/07
@@ -9,6 +9,9 @@
 #pragma once
 #include "appframe.h"
 
+/**
+ * チームロゴ描画処理
+ */
 class ModeTeamLogo :public ModeBase {
 	using base = ModeBase;
 

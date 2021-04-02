@@ -1,6 +1,6 @@
 /**
  * @file   Camera.cpp
- * @brief  カメラ関連処理
+ * @brief  カメラクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/15
