@@ -25,47 +25,11 @@
     <Filter Include="ヘッダー ファイル\Object">
       <UniqueIdentifier>{1aa136c4-b84d-49e2-8fc9-de7d6ba733fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Object\Player">
-      <UniqueIdentifier>{1c5defe7-a4aa-492c-b2f1-36d1453721cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Object\Player">
-      <UniqueIdentifier>{995be955-a5c5-4f70-beca-3fcca5719342}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Mode\ModeGame">
-      <UniqueIdentifier>{7b3d1ef9-9cee-4b2d-9f88-c6c0e69a1027}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Mode\ModeGame">
-      <UniqueIdentifier>{5a044950-5365-40ed-a159-bf03fdb22c14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Object\Boss">
-      <UniqueIdentifier>{90d14004-8708-46ba-9df9-8968fe58d710}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object\Boss">
-      <UniqueIdentifier>{f6f6dcfd-cf50-4d7a-821f-413907de8802}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Effect">
       <UniqueIdentifier>{dee4fff0-ac1f-47e4-833a-20a1c2415bdb}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Effect">
       <UniqueIdentifier>{ed33cd5c-9ab5-4c5e-a05a-8dee39479e88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Voice">
-      <UniqueIdentifier>{2026af07-2eae-4ae2-9d95-a3c6a1361fe4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Voice">
-      <UniqueIdentifier>{234e6a58-0940-4c37-af8a-861abf079c77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object\Boss\Shot">
-      <UniqueIdentifier>{5f2a2601-e687-41c7-8655-2a26638f2f22}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Object\Boss\Shot">
-      <UniqueIdentifier>{42cbf9cf-74f9-4659-a407-d551443bb03c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Mode\Logo">
-      <UniqueIdentifier>{3219f0cf-87e0-47d9-a2a5-42f2d9bed22b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Mode\Logo">
-      <UniqueIdentifier>{5b3bf9a8-a763-4302-a32e-5ee98f4c4761}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Application">
       <UniqueIdentifier>{8573a396-7e76-4b3a-85ac-addc74cc416b}</UniqueIdentifier>
@@ -73,273 +37,279 @@
     <Filter Include="ヘッダー ファイル\Application">
       <UniqueIdentifier>{bb841859-8f1e-42c2-b882-4eff50c976d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Boss">
+      <UniqueIdentifier>{c1f529c0-4cd1-40f2-918f-a42674eea82c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Player">
+      <UniqueIdentifier>{2d7c02cd-9353-4075-ba02-edc991655d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Boss">
+      <UniqueIdentifier>{369200b8-6fd3-43cb-b40f-2713cb7527e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Player">
+      <UniqueIdentifier>{8801c1c8-2978-4442-83aa-d221a507ffdc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\ModeTitle.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Camera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Boss.cpp">
-      <Filter>ソース ファイル\Object\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Stage.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeCredit.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeTutorial.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeRanking.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Reticle.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\CharaData.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeResult.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\PlayerAttack.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\PlayerJump.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\PlayerMotion.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Sound.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeGame.cpp">
-      <Filter>ソース ファイル\Mode\ModeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeGameClear.cpp">
-      <Filter>ソース ファイル\Mode\ModeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeGameOver.cpp">
-      <Filter>ソース ファイル\Mode\ModeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModePause.cpp">
-      <Filter>ソース ファイル\Mode\ModeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="source\TitleBGM.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\PlayerDash.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\PlayerEnergy.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\PlayerStatus.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\BossStatus.cpp">
-      <Filter>ソース ファイル\Object\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="source\BossMotion.cpp">
-      <Filter>ソース ファイル\Object\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Explosion.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Laser.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Destruction.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeGameStart.cpp">
-      <Filter>ソース ファイル\Mode\ModeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="source\PlayerVoice.cpp">
-      <Filter>ソース ファイル\Voice</Filter>
-    </ClCompile>
-    <ClCompile Include="source\BossVoice.cpp">
-      <Filter>ソース ファイル\Voice</Filter>
-    </ClCompile>
-    <ClCompile Include="source\HitEffect.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ObjectBase.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ObjectServer.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="source\BossAimShot.cpp">
-      <Filter>ソース ファイル\Object\Boss\Shot</Filter>
-    </ClCompile>
-    <ClCompile Include="source\BossBomb.cpp">
-      <Filter>ソース ファイル\Object\Boss\Shot</Filter>
-    </ClCompile>
-    <ClCompile Include="source\BossBullet.cpp">
-      <Filter>ソース ファイル\Object\Boss\Shot</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ShotBase.cpp">
-      <Filter>ソース ファイル\Object\Boss\Shot</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeAmgLogo.cpp">
-      <Filter>ソース ファイル\Mode\Logo</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeTeamLogo.cpp">
-      <Filter>ソース ファイル\Mode\Logo</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ApplicationGlobal.cpp">
+    <ClCompile Include="source\Application\ApplicationGlobal.cpp">
       <Filter>ソース ファイル\Application</Filter>
     </ClCompile>
-    <ClCompile Include="source\ApplicationMain.cpp">
+    <ClCompile Include="source\Application\ApplicationMain.cpp">
       <Filter>ソース ファイル\Application</Filter>
     </ClCompile>
-    <ClCompile Include="source\ShotPattern.cpp">
-      <Filter>ソース ファイル\Object\Boss</Filter>
+    <ClCompile Include="source\Sound\Sound.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="source\BossDamage.cpp">
-      <Filter>ソース ファイル\Object\Boss</Filter>
+    <ClCompile Include="source\Camera\Camera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CharaData\CharaData.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Stage\Stage.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeAmgLogo.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeCredit.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeGame.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeGameClear.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeGameOver.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeGameStart.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModePause.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeRanking.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeResult.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeTeamLogo.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeTitle.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\ModeTutorial.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Object\ObjectBase.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Object\ObjectServer.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Effect\Laser.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Effect\HitEffect.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Effect\Explosion.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Effect\Destruction.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\Boss.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\BossAimShot.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\BossBomb.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\BossBullet.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\BossDamage.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\BossStatus.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\BossVoice.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\PlayerAttack.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\PlayerDash.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\PlayerEnergy.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\PlayerJump.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\PlayerMotion.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\PlayerStatus.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\PlayerVoice.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Reticle.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\ShotBase.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\ShotPattern.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\TitleBGM.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\ModeTitle.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Camera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Boss.h">
-      <Filter>ヘッダー ファイル\Object\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Player.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Stage.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeCredit.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeTutorial.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeRanking.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Reticle.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\CharaData.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeResult.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\PlayerAttack.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\PlayerJump.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Sound.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeGame.h">
-      <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeGameClear.h">
-      <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModePause.h">
-      <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeGameOver.h">
-      <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="source\PlayerMotion.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\TitleBGM.h">
-      <Filter>ヘッダー ファイル\Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\PlayerDash.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\PlayerEnergy.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\PlayerStatus.h">
-      <Filter>ヘッダー ファイル\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BossStatus.h">
-      <Filter>ヘッダー ファイル\Object\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BossMotion.h">
-      <Filter>ヘッダー ファイル\Object\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Explosion.h">
-      <Filter>ヘッダー ファイル\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Laser.h">
-      <Filter>ヘッダー ファイル\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Destruction.h">
-      <Filter>ヘッダー ファイル\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeGameStart.h">
-      <Filter>ヘッダー ファイル\Mode\ModeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="source\PlayerVoice.h">
-      <Filter>ヘッダー ファイル\Voice</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BossVoice.h">
-      <Filter>ヘッダー ファイル\Voice</Filter>
-    </ClInclude>
-    <ClInclude Include="source\HitEffect.h">
-      <Filter>ヘッダー ファイル\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ObjectBase.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ObjectServer.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BossAimShot.h">
-      <Filter>ヘッダー ファイル\Object\Boss\Shot</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BossBomb.h">
-      <Filter>ヘッダー ファイル\Object\Boss\Shot</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BossBullet.h">
-      <Filter>ヘッダー ファイル\Object\Boss\Shot</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ShotBase.h">
-      <Filter>ヘッダー ファイル\Object\Boss\Shot</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeAmgLogo.h">
-      <Filter>ヘッダー ファイル\Mode\Logo</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeTeamLogo.h">
-      <Filter>ヘッダー ファイル\Mode\Logo</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ApplicationGlobal.h">
+    <ClInclude Include="source\Application\ApplicationGlobal.h">
       <Filter>ヘッダー ファイル\Application</Filter>
     </ClInclude>
-    <ClInclude Include="source\ApplicationMain.h">
+    <ClInclude Include="source\Application\ApplicationMain.h">
       <Filter>ヘッダー ファイル\Application</Filter>
     </ClInclude>
-    <ClInclude Include="source\ShotPattern.h">
-      <Filter>ヘッダー ファイル\Object\Boss</Filter>
+    <ClInclude Include="source\Sound\Sound.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="source\BossDamage.h">
-      <Filter>ヘッダー ファイル\Object\Boss</Filter>
+    <ClInclude Include="source\Camera\Camera.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\CharaData\CharaData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Stage\Stage.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Boss\Boss.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Boss\BossAimShot.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Boss\BossBomb.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Boss\BossBullet.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Boss\BossDamage.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Boss\BossStatus.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Boss\BossVoice.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeAmgLogo.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeCredit.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeGame.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeGameClear.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeGameOver.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeGameStart.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModePause.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeRanking.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeResult.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeTeamLogo.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeTitle.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\ModeTutorial.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Effect\Destruction.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Effect\Explosion.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Effect\HitEffect.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Effect\Laser.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Object\ObjectBase.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Object\ObjectServer.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Player\Player.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Player\PlayerAttack.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Player\PlayerDash.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Player\PlayerEnergy.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Player\PlayerJump.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Player\PlayerMotion.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Player\PlayerStatus.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Player\PlayerVoice.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Player\Reticle.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Boss\ShotBase.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Boss\ShotPattern.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\TitleBGM.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
