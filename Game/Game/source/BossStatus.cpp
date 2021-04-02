@@ -16,6 +16,8 @@ BossStatus::BossStatus() {
 	_cgFrame   = ResourceServer::LoadGraph("res/ui/boss/enemy_status.png");
 	_cgFrameBg = ResourceServer::LoadGraph("res/ui/boss/enemy_status_2.png");
 	_cgShield  = ResourceServer::LoadGraph("res/ui/boss/enemy_shield.png");
+
+	// HPバーと本数表示用のアイコン読み込み
 	for (int i = 0; i < HP_BAR_NUM; i++) {
 		_cgHP[i] = ResourceServer::LoadGraph(_hpBarString[i]);
 		_cgIcon[i] = ResourceServer::LoadGraph(_iconString[i]);

@@ -88,9 +88,9 @@ void Reticle::Process(){
 
 	// 画面外に画像が出るのを防止
 	if (_scrnPos.x < 0) { _scrnPos.x = 0; }
-	if (_scrnPos.x + 100.0f > dispSizeW) { _scrnPos.x = dispSizeW - 100; }
+	if (_scrnPos.x + 100.0f > dispSizeW) { _scrnPos.x = static_cast<float>(dispSizeW - 100); }
 	if (_scrnPos.y < 0.0f) { _scrnPos.y = 0.0f; }
-	if (_scrnPos.y + 100.0f > dispSizeH) { _scrnPos.y = dispSizeH - 100; }
+	if (_scrnPos.y + 100.0f > dispSizeH) { _scrnPos.y = static_cast<float>(dispSizeH - 100); }
 
 	// カメラの状態がマルチロックオンシステムではなくなる
 	if (camState != Camera::STATE::MLS_LOCK){

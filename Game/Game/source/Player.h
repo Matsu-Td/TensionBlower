@@ -170,6 +170,8 @@ private:
 	int  _nowDmgHP;         // 発動中近接攻撃のHPへ与えるダメージ量(シールド有)
 	int  _nowDmgSld;        // 発動中近接攻撃のシールドへ与えるダメージ量
 	int  _nowDmgNorm;       // 発動中近接攻撃のHPへ与えるダメージ量(シールド無)
+	int  _hitStart;
+	int  _hitEnd;
 	bool _isAttack;         // 攻撃発生フラグ(攻撃発動中)
 
 	std::unordered_map<std::string, int> _attackTotalTime;  // 各攻撃モーションの総再生時間を格納する

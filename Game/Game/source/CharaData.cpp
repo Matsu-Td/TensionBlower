@@ -89,7 +89,7 @@ int CharaData::JsonLoad(std::string filePath, std::string fileName){
 	_egAtck4 = static_cast<int>(playerData["egAtck4"].get<double>());
 
 	_egAutoRec   = static_cast<int>(playerData["egAutoRec"].get<double>());
-	_egAutoXChrg = static_cast<float>(playerData["egAutoXChrg"].get<double>());
+	_egAutoXChrg = static_cast<int>(playerData["egAutoXChrg"].get<double>());
 	_egAutoXArea = static_cast<int>(playerData["egAutoXArea"].get<double>());
 	_egAvoid     = static_cast<int>(playerData["egAvoid"].get<double>());
 	_egShotNum   = static_cast<int>(playerData["egShotNum"].get<double>());

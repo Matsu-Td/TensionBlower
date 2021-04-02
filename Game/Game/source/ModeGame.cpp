@@ -13,6 +13,13 @@
 #include "Sound.h"
 #include <memory>
 
+
+void ModeGame::SetLightColorHandle(int lightHandle) {
+	SetLightDifColorHandle(lightHandle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
+	SetLightSpcColorHandle(lightHandle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
+	SetLightAmbColorHandle(lightHandle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
+}
+
 /**
  * èâä˙âª
  */
@@ -44,24 +51,16 @@ bool ModeGame::Initialize() {
 	SetGlobalAmbientLight(GetColorF(0.164f, 0.164f, 0.164f, 0.0f));
 
 	int Light0Handle = CreateDirLightHandle(VGet(0.062f, -0.479f, 0.875f));
-	SetLightDifColorHandle(Light0Handle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
-	SetLightSpcColorHandle(Light0Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
-	SetLightAmbColorHandle(Light0Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
+	SetLightColorHandle(Light0Handle);
 
 	int Light1Handle = CreateDirLightHandle(VGet(-0.878f, 0.479f, 0.000f));
-	SetLightDifColorHandle(Light1Handle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
-	SetLightSpcColorHandle(Light1Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
-	SetLightAmbColorHandle(Light1Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
+	SetLightColorHandle(Light1Handle);
 
 	int Light2Handle = CreateDirLightHandle(VGet(0.878f, 0.479f, 0.000f));
-	SetLightDifColorHandle(Light2Handle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
-	SetLightSpcColorHandle(Light2Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
-	SetLightAmbColorHandle(Light2Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
+    SetLightColorHandle(Light2Handle);
 
 	int Light3Handle = CreateDirLightHandle(VGet(0.062f, 0.479f, -0.875f));
-	SetLightDifColorHandle(Light3Handle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
-	SetLightSpcColorHandle(Light3Handle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
-	SetLightAmbColorHandle(Light3Handle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
+    SetLightColorHandle(Light3Handle);
 
 	return true;
 }

@@ -23,6 +23,9 @@ PlayerStatus::~PlayerStatus() {
 
 }
 
+/**
+ * ƒtƒŒ[ƒ€ˆ—F•`‰æ
+ */
 void PlayerStatus::Render() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));

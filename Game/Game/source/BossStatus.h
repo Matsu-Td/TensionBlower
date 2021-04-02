@@ -16,7 +16,7 @@ public:
 	~BossStatus();
 
 	/**
-	 * フレーム処理：計算
+	 * フレーム処理：描画
 	 */
 	void Render();
 

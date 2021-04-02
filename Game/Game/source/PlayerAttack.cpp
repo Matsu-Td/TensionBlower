@@ -135,14 +135,15 @@ void PlayerAttack::AttackAction(Player* player) {
 			if (trg & PAD_INPUT_4) {
 				// ‹­‹ßÚUŒ‚‚Ìºƒf[ƒ^Ä¶
 				PlayAttackVoice("strong");
-				NextStrongAttack(player, modeGame->_charaData->_egAtck2, Player::STATE::STRG_ATCK2, "slash_h");
+			    NextStrongAttack(player, modeGame->_charaData->_egAtck2, Player::STATE::STRG_ATCK2, "slash_h");
+				SetStrongHitTime(player);
 			}
 			// Žã‹ßÚUŒ‚2‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
 				// Žã‹ßÚUŒ‚2‚Ìºƒf[ƒ^Ä¶
 				PlayAttackVoice("weak2");
 				NextWeakAttack(player, Player::STATE::WEAK_ATCK2, "slash_l");
-
+				SetWeakHitTime(player);
 			}
 		}
 		break;
@@ -153,12 +154,14 @@ void PlayerAttack::AttackAction(Player* player) {
 				// ‹­‹ßÚUŒ‚‚Ìºƒf[ƒ^Ä¶
 				PlayAttackVoice("strong");
 				NextStrongAttack(player, modeGame->_charaData->_egAtck3, Player::STATE::STRG_ATCK3, "slash_h");
+				SetStrongHitTime(player);
 			}
 			// Žã‹ßÚUŒ‚3‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
 				// Žã‹ßÚUŒ‚3‚Ìºƒf[ƒ^Ä¶
 				PlayAttackVoice("weak3");
 				NextWeakAttack(player, Player::STATE::WEAK_ATCK3, "slash_l");
+				SetWeakHitTime(player);
 			}
 		}
 		break;
@@ -169,12 +172,14 @@ void PlayerAttack::AttackAction(Player* player) {
 				// ‹­‹ßÚUŒ‚‚Ìºƒf[ƒ^Ä¶
 				PlayAttackVoice("strong");
 				NextStrongAttack(player, modeGame->_charaData->_egAtck4, Player::STATE::STRG_ATCK4, "slash_h");
+				SetStrongHitTime(player);
 			}
 			// Žã‹ßÚUŒ‚4‚Ö”h¶
 			else if (trg & PAD_INPUT_B) {
 				// Žã‹ßÚUŒ‚4‚Ìºƒf[ƒ^Ä¶
 				PlayAttackVoice("weak4");
 				NextWeakAttack(player, Player::STATE::WEAK_ATCK4, "slash_l");
+				SetWeakHitTime(player);
 			}
 		}
 		break;
@@ -194,7 +199,7 @@ void PlayerAttack::AttackAction(Player* player) {
 
 	// ‹ßÚUŒ‚“–‚½‚è”»’è”­¶
 	if (!player->_hitFlag) {
-		if (player->_attackCnt >= 20 && player->_attackCnt < 35) {
+		if (player->_attackCnt >= player->_hitEnd && player->_attackCnt < player->_hitStart) {
 			player->_canHitFlag = true;
 		}
 		else {
@@ -218,6 +223,7 @@ void PlayerAttack::FirstAttack(Player* player) {
 
 			player->_isAttack = true;
 			NextWeakAttack(player, Player::STATE::WEAK_ATCK1, "slash_l");
+			SetWeakHitTime(player);
 
 		}
 		if (trg & PAD_INPUT_4 && !player->_isAttack) {
@@ -226,6 +232,7 @@ void PlayerAttack::FirstAttack(Player* player) {
 
 			player->_isAttack = true;
 			NextStrongAttack(player, modeGame->_charaData->_egAtck1, Player::STATE::STRG_ATCK1, "slash_h");
+			SetStrongHitTime(player);
 		}
 	}
 }
@@ -241,4 +248,20 @@ void PlayerAttack::SecondAttack(Player* player) {
 	if (player->_attackReloadTime > 0) {
 		player->_attackReloadTime--;
 	}
+}
+
+/**
+ * Žã‹ßÚUŒ‚‚Ìƒqƒbƒg”»’èŽžŠÔ‚ðÝ’è‚·‚é
+ */
+void PlayerAttack::SetWeakHitTime(Player* player){
+	player->_hitStart = 35;
+	player->_hitEnd = 20;
+}
+
+/**
+ * ‹­‹ßÚUŒ‚‚Ìƒqƒbƒg”»’èŽžŠÔ‚ðÝ’è‚·‚é
+ */
+void PlayerAttack::SetStrongHitTime(Player* player) {
+	player->_hitStart = 60;
+	player->_hitEnd = 50;
 }

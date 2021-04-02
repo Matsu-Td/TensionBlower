@@ -45,6 +45,8 @@ public:
 	 */
 	bool Render() override;
 
+	void SetLightColorHandle(int lightHandle);
+
 	Camera       _cam;
 	ObjectServer _objServer;
 

@@ -70,4 +70,7 @@ private:
 		int cg;    // ‰æ‘œ
 	};
 	LOCK_ON _lockOn;
+
+	const float NearClip = 0.1f;
+	const float FarClip  = 5000.0f;
 };

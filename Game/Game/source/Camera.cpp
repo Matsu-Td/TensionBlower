@@ -29,7 +29,7 @@ Camera::~Camera(){
  */
 void Camera::Initialize(){
 
-	_vPos = VGet(0.f, 10.f, -140.f);
+	_vPos = VGet(0.0f, 10.0f, -140.f);
 	_oldvPos = _vPos;
 	_state = STATE::TARG_LOCK_ON;
 	_oldState = _state;
@@ -67,7 +67,7 @@ void Camera::Process(){
 		_oldState = _state;
 
 		_vTarg = bsPos;
-		_vTarg.y = bsPos.y + 8.5f;
+		_vTarg.y = 8.5f;
 		float sx = plPos.x - _vTarg.x;
 		float sz = plPos.z - _vTarg.z;
 		float camrad = atan2(sz, sx);
@@ -75,10 +75,10 @@ void Camera::Process(){
 
 		_vPos.x = bsPos.x + cos(camrad) * length;
 		_vPos.z = bsPos.z + sin(camrad) * length;
-		_vPos.y = plPos.y + 14.0f; 
+		_vPos.y = plPos.y + 15.0f; 
 		
 		// ゲームパッド「LB」長押しでカメラをFPS視点(マルチロックシステム発動)に切替
-		if (key & PAD_INPUT_5 && plEnergy > 10.0f) {
+		if (key & PAD_INPUT_5 && plEnergy > 10) {
 			_state = STATE::MLS_LOCK;
 		}
 		break;
@@ -88,7 +88,7 @@ void Camera::Process(){
 	case STATE::MLS_LOCK:
 	{
 		_vTarg = bsPos;
-		_vTarg.y = bsPos.y + 3.5f;
+		_vTarg.y = 8.5f;
 		float sx = plPos.x - _vTarg.x;
 		float sz = plPos.z - _vTarg.z;
 		float camrad = atan2(sz, sx);
@@ -115,7 +115,7 @@ void Camera::Process(){
 void Camera::Render(){
 
 	SetCameraPositionAndTarget_UpVecY(_vPos, _vTarg);
-	SetCameraNearFar(0.1f, 5000.0f);
+	SetCameraNearFar(NearClip, FarClip);
 
 	if (_state == STATE::TARG_LOCK_ON) {
 		DrawGraph(_lockOn.x, _lockOn.y, _lockOn.cg, TRUE);

@@ -93,14 +93,17 @@ void ShotBase::Render(){
 	MV1SetPosition(_mh, _vPos);
 	MV1DrawModel(_mh);
 	
+	float graphSizeX = 40.0f;   // 画像サイズX
+	float graphSizeY = 35.0f;   // 画像サイズY
+	
 	// マルチロックオンが可能か
 	if (_canLockFlag) {
 		// 弾き返されたかどうか
 		if (_repelFlag) {
-			DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[1], TRUE);
+			DrawGraph(static_cast<int>(_scrnPos.x - graphSizeX), static_cast<int>(_scrnPos.y - graphSizeY), _cg[1], TRUE);
 		}
 		else {
-			DrawGraph(static_cast<int>(_scrnPos.x - 40.0f), static_cast<int>(_scrnPos.y - 35.0f), _cg[0], TRUE);
+			DrawGraph(static_cast<int>(_scrnPos.x - graphSizeX), static_cast<int>(_scrnPos.y - graphSizeY), _cg[0], TRUE);
 		}
 	}
 }
@@ -132,6 +135,7 @@ void ShotBase::Collision(){
 		}
 		// プレイヤー
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
+			// マルチロックオンシステムによる弾き返し可能かどうか
 			if (IsDot(*(*itr)) == true && _camStateMLS) {
 				_canLockFlag = true;
 			}
