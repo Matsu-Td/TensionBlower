@@ -37,7 +37,7 @@ Player::~Player(){
 	MV1DeleteModel(_shadowModel);
 }
 
-/**
+/*
  * 初期化
  */
 void Player::Initialize(){
@@ -88,7 +88,7 @@ void Player::Initialize(){
 	}
 }
 
-/**
+/*
  * 当たり判定：ステージ
  */
 void Player::CollisionToStage() {
@@ -119,7 +119,7 @@ void Player::CollisionToStage() {
 	}
 }
 
-/**
+/*
  * 当たり判定：ボスとの弾
  */
 void Player::CollisionToBossBullet() {
@@ -162,7 +162,7 @@ void Player::CollisionToBossBullet() {
 	}
 }
 
-/**
+/*
  * 当たり判定：ボス
  */
 void Player::CollisionToBoss() {
@@ -187,7 +187,7 @@ void Player::CollisionToBoss() {
 	}
 }
 
-/**
+/*
  * 当たり判定：ボスのレーザー攻撃
  */
 void Player::CollisionToLaser() {
@@ -202,7 +202,7 @@ void Player::CollisionToLaser() {
 	}
 }
 
-/**
+/*
  * ゲームオーバー処理
  */
 void Player::GameOver() {
@@ -221,7 +221,7 @@ void Player::GameOver() {
 	}
 }
 
-/**
+/*
  * 重力処理
  */
 void Player::Gravity() {
@@ -231,7 +231,7 @@ void Player::Gravity() {
 	}
 }
 
-/**
+/*
  * 移動処理
  */
 void Player::Move() {
@@ -293,7 +293,7 @@ void Player::Move() {
 	}
 }
 
-/**
+/*
  * エネルギー溜め処理
  */
 void Player::Charge() {
@@ -315,7 +315,7 @@ void Player::Charge() {
 	}
 }
 
-/**
+/*
  * ボスとの距離を確認(自動回復用)
  */
 void Player::CheckDistanceToBoss() {
@@ -335,7 +335,7 @@ void Player::CheckDistanceToBoss() {
 	}
 }
 
-/**
+/*
  * マルチロックオンシステム用照準追加
  */
 void Player::ReticleGeneration() {
@@ -355,7 +355,7 @@ void Player::ReticleGeneration() {
 	}
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 void Player::Process(){
@@ -442,7 +442,7 @@ void Player::Process(){
 	gGlobal._remainingHP = _hitpoint;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 void Player::Render(){

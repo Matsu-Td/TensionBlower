@@ -15,7 +15,7 @@
 #include "../Camera/Camera.h"
 #include "../Mode/ModeGame.h"
 
-/**
+/*
  * ‰Šú‰»
  */
 void ShotBase::Initialize() {
@@ -30,7 +30,7 @@ void ShotBase::Initialize() {
 	_r = 1.5f;
 }
 
-/**
+/*
  * ’e‚ÌˆÚ“®ˆ—
  */
 void ShotBase::Move() {
@@ -82,7 +82,7 @@ void ShotBase::Process(){
 
 }
 
-/**
+/*
  * ƒtƒŒ[ƒ€ˆ—F•`‰æ
  */
 void ShotBase::Render(){
@@ -108,7 +108,7 @@ void ShotBase::Render(){
 	}
 }
 
-/**
+/*
  * “–‚½‚è”»’è
  */
 void ShotBase::Collision(){

@@ -15,7 +15,7 @@ int BossVoice::LoadVoice(const TCHAR* filePath) {
 	return ResourceServer::LoadSoundMem(filePath);
 }
 
-/**
+/*
  * ê∫ÉfÅ[É^ì«Ç›çûÇ›
  */
 void BossVoice::Initialize() {

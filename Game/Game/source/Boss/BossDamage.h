@@ -10,29 +10,30 @@
 #include "Boss.h"
 
 /**
- * ボスが受けるダメージ処理
+ * @brief ボスが受けるダメージ処理
  */
 class BossDamage {
 public:
 	/**
-     * プレイヤーに弾き返された弾によるダメージ処理
+     * @brief プレイヤーに弾き返された弾によるダメージ処理
      */
 	void RepelDamage(Boss* boss);
 
 	/**
-	 * プレイヤーから受けたダメージ量計算
+	 * @brief プレイヤーから受けたダメージ量計算
 	 */
 	void AttackDamage(Boss* boss);
 
 	/**
-	 * ヒットポイントへの爆発ダメージ
+	 * @brief ヒットポイントへの爆発ダメージ
 	 */
 	void ExplosionDamageHP(Boss* boss);
 
 	/**
-	 * シールドへの爆発ダメージ
+	 * @brief シールドへの爆発ダメージ
 	 */
 	void ExplosionDamageShield(Boss* boss);
+
 private:
 	static constexpr int EXPLOSION_DMG_NORM = 2;   // 爆発HPダメージ量：通常時(シールド無)
 	static constexpr int EXPLOSION_DMG_HP = 1;     // 爆発HPダメージ量(シールド有)

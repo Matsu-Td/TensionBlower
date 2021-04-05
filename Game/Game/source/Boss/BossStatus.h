@@ -11,7 +11,7 @@
 #include "appframe.h"
 
 /**
- * ボスステータスUI描画処理
+ * @brief ボスステータスUI描画処理
  */
 class BossStatus {
 public:
@@ -19,7 +19,7 @@ public:
 	~BossStatus();
 
 	/**
-	 * フレーム処理：描画
+	 * @brief フレーム処理：描画
 	 */
 	void Render();
 

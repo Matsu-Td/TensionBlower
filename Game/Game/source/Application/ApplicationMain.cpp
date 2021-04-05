@@ -20,7 +20,7 @@
 // 実体
 ApplicationMain	g_oApplicationMain;
 
-/**
+/*
  * 初期化
  */
 bool ApplicationMain::Initialize(HINSTANCE hInstance) {
@@ -38,7 +38,7 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ApplicationMain::Terminate() {
@@ -46,7 +46,7 @@ bool ApplicationMain::Terminate() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：入力
  */
 bool ApplicationMain::Input() {
@@ -54,7 +54,7 @@ bool ApplicationMain::Input() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ApplicationMain::Process() {
@@ -62,7 +62,7 @@ bool ApplicationMain::Process() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ApplicationMain::Render() {

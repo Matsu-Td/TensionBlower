@@ -12,7 +12,7 @@
 #include "../Object/ObjectBase.h"
 
 /**
- * ステージクラス
+ * @brief ステージクラス
  */
 class Stage : public ObjectBase{
 public:
@@ -22,7 +22,7 @@ public:
 	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::STAGE; }
 
 	/**
-	 * フレーム処理：描画
+	 * @brief フレーム処理：描画
 	 */
 	void Render() override;
 private:

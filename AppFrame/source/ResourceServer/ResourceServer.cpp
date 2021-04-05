@@ -2,7 +2,6 @@
 /**
  * @file  ResourceServer.cpp
  * @brief リソース管理クラス
- * @brief すべて静的メンバで構成する
  *
  * @author matsuo tadahiko
  * @date   2020/12/18
@@ -13,12 +12,15 @@
 #include "EffekseerForDXLib.h"
 
 // 静的メンバ実体
-std::unordered_map<std::string, int> ResourceServer::_mapGraph;
-std::unordered_map<std::string, ResourceServer::DIVGRAPH> ResourceServer::_mapDivGraph;
-std::unordered_map<std::string, int> ResourceServer::_mapSound;
-std::unordered_map<std::string, int> ResourceServer::_mapModel;
-std::unordered_map<std::string, int> ResourceServer::_mapEffect;
+std::unordered_map<std::string, int> ResourceServer::_mapGraph;  // 画像データ
+std::unordered_map<std::string, ResourceServer::DIVGRAPH> ResourceServer::_mapDivGraph;  // 分割画像データ
+std::unordered_map<std::string, int> ResourceServer::_mapSound;  // 音データ
+std::unordered_map<std::string, int> ResourceServer::_mapModel;  // モデルデータ
+std::unordered_map<std::string, int> ResourceServer::_mapEffect; // エフェクトデータ
 
+/*
+ * 初期化
+ */
 void ResourceServer::Init(){
 
 	_mapGraph.clear();
@@ -27,24 +29,25 @@ void ResourceServer::Init(){
     _mapModel.clear();
 }
 
-/**
- * ClearGraph()呼び出し
+/*
+ * ClearGraph()呼び出し、すべてのデータ削除
  */
 void ResourceServer::Release(){
 
     ClearGraph();
 }
 
-/**
+/*
  * すべてのデータ削除
  */
 void ResourceServer::ClearGraph(){
-
+    // 画像データ削除
     for (auto itr = _mapGraph.begin(); itr != _mapGraph.end(); itr++){
         DeleteGraph(itr->second);
     }
     _mapGraph.clear();
 
+    // 分割画像データ削除
     for (auto itr = _mapDivGraph.begin(); itr != _mapDivGraph.end(); itr++){
         for (int i = 0; i < itr->second.allNum; i++) {
             DeleteGraph(itr->second.handle[i]);
@@ -53,32 +56,37 @@ void ResourceServer::ClearGraph(){
     }
     _mapDivGraph.clear();
 
+    // 音声データ削除
     for (auto itr = _mapSound.begin(); itr != _mapSound.end(); itr++){
         DeleteSoundMem(itr->second);
     }
     _mapSound.clear();
 
+    // モデルデータ削除
     for (auto itr = _mapModel.begin(); itr != _mapModel.end(); itr++){
         MV1DeleteModel(itr->second);
     }
     _mapModel.clear();
 
+    // エフェクトデータ削除
     for (auto itr = _mapEffect.begin(); itr != _mapEffect.end(); itr++) {
         DeleteEffekseerEffect(itr->second);
     }
     _mapEffect.clear();
 }
 
-
+/*
+ * 画像データ読み込み
+ */
 int	ResourceServer::LoadGraph(const TCHAR* fileName){
     // キーの検索
     auto itr = _mapGraph.find(fileName);
     if (itr != _mapGraph.end())
     {
-        // キーがあった
+        // キーがあったらそのキーを返す
         return itr->second;
     }
-    // キーが無かった
+    // キーがなかった場合、データ読み込み
     int cg = ::LoadGraph(fileName);     // DxLibのAPI
     // キーとデータをmapに登録
     _mapGraph[fileName] = cg;
@@ -86,6 +94,9 @@ int	ResourceServer::LoadGraph(const TCHAR* fileName){
     return cg;
 }
 
+/*
+ * 画像データ分割読み込み
+ */
 int	ResourceServer::LoadDivGraph(const TCHAR* fileName, int allNum,
     int xNum, int yNum,
     int xSize, int ySize, int* handleBuf)
@@ -115,17 +126,17 @@ int	ResourceServer::LoadDivGraph(const TCHAR* fileName, int allNum,
     return err;
 }
 
-/**
- * 音データ読み込み
+/*
+ * 音声データ読み込み
  */
 int	ResourceServer::LoadSoundMem(const TCHAR* fileName) {
     // キーの検索
     auto itr = _mapSound.find(fileName);
     if (itr != _mapSound.end()){
-        // キーがあった
+        // キーがあったらそのキーを返す
         return itr->second;
     }
-    // キーが無かった
+    // キーがなかった場合、データ読み込み
     int snd = ::LoadSoundMem(fileName);     // DxLibのAPI
     // キーとデータをmapに登録
     _mapSound[fileName] = snd;
@@ -133,30 +144,37 @@ int	ResourceServer::LoadSoundMem(const TCHAR* fileName) {
     return snd;
 }
 
-/**
+/*
  * 3Dモデルデータ読み込み
  */
 int ResourceServer::MV1LoadModel(const TCHAR* fileName){
     // キーの検索
     auto itr = _mapModel.find(fileName);
     if (itr != _mapModel.end()) {
+        // キーがあったらそのキーを返す
         return itr->second;
     }
+    // キーがなかった場合、データ読み込み
     int mh = ::MV1LoadModel(fileName);  // DxLibのAPI
-
+    // キーとデータをmapに登録
     _mapModel[fileName] = mh;
 
     return mh;
 }
 
+/*
+ * エフェクトデータ読み込み 
+ */
 int ResourceServer::LoadEffekseerEffect(const char* fileName, float mag) {
 
     auto itr = _mapEffect.find(fileName);
     if (itr != _mapEffect.end()) {
+        // キーがあったらそのキーを返す
         return itr->second;
     }
+    // キーがなかった場合、データ読み込み
     int effect = ::LoadEffekseerEffect(fileName, mag);  // DxLibのAPI
-
+    // キーとデータをmapに登録
     _mapEffect[fileName] = effect;
 
     return effect;

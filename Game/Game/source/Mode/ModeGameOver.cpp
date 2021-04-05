@@ -14,7 +14,7 @@
 #include "../Sound/Sound.h"
 #include "../Player/PlayerVoice.h"
 
-/**
+/*
  * 初期化
  */
 bool ModeGameOver::Initialize() {
@@ -33,7 +33,7 @@ bool ModeGameOver::Initialize() {
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ModeGameOver::Terminate(){
@@ -42,7 +42,7 @@ bool ModeGameOver::Terminate(){
 	return true;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ModeGameOver::Process(){
@@ -65,7 +65,7 @@ bool ModeGameOver::Process(){
 	return true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ModeGameOver::Render(){

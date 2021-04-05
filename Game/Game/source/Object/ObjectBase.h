@@ -11,7 +11,7 @@
 #include <iostream>
 
 /**
- * オブジェクト基底クラス
+ * @brief オブジェクト基底クラス
  */
 class ObjectBase {
 public:
@@ -19,7 +19,7 @@ public:
 	virtual ~ObjectBase();
 
 	/**
-	 * オブジェクトの種類を定義
+	 * @brief オブジェクトの種類を定義
 	 */
 	enum class OBJECTTYPE {
 		PLAYER,        // プレイヤー
@@ -35,49 +35,49 @@ public:
 	};
 
 	/**
-	 * オブジェクトの種類を返す
+	 * @brief オブジェクトの種類を返す
 	 */
 	virtual OBJECTTYPE	GetType() = 0;
 
 	/**
-	 * 初期化
+	 * @brief 初期化
 	 */
 	virtual void Initialize();
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	virtual void Process();
 
 	/**
-	 * フレーム処理：描画
+	 * @brief フレーム処理：描画
 	 */
 	virtual void Render();
 
 	/**
-	 * モデルとステージの当たり判定
+	 * @brief モデルとステージの当たり判定
 	 * @param r カプセルの半径
 	 */
 	virtual bool IsHitStage(ObjectBase& obj, float r);
 
 	/**
-	 * カプセル同士の当たり判定
+	 * @brief カプセル同士の当たり判定
 	 * @param r カプセルの半径
 	 */
 	virtual bool IsHitLineSegment(ObjectBase& obj, float r);
 
 	/**
-	 * スクリーン座標上の当たり判定
+	 * @brief スクリーン座標上の当たり判定
 	 */
 	virtual bool IsHitScrnPos(ObjectBase& obj);
 
 	/**
-	 * 内積での当たり判定
+	 * @brief 内積での当たり判定
 	 */
 	virtual bool IsDot(ObjectBase& obj);
 
 	/**
-	 * 円弧と球の当たり判定
+	 * @brief 円弧と球の当たり判定
 	 */
 	virtual bool IsHitArc_Sphere(ObjectBase& obj);
 
@@ -88,17 +88,17 @@ public:
 	void ShadowRender(float modelScale = 1.0f);
 
 	/**
-	 * 座標を設定する
+	 * @brief 座標を設定する
 	 */
 	void SetPos(VECTOR vPos) { _vPos = vPos; }
 
 	/**
-	 * 座標を取得する
+	 * @brief 座標を取得する
 	 */
 	VECTOR GetPos()const { return _vPos; }
 
 	/**
-	 * 向きを取得する
+	 * @brief 向きを取得する
 	 */
 	VECTOR GetDir()const { return _vDir; }
 

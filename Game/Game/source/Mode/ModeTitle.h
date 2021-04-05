@@ -10,7 +10,7 @@
 #include <string>
 
 /**
- * タイトルモードクラス
+ * @brief タイトルモードクラス
  */
 class ModeTitle : public ModeBase{
 	using base = ModeBase;

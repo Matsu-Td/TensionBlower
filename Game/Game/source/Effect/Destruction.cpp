@@ -23,6 +23,9 @@ Destruction::~Destruction() {
 	StopEffekseer3DEffect(_playingHandle);
 }
 
+/*
+ * フレーム処理：計算
+ */
 void Destruction::Process(){
 
 	_gameClearCnt--;
@@ -37,6 +40,9 @@ void Destruction::Process(){
 	SetPosPlayingEffekseer3DEffect(_playingHandle, _vPos.x, _vPos.y, _vPos.z);
 }
 
+/*
+ * フレーム処理：描画
+ */
 void Destruction::Render(){
-
+	// 何もしない
 }

@@ -1,6 +1,6 @@
 /**
  * @file   Laser.h
- * @brief  ボスのレーザー攻撃
+ * @brief  ボスのレーザー攻撃クラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/01
@@ -11,10 +11,13 @@
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
+/**
+ * @brief ボスのレーザー攻撃クラス
+ */
 class Laser : public ObjectBase{
 public:
 	/**
-	 * レーザー生成
+	 * @brief レーザー生成
 	 * @param pos     レーザー発射位置
 	 * @param radius  ボスからの半径
 	 * @param angle   レーザーの発射角度、位置
@@ -26,17 +29,17 @@ public:
 	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::LASER; }
 
 	/**
-	 * 初期化
+	 * @brief 初期化
 	 */
 	void Initialize() override;
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	void Process() override;
 
 	/**
-	 * フレーム計算：描画
+	 * @brief フレーム計算：描画
 	 */
 	void Render() override;
 

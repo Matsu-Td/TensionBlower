@@ -12,15 +12,20 @@
 #include <unordered_map>
 
 /**
- * ボス声優 声データ読み込み処理
+ * @brief ボス声優 声データ読み込み処理
  */
 class BossVoice {
 public:
 	/**
-	 * 声データ読み込み
+	 * @brief 声データ読み込み
 	 */
 	void Initialize();
 
+	/**
+	 * @brief 声データ読み込み
+	 * @param filePath ファイルパス指定
+	 * @return 読み込んだデータのハンドル
+	 */
 	int LoadVoice(const TCHAR* filePath);
 
 	std::unordered_map<std::string, int> _vc;  // 声データ

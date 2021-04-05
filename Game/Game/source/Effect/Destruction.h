@@ -1,6 +1,6 @@
 /**
  * @file   Destruction.h
- * @brief  ボスの死亡爆発エフェクト
+ * @brief  ボスの死亡爆発エフェクトクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/07
@@ -10,10 +10,13 @@
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
+/**
+ * @brief ボスの死亡爆発エフェクトクラス
+ */
 class Destruction : public ObjectBase{
 public:
 	/**
-	 * ボスの死亡エフェクト生成
+	 * @brief ボスの死亡エフェクト生成
 	 * @param pos エフェクト生成位置
 	 */
 	Destruction(VECTOR pos);
@@ -22,12 +25,12 @@ public:
 	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::DESTRUCTION; }
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	void Process() override;
 
 	/**
-	 * フレーム処理：描画
+	 * @brief フレーム処理：描画
 	 */
 	void Render() override;
 

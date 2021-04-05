@@ -11,14 +11,14 @@
 // 実体：声データ呼び出し
 PlayerVoice gPlayerVoice;
 
-/**
+/*
  * 声データ読み込み
  */
 int PlayerVoice::LoadVoice(const TCHAR* filePath) {
 	return ResourceServer::LoadSoundMem(filePath);
 }
 
-/**
+/*
  * 声データ読み込み
  */
 void PlayerVoice::Initialize() {

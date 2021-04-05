@@ -12,7 +12,7 @@
 #include "ModeTutorial.h"
 #include "../Sound/Sound.h"
 
-/**
+/*
  * 初期化
  */
 bool ModeTutorial::Initialize() {
@@ -62,7 +62,7 @@ bool ModeTutorial::Initialize() {
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ModeTutorial::Terminate() {
@@ -71,7 +71,7 @@ bool ModeTutorial::Terminate() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ModeTutorial::Process() {
@@ -123,7 +123,7 @@ bool ModeTutorial::Process() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ModeTutorial::Render() {

@@ -13,7 +13,7 @@
 #define	RAD2DEG(x)			( ((x) * 180.0f ) / DX_PI_F )
 
 /**
- * カメラクラス
+ * @brief カメラクラス
  */
 class Camera{
 public:
@@ -21,40 +21,52 @@ public:
 	~Camera();
 
 	/**
-	 * 初期化
+	 * @brief 初期化
 	 */
 	void Initialize();
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	void Process();
 
 	/**
-	 * フレーム処理：描画
+	 * @brief フレーム処理：描画
 	 */
 	void Render();
 
+	/**
+	 * インスタンスを取得
+	 * @return Cameraのインスタンス
+	 */
 	static Camera* GetInstance() { return _pInstance; }
 
 	/**
-	 * 座標取得
+	 * @brief 座標取得
 	 * @return 座標
 	 */
 	VECTOR GetPos() const { return _vPos; }
 
 	/**
-	 * ターゲット座標取得
+	 * @brief  ターゲット座標取得
 	 * @return ターゲット座標
 	 */
 	VECTOR GetTarg() const { return _vTarg; }
 
-	enum class STATE {// カメラの状態
+	/**
+	 * @brief カメラの状態
+	 */
+	enum class STATE { 
 		TARG_LOCK_ON, // 敵ターゲットロック状態(デフォルト)
 		MLS_LOCK,     // マルチロックシステム発動状態(FPS視点)
 	};
 	STATE _state;    // カメラ状態
-	STATE GetCameraState() { return _state; }
+
+	/**
+	 * @brief  カメラの状態を取得
+	 * @return カメラの状態
+	 */
+	STATE GetCameraState() const { return _state; }
 
 	static Camera* _pInstance;
 

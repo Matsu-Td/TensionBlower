@@ -11,7 +11,7 @@
 #include "ObjectBase.h"
 
 /**
- * オブジェクト管理サーバー
+ * @brief オブジェクト管理サーバー
  */
 class ObjectServer {
 public:

@@ -12,12 +12,12 @@
 #include <unordered_map>
 
 /**
- * BGM,SE“Ç‚İ‚İˆ—
+ * @brief BGM,SE“Ç‚İ‚İˆ—
  */
 class Sound {
 public:
 	/**
-     * BGM,SE“Ç‚İ‚İˆ—
+     * @brief BGM,SE“Ç‚İ‚İˆ—
      */
 	void Initialize();
 

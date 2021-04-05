@@ -1,7 +1,6 @@
-
 /**
  * @file  ApplicationBase.cpp
- * @brief アプリケーションベース
+ * @brief アプリケーション基底クラス
  *
  * @author matsuo tadahiko
  * @date   2020/12/18
@@ -19,14 +18,15 @@ ApplicationBase::ApplicationBase() {
 ApplicationBase::~ApplicationBase() {
 }
 
-/**
+/*
  * 初期化
  */
 bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 
 	// DXライブラリの初期化
 	if(AppWindowed()){
-		ChangeWindowMode(false);		// ウィンドウモードに指定する
+		// ウィンドウモード(TRUE)かフルスクリーンモード(FALSE)を指定
+		ChangeWindowMode(FALSE);		
 	}
 	SetGraphMode(DispSizeW(), DispSizeH(), 32);
 
@@ -62,7 +62,7 @@ bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ApplicationBase::Terminate() {
@@ -74,7 +74,7 @@ bool ApplicationBase::Terminate() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：入力
  */
 bool ApplicationBase::Input() {
@@ -86,22 +86,24 @@ bool ApplicationBase::Input() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ApplicationBase::Process() {
 	_serverMode->ProcessInit();
 	_serverMode->Process();
 	_serverMode->ProcessFinish();
+
 	return true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ApplicationBase::Render() {
 	_serverMode->RenderInit();
 	_serverMode->Render();
 	_serverMode->RenderFinish();
+
 	return true;
 }

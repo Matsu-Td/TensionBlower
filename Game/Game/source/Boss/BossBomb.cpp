@@ -34,7 +34,7 @@ BossBomb::~BossBomb() {
 	// 何もしない
 }
 
-/**
+/*
  * 初期化
  */
 void BossBomb::Initialize() {
@@ -48,7 +48,7 @@ void BossBomb::Initialize() {
 	_state = STATE::UP;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 void BossBomb::Process() {

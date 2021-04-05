@@ -11,7 +11,7 @@
 #include "Boss.h"
 
 /**
- * 弾幕パターン処理
+ * @brief 弾幕パターン処理
  */
 class ShotPattern {
 public:

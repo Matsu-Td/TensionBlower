@@ -11,7 +11,7 @@
 #include "ModeTitle.h"
 #include "../Sound/Sound.h"
 
-/**
+/*
  * 初期化
  */
 bool ModePause::Initialize(){
@@ -29,7 +29,7 @@ bool ModePause::Initialize(){
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ModePause::Terminate(){
@@ -38,7 +38,7 @@ bool ModePause::Terminate(){
 	return true;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ModePause::Process(){
@@ -87,7 +87,7 @@ bool ModePause::Process(){
 	return true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ModePause::Render(){

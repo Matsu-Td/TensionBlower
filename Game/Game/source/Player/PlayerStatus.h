@@ -11,7 +11,7 @@
 #include "appframe.h"
 
 /**
- * プレイヤーステータスUI描画処理
+ * @brief プレイヤーステータスUI描画処理
  */
 class PlayerStatus {
 public:

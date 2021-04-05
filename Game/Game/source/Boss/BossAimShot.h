@@ -11,12 +11,12 @@
 #include "ShotBase.h"
 
 /**
- * ボスの狙い撃ち弾処理
+ * @brief ボスの狙い撃ち弾処理
  */
 class BossAimShot :public ShotBase {
 public:
 	/**
-	 * 狙い撃ち弾の生成
+	 * @brief  狙い撃ち弾の生成
 	 * @param  pos 生成位置
 	 * @param  shotSpd 弾の移動速度
 	 * @param  shotAngle 弾の移動角度、方向　
@@ -27,7 +27,7 @@ public:
 	OBJECTTYPE GetType()  override { return ObjectBase::OBJECTTYPE::BOSS_BULLET; }
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	void Process() override;
 };

@@ -11,7 +11,7 @@
 #include "Player.h"
 
 /**
- * プレイヤーモーション切替処理
+ * @brief プレイヤーモーション切替処理
  */
 class PlayerMotion {
 public:

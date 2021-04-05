@@ -20,7 +20,7 @@ ApplicationGlobal::~ApplicationGlobal() {
 	// âΩÇ‡ÇµÇ»Ç¢
 }
 
-/**
+/*
  * èâä˙âª
  */
 bool ApplicationGlobal::Initialize() {

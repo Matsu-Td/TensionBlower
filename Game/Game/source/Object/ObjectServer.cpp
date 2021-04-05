@@ -20,7 +20,7 @@ ObjectServer::~ObjectServer() {
 	Clear();
 }
 
-/**
+/*
  * リストに登録されているオブジェクトを全て削除
  */
 void ObjectServer::Clear() {
@@ -31,7 +31,7 @@ void ObjectServer::Clear() {
 	_vObject.clear();
 }
 
-/**
+/*
  * Addリストにオブジェクトを追加する
  */
 void ObjectServer::Add(ObjectBase* obj) {
@@ -39,7 +39,7 @@ void ObjectServer::Add(ObjectBase* obj) {
 	_vAdd.push_back(obj);
 }
 
-/**
+/*
  * Delリストにオブジェクトを追加する
  */
 void ObjectServer::Del(ObjectBase* obj) {
@@ -47,7 +47,7 @@ void ObjectServer::Del(ObjectBase* obj) {
 	_vDel.push_back(obj);
 }
 
-/**
+/*
  * Addリストのオブジェクトを追加する
  */
 void ObjectServer::AddListObjects() {
@@ -58,7 +58,7 @@ void ObjectServer::AddListObjects() {
 	_vAdd.clear();
 }
 
-/**
+/*
  * Delリストのオブジェクトを追加する
  */
 void ObjectServer::DelListObjects() {
@@ -77,7 +77,7 @@ void ObjectServer::DelListObjects() {
 	_vDel.clear();
 }
 
-/**
+/*
  * 登録したオブジェクトのProcess()を登録順に回す
  */
 void ObjectServer::Process() {
@@ -93,7 +93,7 @@ void ObjectServer::Process() {
 	DelListObjects();
 }
 
-/**
+/*
  * 登録したオブジェクトのRender()を登録順に回す
  */
 void ObjectServer::Render() {

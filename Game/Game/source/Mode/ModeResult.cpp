@@ -13,7 +13,7 @@
 #include "ModeResult.h"
 #include "../Sound/Sound.h"
 
-/**
+/*
  * 初期化
  */
 bool ModeResult::Initialize() {
@@ -30,7 +30,7 @@ bool ModeResult::Initialize() {
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ModeResult::Terminate() {
@@ -39,7 +39,7 @@ bool ModeResult::Terminate() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ModeResult::Process() {
@@ -75,7 +75,7 @@ bool ModeResult::Process() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ModeResult::Render() {

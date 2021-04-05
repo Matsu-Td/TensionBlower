@@ -12,7 +12,7 @@
 #include "ModeGameStart.h"
 #include "../Sound/Sound.h"
 
-/**
+/*
  * ライトのディフューズカラーを設定する
  */
 void ModeGame::SetLightColorHandle(int lightHandle) {
@@ -21,7 +21,7 @@ void ModeGame::SetLightColorHandle(int lightHandle) {
 	SetLightAmbColorHandle(lightHandle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
 }
 
-/**
+/*
  * 初期化
  */
 bool ModeGame::Initialize() {
@@ -66,7 +66,7 @@ bool ModeGame::Initialize() {
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ModeGame::Terminate() {
@@ -78,7 +78,7 @@ bool ModeGame::Terminate() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ModeGame::Process() {
@@ -105,7 +105,7 @@ bool ModeGame::Process() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ModeGame::Render() {

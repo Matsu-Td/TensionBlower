@@ -11,12 +11,12 @@
 #include "appframe.h"
 
 /**
- * キャラデータ(プレイヤー、ボス)JSONファイル読み込み処理
+ * @brief キャラデータ(プレイヤー、ボス)JSONファイル読み込み処理
  */
 class CharaData{
 public:
 	/**
-	 * コンストラクタで読み込むJSONファイル指定
+	 * @brief コンストラクタで読み込むJSONファイル指定
 	 * @param filePath ファイルの場所
 	 * @param fileName ファイル名
 	 */
@@ -74,7 +74,9 @@ public:
 	int _stDmg4;        // HPダメージ量(シールド無)：強近接攻撃4
 	int _repelDmg;      // HPダメージ量(シールド無)：弾き返し
 
-	// ボスデータ
+	/**
+	 * @brief ボスデータ構造体
+	 */
 	struct BOSS {
 		int maxHP;       // 最大HP
 		int maxShield;   // 最大シールド値
@@ -86,14 +88,14 @@ public:
 
 private:
 	/**
-     * JSONファイルを開いてデータを取得
+     * @brief JSONファイルを開いてデータを取得
      * @param fileName ファイル名
 	 * @return 読み込んだJSONファイルデータ
      */
 	std::string StringFileLoad(std::string fileName);
 
 	/**
-     * JSONファイルのデータ読み込み
+     * @brief JSONファイルのデータ読み込み
 	 * @param filePath ファイルの場所
      * @param fileName ファイル名
      * @return JSONファイル読み込み失敗で「0」,成功で「1」

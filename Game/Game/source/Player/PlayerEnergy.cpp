@@ -11,7 +11,7 @@
 #include "../Mode/ModeGame.h"
 #include "PlayerEnergy.h"
 
-/**
+/*
  * エネルギー消費処理
  */
 void PlayerEnergy::CostEnergy(Player* player, int costEnergy) {
@@ -20,7 +20,7 @@ void PlayerEnergy::CostEnergy(Player* player, int costEnergy) {
 	player->_energy -= costEnergy;
 }
 
-/**
+/*
  * エネルギー管理
  */
 void PlayerEnergy::EnergyManager(Player* player, Player::STATE oldState) {

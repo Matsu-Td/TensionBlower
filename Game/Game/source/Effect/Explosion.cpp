@@ -31,7 +31,7 @@ Explosion::~Explosion() {
 	StopEffekseer3DEffect(_playingHandle);
 }
 
-/**
+/*
  * 初期化
  */
 void Explosion::Initialize() {
@@ -40,7 +40,7 @@ void Explosion::Initialize() {
 	_r = 0.0f;
 }
 
-/**
+/*
  * ボスとの当たり判定
  */
 void Explosion::CollisionToBoss() {
@@ -59,7 +59,7 @@ void Explosion::CollisionToBoss() {
 	}
 }
 
-/**
+/*
  * プレイヤーとの当たり判定
  */
 void Explosion::CollisionToPlayer() {
@@ -74,7 +74,7 @@ void Explosion::CollisionToPlayer() {
 	}
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 void Explosion::Process(){
@@ -110,9 +110,9 @@ void Explosion::Process(){
 	}
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 void Explosion::Render(){
-
+	// 何もしない
 }

@@ -35,7 +35,7 @@ BossBullet::~BossBullet(){
 	// 何もしない
 }
 
-/**
+/*
  * 弾き返し処理
  */
 void BossBullet::Repel() {
@@ -45,7 +45,7 @@ void BossBullet::Repel() {
 	gGlobal._totalRepelCnt++; // 弾き返し回数カウント(スコア計算用)
 }
 
-/**
+/*
  * 当たり判定
  */
 void BossBullet::Collision() {
@@ -75,7 +75,7 @@ void BossBullet::Collision() {
 	}
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 void BossBullet::Process(){

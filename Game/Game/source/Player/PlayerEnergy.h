@@ -12,7 +12,7 @@
 #include "Player.h"
 
 /**
- * プレイヤーエネルギー関係処理
+ * @brief プレイヤーエネルギー関係処理
  */
 class PlayerEnergy {
 public:

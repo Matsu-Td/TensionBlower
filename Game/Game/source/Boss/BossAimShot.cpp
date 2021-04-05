@@ -35,7 +35,9 @@ BossAimShot::~BossAimShot() {
 
 }
 
-
+/*
+ * フレーム処理：計算 
+ */
 void BossAimShot::Process() {
 
 	// キーのトリガ入力取得

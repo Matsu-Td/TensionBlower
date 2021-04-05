@@ -13,14 +13,14 @@
 #include "../Sound/Sound.h"
 #include "PlayerVoice.h"
 
-/**
+/*
  * 攻撃発生時の声データを再生する
  */
 void PlayerAttack::PlayAttackVoice(std::string voiceName) {
 	PlaySoundMem(gPlayerVoice._vc[voiceName], DX_PLAYTYPE_BACK);
 }
 
-/**
+/*
  * 現在発生中の近接攻撃ダメージ量をセットする
  */
 void PlayerAttack::SetAttackDamage(Player* player, int dmgHP, int dmgSld, int dmgNorm) {
@@ -30,7 +30,7 @@ void PlayerAttack::SetAttackDamage(Player* player, int dmgHP, int dmgSld, int dm
 	player->_nowDmgNorm = dmgNorm;
 }
 
-/**
+/*
  * 近接攻撃のダメージ量を近接攻撃の種類によって切替
  */
 void PlayerAttack::SwitchAttackDamage(Player* player) {
@@ -65,7 +65,7 @@ void PlayerAttack::SwitchAttackDamage(Player* player) {
 	}
 }
 
-/**
+/*
  * 強近接攻撃への派生関連処理
  */
 void PlayerAttack::NextStrongAttack(Player* player,int attackEnergy, Player::STATE nextState, std::string attackName) {
@@ -84,7 +84,7 @@ void PlayerAttack::NextStrongAttack(Player* player,int attackEnergy, Player::STA
 	SwitchAttackDamage(player);                                // 現在の近接攻撃のボスへのダメージ量をセット
 }
 
-/**
+/*
  * 弱近接攻撃への派生関連処理
  */
 void PlayerAttack::NextWeakAttack(Player* player, Player::STATE nextState, std::string attackName) {
@@ -97,7 +97,9 @@ void PlayerAttack::NextWeakAttack(Player* player, Player::STATE nextState, std::
 	SwitchAttackDamage(player);                                // 現在の近接攻撃のボスへのダメージ量をセット
 }
 
-
+/*
+ * 各近接攻撃へのキー入力処理
+ */
 void PlayerAttack::AttackAction(Player* player) {
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();
@@ -204,7 +206,7 @@ void PlayerAttack::AttackAction(Player* player) {
 	}
 }
 
-/**
+/*
  * 近接攻撃処理(初手のみ)
  */
 void PlayerAttack::FirstAttack(Player* player) {
@@ -233,7 +235,7 @@ void PlayerAttack::FirstAttack(Player* player) {
 	}
 }
 
-/**
+/*
  * 近接攻撃処理(2発目以降)
  */
 void PlayerAttack::SecondAttack(Player* player) {
@@ -246,7 +248,7 @@ void PlayerAttack::SecondAttack(Player* player) {
 	}
 }
 
-/**
+/*
  * 弱近接攻撃のヒット判定時間を設定する
  */
 void PlayerAttack::SetWeakHitTime(Player* player){
@@ -254,7 +256,7 @@ void PlayerAttack::SetWeakHitTime(Player* player){
 	player->_hitEnd = 20;
 }
 
-/**
+/*
  * 強近接攻撃のヒット判定時間を設定する
  */
 void PlayerAttack::SetStrongHitTime(Player* player) {

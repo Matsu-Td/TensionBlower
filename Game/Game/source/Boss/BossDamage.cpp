@@ -10,7 +10,7 @@
 #include "../Mode/ModeGame.h"
 #include "../Sound/Sound.h"
 
- /**
+ /*
   * プレイヤーに弾き返された弾によるダメージ処理
   */
 void BossDamage::RepelDamage(Boss* boss) {
@@ -33,7 +33,7 @@ void BossDamage::RepelDamage(Boss* boss) {
 	}
 }
 
-/**
+/*
  * プレイヤーから受けたダメージ量計算
  */
 void BossDamage::AttackDamage(Boss* boss) {
@@ -63,7 +63,7 @@ void BossDamage::AttackDamage(Boss* boss) {
 	}
 }
 
-/**
+/*
  * ヒットポイントへの爆発ダメージ
  */
 void BossDamage::ExplosionDamageHP(Boss* boss) {
@@ -77,7 +77,7 @@ void BossDamage::ExplosionDamageHP(Boss* boss) {
 	}
 }
 
-/**
+/*
  * シールドへの爆発ダメージ
  */
 void BossDamage::ExplosionDamageShield(Boss* boss) {

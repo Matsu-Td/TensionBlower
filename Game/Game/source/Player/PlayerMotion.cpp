@@ -9,7 +9,7 @@
 #include "PlayerMotion.h"
 #include "../Camera/Camera.h"
 
- /**
+ /*
   * プレイヤーモーション切替
   */
 void PlayerMotion::SwitchMotion(Player* player, Player::STATE oldState) {

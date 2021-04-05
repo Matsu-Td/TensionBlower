@@ -12,7 +12,7 @@
 #include "../Object/ObjectBase.h"
 
 /**
- * プレイヤー照準処理
+ * @brief プレイヤー照準処理
  */
 class Reticle : public ObjectBase{
 public:
@@ -22,17 +22,17 @@ public:
 	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::RETICLE; }
 
 	/**
-	 * 初期化
+	 * @brief 初期化
 	 */
 	void Initialize() override;
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	void Process() override;
 
 	/**
-	 * フレーム処理：描画
+	 * @brief フレーム処理：描画
 	 */
 	void Render() override;
 

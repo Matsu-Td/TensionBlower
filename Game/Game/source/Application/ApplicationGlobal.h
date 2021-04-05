@@ -9,7 +9,7 @@
 #include "appframe.h"
 
 /**
- * グローバル変数定義
+ * @brief グローバル変数定義
  */
 class ApplicationGlobal{
 public:
@@ -17,7 +17,7 @@ public:
 	virtual ~ApplicationGlobal();
 
 	/**
-	 * 初期化
+	 * @brief  初期化
 	 * @return 処理の成否 
 	 */
 	bool Initialize();

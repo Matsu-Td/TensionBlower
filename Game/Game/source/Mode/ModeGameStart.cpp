@@ -12,7 +12,7 @@
 #include "ModeGameStart.h"
 #include "../Player/PlayerVoice.h"
 
-/**
+/*
  * 初期化
  */
 bool ModeGameStart::Initialize() {
@@ -27,7 +27,7 @@ bool ModeGameStart::Initialize() {
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ModeGameStart::Terminate() {
@@ -36,7 +36,7 @@ bool ModeGameStart::Terminate() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ModeGameStart::Process() {
@@ -57,7 +57,7 @@ bool ModeGameStart::Process() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ModeGameStart::Render() {

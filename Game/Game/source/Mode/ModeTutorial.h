@@ -9,7 +9,7 @@
 #include "appframe.h"
 
 /**
- * チュートリアルモードクラス
+ * @brief チュートリアルモードクラス
  */
 class ModeTutorial : public ModeBase{
 	using base = ModeBase;

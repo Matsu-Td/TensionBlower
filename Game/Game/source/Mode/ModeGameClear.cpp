@@ -14,7 +14,7 @@
 #include "../Sound/Sound.h"
 #include "../Player/PlayerVoice.h"
 
-/**
+/*
  * 初期化
  */
 bool ModeGameClear::Initialize(){
@@ -36,7 +36,7 @@ bool ModeGameClear::Initialize(){
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ModeGameClear::Terminate(){
@@ -45,7 +45,7 @@ bool ModeGameClear::Terminate(){
 	return true;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ModeGameClear::Process(){
@@ -68,7 +68,7 @@ bool ModeGameClear::Process(){
 	return true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ModeGameClear::Render(){

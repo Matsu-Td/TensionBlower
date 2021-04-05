@@ -28,7 +28,7 @@ BossStatus::~BossStatus() {
 	// ‰½‚à‚µ‚È‚¢
 }
 
-/**
+/*
  * ƒtƒŒ[ƒ€ˆ—F•`‰æ
  */
 void BossStatus::Render(){

@@ -12,7 +12,7 @@
 #include "ModeCredit.h"
 #include "../Sound/Sound.h"
 
-/**
+/*
  * 初期化
  */
 bool ModeCredit::Initialize() {
@@ -23,7 +23,7 @@ bool ModeCredit::Initialize() {
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ModeCredit::Terminate() {
@@ -32,7 +32,7 @@ bool ModeCredit::Terminate() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ModeCredit::Process() {
@@ -50,7 +50,7 @@ bool ModeCredit::Process() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ModeCredit::Render() {

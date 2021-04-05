@@ -12,7 +12,7 @@
 #include <unordered_map>
 
 /**
- * プレイヤー声優 声データ読み込み処理
+ * @brief プレイヤー声優 声データ読み込み処理
  */
 class PlayerVoice {
 public:
@@ -22,7 +22,7 @@ public:
 	void Initialize();
 
 	/**
-	 * 声データ読み込み
+	 * @brief 声データ読み込み
 	 * @param filePath ファイルパス指定
 	 * @return 読み込んだデータのハンドル
 	 */

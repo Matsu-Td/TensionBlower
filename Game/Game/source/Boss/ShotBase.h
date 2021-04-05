@@ -13,35 +13,34 @@
 #include "BossDamage.h"
 
 /**
- * 弾幕系処理クラスの基底クラス
+ * @brief 弾幕系処理クラスの基底クラス
  */
 class ShotBase : public ObjectBase{
 public:
 	/**
-	 * 初期化
+	 * @brief 初期化
 	 */
 	virtual void Initialize();
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	virtual void Process();
 
 	/**
-	 * フレーム処理：描画
+	 * @brief フレーム処理：描画
 	 */
 	virtual void Render();
 
 	/**
-	 * 弾の移動処理
+	 * @brief 弾の移動処理
 	 */
 	virtual void Move();
 
 	/**
-	 * 当たり判定
+	 * @brief 当たり判定
 	 */
 	virtual void Collision();
-
 
 protected:
 	int _cg[2];            // 画像

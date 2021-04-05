@@ -17,7 +17,7 @@
 #include "../Player/PlayerVoice.h"
 #include "../Boss/BossVoice.h"
 
-/**
+/*
  * 初期化
  */
 bool ModeTitle::Initialize() {
@@ -64,7 +64,7 @@ bool ModeTitle::Initialize() {
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ModeTitle::Terminate() {
@@ -73,7 +73,7 @@ bool ModeTitle::Terminate() {
 	return true;
 }
 
-/**
+/*
  * タイトルメニュー選択
  */
 void ModeTitle::MenuSelect() {
@@ -119,7 +119,7 @@ void ModeTitle::MenuSelect() {
 	}
 }
 
-/**
+/*
  * タイトル削除、次のモード登録
  */
 void ModeTitle::ModeChange(ModeBase* nextMode, int layer, const char* modeName) {
@@ -129,7 +129,7 @@ void ModeTitle::ModeChange(ModeBase* nextMode, int layer, const char* modeName) 
 	ModeServer::GetInstance()->Add(nextMode, layer, modeName);
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ModeTitle::Process() {
@@ -144,7 +144,7 @@ bool ModeTitle::Process() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ModeTitle::Render() {

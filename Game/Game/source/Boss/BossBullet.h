@@ -11,12 +11,12 @@
 #include "ShotBase.h"
 
 /**
- * ボスの弾幕処理
+ * @brief ボスの弾幕処理
  */
 class BossBullet : public ShotBase {
 public:
 	/**
-	 * 弾幕用弾生成
+	 * @brief 弾幕用弾生成
 	 * @param  pos 弾生成位置
 	 * @param  shotSpd 弾の移動処理
 	 * @param  shotAngle 弾の移動角度
@@ -27,17 +27,17 @@ public:
 	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_BULLET; }
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	void Process() override;
 
 	/**
-	 * 弾き返し処理
+	 * @brief 弾き返し処理
 	 */
 	void Repel();
 
 	/**
-	 * 当たり判定
+	 * @brief 当たり判定
 	 */
 	void Collision() override;
 };

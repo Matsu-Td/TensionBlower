@@ -24,7 +24,7 @@ Reticle::~Reticle(){
 	SetFrequencySoundMem(-1, gSound._bgm["boss"]);
 }
 
-/**
+/*
  * 初期化
  */
 void Reticle::Initialize(){
@@ -42,7 +42,7 @@ void Reticle::Initialize(){
 	SetFrequencySoundMem(23000, gSound._bgm["boss"]);
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 void Reticle::Process(){
@@ -99,7 +99,7 @@ void Reticle::Process(){
 	}
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 void Reticle::Render(){

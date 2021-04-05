@@ -9,7 +9,7 @@
 #include "appframe.h"
 
 /**
- * アウトゲーム用BGM再生処理
+ * @brief アウトゲーム用BGM再生処理
  */
 class TitleBGM : public ModeBase {
 public:

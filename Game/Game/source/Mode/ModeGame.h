@@ -18,38 +18,38 @@
 #include "../Boss/BossStatus.h"
 
 /**
- * ゲームモードクラス
+ * @brief ゲームモードクラス
  */
 class ModeGame : public ModeBase{
 	using base = ModeBase;
 
 public:
 	/**
-	 * 初期化
+	 * @brief  初期化
 	 * @return 処理の成否
 	 */
 	bool Initialize() override;
 
 	/**
-	 * 解放 
+	 * @brief  解放 
 	 * @return 処理の成否
 	 */
 	bool Terminate() override;
 
 	/**
-	 * フレーム処理：計算
+	 * @brief  フレーム処理：計算
 	 * @return 処理の成否 
 	 */
 	bool Process() override;
 
 	/**
-	 * フレーム処理：描画
+	 * @brief  フレーム処理：描画
 	 * @return 処理の成否 
 	 */
 	bool Render() override;
 
 	/**
-	 * ライトのディフューズカラーを設定する
+	 * @brief ライトのディフューズカラーを設定する
 	 * @param lightHandle ライトハンドル
 	 */
 	void SetLightColorHandle(int lightHandle);

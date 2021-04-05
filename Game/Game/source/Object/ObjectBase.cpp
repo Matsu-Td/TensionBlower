@@ -16,7 +16,7 @@ ObjectBase::ObjectBase() {
 ObjectBase::~ObjectBase() {
 }
 
-/**
+/*
  * 初期化
  */
 void ObjectBase::Initialize() {
@@ -24,7 +24,7 @@ void ObjectBase::Initialize() {
 	_cut = 0;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 void ObjectBase::Process() {
@@ -32,14 +32,14 @@ void ObjectBase::Process() {
 	_cut++;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 void ObjectBase::Render() {
 
 }
 
-/**
+/*
  * モデルとステージの当たり判定
  */
 bool ObjectBase::IsHitStage(ObjectBase& obj, float r) {
@@ -52,7 +52,7 @@ bool ObjectBase::IsHitStage(ObjectBase& obj, float r) {
 	return false;
 }
 
-/**
+/*
  * カプセル同士の当たり判定
  */
 bool ObjectBase::IsHitLineSegment(ObjectBase& obj, float r) {
@@ -66,7 +66,7 @@ bool ObjectBase::IsHitLineSegment(ObjectBase& obj, float r) {
 	return false;
 }
 
-/**
+/*
  * スクリーン座標上の当たり判定
  */
 bool ObjectBase::IsHitScrnPos(ObjectBase& obj) {
@@ -79,7 +79,7 @@ bool ObjectBase::IsHitScrnPos(ObjectBase& obj) {
 	return false;
 }
 
-/**
+/*
  * 内積での当たり判定
  */
 bool ObjectBase::IsDot(ObjectBase& obj) {
@@ -98,7 +98,7 @@ bool ObjectBase::IsDot(ObjectBase& obj) {
 	return false;
 }
 
-/**
+/*
  * 円弧と球の当たり判定
  */
 bool ObjectBase::IsHitArc_Sphere(ObjectBase& obj) {
@@ -123,7 +123,7 @@ bool ObjectBase::IsHitArc_Sphere(ObjectBase& obj) {
 	return false;
 }
 
-/**
+/*
  * モデルの影を描画
  */
 void ObjectBase::ShadowRender(float modelScale){

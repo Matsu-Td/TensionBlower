@@ -13,7 +13,7 @@
 #include "BossBomb.h"
 #include "../Effect/Laser.h"
 
- /**
+ /*
   * 弾幕パターン切替処理
   */
 void ShotPattern::ShotPatternSwitch(Boss* boss) {
@@ -111,7 +111,7 @@ void ShotPattern::ShotPatternSwitch(Boss* boss) {
 	boss->_shotCnt++;
 }
 
-/**
+/*
  * 弾幕パターン1&2
  */
 void ShotPattern::ShotPattern1and2(Boss* boss) {
@@ -139,7 +139,7 @@ void ShotPattern::ShotPattern1and2(Boss* boss) {
 	}
 }
 
-/**
+/*
  * 弾幕パターン3
  */
 void ShotPattern::ShotPattern3(Boss* boss) {
@@ -170,7 +170,7 @@ void ShotPattern::ShotPattern3(Boss* boss) {
 	}
 }
 
-/**
+/*
  * 弾幕パターン4-1
  */
 void ShotPattern::ShotPattern4_1(Boss* boss) {
@@ -193,7 +193,7 @@ void ShotPattern::ShotPattern4_1(Boss* boss) {
 	}
 }
 
-/**
+/*
  * 弾幕パターン4-2
  */
 void ShotPattern::ShotPattern4_2(Boss* boss) {
@@ -216,7 +216,7 @@ void ShotPattern::ShotPattern4_2(Boss* boss) {
 	}
 }
 
-/**
+/*
  * 弾幕パターン5
  */
 void ShotPattern::ShotPattern5(Boss* boss) {
@@ -259,7 +259,7 @@ void ShotPattern::ShotPattern5(Boss* boss) {
 	}
 }
 
-/**
+/*
  * 弾幕パターン6
  */
 void ShotPattern::ShotPattern6(Boss* boss) {
@@ -283,7 +283,7 @@ void ShotPattern::ShotPattern6(Boss* boss) {
 	}
 }
 
-/**
+/*
  * 弾幕パターン7
  */
 void ShotPattern::ShotPattern7(Boss* boss) {
@@ -297,7 +297,7 @@ void ShotPattern::ShotPattern7(Boss* boss) {
 	}
 }
 
-/**
+/*
  * レーザー攻撃1-1
  */
 void ShotPattern::LaserAttack1_1(Boss* boss) {
@@ -314,7 +314,7 @@ void ShotPattern::LaserAttack1_1(Boss* boss) {
 	}
 }
 
-/**
+/*
  * レーザー攻撃1-2
  */
 void ShotPattern::LaserAttack1_2(Boss* boss) {
@@ -331,7 +331,7 @@ void ShotPattern::LaserAttack1_2(Boss* boss) {
 	}
 }
 
-/**
+/*
  * レーザー攻撃2
  */
 void ShotPattern::LaserAttack2(Boss* boss) {

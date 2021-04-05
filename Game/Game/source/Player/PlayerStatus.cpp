@@ -23,7 +23,7 @@ PlayerStatus::~PlayerStatus() {
 	// ‰½‚à‚µ‚È‚¢
 }
 
-/**
+/*
  * ƒtƒŒ[ƒ€ˆ—F•`‰æ
  */
 void PlayerStatus::Render() {

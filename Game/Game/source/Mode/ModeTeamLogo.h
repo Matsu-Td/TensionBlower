@@ -10,7 +10,7 @@
 #include "appframe.h"
 
 /**
- * ƒ`[ƒ€ƒƒS•`‰æˆ—
+ * @brief ƒ`[ƒ€ƒƒS•`‰æˆ—
  */
 class ModeTeamLogo :public ModeBase {
 	using base = ModeBase;

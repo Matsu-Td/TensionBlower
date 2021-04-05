@@ -9,6 +9,9 @@
 #include "ModeTeamLogo.h"
 #include "ModeTitle.h"
 
+/*
+ * 初期化 
+ */
 bool ModeTeamLogo::Initialize() {
 	if (!base::Initialize()) { return false; }
 
@@ -23,11 +26,18 @@ bool ModeTeamLogo::Initialize() {
 	return true;
 }
 
+/*
+ * 解放 
+ */
 bool ModeTeamLogo::Terminate() {
 	base::Terminate();
 
 	return true;
 }
+
+/*
+ * フレーム処理：計算 
+ */
 bool ModeTeamLogo::Process() {
 	base::Process();
 
@@ -64,6 +74,9 @@ bool ModeTeamLogo::Process() {
 	return true;
 }
 
+/*
+ * フレーム処理：描画
+ */
 bool ModeTeamLogo::Render() {
 	base::Render();
 

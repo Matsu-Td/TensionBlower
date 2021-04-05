@@ -1,4 +1,3 @@
-
 /**
  * @file  WinMain.cpp
  * @brief エントリーポイント
@@ -14,6 +13,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// ログの出力を行わない
 	SetOutApplicationLogValidFlag(false);
 
+	// メモリリークのレポートを表示させる
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	ApplicationBase *appBase = ApplicationBase::GetInstance();
@@ -27,6 +27,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	while (ProcessMessage() == 0)
 	{
+		// ゲーム終了フラグ
 		if (appBase->GetInstance()->GameEndFlag() == true) {
 			break;
 		}

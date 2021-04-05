@@ -1,7 +1,6 @@
-
 /**
  * @file  ApplicationBase.h
- * @brief アプリケーションベース
+ * @brief アプリケーション基底クラス
  * 
  * @author matsuo tadahiko
  * @date   2020/12/18
@@ -14,53 +13,89 @@
 #include "../Mode//ModeServer.h"
 #include "EffekseerForDXLib.h"
 
+/**
+ * @brief アプリケーション基底クラス
+ */
 class ApplicationBase{
 public:
 	ApplicationBase();
 	virtual ~ApplicationBase();
 
+	/**
+	 * @brief 初期化
+	 * @param hInstance WinMain関数の第一引数
+	 * @return 処理の成否
+	 */
 	virtual bool Initialize(HINSTANCE hInstance);
+
+	/**
+	 * @brief  解放
+	 * @return 処理の成否 
+	 */
 	virtual bool Terminate();
+
+	/**
+	 * @brief  フレーム処理：入力
+	 * @return 処理の成否 
+	 */
 	virtual bool Input();
+
+	/**
+	 * @brief  フレーム処理：計算
+	 * @return 処理の成否
+	 */
 	virtual bool Process();
+	
+	/**
+	 * @brief  フレーム処理：描画
+	 * @return 処理の成否
+	 */
 	virtual bool Render();
 
+	/**
+	 * @brief  ウィンドウモード、フルスクリーンモードの設定を行う
+	 * @return true
+	 */
 	virtual bool AppWindowed() { return true; }
 
 	/**
-	 * 表示するウィンドウの横幅
+	 * @brief  表示するウィンドウの横幅
 	 * @return サイズ
 	 */
 	virtual int DispSizeW() { return 640; }
 
 	/**
-	 * 表示するウィンドウの縦幅
+	 * @brief  表示するウィンドウの縦幅
 	 * @return サイズ
 	 */
 	virtual int DispSizeH() { return 480; }
 
+	/**
+	 * @brief  インスタンスを取得
+	 * @return ApplicationBaseのインスタンス
+	 */
 	static	ApplicationBase	*GetInstance() { return _pInstance; }
 
 	/**
-	 * キー入力情報取得
+	 * @brief  キー入力情報取得
 	 * @return キー入力情報
 	 */
 	virtual int GetKey() { return _gKey; }
 
 	/**
-	 * キーのトリガ情報取得
+	 * @brief  キーのトリガ情報取得
 	 * @return キーのトリガ情報
 	 */
 	virtual int GetTrg() { return _gTrg; }
 
 	/**
-	 * ゲーム終了フラグ.
-	 * @return _gameEnd ゲーム終了フラグ
+	 * @brief  ゲーム終了フラグ
+	 * @return ゲーム終了フラグ
 	 */
-	bool GameEndFlag() { return _gameEnd; }
+	bool GameEndFlag() const { return _gameEnd; }
 
 	/**
-	 * ゲーム終了フラグを立てる
+	 * @brief ゲーム終了フラグを立てる
 	 */
 	void GameEnd() { _gameEnd = true; }
 

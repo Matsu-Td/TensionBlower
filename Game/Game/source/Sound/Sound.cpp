@@ -11,7 +11,7 @@
  // À‘ÌFBGM,SEŒÄ‚Ño‚µ
 Sound gSound; 
 
-/**
+/*
  * BGM,SE“Ç‚İ‚İ
  */
 void Sound::Initialize() {

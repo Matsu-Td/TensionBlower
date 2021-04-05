@@ -27,7 +27,7 @@ Laser::~Laser() {
 	StopEffekseer3DEffect(_playingHandle);
 }
 
-/**
+/*
  * 初期化
  */
 void Laser::Initialize() {
@@ -37,7 +37,7 @@ void Laser::Initialize() {
 	_mlsCnt = 0;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 void Laser::Process() {
@@ -96,9 +96,9 @@ void Laser::Process() {
 
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 void Laser::Render() {
-
+	// 何もしない
 }

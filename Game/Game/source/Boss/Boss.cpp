@@ -34,7 +34,7 @@ Boss::~Boss(){
 	MV1DeleteModel(_mh);
 }
 
-/**
+/*
  * 初期化
  */
 void Boss::Initialize() {
@@ -76,14 +76,14 @@ void Boss::Initialize() {
 	_r = 10.0f;
 }
 
-/**
+/*
  * 声データ再生
  */
 void Boss::PlayVoice(std::string voiceName) {
 	PlaySoundMem(gBossVoice._vc[voiceName], DX_PLAYTYPE_BACK);
 }
 
-/**
+/*
  * 6種類の声データをランダムで流す
  */
 void Boss::PlayAttackVoiceChange() {
@@ -92,7 +92,7 @@ void Boss::PlayAttackVoiceChange() {
 	PlayVoice(_attackNameNo[voiceNo]);
 }
 
-/**
+/*
  * フェーズ変更処理
  */
 void Boss::FhaseChange() {
@@ -121,7 +121,7 @@ void Boss::FhaseChange() {
 	_phase = 0;
 }
 
-/**
+/*
  * ダウン状態処理
  */
 void Boss::StateDown(){
@@ -160,7 +160,7 @@ void Boss::StateDown(){
 	}
 }
 
-/**
+/*
  * ゲームクリア処理
  */
 void Boss::Dead() {
@@ -189,7 +189,7 @@ void Boss::Dead() {
 	}
 }
 
-/**
+/*
  * モーション切替
  */
 void Boss::MotionSwitch(STATE oldState) {
@@ -220,7 +220,7 @@ void Boss::MotionSwitch(STATE oldState) {
 	}
 }
 
-/**
+/*
  * ボス正面方向回転処理
  */
 void Boss::DirectionalRotation(float rotSpdChenge) {
@@ -247,7 +247,7 @@ void Boss::DirectionalRotation(float rotSpdChenge) {
 	_vDir = { cos(_angle),0.0f,sin(_angle) };
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 void Boss::Process(){
@@ -316,7 +316,7 @@ void Boss::Process(){
 	MotionSwitch(oldState);
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 void Boss::Render(){

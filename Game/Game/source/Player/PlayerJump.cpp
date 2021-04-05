@@ -10,7 +10,7 @@
 #include "PlayerJump.h"
 #include "../Mode/ModeGame.h"
 
-/**
+/*
  * ƒWƒƒƒ“ƒvˆ—
  */
 void PlayerJump::JumpAction(Player* player) {

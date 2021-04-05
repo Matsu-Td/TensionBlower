@@ -19,7 +19,7 @@ Stage::~Stage(){
 	// ‰½‚à‚µ‚È‚¢
 }
 
-/**
+/*
  * ƒtƒŒ[ƒ€ˆ—F•`‰æ
  */
 void Stage::Render(){

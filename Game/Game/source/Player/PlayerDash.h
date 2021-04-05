@@ -12,20 +12,20 @@
 #include "Player.h"
 
 /**
- * プレイヤーダッシュ処理
+ * @brief プレイヤーダッシュ処理
  */
 class PlayerDash {
 public:
 	/**
-     * カメラロック中の移動、ダッシュモーション切替処理／
-     * 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移
+     * @brief カメラロック中の移動、ダッシュモーション切替処理／
+     * @brief 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移
 	 * @param player プレイヤークラスオブジェクトのポインタ
      * @param length  := sqrt(lx * lx + ly * ly) 左アナログスティックの入力値
      */
 	void LeftAnalogDeg(Player* player, float length);
 
 	/**
-	 * ダッシュ処理
+	 * @brief ダッシュ処理
 	 * @param player プレイヤークラスオブジェクトのポインタ
 	 * @param nowAngle プレイヤーが向いている方向(角度)
 	 * @param length  := sqrt(lx * lx + ly * ly) 左アナログスティックの入力値

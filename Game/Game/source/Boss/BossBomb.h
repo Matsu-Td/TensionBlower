@@ -11,12 +11,12 @@
 #include "ShotBase.h"
 
 /**
- * ボスのボム攻撃処理
+ * @brief ボスのボム攻撃処理
  */
 class BossBomb : public ShotBase {
 public:
 	/**
-	 * ボム生成
+	 * @brief ボム生成
 	 * @param pos ボムの発生位置
 	 */
 	BossBomb(VECTOR pos);
@@ -25,12 +25,12 @@ public:
 	OBJECTTYPE GetType()  override { return ObjectBase::OBJECTTYPE::BOSS_BOMB; }
 
 	/**
-	 * 初期化
+	 * @brief 初期化
 	 */
 	void Initialize() override;
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	void Process() override;
 

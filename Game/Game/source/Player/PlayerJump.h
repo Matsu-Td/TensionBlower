@@ -12,7 +12,7 @@
 #include "Player.h"
 
 /**
- * プレイヤージャンプ処理
+ * @brief プレイヤージャンプ処理
  */
 class PlayerJump {
 public:

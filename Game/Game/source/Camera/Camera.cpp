@@ -24,7 +24,7 @@ Camera::~Camera(){
 
 }
 
-/**
+/*
  * 初期化
  */
 void Camera::Initialize(){
@@ -40,7 +40,7 @@ void Camera::Initialize(){
 	_lockOn.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 void Camera::Process(){
@@ -109,7 +109,7 @@ void Camera::Process(){
 	}
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 void Camera::Render(){

@@ -11,7 +11,7 @@
 #include "../Mode/ModeGame.h"
 #include "PlayerDash.h"
 
-/**
+/*
  * カメラロック中の移動、ダッシュモーション,移動射撃モーション切替処理
  * 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移
  */
@@ -72,6 +72,9 @@ void PlayerDash::LeftAnalogDeg(Player* player, float length) {
 	}
 }
 
+/*
+ * ダッシュ処理
+ */
 void PlayerDash::Dash(Player* player, float nowAngle, float length) {
 
 	int key = ApplicationMain::GetInstance()->GetKey();

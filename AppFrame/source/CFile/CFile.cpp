@@ -1,9 +1,9 @@
 /**
  * @file  CFile.cpp
- * @brief 外部ファイルの読み込み、書き込み
+ * @brief 外部ファイルへのアクセス(読み書き)
  * 
  * @author matsuo tadahiko
- * @date   2020/12/18
+ * @date  2020/12/18
  */
 
 #include <fstream>
@@ -11,12 +11,13 @@
 #include "CFile.h"
 #include "../Application/UtilMacro.h"
 
- /**
+ /*
 　* ファイル読み込み
 　*/
 CFile::CFile(const std::string fileName) {
 	// メンバの初期化
 	Init();
+
 	_fileName = fileName;
 
 	// ファイルを開く
@@ -37,18 +38,19 @@ CFile::CFile(const std::string fileName) {
 
 	ifs.close();
 
-	// 文字列として利用できるように、データの末端に\0を付ける
+	// 文字列として利用できるように、データの末端に \0 を付ける
 	_data[_size] = '\0';
 
 	_success = true;
 }
 
-/**
+/*
  * ファイル書き込み
  */
 CFile::CFile(const std::string fileName, void* data, int size) {
 	// メンバの初期化
 	Init();
+
 	_fileName = fileName;
 
 	// ファイルを開く
@@ -58,21 +60,21 @@ CFile::CFile(const std::string fileName, void* data, int size) {
 	}
 
 	// データの書き込み
-	ofs.write((char*)data, size);
+	ofs.write(static_cast<char*>(data), size);
 
 	ofs.close();
 
 	_success = true;
 }
 
-/**
- * デストラクタ：解放
+/*
+ * 解放
  */
 CFile::~CFile() {
 	SAFE_DELETE(_data);
 }
 
-/**
+/*
  * 初期化
  */
 void CFile::Init() {

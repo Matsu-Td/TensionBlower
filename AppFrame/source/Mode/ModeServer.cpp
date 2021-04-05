@@ -1,5 +1,4 @@
-﻿
-/**
+﻿/**
  * @file  ModeServer.cpp
  * @brief モード管理クラス
  *
@@ -11,7 +10,6 @@
 #include "DxLib.h"
 #include "ModeServer.h"
 
-/// インスタンス 
 ModeServer	*ModeServer::_pInstance = nullptr;
 
 ModeServer::ModeServer(){
@@ -30,7 +28,9 @@ ModeServer::~ModeServer(){
 	_pInstance = nullptr;
 }
 
-// 登録はするが、一度メインを回さないといけない
+/*
+ * モード管理サーバーに新たなモードを追加予約する、追加実行は1フレーム後
+ */
 int ModeServer::Add(ModeBase *mode, int layer, const char *name ) {
 	_vModeAdd.push_back(mode);		// 登録予約
 	mode->_uid = _uid_count;
@@ -40,120 +40,146 @@ int ModeServer::Add(ModeBase *mode, int layer, const char *name ) {
 	return mode->_uid;
 }
 
-// 削除予約
+/*
+ * 登録しているモードの削除予約をする、削除実行は1フレーム後
+ */
 int ModeServer::Del(ModeBase *mode) {
 	_vModeDel.push_back(mode);
 	return 0;
 }
 
-// 削除＆delete
+/*
+ * 指定したモードをモードサーバーから削除、メモリ解放
+ */
 int ModeServer::Release(ModeBase *mode) {
-	lstModeBase::iterator ite = _vMode.begin();
-	for (; ite != _vMode.end(); ) {
-		if ((*ite) == mode) {
-			(*ite)->Terminate();
-			delete (*ite);
-			ite = _vMode.erase(ite);
+	lstModeBase::iterator itr = _vMode.begin();
+	for (; itr != _vMode.end(); ) {
+		if ((*itr) == mode) {
+			(*itr)->Terminate();
+			delete (*itr);
+			itr = _vMode.erase(itr);
 		}
 		else {
-			++ite;
+			++itr;
 		}
 	}
 	return 1;
 }
 
-// 全部削除
+/*
+ * 登録していたモードをモードサーバーから全て削除、メモリ解放
+ */
 void ModeServer::Clear() {
-	lstModeBase::reverse_iterator ite = _vMode.rbegin();
-	for (; ite != _vMode.rend(); ++ite ) {
-		(*ite)->Terminate();
-		delete (*ite);
+	lstModeBase::reverse_iterator itr = _vMode.rbegin();
+	for (; itr != _vMode.rend(); ++itr) {
+		(*itr)->Terminate();
+		delete (*itr);
 	}
-	lstModeBase::iterator iteAdd = _vModeAdd.begin();
-	for (; iteAdd != _vModeAdd.end(); ++iteAdd) {
-		(*iteAdd)->Terminate();
-		delete (*iteAdd);
+	lstModeBase::iterator itrAdd = _vModeAdd.begin();
+	for (; itrAdd != _vModeAdd.end(); ++itrAdd) {
+		(*itrAdd)->Terminate();
+		delete (*itrAdd);
 	}
 	_vMode.clear();
 	_vModeAdd.clear();
 	_vModeDel.clear();
 }
 
-// 削除予約されているか？
+/*
+ * 指定したモードが削除予約されているか確認
+ */
 bool ModeServer::IsDelRegist(ModeBase *mode) {
 	if (_vModeDel.size() > 0) {
-		lstModeBase::iterator iteDel = _vModeDel.begin();
-		for (; iteDel != _vModeDel.end(); ++iteDel) {
-			if ((*iteDel) == mode) { return true; }
+		lstModeBase::iterator itrDel = _vModeDel.begin();
+		for (; itrDel != _vModeDel.end(); ++itrDel) {
+			if ((*itrDel) == mode) { return true; }
 		}
 	}
 	return false;
 }
 
-// モードリストにあるか？
+/*
+ * 指定したモードがリストに登録、登録予約されているか確認
+ */
 bool ModeServer::IsAdd(ModeBase *mode) {
 	// 登録中のもの、登録予約中のものから検索する
-	lstModeBase::iterator ite;
-	ite = _vMode.begin();
-	for (; ite != _vMode.end(); ++ite) {
-		if (!IsDelRegist((*ite)) && (*ite) == mode) { return true; }
+	lstModeBase::iterator itr;
+	itr = _vMode.begin();
+	for (; itr != _vMode.end(); ++itr) {
+		if (!IsDelRegist((*itr)) && (*itr) == mode) { return true; }
 	}
-	ite = _vModeAdd.begin();
-	for (; ite != _vModeAdd.end(); ++ite) {
-		if (!IsDelRegist((*ite)) && (*ite) == mode) { return true; }
+	itr = _vModeAdd.begin();
+	for (; itr != _vModeAdd.end(); ++itr) {
+		if (!IsDelRegist((*itr)) && (*itr) == mode) { return true; }
 	}
 	return false;
 }
 
-// 登録IDから検索
+/*
+ * IDから指定したモードを取得
+ */
 ModeBase *ModeServer::Get(int uid) {
 	// 登録中のもの、登録予約中のものから検索する
-	lstModeBase::iterator ite;
-	ite = _vMode.begin();
-	for (; ite != _vMode.end(); ++ite) {
-		if (!IsDelRegist((*ite)) && (*ite)->_uid == uid) { return (*ite); }
+	lstModeBase::iterator itr;
+	itr = _vMode.begin();
+	for (; itr != _vMode.end(); ++itr) {
+		if (!IsDelRegist((*itr)) && (*itr)->_uid == uid) { return (*itr); }
 	}
-	ite = _vModeAdd.begin();
-	for (; ite != _vModeAdd.end(); ++ite) {
-		if (!IsDelRegist((*ite)) && (*ite)->_uid == uid) { return (*ite); }
+	itr = _vModeAdd.begin();
+	for (; itr != _vModeAdd.end(); ++itr) {
+		if (!IsDelRegist((*itr)) && (*itr)->_uid == uid) { return (*itr); }
 	}
 	return nullptr;
 }
 
-// 名前から検索
+/*
+ * モードの名前から指定したモードを取得
+ */
 ModeBase *ModeServer::Get(const char *name) {
 	// 登録中のもの、登録予約中のものから検索する
-	lstModeBase::iterator ite;
-	ite = _vMode.begin();
-	for (; ite != _vMode.end(); ++ite) {
-		if (!IsDelRegist((*ite)) && (*ite)->_szName == name) { return (*ite); }
+	lstModeBase::iterator itr;
+	itr = _vMode.begin();
+	for (; itr != _vMode.end(); ++itr) {
+		if (!IsDelRegist((*itr)) && (*itr)->_szName == name) { return (*itr); }
 	}
-	ite = _vModeAdd.begin();
-	for (; ite != _vModeAdd.end(); ++ite) {
-		if (!IsDelRegist((*ite)) && (*ite)->_szName == name) { return (*ite); }
+	itr = _vModeAdd.begin();
+	for (; itr != _vModeAdd.end(); ++itr) {
+		if (!IsDelRegist((*itr)) && (*itr)->_szName == name) { return (*itr); }
 	}
 	return nullptr;
 }
 
-// ID取得
+/*
+ * モードからIDを取得
+ */
 int ModeServer::GetId(ModeBase* mode) {
 	if (IsAdd(mode)) {
 		return mode->_uid;
 	}
 	return 0;
 }
+
+/*
+ * モードの名前からIDを取得
+ */
 int ModeServer::GetId(const char *name) {
 	return GetId(Get(name));
 }
 
-// 名前取得
+/**
+ * モードの名前からIDを取得
+ */
 const char *ModeServer::GetName(ModeBase* mode) {
 	if (IsAdd(mode)) {
 		return mode->_szName.c_str();
 	}
+
 	return nullptr;
 }
 
+/**
+ * モードのIDからモードの名前を取得
+ */
 const char *ModeServer::GetName(int uid) {
 	return GetName(Get(uid));
 }
@@ -162,18 +188,18 @@ const char *ModeServer::GetName(int uid) {
 int ModeServer::ProcessInit() {
 	// 削除予約されていたものを削除
 	if (_vModeDel.size() > 0) {
-		lstModeBase::iterator ite = _vModeDel.begin();
-		for (; ite != _vModeDel.end(); ++ite) {
-			Release((*ite));
+		lstModeBase::iterator itr = _vModeDel.begin();
+		for (; itr != _vModeDel.end(); ++itr) {
+			Release((*itr));
 		}
 		_vModeDel.clear();
 	}
 	// Add()されたものを有効にし、必要であればソートを行う
 	if (_vModeAdd.size() > 0) {
-		lstModeBase::iterator ite = _vModeAdd.begin();
-		for (; ite != _vModeAdd.end(); ++ite) {
-			(*ite)->Initialize();
-			_vMode.push_back((*ite));
+		lstModeBase::iterator itr = _vModeAdd.begin();
+		for (; itr != _vModeAdd.end(); ++itr) {
+			(*itr)->Initialize();
+			_vMode.push_back((*itr));
 		}
 		_vModeAdd.clear();
 
@@ -182,12 +208,16 @@ int ModeServer::ProcessInit() {
 	}
 
 	// スキップ、ポーズの解除
-	_skipProcessMode = nullptr;
-	_skipRenderMode = nullptr;
+	_skipProcessMode  = nullptr;
+	_skipRenderMode   = nullptr;
 	_pauseProcessMode = nullptr;
+
 	return 0;
 }
 
+/**
+ * レイヤーの上の方からProcessを回す
+ */
 int ModeServer::Process() {
 
 	// 現在の時間を取得
@@ -195,83 +225,104 @@ int ModeServer::Process() {
 	bool pause = false;
 
 	// レイヤーの上の方から処理
-	lstModeBase::reverse_iterator ite = _vMode.rbegin();
-	for (; ite != _vMode.rend(); ++ite) {
-		if (!IsDelRegist(*ite)) {
-			_nowMode = (*ite);
+	lstModeBase::reverse_iterator itr = _vMode.rbegin();
+	for (; itr != _vMode.rend(); ++itr) {
+		if (!IsDelRegist(*itr)) {
+			_nowMode = (*itr);
 
 			if (!pause) {
 				// 時間経過処理
-				(*ite)->StepTime(t);
+				(*itr)->StepTime(t);
 			}
 
-			// Process呼び出し
-			(*ite)->Process();
+			// 各モードのProcess呼び出し
+			(*itr)->Process();
 
-			// Modeが無い場合 (Reboot時)
+			// Modeが無い場合 (再起動時)
 			if (_vMode.empty()) {
 				break;
 			}
 
 			if (!pause) {
 				// カウンタ処理
-				(*ite)->StepCount();
+				(*itr)->StepCount();
 			}
 		}
-		if (_skipProcessMode == (*ite)) { break; }
-		if (_pauseProcessMode == (*ite)) { pause = true; }
+		if (_skipProcessMode == (*itr)) { break; }
+		if (_pauseProcessMode == (*itr)) { pause = true; }
 	}
 	_nowMode = nullptr;
 
 	return 0;
 }
 
-// プロセスを回した後の後始末
+/**
+ * プロセスを回した後の後始末 
+ */
 int ModeServer::ProcessFinish() {
 	return 0;
 }
 
-// 描画を回すための初期化
+/**
+ * 描画を回すための初期化
+ */
 int ModeServer::RenderInit() {
 	return 0;
 }
 
+/**
+ * レイヤーの下の方からRenderを回す
+ */
 int ModeServer::Render() {
 	// レイヤーの下の方から処理
-	lstModeBase::iterator ite = _vMode.begin();
-	for (; ite != _vMode.end(); ++ite) {
-		if (_skipRenderMode && _skipRenderMode != (*ite)) { continue; }
+	lstModeBase::iterator itr = _vMode.begin();
+	for (; itr != _vMode.end(); ++itr) {
+		if (_skipRenderMode && _skipRenderMode != (*itr)) { continue; }
 		_skipRenderMode = nullptr;
 
-		if (!IsDelRegist(*ite)) {
-			_nowMode = (*ite);
-			(*ite)->Render();
+		if (!IsDelRegist(*itr)) {
+			_nowMode = (*itr);
+			(*itr)->Render();
 		}
 	}
 	_nowMode = nullptr;
+
 	return 0;
 }
 
-// 描画を回した後の後始末
+/**
+ * 描画を回した後の後始末
+ */
 int ModeServer::RenderFinish() {
 	return 0;
 }
 
-// 今処理しているレイヤーより下のレイヤーは、処理を呼ばない
+/**
+ * 現Processで今処理しているレイヤーより下のレイヤーは処理を呼ばない
+ * @return 
+ */
 int ModeServer::SkipProcessUnderLayer() {
 	_skipProcessMode = _nowMode;
+
 	return 0;
 }
 
-// 今処理しているレイヤーより下のレイヤーは、描画を呼ばない
+/**
+ * 現Processで今処理しているレイヤーより下のレイヤーは描画を呼ばない
+ * @return 
+ */
 int ModeServer::SkipRenderUnderLayer() {
 	_skipRenderMode = _nowMode;
+
 	return 0;
 }
 
-// 今処理しているレイヤーより下のレイヤーは、時間経過を止める
+/**
+ * 現Processで今処理しているレイヤーより下のレイヤーの時間経過を止める
+ */
 int ModeServer::PauseProcessUnderLayer() {
 	_pauseProcessMode = _nowMode;
+
 	return 0;
 }
 

@@ -10,7 +10,7 @@
 #include "picojson/picojson.h"
 #include "CharaData.h"
 
-/**
+/*
  * コンストラクタで読み込むJSONファイル指定
  */
 CharaData::CharaData(std::string filePath, std::string fileName){
@@ -22,7 +22,7 @@ CharaData::~CharaData(){
 	// 何もしない
 }
 
-/**
+/*
  * JSONファイルを開いてデータを取得
  */
 std::string CharaData::StringFileLoad(std::string fileName){
@@ -53,7 +53,7 @@ std::string CharaData::StringFileLoad(std::string fileName){
 	return s;
 }
 
-/**
+/*
  * JSONファイルのデータ読み込み
  */
 int CharaData::JsonLoad(std::string filePath, std::string fileName){

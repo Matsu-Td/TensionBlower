@@ -1,6 +1,6 @@
 /**
  * @file   Explosion.h
- * @brief  ボム攻撃の爆発エフェクト
+ * @brief  ボム攻撃の爆発エフェクトクラス
  * 
  * @author matsuo tadahiko
  * @date   2021/03/05
@@ -11,10 +11,13 @@
 #include "../Object/ObjectBase.h"
 #include "../Boss/BossDamage.h"
 
+/**
+ * @brief ボム攻撃の爆発エフェクトクラス
+ */
 class Explosion : public ObjectBase{
 public:
 	/**
-	 * ボム攻撃の爆発エフェクト生成
+	 * @brief ボム攻撃の爆発エフェクト生成
 	 * @param pos 爆発発生位置
 	 * @param repelFlag 弾き返された弾かどうか
 	 */
@@ -24,27 +27,27 @@ public:
 	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::EXPLOSION; }
 
 	/**
-	 * 初期化
+	 * @brief 初期化
 	 */
 	void Initialize() override;
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	void Process() override;
 
 	/**
-	 * フレーム処理：描画
+	 * @brief フレーム処理：描画
 	 */
 	void Render() override;
 
 	/**
-	 * ボスとの当たり判定
+	 * @brief ボスとの当たり判定
 	 */
 	void CollisionToBoss();
 
 	/**
-	 * プレイヤーとの当たり判定
+	 * @brief プレイヤーとの当たり判定
 	 */
 	void CollisionToPlayer();
 

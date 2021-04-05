@@ -20,7 +20,7 @@ class PlayerDash;
 class PlayerJump;
 
 /**
- * プレイヤークラス
+ * @brief プレイヤークラス
  */
 class Player : public ObjectBase{
 	// 下記ファイルからのprivateへのアクセスを可能にする
@@ -36,108 +36,108 @@ public:
 	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::PLAYER; }
 
 	/**
-	 * 初期化
+	 * @brief 初期化
 	 */
 	void Initialize() override;
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	void Process() override;
 
 	/**
-	 * フレーム処理：描画
+	 * @brief フレーム処理：描画
 	 */
 	void Render() override;
 
 	/**
-	 * 移動処理
+	 * @brief 移動処理
 	 */
 	void Move();
 
 	/**
-	 * 重力処理
+	 * @brief 重力処理
 	 */
 	void Gravity();
 
 	/**
-	 * エネルギー溜め処理
+	 * @brief エネルギー溜め処理
 	 */
 	void Charge();
 
 	/**
-	 * マルチロックオンシステム用照準追加
+	 * @brief マルチロックオンシステム用照準追加
 	 */
 	void ReticleGeneration();
 
 	/**
-	 * ボスとの距離を確認(自動回復用)
+	 * @brief ボスとの距離を確認(自動回復用)
 	 */
 	void CheckDistanceToBoss();
 
 	/**
-	 * 当たり判定：ステージ
+	 * @brief 当たり判定：ステージ
 	 */
 	void CollisionToStage();
 
 	/**
-	 * 当たり判定：ボスの弾
+	 * @brief 当たり判定：ボスの弾
 	 */
 	void CollisionToBossBullet();
 
 	/**
-	 * 当たり判定：ボス
+	 * @brief 当たり判定：ボス
 	 */
 	void CollisionToBoss();
 
 	/**
-	 * 当たり判定：ボスのレーザー攻撃
+	 * @brief 当たり判定：ボスのレーザー攻撃
 	 */
 	void CollisionToLaser();
 
 	/**
-	 * ゲームオーバー処理
+	 * @brief ゲームオーバー処理
 	 */
 	void GameOver();
 
 	/**
-	 * HP値取得
+	 * @brief  HP値取得
 	 * @return プレイヤーの現在のHP値を取得
 	 */
 	int GetHitPoint() const { return _hitpoint; }
 
 	/**
-	 * エネルギー量取得
+	 * @brief  エネルギー量取得
 	 * @return プレイヤーの現在のエネルギー量を取得
 	 */
 	int GetEnergy() const { return _energy; }
 
 	/**
-     * 近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
+     * @brief  近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
      * @return プレイヤーの現在の近接攻撃ダメージ量
      */
 	int GetNowDmgHP() const { return _nowDmgHP; }
 
 	/**
-	 * 近接攻撃：シールド状態のボスのシールドに与えるダメージ量取得
+	 * @brief  近接攻撃：シールド状態のボスのシールドに与えるダメージ量取得
 	 * @return プレイヤーの現在の近接攻撃ダメージ量
 	 */
 	int GetNowDmgSld() const { return _nowDmgSld; }
 
 	/**
-	 * 近接攻撃：通常状態のボスのHPに与えるダメージ量取得
+	 * @brief  近接攻撃：通常状態のボスのHPに与えるダメージ量取得
 	 * @return プレイヤーの現在の近接攻撃ダメージ量
 	 */
 	int GetNowDmgNorm() const { return _nowDmgNorm; }
 
 	/**
-	 * ボムの爆発ダメージ
+	 * @brief ボムの爆発ダメージ
 	 */
 	void ExplosionDamage();
 
 	/**
-	 * プレイヤーインスタンスアクセス用
-	 * @return _pInstance プレイヤークラスポインタ
+	 * @brief  プレイヤーインスタンスアクセス用
+	 * @return Playerのインスタンス
 	 */
 	static Player* GetInstance() { return _pInstance; }
 	static Player* _pInstance;
@@ -199,7 +199,9 @@ private:
 	bool  _camStateMLS;  // マルチロックオンシステム発動中か
 
 
-	// プレイヤー状態(モーション)管理
+	/**
+	 * @brief プレイヤー状態(モーション)管理
+	 */
 	enum class STATE {
 		NONE,            // 無し
 		WAIT,            // 待機

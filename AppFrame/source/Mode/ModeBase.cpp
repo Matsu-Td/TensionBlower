@@ -1,4 +1,3 @@
-
 /**
  * @file  ModeBase.cpp
  * @brief モード基底クラス
@@ -15,12 +14,12 @@ ModeBase::ModeBase() {
 	_layer = 0;
 
 	_cntMode = 0;
-	_tmMode = 0;
-	_tmStep = 0;
-	_tmModeBase = 0;
-	_tmPauseBase = 0;
-	_tmPauseStep = 0;
-	_tmOldFrame = 0;
+	_timeMode = 0;
+	_timeStep = 0;
+	_timeModeBase = 0;
+	_timePauseBase = 0;
+	_timePauseStep = 0;
+	_timeOldFrame = 0;
 
 	SetCallPerFrame(1);
 	SetCallOfCount(1);
@@ -29,7 +28,7 @@ ModeBase::ModeBase() {
 ModeBase::~ModeBase() {
 }
 
-/**
+/*
  * 初期化
  */
 bool ModeBase::Initialize() {
@@ -37,7 +36,7 @@ bool ModeBase::Initialize() {
 	return true;
 }
 
-/**
+/*
  * 解放
  */
 bool ModeBase::Terminate() {
@@ -45,7 +44,7 @@ bool ModeBase::Terminate() {
 	return true;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 bool ModeBase::Process()
@@ -53,7 +52,7 @@ bool ModeBase::Process()
 	return	true;
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 bool ModeBase::Render()
@@ -61,26 +60,26 @@ bool ModeBase::Render()
 	return	true;
 }
 
-/**
+/*
  * 時間経過処理
  */
-void ModeBase::StepTime(unsigned long tmNow) {
+void ModeBase::StepTime(unsigned long timeNow) {
 
 	if (_cntMode == 0) {
-		_tmMode = 0;
-		_tmStep = 0;
-		_tmModeBase = tmNow;
-		_tmPauseBase = 0;
-		_tmPauseStep = 0;
+		_timeMode = 0;
+		_timeStep = 0;
+		_timeModeBase = timeNow;
+		_timePauseBase = 0;
+		_timePauseStep = 0;
 	}
 	else {
-		_tmMode = tmNow - _tmModeBase + _tmPauseStep;
-		_tmStep = tmNow - _tmOldFrame;
+		_timeMode = timeNow - _timeModeBase + _timePauseStep;
+		_timeStep = timeNow - _timeOldFrame;
 	}
-	_tmOldFrame = tmNow;
+	_timeOldFrame = timeNow;
 }
 
-/**
+/*
  * カウントを進める
  */
 void ModeBase::StepCount() {

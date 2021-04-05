@@ -23,7 +23,7 @@ HitEffect::~HitEffect() {
 	StopEffekseer3DEffect(_playingHandle);
 }
 
-/**
+/*
  * 初期化
  */
 void HitEffect::Initialize() {
@@ -31,7 +31,7 @@ void HitEffect::Initialize() {
 	_effectCnt = 0;
 }
 
-/**
+/*
  * フレーム処理：計算
  */
 void HitEffect::Process() {
@@ -47,9 +47,9 @@ void HitEffect::Process() {
 	}
 }
 
-/**
+/*
  * フレーム処理：描画
  */
 void HitEffect::Render() {
-
+	// 何もしない
 }

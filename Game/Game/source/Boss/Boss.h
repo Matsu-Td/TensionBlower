@@ -15,7 +15,7 @@ class ShotPattern;
 class BossDamage;
 
 /**
- * ボスクラス
+ * @brief ボスクラス
  */
 class Boss : public ObjectBase{
 	friend ShotPattern;
@@ -27,69 +27,72 @@ public:
 	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS; }
 
 	/**
-	 * 初期化
+	 * @brief 初期化
 	 */
 	void Initialize() override;
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	void Process() override;
 
 	/**
-	 * フレーム処理：描画
+	 * @brief フレーム処理：描画
 	 */
 	void Render() override;
 
 	/**
-	 * フェーズ変更処理
+	 * @brief フェーズ変更処理
 	 */
 	void FhaseChange();
 
 	/**
-	 * ダウン状態処理
+	 * @brief ダウン状態処理
 	 */
 	void StateDown();
 
 	/**
-	 * 6種類の声データをランダムで流す
+	 * @brief 6種類の声データをランダムで流す
 	 */
 	void PlayAttackVoiceChange();
 
 	/**
-	 * 声データ再生
+	 * @brief 声データ再生
 	 * @param voiceName 声データの名前
 	 */
 	void PlayVoice(std::string voiceName);
 
 	/**
-	 * ボス正面方向回転処理
-	 * @param  rotSpdChenge 回転速度切替用
+	 * @brief ボス正面方向回転処理
+	 * @param rotSpdChenge 回転速度切替用
 	 */
 	void DirectionalRotation(float rotSpdChenge);
 
 	/**
-	 * ヒットポイント値取得
+	 * @brief  ヒットポイント値取得
+	 * @return ヒットポイント
 	 */
 	int GetHitPoint() const { return _hitpoint; }
 
 	/**
-	 * シールド値取得
+	 * @brief  シールド値取得
+	 * @return シールド値
 	 */
 	int GetShield() const { return _shield; }
 
 	/**
-	 * フェーズ数取得
+	 * @brief  フェーズ数取得
+	 * @return 現在のフェーズ
 	 */
 	int GetPhase() const { return _phase; }
 
 	/**
-	 * 死亡処理
+	 * @brief 死亡処理
 	 */
 	void Dead();
 
 	/**
-	 * ボスのインスタンスを取得する
+	 * @brief Bossインスタンスを取得する
 	 */
 	static Boss* GetInstance() { return _pInstance; }
 
@@ -99,7 +102,9 @@ public:
 	int _bulletNum;      // ダウン直前に出現していた弾の数カウント
 	bool _mlsDownFlag;   // MLSで弾き返された弾でダウンすると「true」
 
-	// 状態
+	/**
+	 * @brief 状態
+	 */
 	enum class STATE {
 		NORMAL,  // 通常
 		DOWN,    // ダウン

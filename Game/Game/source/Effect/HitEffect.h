@@ -1,6 +1,6 @@
 /**
  * @file   HitEffect.h
- * @brief  近接攻撃のヒットエフェクト
+ * @brief  近接攻撃のヒットエフェクトクラス
  *
  * @author matsuo tadahiko
  * @date   2021/03/15
@@ -10,10 +10,13 @@
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
+/**
+ * @brief 近接攻撃のヒットエフェクトクラス
+ */
 class HitEffect : public ObjectBase {
 public:
 	/**
-	 * ボスへのヒットエフェクト生成
+	 * @brief ボスへのヒットエフェクト生成
 	 * @param 生成位置
 	 */
 	HitEffect(VECTOR pos);
@@ -22,17 +25,17 @@ public:
 	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::HIT_EFFECT; }
 
 	/**
-	 * 初期化
+	 * @brief 初期化
 	 */
 	void Initialize() override;
 
 	/**
-	 * フレーム処理：計算
+	 * @brief フレーム処理：計算
 	 */
 	void Process() override;
 
 	/**
-	 * フレーム処理：描画
+	 * @brief フレーム処理：描画
 	 */
 	void Render() override;
 
