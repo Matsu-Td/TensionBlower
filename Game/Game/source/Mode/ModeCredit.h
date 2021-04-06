@@ -3,7 +3,7 @@
  * @brief  クレジットモードクラス
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2020/01/19
  */
 
 #include "appframe.h"

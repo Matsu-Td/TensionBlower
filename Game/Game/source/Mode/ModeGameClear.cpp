@@ -3,7 +3,7 @@
  * @brief  ゲームクリアモードクラス
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2021/01/26
  */
 
 #include "../Application/ApplicationMain.h"

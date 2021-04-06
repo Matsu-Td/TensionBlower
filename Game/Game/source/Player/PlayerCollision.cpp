@@ -3,7 +3,7 @@
  * @brief  ƒvƒŒƒCƒ„[‚Ì“–‚½‚è”»’è
  * 
  * @author matsuo tadahiko
- * @date   2021/04/
+ * @date   2021/04/06
  */
 
 #include "Player.h"

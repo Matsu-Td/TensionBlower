@@ -3,7 +3,7 @@
  * @brief  ƒ{ƒX‚Ì’e–‹ˆ—
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2020/12/22
  */
 
 #include "BossBullet.h"

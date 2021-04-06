@@ -3,7 +3,7 @@
  * @brief  ƒvƒŒƒCƒ„[Æ€ˆ—
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2021/01/14
  */
 
 #include "Reticle.h"

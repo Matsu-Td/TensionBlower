@@ -3,7 +3,7 @@
  * @brief  ボス声優 声データ読み込み処理
  * 
  * @author matsuo tadahiko
- * @date   2021/03/0$DAY
+ * @date   2021/03/07
  */
 
 #pragma once

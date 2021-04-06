@@ -3,7 +3,7 @@
  * @brief  リザルトモードクラス
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2021/01/20
  */
 
 #include "appframe.h"

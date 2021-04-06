@@ -3,7 +3,7 @@
  * @brief  ボスクラス
  * 
  * @author matsuo tadahiko
- * @date   2021/03/14
+ * @date   2020/12/18
  */
 
 #include "Boss.h"

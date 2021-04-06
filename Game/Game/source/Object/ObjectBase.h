@@ -2,7 +2,7 @@
  * @file  ObjectBase.h
  * @brief オブジェクト基底クラス
  *
- * @date 2021/01/15
+ * @date 2021/03/20
  */
 
 #pragma once

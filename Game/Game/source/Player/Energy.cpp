@@ -3,7 +3,7 @@
  * @brief  プレイヤーエネルギー関係処理
  *
  * @author matsuo tadahiko
- * @date   2021/03/26
+ * @date   2021/04/06
  */
 
 #include "../Application/ApplicationMain.h"

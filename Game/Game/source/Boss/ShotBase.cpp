@@ -3,7 +3,7 @@
  * @brief  弾幕系処理クラスの基底クラス
  * 
  * @author matsuo tadahiko
- * @date   2021/03/22
+ * @date   2021/01/10
  */
 
 #include "ShotBase.h"

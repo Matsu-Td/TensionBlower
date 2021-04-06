@@ -3,7 +3,7 @@
  * @brief  ボスのレーザー攻撃
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2021/02/14
  */
 
 #include "Laser.h"

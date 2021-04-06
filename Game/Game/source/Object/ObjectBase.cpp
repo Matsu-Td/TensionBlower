@@ -2,7 +2,7 @@
  * @file  ObjectBase.cpp
  * @brief オブジェクト基底クラス
  *
- * @date  2021/01/15
+ * @date  2021/03/20
  */
 
 #include "DxLib.h"

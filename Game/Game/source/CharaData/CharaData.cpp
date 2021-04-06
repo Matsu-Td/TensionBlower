@@ -3,7 +3,7 @@
  * @brief  キャラデータ(プレイヤー、ボス)JSONファイル読み込み処理
  * 
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2020/12/18
  */
 
 #define	_CRT_SECURE_NO_WARNINGS
