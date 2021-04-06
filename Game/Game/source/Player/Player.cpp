@@ -246,6 +246,6 @@ void Player::ExplosionDamage(){
 	
 	if (_hitpoint > 0) {
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-		_hitpoint -= modeGame->_charaData->_boss.exolosionDmg;
+		_hitpoint -= modeGame->_charaData->_boss.explosionDmg;
 	}
 }

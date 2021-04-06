@@ -132,7 +132,7 @@ void Player::CollisionToLaser() {
 	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
 		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::LASER) {
 			if (IsHitLineSegment(*(*itr), (*itr)->_r) == true) {
-				_hitpoint -= 5;
+				_hitpoint -= modeGame->_charaData->_boss.laserDmg;
 			}
 		}
 	}
