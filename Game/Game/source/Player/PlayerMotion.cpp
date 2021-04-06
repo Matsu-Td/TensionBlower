@@ -1,84 +1,91 @@
 /**
  * @file   PlayerMotion.cpp
  * @brief  プレイヤーモーション切替処理
- * 
+ *
  * @author matsuo tadahiko
- * @date   2021/03/01
+ * @date   2021/03/26
  */
 
-#include "PlayerMotion.h"
+#include "Player.h"
 #include "../Camera/Camera.h"
 
+/*
+ * モーション名で指定したモデルのモーションをアタッチする
+ */
+int Player::AttachAnim(const TCHAR* animName) const{
+	return MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, animName), -1, FALSE);
+}
+
  /*
-  * プレイヤーモーション切替
+  * モーション切替
   */
-void PlayerMotion::SwitchMotion(Player* player, Player::STATE oldState) {
+void Player::MotionSwitching() {
 
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
 
 	// マルチロックオンシステム発動したらモーションを「WAIT」にする
 	if (camState == Camera::STATE::MLS_LOCK) {
-		player->_state = Player::STATE::WAIT;
+		_state = STATE::WAIT;
 	}
 
-	if (oldState == player->_state) {
-		player->_playTime += 1.0f;
+	if (_oldState == _state) {
+		_playTime += 1.0f;
 	}
 	else {
-		if (player->_attachIndex != -1) {
-			MV1DetachAnim(player->_mh, player->_attachIndex);
-			player->_attachIndex = -1;
+		if (_attachIndex != -1) {
+			MV1DetachAnim(_mh, _attachIndex);
+			_attachIndex = -1;
 		}
-		switch (player->_state) {
-		case Player::STATE::WAIT:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "wait"), -1, FALSE);
+		switch (_state) {
+		case STATE::WAIT:
+			_attachIndex = AttachAnim("wait");
 			break;
-		case Player::STATE::WALK:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "ahead"), -1, FALSE);
+		case STATE::WALK:
+			_attachIndex = AttachAnim("ahead");
 			break;
-		case Player::STATE::JUMP:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "junp_up"), -1, FALSE);
+		case STATE::JUMP:
+			_attachIndex = AttachAnim("junp_up");
 			break;
-		case Player::STATE::FOR_DASH:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "d_ahead"), -1, FALSE);
+		case STATE::FOR_DASH:
+			_attachIndex = AttachAnim("d_ahead");
 			break;
-		case Player::STATE::LEFT_MOVE:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "left"), -1, FALSE);
+		case STATE::LEFT_MOVE:
+			_attachIndex = AttachAnim("left");
 			break;
-		case Player::STATE::RIGHT_MOVE:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "right"), -1, FALSE);
+		case STATE::RIGHT_MOVE:
+			_attachIndex = AttachAnim("right");
 			break;
-		case Player::STATE::BACK_MOVE:
-			 player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "back"), -1, FALSE);
+		case STATE::BACK_MOVE:
+			_attachIndex = AttachAnim("back");
 			break;
-		case Player::STATE::LEFT_DASH:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "d_left"), -1, FALSE);
+		case STATE::LEFT_DASH:
+			_attachIndex = AttachAnim("d_left");
 			break;
-		case Player::STATE::RIGHT_DASH:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "d_right"), -1, FALSE);
+		case STATE::RIGHT_DASH:
+			_attachIndex = AttachAnim("d_right");
 			break;
-		case Player::STATE::BACK_DASH:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "d_back"), -1, FALSE);
+		case STATE::BACK_DASH:
+			_attachIndex = AttachAnim("d_back");
 			break;
-		case Player::STATE::WEAK_ATCK1:
-		case Player::STATE::WEAK_ATCK2:
-		case Player::STATE::WEAK_ATCK3:
-		case Player::STATE::WEAK_ATCK4:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "slash_l"), -1, FALSE);
+		case STATE::WEAK_ATCK1:
+		case STATE::WEAK_ATCK2:
+		case STATE::WEAK_ATCK3:
+		case STATE::WEAK_ATCK4:
+			_attachIndex = AttachAnim("slash_l");
 			break;
-		case Player::STATE::STRG_ATCK1:
-		case Player::STATE::STRG_ATCK2:
-		case Player::STATE::STRG_ATCK3:
-		case Player::STATE::STRG_ATCK4:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "slash_h"), -1, FALSE);
+		case STATE::STRG_ATCK1:
+		case STATE::STRG_ATCK2:
+		case STATE::STRG_ATCK3:
+		case STATE::STRG_ATCK4:
+			_attachIndex = AttachAnim("slash_h");
 			break;
-		case Player::STATE::DEAD:
-			player->_attachIndex = MV1AttachAnim(player->_mh, MV1GetAnimIndex(player->_mh, "dead"), -1, FALSE);
+		case STATE::DEATH:
+			_attachIndex = AttachAnim("dead");
 			break;
 		}
 		// アタッチしたアニメーションの総再生時間を取得する
-		player->_totalTime = MV1GetAttachAnimTotalTime(player->_mh, player->_attachIndex);
+		_totalTime = MV1GetAttachAnimTotalTime(_mh, _attachIndex);
 
-		player->_playTime = 0.0f;
+		_playTime = 0.0f;
 	}
 }

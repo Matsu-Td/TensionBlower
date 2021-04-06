@@ -12,26 +12,13 @@
 #include "../Object/ObjectBase.h"
 #include "../Boss/BossDamage.h"
 
-// プレイヤークラスに関係するクラスの宣言
-class PlayerAttack;
-class PlayerMotion;
-class PlayerEnergy;
-class PlayerDash;
-class PlayerJump;
-
 /**
  * @brief プレイヤークラス
  */
 class Player : public ObjectBase{
-	// 下記ファイルからのprivateへのアクセスを可能にする
-	friend PlayerAttack;
-	friend PlayerMotion;
-	friend PlayerEnergy;
-	friend PlayerDash;
-	friend PlayerJump;
 public:
 	Player();
-	~Player();
+	virtual ~Player();
 
 	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::PLAYER; }
 
@@ -50,6 +37,51 @@ public:
 	 */
 	void Render() override;
 
+	/**
+     * @brief  HP値取得
+     * @return プレイヤーの現在のHP値を取得
+     */
+	int GetHitPoint() const { return _hitpoint; }
+
+	/**
+	 * @brief  エネルギー量取得
+	 * @return プレイヤーの現在のエネルギー量を取得
+	 */
+	int GetEnergy() const { return _energy; }
+
+	/**
+	 * @brief  近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
+	 * @return プレイヤーの現在の近接攻撃ダメージ量
+	 */
+	int GetNowDmgHP() const { return _nowDmgHP; }
+
+	/**
+	 * @brief  近接攻撃：シールド状態のボスのシールドに与えるダメージ量取得
+	 * @return プレイヤーの現在の近接攻撃ダメージ量
+	 */
+	int GetNowDmgSld() const { return _nowDmgSld; }
+
+	/**
+	 * @brief  近接攻撃：通常状態のボスのHPに与えるダメージ量取得
+	 * @return プレイヤーの現在の近接攻撃ダメージ量
+	 */
+	int GetNowDmgNorm() const { return _nowDmgNorm; }
+
+	/**
+	 * @brief ボムの爆発ダメージ
+	 */
+	void ExplosionDamage();
+
+	/**
+     * @brief  プレイヤーインスタンスアクセス用
+     * @return Playerのインスタンス
+     */
+	static Player* GetInstance() { return _pInstance; }
+	static Player* _pInstance;
+
+	int _canHitFlag;  // 近接攻撃当たり判定可否(true:可能, false:不可)
+
+private:
 	/**
 	 * @brief 移動処理
 	 */
@@ -76,6 +108,11 @@ public:
 	void CheckDistanceToBoss();
 
 	/**
+     * @brief 各種当たり判定処理実行
+     */
+	void AllCollision();
+
+	/**
 	 * @brief 当たり判定：ステージ
 	 */
 	void CollisionToStage();
@@ -96,57 +133,97 @@ public:
 	void CollisionToLaser();
 
 	/**
-	 * @brief ゲームオーバー処理
+	 * @brief 死亡処理＆ゲームオーバーへ移行
 	 */
-	void GameOver();
+	void Death();
 
 	/**
-	 * @brief  HP値取得
-	 * @return プレイヤーの現在のHP値を取得
+	 * モーションの名前で指定したモデルのモーションをアタッチする
+	 * @param  animName モーション名
+	 * @return モーション番号
 	 */
-	int GetHitPoint() const { return _hitpoint; }
+	int AttachAnim(const TCHAR* animName) const;
 
 	/**
-	 * @brief  エネルギー量取得
-	 * @return プレイヤーの現在のエネルギー量を取得
+	 * @brief モーション切替処理
 	 */
-	int GetEnergy() const { return _energy; }
+	void MotionSwitching();
 
 	/**
-     * @brief  近接攻撃：シールド状態のボスのHPに与えるダメージ量取得
-     * @return プレイヤーの現在の近接攻撃ダメージ量
-     */
-	int GetNowDmgHP() const { return _nowDmgHP; }
+	 * @brief ジャンプ処理
+	 */
+	void Jump();
 
 	/**
-	 * @brief  近接攻撃：シールド状態のボスのシールドに与えるダメージ量取得
-	 * @return プレイヤーの現在の近接攻撃ダメージ量
+	 * @brief エネルギー消費処理
+	 * @param costEnergy 消費するエネルギー量
 	 */
-	int GetNowDmgSld() const { return _nowDmgSld; }
+	void CostEnergy(int costEnergy);
 
 	/**
-	 * @brief  近接攻撃：通常状態のボスのHPに与えるダメージ量取得
-	 * @return プレイヤーの現在の近接攻撃ダメージ量
+	 * @brief エネルギーの回復、消費処理
 	 */
-	int GetNowDmgNorm() const { return _nowDmgNorm; }
+	void EnergyManager();
 
 	/**
-	 * @brief ボムの爆発ダメージ
+	 * @brief 移動、ダッシュモーション切替処理
+	 * @brief 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移
 	 */
-	void ExplosionDamage();
+	void LeftAnalogDeg();
 
 	/**
-	 * @brief  プレイヤーインスタンスアクセス用
-	 * @return Playerのインスタンス
+	 * @brief ダッシュ処理
 	 */
-	static Player* GetInstance() { return _pInstance; }
-	static Player* _pInstance;
+	void Dash();
 
-	static constexpr float GROUND_Y = 0.0f;  // 地上のY座標
+	/**
+	 * @brief 近接攻撃のダメージ量を近接攻撃の種類によって切替
+	 * @param player  プレイヤークラスオブジェクトのポインタ
+	 */
+	void SwitchAttackDamage();
 
-	int  _canHitFlag;       // 近接攻撃当たり判定可否(true:可能, false:不可)
+	/**
+	 * @brief 現在発生中の近接攻撃ダメージ量を設定する
+	 * @param dmgHP   シールド状態のボスのヒットポイントに与えるダメージ量
+	 * @param dmgSld  シールド状態のボスのシールドに与えるダメージ量
+	 * @param dmgNorm シールドがない状態のボスのヒットポイントに与えるダメージ量
+	 */
+	void SetAttackDamage(int dmgHP, int dmgSld, int dmgNorm);
+
+	/**
+	 * @brief 各近接攻撃へのキー入力処理
+	 */
+	void AttackAction();
+
+	/**
+	 * @brief 近接攻撃処理(初手のみ)
+	 */
+	void FirstAttack();
+
+	/**
+	 * @brief 近接攻撃処理(2発目以降)
+	 */
+	void SecondAttack();
+
+	/**
+	 * @brief 攻撃発生時の声データを再生する
+	 * @param voiceName 再生する声データの名前
+	 */
+	void PlayAttackVoice(std::string voiceName);
+
+	/**
+	 * @brief 弱近接攻撃のヒット判定時間を設定する
+	 */
+	void SetWeakHitTime();
+
+	/**
+	 * @brief 強近接攻撃のヒット判定時間を設定する
+	 */
+	void SetStrongHitTime();
+
 private:
-	float _analogLength;
+	float _analogLength; // 左アナログスティックの入力、倒した大きさ
+
 	// ステータス
 	int _hitpoint;       // ヒットポイント値
 	int _energy;         // エネルギー値
@@ -173,8 +250,8 @@ private:
 	int  _nowDmgHP;         // 発動中近接攻撃のHPへ与えるダメージ量(シールド有)
 	int  _nowDmgSld;        // 発動中近接攻撃のシールドへ与えるダメージ量
 	int  _nowDmgNorm;       // 発動中近接攻撃のHPへ与えるダメージ量(シールド無)
-	int  _hitStart;
-	int  _hitEnd;
+	int  _hitStartCnt;      // 近接攻撃の当たり判定発生開始カウント
+	int  _hitEndCnt;        // 近接攻撃の当たり判定発生終了カウント
 	bool _isAttack;         // 攻撃発生フラグ(攻撃発動中)
 
 	std::unordered_map<std::string, int> _attackTotalTime;  // 各攻撃モーションの総再生時間を格納する
@@ -196,52 +273,65 @@ private:
 	int   _lfAnalogDeg;  // 左アナログスティックの倒した方向(角度)
 	float _bsAngle;      // ボスの位置、角度
 	bool  _isNearBoss;   // ボスの近くにいるか(true:ボスの近くにいる)	
-	bool  _camStateMLS;  // マルチロックオンシステム発動中か
-
 
 	/**
-	 * @brief プレイヤー状態(モーション)管理
+	 * @brief プレイヤー状態遷移用
 	 */
 	enum class STATE {
-		NONE,            // 無し
-		WAIT,            // 待機
-		WALK,            // 通常移動
-		FOR_DASH,        // 前方ダッシュ移動
-		JUMP,            // ジャンプ
-		LEFT_MOVE,       // 左方移動(カメラロック中のみ)
-		RIGHT_MOVE,      // 右方移動(カメラロック中のみ)
-		BACK_MOVE,       // 後方移動(カメラロック中のみ)
-		LEFT_DASH,       // 左方ダッシュ移動(カメラロック中のみ)
-		RIGHT_DASH,      // 右方ダッシュ移動(カメラロック中のみ)
-		BACK_DASH,       // 後方ダッシュ移動(カメラロック中のみ)
-		WEAK_ATCK1,      // 弱近接攻撃1
-		WEAK_ATCK2,      // 弱近接攻撃2
-		WEAK_ATCK3,      // 弱近接攻撃3
-		WEAK_ATCK4,      // 弱近接攻撃4
-		STRG_ATCK1,      // 強近接攻撃1
-		STRG_ATCK2,      // 強近接攻撃2
-		STRG_ATCK3,      // 強近接攻撃3
-		STRG_ATCK4,      // 強近接攻撃4
-		DEAD,            // 死亡
+		NONE,          // 無し
+		WAIT,          // 待機
+		WALK,          // 通常移動
+		FOR_DASH,      // 前方ダッシュ移動
+		JUMP,          // ジャンプ
+		LEFT_MOVE,     // 左方移動
+		RIGHT_MOVE,    // 右方移動
+		BACK_MOVE,     // 後方移動
+		LEFT_DASH,     // 左方ダッシュ移動
+		RIGHT_DASH,    // 右方ダッシュ移動
+		BACK_DASH,     // 後方ダッシュ移動
+		WEAK_ATCK1,    // 弱近接攻撃1
+		WEAK_ATCK2,    // 弱近接攻撃2
+		WEAK_ATCK3,    // 弱近接攻撃3
+		WEAK_ATCK4,    // 弱近接攻撃4
+		STRG_ATCK1,    // 強近接攻撃1
+		STRG_ATCK2,    // 強近接攻撃2
+		STRG_ATCK3,    // 強近接攻撃3
+		STRG_ATCK4,    // 強近接攻撃4
+		DEATH,         // 死亡
 	};
-	STATE _state; // プレイヤーの状態
+	STATE _state;    // プレイヤーの状態
+	STATE _oldState; // 処理前のプレイヤーの状態
+	
+	// 定数
+	const float GROUND_Y      = 0.0f;  // 地上のY座標
+	const float GRAVITY       = 0.9f;  // 重力加速度値
+	const float ANALOG_MIN    = 0.3f;  // アナログスティック入力反応の最小値
+	const float IN_VEL        = 5.0f;         // 初速
+	const float MULT_HALF     = 0.5f;      // 1/2乗算
+	const float JUMP_CNT      = 0.2f;       // ジャンプ時間
 
-	static constexpr float GRAVITY       = 0.9f; // 重力加速度値
-	static constexpr int AUTO_CHARGE_CNT = 120;  // 自動回復開始カウント
-	const int RELOAD_TIME     = 90;   // 近接・射撃攻撃リロード時間
-	const float ANALOG_MIN    = 0.3f; // アナログスティック入力反応の最小値
-
-	PlayerAttack* _attackCall;  // 処理呼び出し：近接攻撃処理
-	PlayerMotion* _motionCall;  // 処理呼び出し：モーション切替処理
-	PlayerEnergy* _energyCall;  // 処理呼び出し：エネルギー管理処理
-	PlayerDash*   _dashCall;    // 処理呼び出し：ダッシュ処理
-	PlayerJump*   _JumpCall;    // 処理呼び出し：ジャンプ処理
+	const int SHORT_DASH_CNT     = 10;     // 短押しダッシュ移動時間
+	const int AUTO_CHARGE_CNT    = 120;   // エネルギー自動回復開始カウント
+	const int RELOAD_TIME        = 90;    // 近接・射撃攻撃リロード時間
+	const int ANALOG_REG_FOR     = 120;    // 左アナログスティックを倒す前方向判定の角度範囲(ターゲットロック中のみ使用)
+	const int ANALOG_REG_OTHER   = 45;   // 左アナログスティックを倒す前方向以外の角度範囲(ターゲットロック中のみ使用)
+	const int RECEPTION_TIME     = 30;     // 次近接攻撃受付時間
+	const int ATTACK_RELOAD_TIME = 90; // 近接・射撃攻撃リロード時間
 
 	std::unique_ptr<BossDamage> _bossDamageCall;  	// ボスへのダメージ処理呼び出し
-};
 
-#include "PlayerAttack.h"
-#include "PlayerMotion.h"
-#include "PlayerEnergy.h"
-#include "PlayerDash.h"
-#include "PlayerJump.h"
+	/**
+	 * @brief 強近接攻撃への派生関連処理
+	 * @param attackEnergy 指定された強近接攻撃での消費エネルギー量
+	 * @param nextState    派生する強近接攻撃の種類
+	 * @param attackName   派生する強近接攻撃の名前(攻撃モーション時間セット用)
+	 */
+	void NextStrongAttack(int attackEnergy, STATE nextState, std::string attackName);
+
+	/**
+	 * @brief 弱近接攻撃への派生関連処理
+	 * @param nextState    派生する弱近接攻撃の種類
+	 * @param attackName   派生する弱近接攻撃の名前(攻撃モーション時間セット用)
+	 */
+	void NextWeakAttack(STATE nextState, std::string attackName);
+};

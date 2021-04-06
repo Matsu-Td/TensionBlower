@@ -49,6 +49,9 @@
     <Filter Include="ヘッダー ファイル\Player">
       <UniqueIdentifier>{8801c1c8-2978-4442-83aa-d221a507ffdc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\PlayerAction">
+      <UniqueIdentifier>{4c75c51e-946a-4c71-b3d8-6e0eeb7c0b81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application\ApplicationGlobal.cpp">
@@ -144,21 +147,6 @@
     <ClCompile Include="source\Player\Player.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
-    <ClCompile Include="source\Player\PlayerAttack.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player\PlayerDash.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player\PlayerEnergy.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player\PlayerJump.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player\PlayerMotion.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="source\Player\PlayerStatus.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
@@ -176,6 +164,36 @@
     </ClCompile>
     <ClCompile Include="source\Mode\TitleBGM.cpp">
       <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\PlayerMotion.cpp">
+      <Filter>ソース ファイル\PlayerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Energy.cpp">
+      <Filter>ソース ファイル\PlayerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Jump.cpp">
+      <Filter>ソース ファイル\PlayerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Attack.cpp">
+      <Filter>ソース ファイル\PlayerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Dash.cpp">
+      <Filter>ソース ファイル\PlayerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\PlayerCollision.cpp">
+      <Filter>ソース ファイル\PlayerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\ReticleGeneration.cpp">
+      <Filter>ソース ファイル\PlayerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Death.cpp">
+      <Filter>ソース ファイル\PlayerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Charge.cpp">
+      <Filter>ソース ファイル\PlayerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Move.cpp">
+      <Filter>ソース ファイル\PlayerAction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,21 +288,6 @@
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="source\Player\Player.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Player\PlayerAttack.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Player\PlayerDash.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Player\PlayerEnergy.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Player\PlayerJump.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Player\PlayerMotion.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
     <ClInclude Include="source\Player\PlayerStatus.h">

@@ -186,15 +186,20 @@
     <ClCompile Include="source\Mode\TitleBGM.cpp" />
     <ClCompile Include="source\Object\ObjectBase.cpp" />
     <ClCompile Include="source\Object\ObjectServer.cpp" />
-    <ClCompile Include="source\Player\Player.cpp" />
-    <ClCompile Include="source\Player\PlayerAttack.cpp" />
-    <ClCompile Include="source\Player\PlayerDash.cpp" />
-    <ClCompile Include="source\Player\PlayerEnergy.cpp" />
-    <ClCompile Include="source\Player\PlayerJump.cpp" />
+    <ClCompile Include="source\Player\Attack.cpp" />
+    <ClCompile Include="source\Player\Charge.cpp" />
+    <ClCompile Include="source\Player\Dash.cpp" />
+    <ClCompile Include="source\Player\Death.cpp" />
+    <ClCompile Include="source\Player\Energy.cpp" />
+    <ClCompile Include="source\Player\Jump.cpp" />
+    <ClCompile Include="source\Player\Move.cpp" />
+    <ClCompile Include="source\Player\PlayerCollision.cpp" />
     <ClCompile Include="source\Player\PlayerMotion.cpp" />
+    <ClCompile Include="source\Player\Player.cpp" />
     <ClCompile Include="source\Player\PlayerStatus.cpp" />
     <ClCompile Include="source\Player\PlayerVoice.cpp" />
     <ClCompile Include="source\Player\Reticle.cpp" />
+    <ClCompile Include="source\Player\ReticleGeneration.cpp" />
     <ClCompile Include="source\Sound\Sound.cpp" />
     <ClCompile Include="source\Stage\Stage.cpp" />
   </ItemGroup>
@@ -231,11 +236,6 @@
     <ClInclude Include="source\Object\ObjectBase.h" />
     <ClInclude Include="source\Object\ObjectServer.h" />
     <ClInclude Include="source\Player\Player.h" />
-    <ClInclude Include="source\Player\PlayerAttack.h" />
-    <ClInclude Include="source\Player\PlayerDash.h" />
-    <ClInclude Include="source\Player\PlayerEnergy.h" />
-    <ClInclude Include="source\Player\PlayerJump.h" />
-    <ClInclude Include="source\Player\PlayerMotion.h" />
     <ClInclude Include="source\Player\PlayerStatus.h" />
     <ClInclude Include="source\Player\PlayerVoice.h" />
     <ClInclude Include="source\Player\Reticle.h" />
