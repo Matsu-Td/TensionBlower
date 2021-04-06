@@ -9,7 +9,7 @@
 #include "Player.h"
 #include "../Mode/ModeGame.h"
 #include "../Application/ApplicationGlobal.h"
-#include "PlayerVoice.h"
+#include "LoadPlayerVoice.h"
 #include "../Effect/HitEffect.h"
 #include "../Sound/Sound.h"
 
@@ -24,9 +24,9 @@ void Player::AllCollision() {
 	CollisionToLaser();
 }
 
- /*
-  * 当たり判定：ステージ
-  */
+/*
+ * 当たり判定：ステージ
+ */
 void Player::CollisionToStage() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));

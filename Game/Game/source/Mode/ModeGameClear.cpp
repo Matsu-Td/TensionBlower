@@ -12,7 +12,7 @@
 #include "ModeGameClear.h"
 #include "ModeResult.h"
 #include "../Sound/Sound.h"
-#include "../Player/PlayerVoice.h"
+#include "../Player/LoadPlayerVoice.h"
 
 /*
  * ‰Šú‰»

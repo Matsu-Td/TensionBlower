@@ -12,7 +12,7 @@
 #include "ModeGameOver.h"
 #include "ModeTitle.h"
 #include "../Sound/Sound.h"
-#include "../Player/PlayerVoice.h"
+#include "../Player/LoadPlayerVoice.h"
 
 /*
  * ‰Šú‰»

@@ -14,8 +14,8 @@
 #include "ModeGame.h"
 #include "TitleBGM.h"
 #include "../Sound/Sound.h"
-#include "../Player/PlayerVoice.h"
-#include "../Boss/BossVoice.h"
+#include "../Player/LoadPlayerVoice.h"
+#include "../Boss/LoadBossVoice.h"
 
 /*
  * èâä˙âª

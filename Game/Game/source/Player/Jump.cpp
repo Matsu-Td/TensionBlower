@@ -10,9 +10,9 @@
 #include "Player.h"
 #include "../Mode/ModeGame.h"
 
- /*
-  * ジャンプ処理
-  */
+/*
+ * ジャンプ処理
+ */
 void Player::Jump() {
 
 	int trg = ApplicationMain::GetInstance()->GetTrg();

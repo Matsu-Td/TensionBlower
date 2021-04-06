@@ -16,9 +16,9 @@ int Player::AttachAnim(const TCHAR* animName) const{
 	return MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, animName), -1, FALSE);
 }
 
- /*
-  * モーション切替
-  */
+/*
+ * モーション切替
+ */
 void Player::MotionSwitching() {
 
 	Camera::STATE camState = Camera::GetInstance()->GetCameraState();

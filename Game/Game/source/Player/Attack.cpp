@@ -11,11 +11,11 @@
 #include "../Mode/ModeGame.h"
 #include "Player.h"
 #include "../Sound/Sound.h"
-#include "PlayerVoice.h"
+#include "LoadPlayerVoice.h"
 
- /*
-  * 攻撃発生時の声データを再生する
-  */
+/*
+ * 攻撃発生時の声データを再生する
+ */
 void Player::PlayAttackVoice(std::string voiceName) {
 	PlaySoundMem(gPlayerVoice._vc[voiceName], DX_PLAYTYPE_BACK);
 }

@@ -1,27 +1,27 @@
 /**
- * @file   PlayerVoice.cpp
+ * @file   LoadPlayerVoice.cpp
  * @brief  プレイヤー声優 声データ読み込み処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/07
  */
 
-#include "PlayerVoice.h"
+#include "LoadPlayerVoice.h"
 
 // 実体：声データ呼び出し
-PlayerVoice gPlayerVoice;
+LoadPlayerVoice gPlayerVoice;
 
 /*
  * 声データ読み込み
  */
-int PlayerVoice::LoadVoice(const TCHAR* filePath) {
+int LoadPlayerVoice::LoadVoice(const TCHAR* filePath) {
 	return ResourceServer::LoadSoundMem(filePath);
 }
 
 /*
  * 声データ読み込み
  */
-void PlayerVoice::Initialize() {
+void LoadPlayerVoice::Initialize() {
 
 	_vc["clear"]     = LoadVoice("res/voice/player/clear.wav");
 	_vc["gameover"]  = LoadVoice("res/voice/player/gameover.wav");

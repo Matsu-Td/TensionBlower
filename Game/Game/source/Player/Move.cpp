@@ -10,9 +10,9 @@
 #include "../Camera/Camera.h"
 #include "../Mode/ModeGame.h"
 
- /*
-  * 移動処理
-  */
+/*
+ * 移動処理
+ */
 void Player::Move() {
 
 	// アナログスティック対応

@@ -11,9 +11,9 @@
 #include "../Mode/ModeGame.h"
 #include "Reticle.h"
 
- /*
-  * マルチロックオンシステム用照準追加
-  */
+/*
+ * マルチロックオンシステム用照準追加
+ */
 void Player::ReticleGeneration() {
 
 	// キーのトリガ情報取得	

@@ -10,7 +10,7 @@
 #include "../Application/ApplicationGlobal.h"
 #include "ModeGame.h"
 #include "ModeGameStart.h"
-#include "../Player/PlayerVoice.h"
+#include "../Player/LoadPlayerVoice.h"
 
 /*
  * ‰Šú‰»

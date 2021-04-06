@@ -135,7 +135,7 @@
     <ClCompile Include="source\Boss\BossStatus.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="source\Boss\BossVoice.cpp">
+    <ClCompile Include="source\Boss\LoadBossVoice.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
     <ClCompile Include="source\Player\Player.cpp">
@@ -144,7 +144,7 @@
     <ClCompile Include="source\Player\PlayerStatus.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
-    <ClCompile Include="source\Player\PlayerVoice.cpp">
+    <ClCompile Include="source\Player\LoadPlayerVoice.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="source\Player\Reticle.cpp">
@@ -165,7 +165,7 @@
     <ClCompile Include="source\Player\Dash.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
-    <ClCompile Include="source\Player\Death.cpp">
+    <ClCompile Include="source\Player\PlayerDeath.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="source\Player\Energy.cpp">
@@ -190,6 +190,21 @@
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
     <ClCompile Include="source\Boss\ShotPattern.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\BossMotion.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\BossDeath.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\DirectionalRotation.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\Down.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\BossVoiceChange.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,7 +242,7 @@
     <ClInclude Include="source\Boss\BossStatus.h">
       <Filter>ヘッダー ファイル\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="source\Boss\BossVoice.h">
+    <ClInclude Include="source\Boss\LoadBossVoice.h">
       <Filter>ヘッダー ファイル\Boss</Filter>
     </ClInclude>
     <ClInclude Include="source\Mode\ModeAmgLogo.h">
@@ -287,7 +302,7 @@
     <ClInclude Include="source\Player\PlayerStatus.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="source\Player\PlayerVoice.h">
+    <ClInclude Include="source\Player\LoadPlayerVoice.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
     <ClInclude Include="source\Player\Reticle.h">

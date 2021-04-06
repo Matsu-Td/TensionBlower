@@ -1,24 +1,24 @@
 /**
- * @file   BossVoice.cpp
+ * @file   LoadBossVoice.cpp
  * @brief  ボス声優 声データ読み込み処理
  *
  * @author matsuo tadahiko
  * @date   2021/03/07
  */
 
-#include "BossVoice.h"
+#include "LoadBossVoice.h"
 
  // 実体：声データ呼び出し
-BossVoice gBossVoice;
+LoadBossVoice gBossVoice;
 
-int BossVoice::LoadVoice(const TCHAR* filePath) {
+int LoadBossVoice::LoadVoice(const TCHAR* filePath) {
 	return ResourceServer::LoadSoundMem(filePath);
 }
 
 /*
  * 声データ読み込み
  */
-void BossVoice::Initialize() {
+void LoadBossVoice::Initialize() {
 
 	_vc["attack1"] = LoadVoice("res/voice/boss/attack1.wav");
 	_vc["attack2"] = LoadVoice("res/voice/boss/attack2.wav");

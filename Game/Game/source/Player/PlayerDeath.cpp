@@ -1,5 +1,5 @@
 /** 
- * @file   Death.cpp
+ * @file   PlayerDeath.cpp
  * @brief  ƒvƒŒƒCƒ„[‚Ì€–Sˆ—
  * 
  * @author matsuo tadahiko

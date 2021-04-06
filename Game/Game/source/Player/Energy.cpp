@@ -11,9 +11,9 @@
 #include "../Mode/ModeGame.h"
 #include "Player.h"
 
- /*
-  * エネルギー消費処理
-  */
+/*
+ * エネルギー消費処理
+ */
 void Player::CostEnergy(int costEnergy) {
 
 	_canAutoCharge = false;

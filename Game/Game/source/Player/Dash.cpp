@@ -11,9 +11,9 @@
 #include "../Mode/ModeGame.h"
 #include "Player.h"
 
- /*
-  * 移動、ダッシュモーション切替処理
-  */
+/*
+ * 移動、ダッシュモーション切替処理
+ */
 void Player::LeftAnalogDeg() {
 
 	if (!_canJump) {

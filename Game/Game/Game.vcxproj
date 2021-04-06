@@ -161,9 +161,14 @@
     <ClCompile Include="source\Boss\BossAimShot.cpp" />
     <ClCompile Include="source\Boss\BossBomb.cpp" />
     <ClCompile Include="source\Boss\BossBullet.cpp" />
+    <ClCompile Include="source\Boss\BossDeath.cpp" />
+    <ClCompile Include="source\Boss\BossMotion.cpp" />
     <ClCompile Include="source\Boss\BossStatus.cpp" />
-    <ClCompile Include="source\Boss\BossVoice.cpp" />
+    <ClCompile Include="source\Boss\BossVoiceChange.cpp" />
+    <ClCompile Include="source\Boss\LoadBossVoice.cpp" />
     <ClCompile Include="source\Boss\BossDamage.cpp" />
+    <ClCompile Include="source\Boss\DirectionalRotation.cpp" />
+    <ClCompile Include="source\Boss\Down.cpp" />
     <ClCompile Include="source\Boss\ShotBase.cpp" />
     <ClCompile Include="source\Boss\ShotPattern.cpp" />
     <ClCompile Include="source\Camera\Camera.cpp" />
@@ -189,7 +194,7 @@
     <ClCompile Include="source\Player\Attack.cpp" />
     <ClCompile Include="source\Player\Charge.cpp" />
     <ClCompile Include="source\Player\Dash.cpp" />
-    <ClCompile Include="source\Player\Death.cpp" />
+    <ClCompile Include="source\Player\PlayerDeath.cpp" />
     <ClCompile Include="source\Player\Energy.cpp" />
     <ClCompile Include="source\Player\Jump.cpp" />
     <ClCompile Include="source\Player\Move.cpp" />
@@ -197,7 +202,7 @@
     <ClCompile Include="source\Player\PlayerMotion.cpp" />
     <ClCompile Include="source\Player\Player.cpp" />
     <ClCompile Include="source\Player\PlayerStatus.cpp" />
-    <ClCompile Include="source\Player\PlayerVoice.cpp" />
+    <ClCompile Include="source\Player\LoadPlayerVoice.cpp" />
     <ClCompile Include="source\Player\Reticle.cpp" />
     <ClCompile Include="source\Player\ReticleGeneration.cpp" />
     <ClCompile Include="source\Sound\Sound.cpp" />
@@ -211,7 +216,7 @@
     <ClInclude Include="source\Boss\BossBomb.h" />
     <ClInclude Include="source\Boss\BossBullet.h" />
     <ClInclude Include="source\Boss\BossStatus.h" />
-    <ClInclude Include="source\Boss\BossVoice.h" />
+    <ClInclude Include="source\Boss\LoadBossVoice.h" />
     <ClInclude Include="source\Boss\ShotBase.h" />
     <ClInclude Include="source\Camera\Camera.h" />
     <ClInclude Include="source\CharaData\CharaData.h" />
@@ -235,7 +240,7 @@
     <ClInclude Include="source\Object\ObjectServer.h" />
     <ClInclude Include="source\Player\Player.h" />
     <ClInclude Include="source\Player\PlayerStatus.h" />
-    <ClInclude Include="source\Player\PlayerVoice.h" />
+    <ClInclude Include="source\Player\LoadPlayerVoice.h" />
     <ClInclude Include="source\Player\Reticle.h" />
     <ClInclude Include="source\Sound\Sound.h" />
     <ClInclude Include="source\Stage\Stage.h" />

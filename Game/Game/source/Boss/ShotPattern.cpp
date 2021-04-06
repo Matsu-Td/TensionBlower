@@ -13,9 +13,38 @@
 #include "../Effect/Laser.h"
 #include "../Mode/ModeGame.h"
 
- /*
-  * 弾幕パターン切替処理
-  */
+/*
+ * フェーズ変更処理
+ */
+void Boss::FhaseChange() {
+
+	// フェーズ4へ移行
+	if (_hitpoint <= PHASE_FOUR_HP) {
+		_phase = 4;
+		return;
+	}
+	// フェーズ3へ移行
+	if (_hitpoint <= PHASE_THREE_HP) {
+		_phase = 3;
+		return;
+	}
+	// フェーズ2へ移行
+	if (_hitpoint <= PHASE_TWO_HP) {
+		_phase = 2;
+		return;
+	}
+	// フェーズ1へ移行
+	if (_hitpoint <= PHASE_ONE_HP) {
+		_phase = 1;
+		return;
+	}
+	// 初期フェーズ0
+	_phase = 0;
+}
+
+/*
+ * 弾幕パターン切替処理
+ */
 void Boss::ShotPatternSwitch() {
 
 	// フェーズ毎で発生する弾幕パターンを3セットランダムで変化させる

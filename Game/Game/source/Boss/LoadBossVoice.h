@@ -1,6 +1,6 @@
 /**
- * @file   PlayerVoice.h
- * @brief  プレイヤー声優 声データ読み込み処理
+ * @file   BossVoice.h
+ * @brief  ボス声優 声データ読み込み処理
  * 
  * @author matsuo tadahiko
  * @date   2021/03/07
@@ -12,9 +12,9 @@
 #include <unordered_map>
 
 /**
- * @brief プレイヤー声優 声データ読み込み処理
+ * @brief ボス声優 声データ読み込み処理
  */
-class PlayerVoice {
+class LoadBossVoice {
 public:
 	/**
 	 * @brief 声データ読み込み
@@ -30,4 +30,4 @@ public:
 
 	std::unordered_map<std::string, int> _vc;  // 声データ
 };
-extern PlayerVoice gPlayerVoice;
+extern LoadBossVoice gBossVoice;
