@@ -10,7 +10,6 @@
 
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
-#include "../Boss/BossDamage.h"
 
 /**
  * @brief プレイヤークラス
@@ -317,8 +316,6 @@ private:
 	const int ANALOG_REG_OTHER   = 45;   // 左アナログスティックを倒す前方向以外の角度範囲(ターゲットロック中のみ使用)
 	const int RECEPTION_TIME     = 30;     // 次近接攻撃受付時間
 	const int ATTACK_RELOAD_TIME = 90; // 近接・射撃攻撃リロード時間
-
-	std::unique_ptr<BossDamage> _bossDamageCall;  	// ボスへのダメージ処理呼び出し
 
 	/**
 	 * @brief 強近接攻撃への派生関連処理

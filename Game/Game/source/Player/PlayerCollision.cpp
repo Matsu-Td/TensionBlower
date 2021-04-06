@@ -109,7 +109,7 @@ void Player::CollisionToBoss() {
 			if (IsHitArc_Sphere(*(*itr)) == true) {
 				if (_canHitFlag && !_hitFlag) {
 					_hitFlag = true;
-					_bossDamageCall->AttackDamage(Boss::GetInstance());
+					Boss::GetInstance()->AttackDamage();
 					VECTOR tmpPos = MV1GetFramePosition(_mh, MV1SearchFrame(_mh, "weapon3"));
 					// ヒットエフェクト生成
 					HitEffect* hitEffect = NEW HitEffect(tmpPos);

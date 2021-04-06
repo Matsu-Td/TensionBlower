@@ -50,10 +50,10 @@ void Explosion::CollisionToBoss() {
 			if (IsHitLineSegment(*(*itr), _r)) {
 				// ヒットポイントへのダメージ：6フレーム毎にダメージ判定
 				if (_effectCnt % 6 == 0) {
-					_bossDamageCall->ExplosionDamageHP(Boss::GetInstance());
+					Boss::GetInstance()->ExplosionDamageHP();
 				}
 				// シールドへのダメージ：毎フレームダメージ判定
-				_bossDamageCall->ExplosionDamageShield(Boss::GetInstance());
+				Boss::GetInstance()->ExplosionDamageShield();
 			}
 		}
 	}

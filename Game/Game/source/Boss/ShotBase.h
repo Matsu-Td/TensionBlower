@@ -10,7 +10,6 @@
 
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
-#include "BossDamage.h"
 
 /**
  * @brief 弾幕系処理クラスの基底クラス
@@ -54,6 +53,9 @@ protected:
 	bool _canLockFlag;     // MLSでロック可能距離となる
 	bool _repelFlag;       // 弾かれたか(true:弾かれた, false:弾かれてない)
 
+	/**
+	 * @brief 弾の状態遷移用
+	 */
 	enum class STATE {
 		NORMAL,   // 通常
 		UP,       // 上昇
@@ -65,7 +67,4 @@ protected:
 
 	const float REPEL_SPD = 3.0f; // 弾き返された後の弾の移動速度
 	const float MLS_SPD = 0.01f;  // マルチロックオンシステム中の速度計算(通常の1/100に)
-
-private:
-	std::unique_ptr<BossDamage> _bossDamageCall;  	// ボスへのダメージ処理呼び出し
 };

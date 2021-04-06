@@ -49,9 +49,6 @@
     <Filter Include="ヘッダー ファイル\Player">
       <UniqueIdentifier>{8801c1c8-2978-4442-83aa-d221a507ffdc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\PlayerAction">
-      <UniqueIdentifier>{4c75c51e-946a-4c71-b3d8-6e0eeb7c0b81}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application\ApplicationGlobal.cpp">
@@ -135,9 +132,6 @@
     <ClCompile Include="source\Boss\BossBullet.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="source\Boss\BossDamage.cpp">
-      <Filter>ソース ファイル\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="source\Boss\BossStatus.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
@@ -159,41 +153,44 @@
     <ClCompile Include="source\Boss\ShotBase.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="source\Boss\ShotPattern.cpp">
-      <Filter>ソース ファイル\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="source\Mode\TitleBGM.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
-    <ClCompile Include="source\Player\PlayerMotion.cpp">
-      <Filter>ソース ファイル\PlayerAction</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player\Energy.cpp">
-      <Filter>ソース ファイル\PlayerAction</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player\Jump.cpp">
-      <Filter>ソース ファイル\PlayerAction</Filter>
-    </ClCompile>
     <ClCompile Include="source\Player\Attack.cpp">
-      <Filter>ソース ファイル\PlayerAction</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player\Dash.cpp">
-      <Filter>ソース ファイル\PlayerAction</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player\PlayerCollision.cpp">
-      <Filter>ソース ファイル\PlayerAction</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player\ReticleGeneration.cpp">
-      <Filter>ソース ファイル\PlayerAction</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player\Death.cpp">
-      <Filter>ソース ファイル\PlayerAction</Filter>
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="source\Player\Charge.cpp">
-      <Filter>ソース ファイル\PlayerAction</Filter>
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Dash.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Death.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Energy.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\Jump.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="source\Player\Move.cpp">
-      <Filter>ソース ファイル\PlayerAction</Filter>
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\PlayerCollision.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\PlayerMotion.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\ReticleGeneration.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\BossDamage.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Boss\ShotPattern.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -225,9 +222,6 @@
       <Filter>ヘッダー ファイル\Boss</Filter>
     </ClInclude>
     <ClInclude Include="source\Boss\BossBullet.h">
-      <Filter>ヘッダー ファイル\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Boss\BossDamage.h">
       <Filter>ヘッダー ファイル\Boss</Filter>
     </ClInclude>
     <ClInclude Include="source\Boss\BossStatus.h">
@@ -300,9 +294,6 @@
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
     <ClInclude Include="source\Boss\ShotBase.h">
-      <Filter>ヘッダー ファイル\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Boss\ShotPattern.h">
       <Filter>ヘッダー ファイル\Boss</Filter>
     </ClInclude>
     <ClInclude Include="source\Mode\TitleBGM.h">

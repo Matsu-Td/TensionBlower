@@ -9,7 +9,6 @@
 #pragma once
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
-#include "../Boss/BossDamage.h"
 
 /**
  * @brief ボム攻撃の爆発エフェクトクラス
@@ -59,6 +58,4 @@ private:
 
 	const int ALL_EFFECT_TIME = 180;   // エフェクト総再生時間
 	const float MAX_RADIUS    = 10.0f; // 最大半径サイズ
-
-	std::unique_ptr<BossDamage> _bossDamageCall;  	// ボスへのダメージ処理呼び出し
 };

@@ -79,7 +79,7 @@ void ShotBase::Move() {
 }
 
 void ShotBase::Process(){
-
+	// ‰½‚à‚µ‚È‚¢
 }
 
 /*
@@ -129,7 +129,7 @@ void ShotBase::Collision(){
 			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
 				if (IsHitLineSegment(*(*itr), (*itr)->_r) == true) {
 					modeGame->_objServer.Del(this);
-					_bossDamageCall->RepelDamage(Boss::GetInstance());
+					Boss::GetInstance()->RepelDamage();
 				}
 			}
 		}

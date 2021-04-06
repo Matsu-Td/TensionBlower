@@ -1,46 +1,46 @@
-/**
+/** 
  * @file   BossDamage.cpp
- * @brief　ボスが受けるダメージ処理
+ * @brief  ボスが受けるダメージ処理
  * 
  * @author matsuo tadahiko
- * @date   2021/03/22
+ * @date   2021/04/06
  */
 
-#include "BossDamage.h"
+#include "Boss.h"
 #include "../Mode/ModeGame.h"
 #include "../Sound/Sound.h"
 
- /*
-  * プレイヤーに弾き返された弾によるダメージ処理
-  */
-void BossDamage::RepelDamage(Boss* boss) {
+  /*
+   * プレイヤーに弾き返された弾によるダメージ処理
+   */
+void Boss::RepelDamage() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	PlaySoundMem(gSound._se["hit"], DX_PLAYTYPE_BACK);
 	// シールドがあるとき
-	if (boss->_shield > 0) {
-		boss->_hitpoint -= modeGame->_charaData->_repelDmgHP;
-		boss->_shield -= modeGame->_charaData->_repelDmgSld;
+	if (_shield > 0) {
+		_hitpoint -= modeGame->_charaData->_repelDmgHP;
+		_shield -= modeGame->_charaData->_repelDmgSld;
 
-		if (boss->_shield <= 0) {
-			boss->_shield = 0;
-			boss->_mlsDownFlag = true;  // プレイヤーに弾き返された弾でシールドが破壊されるとtrue
+		if (_shield <= 0) {
+			_shield = 0;
+			_mlsDownFlag = true;  // プレイヤーに弾き返された弾でシールドが破壊されるとtrue
 		}
 	}
 	// シールドがないとき
 	else {
-		boss->_hitpoint -= modeGame->_charaData->_repelDmg;
+		_hitpoint -= modeGame->_charaData->_repelDmg;
 	}
 }
 
 /*
  * プレイヤーから受けたダメージ量計算
  */
-void BossDamage::AttackDamage(Boss* boss) {
+void Boss::AttackDamage() {
 
 	// ダウン状態時のみ被弾時の声データ再生
-	if (boss->_state == Boss::STATE::DOWN) {
-		boss->PlayVoice("hidan");
+	if (_state == Boss::STATE::DOWN) {
+		PlayVoice("hidan");
 	}
 	// ヒット音再生
 	PlaySoundMem(gSound._se["hit_boss"], DX_PLAYTYPE_BACK);
@@ -50,42 +50,42 @@ void BossDamage::AttackDamage(Boss* boss) {
 	int dmgSld = Player::GetInstance()->GetNowDmgSld();
 	int dmgNorm = Player::GetInstance()->GetNowDmgNorm();
 	// シールドがあるとき
-	if (boss->_shield > 0) {
-		boss->_hitpoint -= dmgHP;
-		boss->_shield -= dmgSld;
-		if (boss->_shield <= 0) {
-			boss->_shield = 0;
+	if (_shield > 0) {
+		_hitpoint -= dmgHP;
+		_shield -= dmgSld;
+		if (_shield <= 0) {
+			_shield = 0;
 		}
 	}
 	// シールドがないとき
 	else {
-		boss->_hitpoint -= dmgNorm;
+		_hitpoint -= dmgNorm;
 	}
 }
 
 /*
  * ヒットポイントへの爆発ダメージ
  */
-void BossDamage::ExplosionDamageHP(Boss* boss) {
+void Boss::ExplosionDamageHP() {
 	// シールドがあるとき
-	if (boss->_shield > 0) {
-		boss->_hitpoint -= EXPLOSION_DMG_HP;
+	if (_shield > 0) {
+		_hitpoint -= EXPLOSION_DMG_HP;
 	}
 	// シールドがないとき
 	else {
-		boss->_hitpoint -= EXPLOSION_DMG_NORM;
+		_hitpoint -= EXPLOSION_DMG_NORM;
 	}
 }
 
 /*
  * シールドへの爆発ダメージ
  */
-void BossDamage::ExplosionDamageShield(Boss* boss) {
+void Boss::ExplosionDamageShield() {
 	// シールドがあるとき
-	if (boss->_shield > 0) {
-		boss->_shield -= EXPLOSION_DMG_SLD;
-		if (boss->_shield <= 0) {
-			boss->_shield = 0;
+	if (_shield > 0) {
+		_shield -= EXPLOSION_DMG_SLD;
+		if (_shield <= 0) {
+			_shield = 0;
 		}
 	}
 }

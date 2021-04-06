@@ -11,15 +11,10 @@
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
-class ShotPattern;
-class BossDamage;
-
 /**
  * @brief ボスクラス
  */
 class Boss : public ObjectBase{
-	friend ShotPattern;
-	friend BossDamage;
 public:
 	Boss();
 	~Boss();
@@ -119,6 +114,26 @@ public:
 	 */
 	void MotionSwitch(STATE oldState);
 
+	/**
+　　 * @brief プレイヤーに弾き返された弾によるダメージ処理
+	 */
+	void RepelDamage();
+
+	/**
+	 * @brief プレイヤーから受けたダメージ量計算
+	 */
+	void AttackDamage();
+
+	/**
+	 * @brief ヒットポイントへの爆発ダメージ
+	 */
+	void ExplosionDamageHP();
+
+	/**
+	 * @brief シールドへの爆発ダメージ
+	 */
+	void ExplosionDamageShield();
+
 private:
 	int  _hitpoint;      // ヒットポイント値
 	int  _shield;        // シールド値
@@ -155,11 +170,66 @@ private:
 
 	STATE _state;  // 状態
 
-	std::unique_ptr<ShotPattern> _patternCall; // 処理呼び出し：弾幕パターン
-	std::unique_ptr<BossDamage>  _damageCall;  // 処理呼び出し：ダメージ処理
-
 	VECTOR _cross;
-};
 
-#include "ShotPattern.h"
-#include "BossDamage.h"
+	/**
+     * @brief 弾幕パターン切替処理
+     */
+	void ShotPatternSwitch();
+	/**
+	 * @brief 弾幕パターン1&2
+	 */
+	void ShotPattern1and2();
+
+	/**
+	 * @brief 弾幕パターン3
+	 */
+	void ShotPattern3();
+
+	/**
+	 * @brief 弾幕パターン4-1
+	 */
+	void ShotPattern4_1();
+
+	/**
+	 * @brief 弾幕パターン4-2
+	 */
+	void ShotPattern4_2();
+
+	/**
+	 * @brief 弾幕パターン5
+	 */
+	void ShotPattern5();
+
+	/**
+	 * @brief 弾幕パターン6
+	 */
+	void ShotPattern6();
+
+	/**
+	 * @brief 弾幕パターン7
+	 */
+	void ShotPattern7();
+
+	/**
+	 * @brief レーザー攻撃1-1
+	 */
+	void LaserAttack1_1();
+
+	/**
+	 * @brief レーザー攻撃1-2
+	 */
+	void LaserAttack1_2();
+
+	/**
+	 * @brief レーザー攻撃2
+	 */
+	void LaserAttack2();
+
+	const int PATTERN_CHANGE_CNT = 240; // 弾幕パターンを変化させるカウント最大値
+	const int SHOT_REVERSE_CNT = 90;    // 弾幕回転方向を変化させるカウント最大値
+	const float SHOT_DISTANCE = 10.0f;  // 弾幕を発生させる位置(ボス中心からの距離)
+	const int EXPLOSION_DMG_NORM = 2;   // 爆発HPダメージ量：通常時(シールド無)
+	const int EXPLOSION_DMG_HP = 1;     // 爆発HPダメージ量(シールド有)
+	const int EXPLOSION_DMG_SLD = 2;    // 爆発シールドダメージ量(シールド有)
+};

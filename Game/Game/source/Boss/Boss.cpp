@@ -288,13 +288,13 @@ void Boss::Process(){
 				_mlsCnt++;
 				rotSpdChenge = 0.01f;
 				if (_mlsCnt % 100 == 0) {
-					_patternCall->ShotPatternSwitch(this);
+					ShotPatternSwitch();
 				}
 			}
 			// ’Êí
 			else {
 				_mlsCnt = 0;
-				_patternCall->ShotPatternSwitch(this);
+				ShotPatternSwitch();
 			}
 		}
 		// ƒ{ƒX‚Ìã‰º‰^“®
