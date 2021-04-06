@@ -130,7 +130,7 @@ int CharaData::JsonLoad(std::string filePath, std::string fileName){
 	_boss.maxHP        = static_cast<int>(bossData["maxHP"].get<double>());
 	_boss.maxShield    = static_cast<int>(bossData["maxShield"].get<double>());
 	_boss.shotDmg      = static_cast<int>(bossData["bsShotDmg"].get<double>());
-	_boss.exolosionDmg = static_cast<int>(bossData["explosionDmg"].get<double>());
+	_boss.explosionDmg = static_cast<int>(bossData["explosionDmg"].get<double>());
 	_boss.laserDmg     = static_cast<int>(bossData["laserDmg"].get<double>());
 
 	return 1;

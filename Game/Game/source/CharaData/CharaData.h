@@ -81,7 +81,7 @@ public:
 		int maxHP;       // 最大HP
 		int maxShield;   // 最大シールド値
 		int shotDmg;     // ダメージ量：弾幕(弾1つあたり)
-		int exolosionDmg;// ダメージ量：誘爆
+		int explosionDmg;// ダメージ量：誘爆
 		int laserDmg;    // ダメージ量：レーザー
 	};
 	BOSS _boss;
