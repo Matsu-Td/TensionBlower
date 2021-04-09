@@ -146,10 +146,13 @@ void Boss::BarragePatternSwitch() {
 void Boss::ShotGeneration(float posY, float shotSpd, float shotAngle) {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	
 	VECTOR tmpPos = { 0.0f,0.0f,0.0f };
+	
 	tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 	tmpPos.y = posY;
 	tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+
 	BossBullet* bullet = NEW BossBullet(tmpPos, shotSpd, shotAngle);
 	modeGame->_objServer.Add(bullet); // íeê∂ê¨
 }
@@ -160,10 +163,13 @@ void Boss::ShotGeneration(float posY, float shotSpd, float shotAngle) {
 void Boss::LaserGeneration(float laserAngle, float roteSpd) {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	
 	VECTOR tmpPos = _vPos;
+	
 	tmpPos.x = _vPos.x + cos(0.0f / 180.0f * DX_PI_F) * SHOT_DISTANCE;
 	tmpPos.y = LESER_POS_Y;
 	tmpPos.z = _vPos.z + sin(0.0f / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+
 	Laser* laser = NEW Laser(tmpPos, SHOT_DISTANCE, laserAngle, roteSpd);
 	modeGame->_objServer.Add(laser);
 }
@@ -260,17 +266,21 @@ void Boss::BarragePattern5() {
 	if (_shotCnt % 8 == 0) {
 		float angleSide = -30.0f;
 		float height = _shotHeight;
+		
 		for (int i = 0; i < 7; i++) {
 			float sx = plPos.x - _vPos.x;
 			float sz = plPos.z - _vPos.z;
 			float rad = atan2(sz, sx);
 			float deg = rad * 180.0f / DX_PI_F;
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
+			
 			tmpPos = _vPos;
 			tmpPos.y = abs(height) + 1.0f;         // ínè„Ç©ÇÁçÇÇ≥1mÇÊÇËè„
+			
 			BossBullet* bullet = NEW BossBullet(tmpPos, 1.0f, deg + angleSide);
 			modeGame->_objServer.Add(bullet);      // íeê∂ê¨
 			angleSide += 10.0f;                    // î≠éÀäpìxÇ10ÅãÇ∏Ç¬Ç∏ÇÁÇ∑
+			
 			if (_shotHeight <= -12.0f) {
 				height += 2.0f;    // ó◊ÇËçáÇ§íeÇ∆íeÇÃçÇí·ç∑
 			}
@@ -303,8 +313,10 @@ void Boss::BarragePattern6() {
 			float rad = atan2(sz, sx);
 			float deg = rad * 180.0f / DX_PI_F;
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
+			
 			tmpPos = _vPos;
 			tmpPos.y = 3.5f;
+			
 			BossAimShot* bossAimShot = NEW BossAimShot(tmpPos, 1.5f, deg + angleSide);
 			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 			modeGame->_objServer.Add(bossAimShot); // íeê∂ê¨
@@ -320,7 +332,9 @@ void Boss::BarragePattern7() {
 
 	if (_shotCnt % 48 == 0) {
 		VECTOR tmpPos = _vPos;
+		
 		tmpPos.y = _vPos.y + 12.0f;
+		
 		BossBomb* bomb = NEW BossBomb(tmpPos);
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Add(bomb);

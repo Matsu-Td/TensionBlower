@@ -82,7 +82,7 @@ public:
 	static Boss* _pInstance;
 
 	// プレイヤークラスで使用
-	int _bulletNum;      // ダウン直前に出現していた弾の数カウント
+	int  _bulletNum;     // ダウン直前に出現していた弾の数カウント
 	bool _mlsDownFlag;   // MLSで弾き返された弾でダウンすると「true」
 
 	/**
@@ -141,11 +141,13 @@ private:
 
 	/**
 	 * @brief 弾幕パターン4-1
+	 * @brief ボスを中心として発射位置を左回りに回転させながら8つの弾を同時に発射する
 	 */
 	void BarragePattern4_1();
 
 	/**
 	 * @brief 弾幕パターン4-2
+	 * @brief ボスを中心として発射位置を右回りに回転させながら8つの弾を同時に発射する
 	 */
 	void BarragePattern4_2();
 
@@ -171,19 +173,19 @@ private:
 
 	/**
 	 * @brief レーザー攻撃1-1
-	 * @brief レーザー攻撃1の左回り
+	 * @brief レーザー1本生成し、発射位置をボスを中心に左回りに回転させる
 	 */
 	void LaserAttack1_1();
 
 	/**
 	 * @brief レーザー攻撃1-2
-	 * @brief レーザー攻撃1の右回り
+	 * @brief レーザー1本生成し、発射位置をボスを中心に右回りに回転させる
 	 */
 	void LaserAttack1_2();
 
 	/**
 	 * @brief レーザー攻撃2
-	 * @brief 同時に4本のレーザーを発射する
+	 * @brief 発射位置をボスを中心に、同時に4本のレーザーを発射する
 	 */
 	void LaserAttack2();
 
@@ -239,9 +241,9 @@ private:
 	std::string _attackNameNo[ATTACK_VOICE_NUM] =  // 攻撃時の声データの名前を格納
 	{ "attack1","attack1" ,"attack2" ,"attack4" ,"attack5" ,"attack6" };
 
-	STATE _state;    // 状態
-	STATE _oldState; // 処理前の状態
-	VECTOR _cross;   // 外積(ボスの向き回転計算用)
+	STATE  _state;    // 状態
+	STATE  _oldState; // 処理前の状態
+	VECTOR _cross;    // 外積(ボスの向き回転計算用)
 
 	const float ADD_POS_Y    = 9.0f;      // 当たり判定用Y座標加算値
 	const float ROT_SPD      = 0.01f;     // ボスの向き回転用角速度
