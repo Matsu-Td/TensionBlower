@@ -14,7 +14,7 @@
 *.userprefs
 
 # Game Resource
-Game/Game/res/
+res/
 
 # Build results
 [Dd]ebug/
