@@ -36,7 +36,7 @@ void BossStatus::Render(){
 	// ボス情報取得
 	int hitpoint = Boss::GetInstance()->GetHitPoint();
 	int shield   = Boss::GetInstance()->GetShield();
-	int phase    = Boss::GetInstance()->GetPhase();
+	int phase    = Boss::GetInstance()->GetPhaseNo();
 
 	// ステータスバー背景
 	DrawGraph(FRAME_POS_X, FRAME_BG_POS_Y, _cgFrameBg, TRUE);

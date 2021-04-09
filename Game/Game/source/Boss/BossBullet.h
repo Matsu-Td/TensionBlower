@@ -17,9 +17,9 @@ class BossBullet : public ShotBase {
 public:
 	/**
 	 * @brief ’e–‹—p’e¶¬
-	 * @param  pos ’e¶¬ˆÊ’u
-	 * @param  shotSpd ’e‚ÌˆÚ“®ˆ—
-	 * @param  shotAngle ’e‚ÌˆÚ“®Šp“x
+	 * @param pos ’e¶¬ˆÊ’u
+	 * @param shotSpd ’e‚ÌˆÚ“®‘¬“x
+	 * @param shotAngle ’e‚ÌˆÚ“®Šp“x
 	 */
 	BossBullet(VECTOR pos, float shotSpd, float shotAngle);
     ~BossBullet();

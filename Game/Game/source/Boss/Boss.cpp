@@ -44,7 +44,7 @@ void Boss::Initialize() {
 	_totalTime = 0.0f;
 	_playTime = 0.0f;
 
-	_shotPattern = 1;
+	_patternRandom = 1;
 	_shotAngle = -90.0f;
 	_shotAngle1 = -90.0f;
 	_shotCnt = 1;
@@ -59,7 +59,7 @@ void Boss::Initialize() {
 	_stateDown = false;
 	_mlsDownFlag = false;
 	_downTime = 0;
-	_phase = 0;
+	_phaseNo = 0;
 
 	_deathCnt = 140;
 	_deathFlag = false;
@@ -111,13 +111,13 @@ void Boss::Process(){
 				_mlsCnt++;
 				rotSpdChange = 0.01f;
 				if (_mlsCnt % 100 == 0) {
-					ShotPatternSwitch();
+					BarragePatternSwitch();
 				}
 			}
 			// í èÌéû
 			else {
 				_mlsCnt = 0;
-				ShotPatternSwitch();
+				BarragePatternSwitch();
 			}
 		}
 		// É{ÉXÇÃè„â∫â^ìÆ

@@ -20,117 +20,117 @@ void Boss::FhaseChange() {
 
 	// フェーズ4へ移行
 	if (_hitpoint <= PHASE_FOUR_HP) {
-		_phase = 4;
+		_phaseNo = 4;
 		return;
 	}
 	// フェーズ3へ移行
 	if (_hitpoint <= PHASE_THREE_HP) {
-		_phase = 3;
+		_phaseNo = 3;
 		return;
 	}
 	// フェーズ2へ移行
 	if (_hitpoint <= PHASE_TWO_HP) {
-		_phase = 2;
+		_phaseNo = 2;
 		return;
 	}
 	// フェーズ1へ移行
 	if (_hitpoint <= PHASE_ONE_HP) {
-		_phase = 1;
+		_phaseNo = 1;
 		return;
 	}
 	// 初期フェーズ0
-	_phase = 0;
+	_phaseNo = 0;
 }
 
 /*
  * 弾幕パターン切替処理
  */
-void Boss::ShotPatternSwitch() {
+void Boss::BarragePatternSwitch() {
 
 	// フェーズ毎で発生する弾幕パターンを3セットランダムで変化させる
 	if (_shotCnt % PATTERN_CHANGE_CNT == 0) {
 		PlayAttackVoiceChange();       // 声データ再生
 		_shotCnt = 0;                  // カウントリセット
-		_shotPattern = rand() % 3 + 1; // 3パターンをランダムで決定
+		_patternRandom = rand() % 3 + 1; // 3パターンをランダムで決定
 	}
 
 	// フェーズ毎の弾幕パターンセット
-	switch (_phase) {
+	switch (_phaseNo) {
 		// 初期フェーズ
 	case 0:
-		if (_shotPattern <= 2) {
-			ShotPattern1and2();
+		if (_patternRandom <= 2) {
+			BarragePattern1and2();
 		}
 		else {
-			ShotPattern3();
+			BarragePattern3();
 		}
 		break;
 		// フェーズ1
 	case 1:
-		if (_shotPattern == 1) {
-			ShotPattern3();
-			ShotPattern6();
+		if (_patternRandom == 1) {
+			BarragePattern3();
+			BarragePattern6();
 		}
-		if (_shotPattern == 2) {
-			ShotPattern4_1();
-			ShotPattern4_2();
+		if (_patternRandom == 2) {
+			BarragePattern4_1();
+			BarragePattern4_2();
 		}
-		if (_shotPattern == 3) {
-			ShotPattern5();
+		if (_patternRandom == 3) {
+			BarragePattern5();
 		}
 		break;
 		// フェーズ2
 	case 2:
-		if (_shotPattern == 1) {
-			ShotPattern3();
-			ShotPattern7();
+		if (_patternRandom == 1) {
+			BarragePattern3();
+			BarragePattern7();
 		}
-		if (_shotPattern == 2) {
-			ShotPattern4_1();
-			ShotPattern4_2();
-			ShotPattern6();
+		if (_patternRandom == 2) {
+			BarragePattern4_1();
+			BarragePattern4_2();
+			BarragePattern6();
 		}
-		if (_shotPattern == 3) {
-			ShotPattern5();
+		if (_patternRandom == 3) {
+			BarragePattern5();
 			LaserAttack1_1();
 			LaserAttack1_2();
 		}
 		break;
 		// フェーズ3
 	case 3:
-		if (_shotPattern == 1) {
-			ShotPattern3();
-			ShotPattern6();
+		if (_patternRandom == 1) {
+			BarragePattern3();
+			BarragePattern6();
 			LaserAttack2();
 		}
-		if (_shotPattern == 2) {
-			ShotPattern4_1();
-			ShotPattern4_2();
+		if (_patternRandom == 2) {
+			BarragePattern4_1();
+			BarragePattern4_2();
 			LaserAttack1_1();
 			LaserAttack1_2();
 		}
-		if (_shotPattern == 3) {
-			ShotPattern5();
+		if (_patternRandom == 3) {
+			BarragePattern5();
 			LaserAttack1_1();
 			LaserAttack1_2();
 		}
 		break;
 		// フェーズ4
 	case 4:
-		if (_shotPattern == 1) {
-			ShotPattern3();
-			ShotPattern7();
+		if (_patternRandom == 1) {
+			BarragePattern3();
+			BarragePattern7();
 			LaserAttack2();
 		}
-		if (_shotPattern == 2) {
-			ShotPattern4_1();
-			ShotPattern4_2();
-			ShotPattern6();
+		if (_patternRandom == 2) {
+			BarragePattern4_1();
+			BarragePattern4_2();
+			BarragePattern6();
 			LaserAttack2();
 		}
-		if (_shotPattern == 3) {
-			ShotPattern5();
-			ShotPattern6();
+		if (_patternRandom == 3) {
+			BarragePattern5();
+			BarragePattern6();
 			LaserAttack1_1();
 			LaserAttack1_2();
 		}
@@ -141,28 +141,49 @@ void Boss::ShotPatternSwitch() {
 }
 
 /*
- * 弾幕パターン1&2
+ * 弾幕の弾を生成する
  */
-void Boss::ShotPattern1and2() {
+void Boss::ShotGeneration(float posY, float shotSpd, float shotAngle) {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	VECTOR tmpPos = { 0.0f,0.0f,0.0f };
+	tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+	tmpPos.y = posY;
+	tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+	BossBullet* bullet = NEW BossBullet(tmpPos, shotSpd, shotAngle);
+	modeGame->_objServer.Add(bullet); // 弾生成
+}
+
+/*
+ * レーザーを生成する
+ */
+void Boss::LaserGeneration(float laserAngle, float roteSpd) {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	VECTOR tmpPos = _vPos;
+	tmpPos.x = _vPos.x + cos(0.0f / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+	tmpPos.y = LESER_POS_Y;
+	tmpPos.z = _vPos.z + sin(0.0f / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+	Laser* laser = NEW Laser(tmpPos, SHOT_DISTANCE, laserAngle, roteSpd);
+	modeGame->_objServer.Add(laser);
+}
+
+/*
+ * 弾幕パターン1&2
+ */
+void Boss::BarragePattern1and2() {
 
 	if (_shotCnt % 17 == 0 && _shotCnt != 1) {
 		for (int i = 0; i < 8; i++) {
-			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
-			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
-			tmpPos.y = 4.5f;
-			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * 10.0f;
-			BossBullet* bullet = NEW BossBullet(tmpPos, 1.0f, _shotAngle);
-			modeGame->_objServer.Add(bullet); // 弾生成
+			ShotGeneration(4.5f, 1.0f, _shotAngle);  // 弾生成
 			_shotAngle += 45.0f;              // 弾発射角度を45°ずつずらす
 		}
 	}
 	else {
-		if (_shotPattern == 1) {
+		if (_patternRandom == 1) {
 			_shotAngle += 2.0f;   // 毎フレーム発射角度を2°ずらす
 		}
-		else if (_shotPattern == 2) {
+		else if (_patternRandom == 2) {
 			_shotAngle -= 2.0f;   // 毎フレーム発射角度を2°ずらす
 		}
 	}
@@ -171,7 +192,7 @@ void Boss::ShotPattern1and2() {
 /*
  * 弾幕パターン3
  */
-void Boss::ShotPattern3() {
+void Boss::BarragePattern3() {
 
 	_reverseCnt--;
 	if (_reverseCnt <= 0) {
@@ -179,20 +200,12 @@ void Boss::ShotPattern3() {
 		_setRotAngle *= -1.0f;
 	}
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-
 	if (_shotCnt % 9 == 0) {
 		// 同時に8発弾を発射する
 		for (int i = 0; i < 8; i++) {
-			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
-			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-			tmpPos.y = 4.5f;
-			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-			BossBullet* bullet = NEW BossBullet(tmpPos, 1.3f, _shotAngle);
-			modeGame->_objServer.Add(bullet); // 弾生成
+			ShotGeneration(4.5f, 1.3f, _shotAngle);  // 弾生成
 			_shotAngle += 45.0f;              // 弾発射角度を45°ずつずらす
 		}
-
 	}
 	else {
 		_shotAngle += _setRotAngle;
@@ -202,18 +215,12 @@ void Boss::ShotPattern3() {
 /*
  * 弾幕パターン4-1
  */
-void Boss::ShotPattern4_1() {
+void Boss::BarragePattern4_1() {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	if (_shotCnt % 26 == 0) {
 		// 同時に8発弾を発射する
 		for (int i = 0; i < 8; i++) {
-			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
-			tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-			tmpPos.y = 3.5f;
-			tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-			BossBullet* bullet = NEW BossBullet(tmpPos, 1.2f, _shotAngle);
-			modeGame->_objServer.Add(bullet); // 弾生成
+			ShotGeneration(3.5f, 1.2f, _shotAngle);  // 弾生成
 			_shotAngle += 45.0f;              // 弾発射角度を45°ずつずらす
 		}
 	}
@@ -225,18 +232,12 @@ void Boss::ShotPattern4_1() {
 /*
  * 弾幕パターン4-2
  */
-void Boss::ShotPattern4_2() {
+void Boss::BarragePattern4_2() {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	if (_shotCnt % 26 == 13) {
 		// 同時に8発弾を発射する
 		for (int i = 0; i < 8; i++) {
-			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
-			tmpPos.x = _vPos.x + cos(_shotAngle1 / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-			tmpPos.y = 5.0f;
-			tmpPos.z = _vPos.z + sin(_shotAngle1 / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-			BossBullet* bullet = NEW BossBullet(tmpPos, 1.2f, _shotAngle1);
-			modeGame->_objServer.Add(bullet); // 弾生成
+			ShotGeneration(5.0f, 1.2f, _shotAngle1);  // 弾生成
 			_shotAngle1 += 45.0f;             // 弾発射角度を45°ずつずらす
 		}
 	}
@@ -248,7 +249,7 @@ void Boss::ShotPattern4_2() {
 /*
  * 弾幕パターン5
  */
-void Boss::ShotPattern5() {
+void Boss::BarragePattern5() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
@@ -291,9 +292,8 @@ void Boss::ShotPattern5() {
 /*
  * 弾幕パターン6
  */
-void Boss::ShotPattern6() {
+void Boss::BarragePattern6() {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	VECTOR plPos = Player::GetInstance()->GetPos();
 	if (_shotCnt % 48 == 0) {
 		float angleSide = -10.0f;      // 弾3発中の両サイドの弾発射角度をずらす
@@ -306,7 +306,8 @@ void Boss::ShotPattern6() {
 			tmpPos = _vPos;
 			tmpPos.y = 3.5f;
 			BossAimShot* bossAimShot = NEW BossAimShot(tmpPos, 1.5f, deg + angleSide);
-			modeGame->_objServer.Add(bossAimShot);      // 弾生成
+			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+			modeGame->_objServer.Add(bossAimShot); // 弾生成
 			angleSide += 10.0f;                    // 発射角度を10°ずつずらす
 		}
 	}
@@ -315,13 +316,13 @@ void Boss::ShotPattern6() {
 /*
  * 弾幕パターン7
  */
-void Boss::ShotPattern7() {
+void Boss::BarragePattern7() {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	if (_shotCnt % 48 == 0) {
 		VECTOR tmpPos = _vPos;
 		tmpPos.y = _vPos.y + 12.0f;
 		BossBomb* bomb = NEW BossBomb(tmpPos);
+		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Add(bomb);
 	}
 }
@@ -330,16 +331,10 @@ void Boss::ShotPattern7() {
  * レーザー攻撃1-1
  */
 void Boss::LaserAttack1_1() {
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	float laserAngle = 0.0f;
-	if (_shotCnt == 0) {
-		VECTOR tmpPos = _vPos;
-		tmpPos.x = _vPos.x + cos(0.0f / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-		tmpPos.y = 4.5f;
-		tmpPos.z = _vPos.z + sin(0.0f / 180.0f * DX_PI_F) * SHOT_DISTANCE;
-		Laser* laser = NEW Laser(tmpPos, 10.0f, laserAngle, 1.0f);
-		modeGame->_objServer.Add(laser);
 
+	float laserAngle = 0.0f;  // レーザーの発射角度、位置
+	if (_shotCnt == 0) {
+		LaserGeneration(laserAngle);
 	}
 }
 
@@ -347,16 +342,10 @@ void Boss::LaserAttack1_1() {
  * レーザー攻撃1-2
  */
 void Boss::LaserAttack1_2() {
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	float laserAngle = 180.0f;
-	if (_shotCnt == 0) {
-		VECTOR tmpPos = _vPos;
-		tmpPos.x = _vPos.x + cos(0.0f / 180.0f * DX_PI_F) * 10.0f;
-		tmpPos.y = 4.5f;
-		tmpPos.z = _vPos.z + sin(0.0f / 180.0f * DX_PI_F) * 10.0f;
-		Laser* laser = NEW Laser(tmpPos, 10.0f, laserAngle, -2.0f);
-		modeGame->_objServer.Add(laser);
 
+	float laserAngle = 180.0f;  // レーザーの発射角度、位置
+	if (_shotCnt == 0) {
+		LaserGeneration(laserAngle, -2.0f);
 	}
 }
 
@@ -364,17 +353,12 @@ void Boss::LaserAttack1_2() {
  * レーザー攻撃2
  */
 void Boss::LaserAttack2() {
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	float laserAngle = 45.0f;
+
+	float laserAngle = 45.0f;  // レーザーの発射角度、位置
 	if (_shotCnt == 0) {
 		// 同時に4本のレーザーを生成
 		for (int i = 0; i < 4; i++) {
-			VECTOR tmpPos = _vPos;
-			tmpPos.x = _vPos.x + cos(0.0f / 180.0f * DX_PI_F) * 10.0f;
-			tmpPos.y = 4.5f;
-			tmpPos.z = _vPos.z + sin(0.0f / 180.0f * DX_PI_F) * 10.0f;
-			Laser* laser = NEW Laser(tmpPos, 10.0f, laserAngle, 1.0f);
-			modeGame->_objServer.Add(laser);
+			LaserGeneration(laserAngle);
 			laserAngle += 90.0f;  // レーザー間の角度
 		}
 	}
