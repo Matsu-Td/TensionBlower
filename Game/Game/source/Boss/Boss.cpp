@@ -46,7 +46,7 @@ void Boss::Initialize() {
 
 	_patternRandom = 1;
 	_shotAngle = -90.0f;
-	_shotAngle1 = -90.0f;
+	_shotAngleUp = -90.0f;
 	_shotCnt = 1;
 	_mlsCnt = 0;
 	_reverseCnt = 60;

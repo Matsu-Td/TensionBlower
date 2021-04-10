@@ -66,14 +66,14 @@ void Laser::Process() {
 	float length = 125.0f;
 
 	// 発射位置
-	_vPos.x = cos(_roteAngle / 180.0f * DX_PI_F) * _radius;
-	_vPos.z = sin(_roteAngle / 180.0f * DX_PI_F) * _radius;
+	_vPos.x = cos(Util::DegToRad(_roteAngle)) * _radius;
+	_vPos.z = sin(Util::DegToRad(_roteAngle)) * _radius;
 
 	// レーザーの先端(ステージ外側)の座標
 	VECTOR tipPos;
-	tipPos.x = cos(_roteAngle / 180.0f * DX_PI_F) * length;
+	tipPos.x = cos(Util::DegToRad(_roteAngle)) * length;
 	tipPos.y = 0.0f;
-	tipPos.z = sin(_roteAngle / 180.0f * DX_PI_F) * length;
+	tipPos.z = sin(Util::DegToRad(_roteAngle)) * length;
 
 	// 当たり判定用カプセル
 	_capsulePos1 = _vPos;

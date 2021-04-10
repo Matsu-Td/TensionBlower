@@ -227,7 +227,7 @@ private:
 	int   _mlsCnt;       // マルチロックオンシステム発動時のカウント
 	int   _reverseCnt;   // 弾幕回転方向が反転するカウント
 	float _shotAngle;    // 弾幕の発射角度
-	float _shotAngle1;   // 弾幕の発射角度
+	float _shotAngleUp;  // 通常の弾幕の上側に発生する弾幕の発射角度(弾幕パターン4用)
 	float _setRotAngle;  // 発射一定角度セット
 	int   _patternRandom;// 弾幕パターン3種ランダムで切替
 	int   _phaseNo;      // フェーズ：HP残量で変化
@@ -256,6 +256,7 @@ private:
 	const int SHOT_REVERSE_CNT   = 90;    // 弾幕回転方向を変化させるカウント最大値
 	const float SHOT_DISTANCE    = 10.0f; // 弾幕を発生させる位置(ボス中心からの距離)
 	const float LESER_POS_Y      = 4.5f;  // レーザーを発射する位置Y座標(高さ)
+	const float SHOT_Y_MAX       = 12.0f; // 弾幕の高さ上限
 	const int EXPLOSION_DMG_NORM = 2;     // 爆発HPダメージ量：通常時(シールド無)
 	const int EXPLOSION_DMG_HP   = 1;     // 爆発HPダメージ量(シールド有)
 	const int EXPLOSION_DMG_SLD  = 2;     // 爆発シールドダメージ量(シールド有)

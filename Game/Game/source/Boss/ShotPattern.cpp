@@ -149,9 +149,9 @@ void Boss::ShotGeneration(float posY, float shotSpd, float shotAngle) {
 	
 	VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 	
-	tmpPos.x = _vPos.x + cos(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+	tmpPos.x = _vPos.x + cos(Util::DegToRad(shotAngle)) * SHOT_DISTANCE;
 	tmpPos.y = posY;
-	tmpPos.z = _vPos.z + sin(_shotAngle / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+	tmpPos.z = _vPos.z + sin(Util::DegToRad(shotAngle)) * SHOT_DISTANCE;
 
 	BossBullet* bullet = NEW BossBullet(tmpPos, shotSpd, shotAngle);
 	modeGame->_objServer.Add(bullet); // ’e¶¬
@@ -166,9 +166,9 @@ void Boss::LaserGeneration(float laserAngle, float roteSpd) {
 	
 	VECTOR tmpPos = _vPos;
 	
-	tmpPos.x = _vPos.x + cos(0.0f / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+	tmpPos.x = _vPos.x + cos(Util::DegToRad(0)) * SHOT_DISTANCE;
 	tmpPos.y = LESER_POS_Y;
-	tmpPos.z = _vPos.z + sin(0.0f / 180.0f * DX_PI_F) * SHOT_DISTANCE;
+	tmpPos.z = _vPos.z + sin(Util::DegToRad(0)) * SHOT_DISTANCE;
 
 	Laser* laser = NEW Laser(tmpPos, SHOT_DISTANCE, laserAngle, roteSpd);
 	modeGame->_objServer.Add(laser);
@@ -243,12 +243,12 @@ void Boss::BarragePattern4_2() {
 	if (_shotCnt % 26 == 13) {
 		// “¯‚É8”­’e‚ğ”­Ë‚·‚é
 		for (int i = 0; i < 8; i++) {
-			ShotGeneration(5.0f, 1.2f, _shotAngle1);  // ’e¶¬
-			_shotAngle1 += 45.0f;             // ’e”­ËŠp“x‚ğ45‹‚¸‚Â‚¸‚ç‚·
+			ShotGeneration(5.0f, 1.2f, _shotAngleUp);  // ’e¶¬
+			_shotAngleUp += 45.0f;             // ’e”­ËŠp“x‚ğ45‹‚¸‚Â‚¸‚ç‚·
 		}
 	}
 	else {
-		_shotAngle1 -= 2.0f;    // –ˆƒtƒŒ[ƒ€”­ËŠp“x‚ğ2‹‚¸‚ç‚·
+		_shotAngleUp -= 2.0f;    // –ˆƒtƒŒ[ƒ€”­ËŠp“x‚ğ2‹‚¸‚ç‚·
 	}
 }
 
@@ -268,10 +268,10 @@ void Boss::BarragePattern5() {
 		float height = _shotHeight;
 		
 		for (int i = 0; i < 7; i++) {
-			float sx = plPos.x - _vPos.x;
-			float sz = plPos.z - _vPos.z;
+			float sx  = plPos.x - _vPos.x;
+			float sz  = plPos.z - _vPos.z;
 			float rad = atan2(sz, sx);
-			float deg = rad * 180.0f / DX_PI_F;
+			float deg = Util::RadToDeg(rad);
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			
 			tmpPos = _vPos;
@@ -281,14 +281,14 @@ void Boss::BarragePattern5() {
 			modeGame->_objServer.Add(bullet);      // ’e¶¬
 			angleSide += 10.0f;                    // ”­ËŠp“x‚ğ10‹‚¸‚Â‚¸‚ç‚·
 			
-			if (_shotHeight <= -12.0f) {
+			if (_shotHeight <= -SHOT_Y_MAX) {
 				height += 2.0f;    // —×‚è‡‚¤’e‚Æ’e‚Ì‚’á·
 			}
 			else {
 				height -= 2.0f;    // —×‚è‡‚¤’e‚Æ’e‚Ì‚’á·
 			}
-			if (abs(height) >= 12) {
-				height += abs(height) - 12.0f;
+			if (abs(height) >= static_cast<int>(SHOT_Y_MAX)) {
+				height += abs(height) - SHOT_Y_MAX;
 				height *= -1.0f;
 			}
 		}
@@ -308,10 +308,10 @@ void Boss::BarragePattern6() {
 	if (_shotCnt % 48 == 0) {
 		float angleSide = -10.0f;      // ’e3”­’†‚Ì—¼ƒTƒCƒh‚Ì’e”­ËŠp“x‚ğ‚¸‚ç‚·
 		for (int i = 0; i < 3; i++) {
-			float sx = plPos.x - _vPos.x;
-			float sz = plPos.z - _vPos.z;
+			float sx  = plPos.x - _vPos.x;
+			float sz  = plPos.z - _vPos.z;
 			float rad = atan2(sz, sx);
-			float deg = rad * 180.0f / DX_PI_F;
+			float deg = Util::RadToDeg(rad);
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			
 			tmpPos = _vPos;
