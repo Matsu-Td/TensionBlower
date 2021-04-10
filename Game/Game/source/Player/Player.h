@@ -253,16 +253,7 @@ private:
 	int  _hitEndCnt;        // 近接攻撃の当たり判定発生終了カウント
 	bool _isAttack;         // 攻撃発生フラグ(攻撃発動中)
 
-	std::unordered_map<std::string, int> _attackTotalTime;  // 各攻撃モーションの総再生時間を格納する
-
-	static const int ATTACK_NUM = 8;         // 近接攻撃の種類の数
-	std::string _attackString[ATTACK_NUM] =      // 各近接攻撃の名前を格納
-	{ "slash_l" ,"slash_l" ,"slash_l" ,"slash_l", 
-	  "slash_h", "slash_h", "slash_h", "slash_h" };
-
-	const TCHAR* _attackTchar[ATTACK_NUM] =      // 各近接攻撃の名前を格納
-	{ "slash_l" ,"slash_l" ,"slash_l" ,"slash_l",
-	  "slash_h", "slash_h", "slash_h", "slash_h" };
+	std::unordered_map<std::string, int> _mapAttackTotalTime; // 各攻撃モーションの総再生時間を格納する
 
 	// ゲームオーバー用
 	int  _gameOverCnt;   // プレイヤー死亡からゲームオーバーまでの時間

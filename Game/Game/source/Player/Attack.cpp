@@ -78,7 +78,7 @@ void Player::NextStrongAttack(int attackEnergy, STATE nextState, std::string att
 	_energy -= std::move(attackEnergy);                // エネルギー消費
 	_canAutoCharge = false;                            // 強近接攻撃時はエネルギー自動回復停止
 	_autoChargeCnt = Player::AUTO_CHARGE_CNT;          // 溜め復帰時間セット
-	_attackCnt = _attackTotalTime[attackName]; // 攻撃モーション時間セット
+	_attackCnt = _mapAttackTotalTime[attackName]; // 攻撃モーション時間セット
 	_receptionTime = RECEPTION_TIME;                   // 次攻撃受付時間セット
 	_hitFlag = false;                                  // ボスに攻撃が当たっていない
 	SwitchAttackDamage();                                // 現在の近接攻撃のボスへのダメージ量をセット
@@ -91,7 +91,7 @@ void Player::NextWeakAttack(STATE nextState, std::string attackName) {
 
 	PlaySoundMem(gSound._se["l_attack"], DX_PLAYTYPE_BACK);
 	_state = std::move(nextState);                     // 次の攻撃の状態へ遷移
-	_attackCnt = _attackTotalTime[attackName]; // 攻撃モーション時間セット
+	_attackCnt = _mapAttackTotalTime[attackName]; // 攻撃モーション時間セット
 	_receptionTime = RECEPTION_TIME;				   // 次攻撃受付時間セット
 	_hitFlag = false;                                  // ボスに攻撃が当たっていない
 	SwitchAttackDamage();                                // 現在の近接攻撃のボスへのダメージ量をセット

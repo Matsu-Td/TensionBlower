@@ -73,9 +73,8 @@ void Player::Initialize(){
 	_isGameOver = false;
 
 	// 各近接攻撃のアニメーション総再生時間を格納
-	for (int i = 0; i < ATTACK_NUM; i++) {
-	_attackTotalTime[_attackString[i]] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, _attackTchar[i])));
-	}
+	_mapAttackTotalTime["slash_l"] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "slash_l")));
+	_mapAttackTotalTime["slash_h"] = static_cast<int>(MV1GetAnimTotalTime(_mh, MV1GetAnimIndex(_mh, "slash_h")));
 }
 
 /*
