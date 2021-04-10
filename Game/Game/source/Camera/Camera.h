@@ -55,10 +55,10 @@ public:
 	 * @brief カメラの状態
 	 */
 	enum class STATE { 
-		TARG_LOCK_ON, // 敵ターゲットロック状態(デフォルト)
-		MLS_LOCK,     // マルチロックシステム発動状態(FPS視点)
+		NORMAL,    // 敵ターゲットロック状態(デフォルト)
+		MLS_LOCK,  // マルチロックシステム発動状態(FPS視点)
 	};
-	STATE _state;    // カメラ状態
+	STATE _state;  // カメラ状態
 
 	/**
 	 * @brief  カメラの状態を取得

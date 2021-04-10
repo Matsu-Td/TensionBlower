@@ -155,18 +155,19 @@ void Boss::Render(){
 
 #ifdef _DEBUG
 	int y = 750;
-	int size = 24;
-	SetFontSize(size);
-	DrawFormatString(0, y, GetColor(255, 0, 0), "Boss:"); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  pos     = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  dir     = (%5.2f, %5.2f, %5.2f)", _vDir.x, _vDir.y, _vDir.z); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  cross     = (%5.2f, %5.2f, %5.2f)", _cross.x, _cross.y, _cross.z); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  HP　    = %d", _hitpoint); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  ｼｰﾙﾄﾞ値 = %d", _shield);  y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  出現している弾の数 = %d", _bulletNum);  y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダウン時間 = %d", _downTime);   y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  _vDir.y = %f", _vDir.y); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  状態 = %d", _state); y += size;
+	int fontSize = 24;
+	int fontColor = GetColor(255, 0, 0);
+	SetFontSize(fontSize);
+	DrawFormatString(0, y, fontColor, "Boss:"); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  pos     = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  dir     = (%5.2f, %5.2f, %5.2f)", _vDir.x, _vDir.y, _vDir.z); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  cross     = (%5.2f, %5.2f, %5.2f)", _cross.x, _cross.y, _cross.z); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  HP　    = %d", _hitpoint); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  ｼｰﾙﾄﾞ値 = %d", _shield);  y += fontSize;
+	DrawFormatString(0, y, fontColor, "  出現している弾の数 = %d", _bulletNum);  y += fontSize;
+	DrawFormatString(0, y, fontColor, "  ダウン時間 = %d", _downTime);   y += fontSize;
+	DrawFormatString(0, y, fontColor, "  _vDir.y = %f", _vDir.y); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  状態 = %d", _state); y += fontSize;
 	DrawCapsule3D(_capsulePos1, _capsulePos2, 10.0f, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 #endif
 }

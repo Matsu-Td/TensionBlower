@@ -141,7 +141,7 @@ private:
 	 * @param  animName モーション名
 	 * @return モーション番号
 	 */
-	int AttachAnim(const TCHAR* animName) const;
+	void AttachAnim(const TCHAR* animName);
 
 	/**
 	 * @brief モーション切替処理
@@ -260,10 +260,11 @@ private:
 	bool _isGameOver;    // ゲームオーバーフラグ
 
 	// その他
-	int   _lfAnalogDeg;  // 左アナログスティックの倒した方向(角度)
-	float _bsAngle;      // ボスの位置、角度
-	bool  _isNearBoss;   // ボスの近くにいるか(true:ボスの近くにいる)	
-
+	int   _attachIndexShadow; // 影モデル用モーションをアタッチ
+	int   _lfAnalogDeg;       // 左アナログスティックの倒した方向(角度)
+	float _bsAngle;           // ボスの位置、角度
+	bool  _isNearBoss;        // ボスの近くにいるか(true:ボスの近くにいる)
+	
 	/**
 	 * @brief プレイヤー状態遷移用
 	 */
@@ -292,21 +293,20 @@ private:
 	STATE _state;    // プレイヤーの状態
 	STATE _oldState; // 処理前のプレイヤーの状態
 	
-	// 定数
-	const float GROUND_Y      = 0.0f;  // 地上のY座標
-	const float GRAVITY       = 0.9f;  // 重力加速度値
-	const float ANALOG_MIN    = 0.3f;  // アナログスティック入力反応の最小値
-	const float IN_VEL        = 5.0f;         // 初速
-	const float MULT_HALF     = 0.5f;      // 1/2乗算
-	const float JUMP_CNT      = 0.2f;       // ジャンプ時間
+	const float GROUND_Y   = 0.0f; // 地上のY座標
+	const float GRAVITY    = 0.9f; // 重力加速度値
+	const float ANALOG_MIN = 0.3f; // アナログスティック入力反応の最小値
+	const float IN_VEL     = 5.0f; // 初速
+	const float MULT_HALF  = 0.5f; // 1/2乗算
+	const float JUMP_CNT   = 0.2f; // ジャンプ時間
 
-	const int SHORT_DASH_CNT     = 10;     // 短押しダッシュ移動時間
-	const int AUTO_CHARGE_CNT    = 120;   // エネルギー自動回復開始カウント
-	const int RELOAD_TIME        = 90;    // 近接・射撃攻撃リロード時間
-	const int ANALOG_REG_FOR     = 120;    // 左アナログスティックを倒す前方向判定の角度範囲(ターゲットロック中のみ使用)
-	const int ANALOG_REG_OTHER   = 45;   // 左アナログスティックを倒す前方向以外の角度範囲(ターゲットロック中のみ使用)
-	const int RECEPTION_TIME     = 30;     // 次近接攻撃受付時間
-	const int ATTACK_RELOAD_TIME = 90; // 近接・射撃攻撃リロード時間
+	const int SHORT_DASH_CNT     = 10;  // 短押しダッシュ移動時間
+	const int AUTO_CHARGE_CNT    = 120; // エネルギー自動回復開始カウント
+	const int RELOAD_TIME        = 90;  // 近接・射撃攻撃リロード時間
+	const int ANALOG_REG_FOR     = 120; // 左アナログスティックを倒す前方向判定の角度範囲(ターゲットロック中のみ使用)
+	const int ANALOG_REG_OTHER   = 45;  // 左アナログスティックを倒す前方向以外の角度範囲(ターゲットロック中のみ使用)
+	const int RECEPTION_TIME     = 30;  // 次近接攻撃受付時間
+	const int ATTACK_RELOAD_TIME = 90;  // 近接・射撃攻撃リロード時間
 
 	/**
 	 * @brief 強近接攻撃への派生関連処理

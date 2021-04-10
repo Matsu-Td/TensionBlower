@@ -12,8 +12,10 @@
 /*
  * モーション名で指定したモデルのモーションをアタッチする
  */
-int Player::AttachAnim(const TCHAR* animName) const{
-	return MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, animName), -1, FALSE);
+void Player::AttachAnim(const TCHAR* animName) {
+
+	_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, animName), -1, FALSE);
+	_attachIndexShadow = MV1AttachAnim(_shadowModel, MV1GetAnimIndex(_shadowModel, animName), -1, FALSE);
 }
 
 /*
@@ -34,53 +36,54 @@ void Player::MotionSwitching() {
 	else {
 		if (_attachIndex != -1) {
 			MV1DetachAnim(_mh, _attachIndex);
+			MV1DetachAnim(_shadowModel, _attachIndex);
 			_attachIndex = -1;
 		}
 		switch (_state) {
 		case STATE::WAIT:
-			_attachIndex = AttachAnim("wait");
+			AttachAnim("wait");
 			break;
 		case STATE::WALK:
-			_attachIndex = AttachAnim("ahead");
+			AttachAnim("ahead");
 			break;
 		case STATE::JUMP:
-			_attachIndex = AttachAnim("junp_up");
+			AttachAnim("junp_up");
 			break;
 		case STATE::FOR_DASH:
-			_attachIndex = AttachAnim("d_ahead");
+			AttachAnim("d_ahead");
 			break;
 		case STATE::LEFT_MOVE:
-			_attachIndex = AttachAnim("left");
+			AttachAnim("left");
 			break;
 		case STATE::RIGHT_MOVE:
-			_attachIndex = AttachAnim("right");
+			AttachAnim("right");
 			break;
 		case STATE::BACK_MOVE:
-			_attachIndex = AttachAnim("back");
+			AttachAnim("back");
 			break;
 		case STATE::LEFT_DASH:
-			_attachIndex = AttachAnim("d_left");
+			AttachAnim("d_left");
 			break;
 		case STATE::RIGHT_DASH:
-			_attachIndex = AttachAnim("d_right");
+			AttachAnim("d_right");
 			break;
 		case STATE::BACK_DASH:
-			_attachIndex = AttachAnim("d_back");
+			AttachAnim("d_back");
 			break;
 		case STATE::WEAK_ATCK1:
 		case STATE::WEAK_ATCK2:
 		case STATE::WEAK_ATCK3:
 		case STATE::WEAK_ATCK4:
-			_attachIndex = AttachAnim("slash_l");
+			AttachAnim("slash_l");
 			break;
 		case STATE::STRG_ATCK1:
 		case STATE::STRG_ATCK2:
 		case STATE::STRG_ATCK3:
 		case STATE::STRG_ATCK4:
-			_attachIndex = AttachAnim("slash_h");
+			AttachAnim("slash_h");
 			break;
 		case STATE::DEATH:
-			_attachIndex = AttachAnim("dead");
+			AttachAnim("dead");
 			break;
 		}
 		// アタッチしたアニメーションの総再生時間を取得する

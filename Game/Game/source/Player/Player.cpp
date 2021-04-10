@@ -20,7 +20,7 @@ Player::Player(){
 
 	_mh = MV1LoadModel("res/model/player/pl_model_mm.mv1");
 	_shadowModel = MV1LoadModel("res/model/player/pl_model_mm_shadow.mv1");
-	MV1SetAttachAnimTime(_shadowModel, MV1AttachAnim(_shadowModel, 0, -1, FALSE), 0.0f);
+//	MV1SetAttachAnimTime(_shadowModel, MV1AttachAnim(_shadowModel, 0, -1, FALSE), 0.0f);
 	
 	Initialize();
 }
@@ -39,6 +39,7 @@ void Player::Initialize(){
 	_vDir = VGet(0, 0, 1);
 	_mvSpd = modeGame->_charaData->_mvSpdNorm;
 	_attachIndex = -1;
+	_attachIndexShadow = -1;
 	_totalTime = 0;
 	_playTime = 0.0f;
 
@@ -166,6 +167,7 @@ void Player::Render(){
 	ObjectBase::ShadowRender();
 
     MV1SetAttachAnimTime(_mh, _attachIndex, _playTime);
+	MV1SetAttachAnimTime(_shadowModel, _attachIndexShadow, _playTime);
 	{
 		MV1SetPosition(_mh, _vPos);
 		// 向きからY軸回転を算出
@@ -176,66 +178,67 @@ void Player::Render(){
 	}
 
 #ifdef _DEBUG
-	float angle = atan2(_vDir.z ,_vDir.x);
-	float deg = angle * 180.0f / DX_PI_F;
+	float rad = atan2(_vDir.z ,_vDir.x);
+	float deg = Util::RadToDeg(rad);
 	int x = 100;
 	int y = 340;
-	int size = 24;
-	SetFontSize(size);
-	DrawFormatString(0, y, GetColor(255, 0, 0), "Player:"); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  dir    = (%5.2f, %5.2f, %5.2f)", _vDir.x, _vDir.y, _vDir.z); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  deg    = %5.1f", deg); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  spd    = %3.1f", _mvSpd); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  charge = %d", _isCharging); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  dash   = %d", _isDash); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  左ST角度 = %d", _lfAnalogDeg); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  HP     = %d", _hitpoint); y += size;
+	int fontSize = 24;
+	int fontColor = GetColor(255, 0, 0);
+	SetFontSize(fontSize);
+	DrawFormatString(0, y, fontColor, "Player:"); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  dir    = (%5.2f, %5.2f, %5.2f)", _vDir.x, _vDir.y, _vDir.z); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  deg    = %5.1f", deg); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  spd    = %3.1f", _mvSpd); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  charge = %d", _isCharging); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  dash   = %d", _isDash); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  左ST角度 = %d", _lfAnalogDeg); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  HP     = %d", _hitpoint); y += fontSize;
 
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  攻撃カウント = %d", _attackCnt); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  攻撃受付時間 = %d", _receptionTime); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  攻撃ﾘﾛｰﾄﾞ時間 = %d", _attackReloadTime); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダメージHP = %d", _nowDmgHP); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダメージSLD= %d", _nowDmgSld); y += size;
-	DrawFormatString(0, y, GetColor(255, 0, 0), "  ダメージ通常 = %d", _nowDmgNorm); y += size;
-	DrawString(0, y, "　状態：",GetColor(255, 0, 0));
+	DrawFormatString(0, y, fontColor, "  攻撃カウント = %d", _attackCnt); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  攻撃受付時間 = %d", _receptionTime); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  攻撃ﾘﾛｰﾄﾞ時間 = %d", _attackReloadTime); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  ダメージHP = %d", _nowDmgHP); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  ダメージSLD= %d", _nowDmgSld); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  ダメージ通常 = %d", _nowDmgNorm); y += fontSize;
+	DrawString(0, y, "　状態：", fontColor);
 	switch (_state) {
 	case STATE::WAIT:
-		DrawString(x, y, "WAIT", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "WAIT", fontColor); break;
 	case STATE::WALK:
-		DrawString(x, y, "WALK", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "WALK", fontColor); break;
 	case STATE::FOR_DASH:
-		DrawString(x, y, "FOR DASH", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "FOR DASH", fontColor); break;
 	case STATE::JUMP:
-		DrawString(x, y, "JUMP", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "JUMP", fontColor); break;
 	case STATE::LEFT_MOVE:
-		DrawString(x, y, "LEFT MOVE", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "LEFT MOVE", fontColor); break;
 	case STATE::RIGHT_MOVE:
-		DrawString(x, y, "RIGHT MOVE", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "RIGHT MOVE", fontColor); break;
 	case STATE::BACK_MOVE:
-		DrawString(x, y, "BACK MOVE", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "BACK MOVE", fontColor); break;
 	case STATE::LEFT_DASH:
-		DrawString(x, y, "LEFT DASH", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "LEFT DASH", fontColor); break;
 	case STATE::RIGHT_DASH:
-		DrawString(x, y, "RIGHT DASH", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "RIGHT DASH", fontColor); break;
 	case STATE::BACK_DASH:
-		DrawString(x, y, "BACK DASH", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "BACK DASH", fontColor); break;
 	case STATE::WEAK_ATCK1:
-		DrawString(x, y, "WEAK ATTACK1", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "WEAK ATTACK1", fontColor); break;
 	case STATE::WEAK_ATCK2:
-		DrawString(x, y, "WEAK ATTACK2", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "WEAK ATTACK2", fontColor); break;
 	case STATE::WEAK_ATCK3:
-		DrawString(x, y, "WEAK ATTACK3", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "WEAK ATTACK3", fontColor); break;
 	case STATE::WEAK_ATCK4:
-		DrawString(x, y, "WEAK ATTACK4", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "WEAK ATTACK4", fontColor); break;
 	case STATE::STRG_ATCK1:
-		DrawString(x, y, "STRG ATTACK1", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "STRG ATTACK1", fontColor); break;
 	case STATE::STRG_ATCK2:
-		DrawString(x, y, "STRG ATTACK2", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "STRG ATTACK2", fontColor); break;
 	case STATE::STRG_ATCK3:
-		DrawString(x, y, "STRG ATTACK3", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "STRG ATTACK3", fontColor); break;
 	case STATE::STRG_ATCK4:
-		DrawString(x, y, "STRG ATTACK4", GetColor(255, 0, 0)); break;
+		DrawString(x, y, "STRG ATTACK4", fontColor); break;
 	}
 
 #endif

@@ -31,7 +31,7 @@ void Camera::Initialize(){
 
 	_vPos = VGet(0.0f, 10.0f, -140.f);
 	_oldvPos = _vPos;
-	_state = STATE::TARG_LOCK_ON;
+	_state = STATE::NORMAL;
 	_oldState = _state;
 	_angleH = 0.0f;
 	_angleV = 20.0f;
@@ -62,7 +62,7 @@ void Camera::Process(){
     // カメラ切替
 	switch (_state) {
 	// ボスへカメラロックオン状態
-	case STATE::TARG_LOCK_ON:
+	case STATE::NORMAL:
 	{
 		_oldState = _state;
 
@@ -99,10 +99,10 @@ void Camera::Process(){
 		_vPos.y = plPos.y + 7.0f;
 
 		if (!(key & PAD_INPUT_5)) { 
-			_state = STATE::TARG_LOCK_ON; 
+			_state = STATE::NORMAL; 
 		}
 		if (plEnergy < 10) { 
-			_state = STATE::TARG_LOCK_ON;
+			_state = STATE::NORMAL;
 		}
 		break;
 	}
@@ -117,7 +117,7 @@ void Camera::Render(){
 	SetCameraPositionAndTarget_UpVecY(_vPos, _vTarg);
 	SetCameraNearFar(NearClip, FarClip);
 
-	if (_state == STATE::TARG_LOCK_ON) {
+	if (_state == STATE::NORMAL) {
 		DrawGraph(_lockOn.x, _lockOn.y, _lockOn.cg, TRUE);
 	}
 
@@ -131,23 +131,24 @@ void Camera::Render(){
 		DrawLine3D(VAdd(vec, VGet(0, 0, -linelength)), VAdd(vec, VGet(0, 0, linelength)), GetColor(0, 0, 255));
 	}
 	{
-		int x = 0, y = 200, size = 24;
-		SetFontSize(size);
-		DrawFormatString(x, y, GetColor(255, 0, 0), "Camera:"); y += size;
-		DrawFormatString(x, y, GetColor(255, 0, 0), "  target = (%5.2f, %5.2f, %5.2f)", _vTarg.x, _vTarg.y, _vTarg.z); y += size;
-		DrawFormatString(x, y, GetColor(255, 0, 0), "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += size;
-		DrawFormatString(x, y, GetColor(255, 0, 0), "  angleH    = (%5.2f)", _angleH); y += size;
+		int x = 0, y = 200, fontSize = 24;
+		int fontColor = GetColor(255, 0, 0);
+		SetFontSize(fontSize);
+		DrawFormatString(x, y, fontColor, "Camera:"); y += fontSize;
+		DrawFormatString(x, y, fontColor, "  target = (%5.2f, %5.2f, %5.2f)", _vTarg.x, _vTarg.y, _vTarg.z); y += fontSize;
+		DrawFormatString(x, y, fontColor, "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += fontSize;
+		DrawFormatString(x, y, fontColor, "  angleH    = (%5.2f)", _angleH); y += fontSize;
 		float disX = _vPos.x - _vTarg.x;
 		float disZ = _vPos.z - _vTarg.z;
 		float rLength = sqrt(disZ * disZ + disX * disX);
 		float rad = atan2(disZ, disX);
 		float deg = Util::RadToDeg(rad);
-		DrawFormatString(x, y, GetColor(255, 0, 0), "  len = %5.2f, rad = %5.2f, deg = %5.2f", rLength, rad, deg); y += size;
+		DrawFormatString(x, y, GetColor(255, 0, 0), "  len = %5.2f, rad = %5.2f, deg = %5.2f", rLength, rad, deg); y += fontSize;
 		switch (_state) {
-		case STATE::TARG_LOCK_ON:
-			DrawString(x, y, "　状態：TARGET_LOCK", GetColor(255, 0, 0)); break;
+		case STATE::NORMAL:
+			DrawString(x, y, "　状態：TARGET_LOCK", fontColor); break;
 		case STATE::MLS_LOCK:
-			DrawString(x, y, "　状態：MLS_LOCK", GetColor(255, 0, 0)); break;
+			DrawString(x, y, "　状態：MLS_LOCK", fontColor); break;
 		}
 	}
 #endif

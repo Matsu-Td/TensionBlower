@@ -99,13 +99,13 @@ void Player::Dash() {
 		if (_shortDashTime > 0) {
 			_isDash = true;  // ダッシュスタート
 			// キー入力があるとき入力方向にダッシュする
-			if (camState != Camera::STATE::TARG_LOCK_ON) {
+			if (camState != Camera::STATE::NORMAL) {
 				_state = Player::STATE::FOR_DASH;
 			}
 			_isCharging = false;   // ダッシュ中溜め行動不可
 			// キー入力がないとき向いている方向に直線でダッシュする
 			if (_analogLength < ANALOG_MIN) {
-				if (camState == Camera::STATE::TARG_LOCK_ON) {
+				if (camState == Camera::STATE::NORMAL) {
 					LeftAnalogDeg();
 					vDash.x = -cos(_bsAngle) * _mvSpd;
 					vDash.z = -sin(_bsAngle) * _mvSpd;
@@ -131,12 +131,12 @@ void Player::Dash() {
 			_isDash = true;       // ダッシュ状態にする
 			_isCharging = false;  // ダッシュ中溜め行動不可
 			// キー入力があるときが入力方向にダッシュする
-			if (camState != Camera::STATE::TARG_LOCK_ON) {
+			if (camState != Camera::STATE::NORMAL) {
 				_state = Player::STATE::FOR_DASH;
 			}
 			// キー入力がないとき：向いている方向に直線でダッシュする
 			if (_analogLength < ANALOG_MIN) {
-				if (camState == Camera::STATE::TARG_LOCK_ON) {
+				if (camState == Camera::STATE::NORMAL) {
 					LeftAnalogDeg();
 					vDash.x = -cos(_bsAngle) * _mvSpd;
 					vDash.z = -sin(_bsAngle) * _mvSpd;
