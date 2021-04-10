@@ -16,6 +16,9 @@
 # Game Resource
 res/
 
+# DXLibrary
+dxlib/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
