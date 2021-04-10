@@ -9,8 +9,6 @@
 #pragma once
 
 #include "appframe.h"
-#define	DEG2RAD(x)			( ((x) / 180.0f ) * DX_PI_F )
-#define	RAD2DEG(x)			( ((x) * 180.0f ) / DX_PI_F )
 
 /**
  * @brief ƒJƒƒ‰ƒNƒ‰ƒX

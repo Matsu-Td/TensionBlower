@@ -17,3 +17,4 @@
 #include "Application/ApplicationBase.h"
 #include "CFile/CFile.h"
 #include "ResourceServer/ResourceServer.h"
+#include "Application/UtilMacro.h"

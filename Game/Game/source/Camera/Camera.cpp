@@ -141,7 +141,7 @@ void Camera::Render(){
 		float disZ = _vPos.z - _vTarg.z;
 		float rLength = sqrt(disZ * disZ + disX * disX);
 		float rad = atan2(disZ, disX);
-		float deg = RAD2DEG(rad);
+		float deg = Util::RadToDeg(rad);
 		DrawFormatString(x, y, GetColor(255, 0, 0), "  len = %5.2f, rad = %5.2f, deg = %5.2f", rLength, rad, deg); y += size;
 		switch (_state) {
 		case STATE::TARG_LOCK_ON:
