@@ -37,7 +37,7 @@ public:
 	virtual void Move();
 
 	/**
-	 * @brief 当たり判定
+	 * @brief 各所当たり判定
 	 */
 	virtual void Collision();
 
@@ -67,4 +67,29 @@ protected:
 
 	const float REPEL_SPD = 3.0f; // 弾き返された後の弾の移動速度
 	const float MLS_SPD = 0.01f;  // マルチロックオンシステム中の速度計算(通常の1/100に)
+
+private:
+	/**
+	 * @brief 当たり判定：ステージ
+	 * @param obj オブジェクトのポインタ
+	 */
+	void CollisionToStage(ObjectBase* obj);
+
+	/**
+     * @brief 当たり判定：ボス
+     * @param obj オブジェクトのポインタ
+     */
+	void CollisionToBoss(ObjectBase* obj);
+
+	/**
+	 * @brief 当たり判定：プレイヤー
+	 * @param obj オブジェクトのポインタ
+	 */
+	void CollisionToPlayer(ObjectBase* obj);
+
+	/**
+	 * @brief 当たり判定：照準
+	 * @param obj オブジェクトのポインタ
+	 */
+	void CollisionToReticle(ObjectBase* obj);
 };

@@ -109,50 +109,83 @@ void ShotBase::Render(){
 }
 
 /*
- * 当たり判定
+ * 各所当たり判定
  */
 void ShotBase::Collision(){
 
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	
+	for (auto itr : *modeGame->_objServer.List()) {
+		CollisionToStage(itr);
+		CollisionToBoss(itr);
+		CollisionToPlayer(itr);
+		CollisionToReticle(itr);
+	}
+}
+
+/*
+ * 当たり判定：ステージ
+ */
+void ShotBase::CollisionToStage(ObjectBase* obj){
+
+	if (obj->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
+		if (IsHitStage(*obj, 0.8f) == true) {
+			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+			modeGame->_objServer.Del(this);
+
+			MV1CollResultPolyDimTerminate(obj->_hitPolyDim);
+		}
+	}
+}
+
+/*
+ * 当たり判定：ボス
+ */
+void ShotBase::CollisionToBoss(ObjectBase* obj) {
+
+	if (_state == STATE::REPEL) {
+		if (obj->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
+			if (IsHitLineSegment(*obj, obj->_r) == true) {
+				ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+				modeGame->_objServer.Del(this);
+
+				Boss::GetInstance()->RepelDamage();
+			}
+		}
+	}
+}
+
+/*
+ * 当たり判定：プレイヤー
+ */
+void ShotBase::CollisionToPlayer(ObjectBase* obj) {
+	
+	if (obj->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
+		// マルチロックオンシステムによる弾き返し可能かどうか
+		if (IsDot(*obj) == true && _camStateMLS) {
+			_canLockFlag = true;
+		}
+		else {
+			_canLockFlag = false;
+		}
+	}
+}
+
+/*
+ * 当たり判定：照準
+ */
+void ShotBase::CollisionToReticle(ObjectBase* obj) {
+
 	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-		// ステージ
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
-			if (IsHitStage(*(*itr), 0.8f) == true) {
-				modeGame->_objServer.Del(this);
-				MV1CollResultPolyDimTerminate((*itr)->_hitPolyDim);
-			}
-		}
-		// ボス（弾き返された弾のみ当たり判定発生）
-		if (_state == STATE::REPEL) {
-			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
-				if (IsHitLineSegment(*(*itr), (*itr)->_r) == true) {
-					modeGame->_objServer.Del(this);
-					Boss::GetInstance()->RepelDamage();
-				}
-			}
-		}
-		// プレイヤー
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
-			// マルチロックオンシステムによる弾き返し可能かどうか
-			if (IsDot(*(*itr)) == true && _camStateMLS) {
-				_canLockFlag = true;
-			}
-			else {
-				_canLockFlag = false;
-			}
-		}
-		// 照準
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) {
-			if (IsHitScrnPos(*(*itr)) == true) {
-				if (_canLockFlag) {
-					if (trg & PAD_INPUT_2) {
-						_state = STATE::REPEL;
-						_shotSpd = REPEL_SPD;     // 弾の移動速度変更(加速)
-						_repelFlag = true;        // 弾き返されたのでフラグを立てる
-						gGlobal._totalRepelCnt++; // 弾き返し回数カウント(スコア計算用)
-					}
+	if (obj->GetType() == ObjectBase::OBJECTTYPE::RETICLE) {
+		if (IsHitScrnPos(*obj) == true) {
+			if (_canLockFlag) {
+				if (trg & PAD_INPUT_2) {
+					_state = STATE::REPEL;
+					_shotSpd = REPEL_SPD;     // 弾の移動速度変更(加速)
+					_repelFlag = true;        // 弾き返されたのでフラグを立てる
+					gGlobal._totalRepelCnt++; // 弾き返し回数カウント(スコア計算用)
 				}
 			}
 		}
