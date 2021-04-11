@@ -9,7 +9,7 @@
 #include <fstream>
 #include <iostream>
 #include "CFile.h"
-#include "../Application/UtilMacro.h"
+#include "../Utility/UtilMacro.h"
 
  /*
 　* ファイル読み込み

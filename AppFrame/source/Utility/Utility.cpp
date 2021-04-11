@@ -7,7 +7,6 @@
  */
 
 #include "Utility.h"
-#include "UtilMacro.h"
 #include "../Application/ApplicationBase.h"
 #include <iostream>
 
