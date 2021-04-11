@@ -113,23 +113,27 @@ private:
 
 	/**
 	 * @brief 当たり判定：ステージ
+	 * @param obj オブジェクトのポインタ
 	 */
-	void CollisionToStage();
+	void CollisionToStage(ObjectBase* obj);
 
 	/**
 	 * @brief 当たり判定：ボスの弾
+	 * @param obj オブジェクトのポインタ
 	 */
-	void CollisionToBossBullet();
+	void CollisionToBossBullet(ObjectBase* obj);
 
 	/**
 	 * @brief 当たり判定：ボス
+	 * @param obj オブジェクトのポインタ
 	 */
-	void CollisionToBoss();
+	void CollisionToBoss(ObjectBase* obj);
 
 	/**
 	 * @brief 当たり判定：ボスのレーザー攻撃
+	 * @param obj オブジェクトのポインタ
 	 */
-	void CollisionToLaser();
+	void CollisionToLaser(ObjectBase* obj);
 
 	/**
 	 * @brief 死亡処理＆ゲームオーバーへ移行
