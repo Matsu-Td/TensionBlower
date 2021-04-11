@@ -168,7 +168,7 @@ private:
 	 * @brief 移動、ダッシュモーション切替処理
 	 * @brief 左アナログスティックの倒した角度によってキャラの状態、モーションを遷移
 	 */
-	void LeftAnalogDeg();
+	void MoveAndDashMotionSwitch();
 
 	/**
 	 * @brief ダッシュ処理
@@ -221,9 +221,7 @@ private:
 	void SetStrongHitTime();
 
 private:
-	float _analogLength; // 左アナログスティックの入力、倒した大きさ
-
-	// ステータス
+    // ステータス
 	int _hitpoint;       // ヒットポイント値
 	int _energy;         // エネルギー値
 
@@ -261,7 +259,6 @@ private:
 
 	// その他
 	int   _attachIndexShadow; // 影モデル用モーションをアタッチ
-	int   _lfAnalogDeg;       // 左アナログスティックの倒した方向(角度)
 	float _bsAngle;           // ボスの位置、角度
 	bool  _isNearBoss;        // ボスの近くにいるか(true:ボスの近くにいる)
 	
@@ -295,7 +292,6 @@ private:
 	
 	const float GROUND_Y   = 0.0f; // 地上のY座標
 	const float GRAVITY    = 0.9f; // 重力加速度値
-	const float ANALOG_MIN = 0.3f; // アナログスティック入力反応の最小値
 	const float IN_VEL     = 5.0f; // 初速
 	const float MULT_HALF  = 0.5f; // 1/2乗算
 	const float JUMP_CNT   = 0.2f; // ジャンプ時間

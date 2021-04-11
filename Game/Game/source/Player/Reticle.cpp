@@ -52,30 +52,22 @@ void Reticle::Initialize(){
 void Reticle::Process(){
 
 	// カメラの状態取得
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+	Camera::STATE camState = Camera::GetInstance()->GetState();
 
 	// 画面サイズ取得
 	int dispSizeW = ApplicationMain::GetInstance()->DispSizeW();
 	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();
 
-	// アナログスティック対応
-	DINPUT_JOYSTATE dInput =  ApplicationMain::GetInstance()->GetDInputState();
+	float lx, ly;
+	Util::GetLeftStickParamXY(lx, ly);
+
+	float rad = atan2(ly, lx);                  // 左スティックの角度(rad)
+	float length = Util::GetLeftStickLength(); 	// 左スティックの移動量
 	
-	// 左アナログスティック座標
-	float lx, ly;   
-	lx = static_cast<float>(dInput.X);
-	ly = static_cast<float>(dInput.Y);
-
-	// 左アナログスティックを倒したときの最小値
-	float analogMin = 0.3f;
-
-	// 移動方向を決める
-	float length = sqrt(lx * lx + ly * ly);;
-	float rad = atan2(ly, lx);
 	VECTOR vec = { 0.0f,0.0f,0.0f };
 
 	// 移動処理
-	if (length < ANALOG_MIN) {
+	if (length < Util::ANALOG_MIN) {
 		length = 0.0f;
 	}
 	else {
@@ -89,11 +81,15 @@ void Reticle::Process(){
 	// vecの分移動
 	_scrnPos = VAdd(_scrnPos, vec);
 
+	// 画像のサイズを取得
+	int graphSizeX, graphSizeY;
+	GetGraphSize(_cg, &graphSizeX, &graphSizeY);
+
 	// 画面外に画像が出るのを防止
 	if (_scrnPos.x < 0) { _scrnPos.x = 0; }
-	if (_scrnPos.x + 100.0f > dispSizeW) { _scrnPos.x = static_cast<float>(dispSizeW - 100); }
+	if (_scrnPos.x + graphSizeX > dispSizeW) { _scrnPos.x = static_cast<float>(dispSizeW - graphSizeX); }
 	if (_scrnPos.y < 0.0f) { _scrnPos.y = 0.0f; }
-	if (_scrnPos.y + 100.0f > dispSizeH) { _scrnPos.y = static_cast<float>(dispSizeH - 100); }
+	if (_scrnPos.y + graphSizeY > dispSizeH) { _scrnPos.y = static_cast<float>(dispSizeH - graphSizeY); }
 
 	// カメラの状態がマルチロックオンシステムではなくなる
 	if (camState != Camera::STATE::MLS_LOCK){

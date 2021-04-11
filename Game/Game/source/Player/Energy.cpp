@@ -47,7 +47,7 @@ void Player::CheckDistanceToBoss() {
 void Player::EnergyManager() {
 
 	// ƒJƒƒ‰‚Ìó‘ÔŽæ“¾
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+	Camera::STATE camState = Camera::GetInstance()->GetState();
 	
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	

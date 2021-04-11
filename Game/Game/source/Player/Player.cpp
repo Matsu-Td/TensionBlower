@@ -20,7 +20,6 @@ Player::Player(){
 
 	_mh = MV1LoadModel("res/model/player/pl_model_mm.mv1");
 	_shadowModel = MV1LoadModel("res/model/player/pl_model_mm_shadow.mv1");
-//	MV1SetAttachAnimTime(_shadowModel, MV1AttachAnim(_shadowModel, 0, -1, FALSE), 0.0f);
 	
 	Initialize();
 }
@@ -109,7 +108,7 @@ void Player::Process(){
 	Death();
 
 	// カメラ状態取得
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+	Camera::STATE camState = Camera::GetInstance()->GetState();
 
 	// マルチロックシステムが発動していない
 	// 近接攻撃を発動していない
@@ -193,7 +192,6 @@ void Player::Render(){
 	DrawFormatString(0, y, fontColor, "  spd    = %3.1f", _mvSpd); y += fontSize;
 	DrawFormatString(0, y, fontColor, "  charge = %d", _isCharging); y += fontSize;
 	DrawFormatString(0, y, fontColor, "  dash   = %d", _isDash); y += fontSize;
-	DrawFormatString(0, y, fontColor, "  左ST角度 = %d", _lfAnalogDeg); y += fontSize;
 	DrawFormatString(0, y, fontColor, "  HP     = %d", _hitpoint); y += fontSize;
 
 	DrawFormatString(0, y, fontColor, "  攻撃カウント = %d", _attackCnt); y += fontSize;

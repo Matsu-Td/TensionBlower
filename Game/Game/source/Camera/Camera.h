@@ -52,6 +52,12 @@ public:
 	VECTOR GetTarg() const { return _vTarg; }
 
 	/**
+	 * @brief カメラの向いている角度(rad)取得
+	 * @return カメラの角度(rad)
+	 */
+	float GetRad() const;
+
+	/**
 	 * @brief カメラの状態
 	 */
 	enum class STATE { 
@@ -64,7 +70,7 @@ public:
 	 * @brief  カメラの状態を取得
 	 * @return カメラの状態
 	 */
-	STATE GetCameraState() const { return _state; }
+	STATE GetState() const { return _state; }
 
 	static Camera* _pInstance;
 
@@ -72,8 +78,6 @@ private:
 	VECTOR _vPos;    // 位置
 	VECTOR _oldvPos; // 処理前の位置
 	VECTOR _vTarg;   // 注視点
-	float _angleH;   // 水平角度
-	float _angleV;   // 垂直角度
 
 	STATE _oldState; // 処理前の状態
 

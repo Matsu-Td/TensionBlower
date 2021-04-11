@@ -21,7 +21,16 @@ Camera::Camera(){
 }
 
 Camera::~Camera(){
+	// 何もしない
+}
 
+float Camera::GetRad() const {
+
+	float disX = _vPos.x - _vTarg.x;
+	float disZ = _vPos.z - _vTarg.z;
+	float camRad = atan2(disZ, disX);
+
+	return camRad;
 }
 
 /*
@@ -33,8 +42,6 @@ void Camera::Initialize(){
 	_oldvPos = _vPos;
 	_state = STATE::NORMAL;
 	_oldState = _state;
-	_angleH = 0.0f;
-	_angleV = 20.0f;
 
 	_lockOn.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
 	_lockOn.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
@@ -46,7 +53,6 @@ void Camera::Initialize(){
 void Camera::Process(){
 
 	int key = ApplicationMain::GetInstance()->GetKey();  // キー入力情報取得
-	int trg = ApplicationMain::GetInstance()->GetKeyTrg();  // キー入力のトリガ情報取得
 
 	int dispSizeW = ApplicationMain::GetInstance()->DispSizeW();  // 画面横幅サイズ取得
 	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();  // 画面縦幅サイズ取得
@@ -70,11 +76,11 @@ void Camera::Process(){
 		_vTarg.y = 8.5f;
 		float sx = plPos.x - _vTarg.x;
 		float sz = plPos.z - _vTarg.z;
-		float camrad = atan2(sz, sx);
+		float rad = atan2(sz, sx);
 		float length = sqrt(sx * sx + sz * sz) + camDis;
 
-		_vPos.x = bsPos.x + cos(camrad) * length;
-		_vPos.z = bsPos.z + sin(camrad) * length;
+		_vPos.x = bsPos.x + cos(rad) * length;
+		_vPos.z = bsPos.z + sin(rad) * length;
 		_vPos.y = plPos.y + 15.0f; 
 		
 		// ゲームパッド「LB」長押しでカメラをFPS視点(マルチロックシステム発動)に切替
@@ -91,11 +97,11 @@ void Camera::Process(){
 		_vTarg.y = 8.5f;
 		float sx = plPos.x - _vTarg.x;
 		float sz = plPos.z - _vTarg.z;
-		float camrad = atan2(sz, sx);
+		float rad = atan2(sz, sx);
 		float length = sqrt(sx * sx + sz * sz) - 2.5f;
 
-		_vPos.x = cos(camrad) * length;
-		_vPos.z = sin(camrad) * length;
+		_vPos.x = cos(rad) * length;
+		_vPos.z = sin(rad) * length;
 		_vPos.y = plPos.y + 7.0f;
 
 		if (!(key & PAD_INPUT_5)) { 
@@ -137,7 +143,6 @@ void Camera::Render(){
 		DrawFormatString(x, y, fontColor, "Camera:"); y += fontSize;
 		DrawFormatString(x, y, fontColor, "  target = (%5.2f, %5.2f, %5.2f)", _vTarg.x, _vTarg.y, _vTarg.z); y += fontSize;
 		DrawFormatString(x, y, fontColor, "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += fontSize;
-		DrawFormatString(x, y, fontColor, "  angleH    = (%5.2f)", _angleH); y += fontSize;
 		float disX = _vPos.x - _vTarg.x;
 		float disZ = _vPos.z - _vTarg.z;
 		float rLength = sqrt(disZ * disZ + disX * disX);

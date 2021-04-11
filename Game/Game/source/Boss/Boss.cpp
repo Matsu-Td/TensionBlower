@@ -73,7 +73,7 @@ void Boss::Initialize() {
 void Boss::Process(){
 
 	// ƒJƒƒ‰‚Ìó‘Ô‚ğæ“¾
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+	Camera::STATE camState = Camera::GetInstance()->GetState();
 	
 	// ˆ—‘O‚Ìó‘Ô‚ğ•Û‘¶
 	_oldState = _state;

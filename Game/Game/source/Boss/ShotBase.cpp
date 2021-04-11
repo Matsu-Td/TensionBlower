@@ -36,7 +36,7 @@ void ShotBase::Initialize() {
 void ShotBase::Move() {
 
 	// カメラの状態を取得
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+	Camera::STATE camState = Camera::GetInstance()->GetState();
 
 	// ワールド座標 ⇒ スクリーン座標へ変換
 	_scrnPos = ConvWorldPosToScreenPos(_vPos);

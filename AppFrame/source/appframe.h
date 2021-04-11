@@ -18,3 +18,4 @@
 #include "CFile/CFile.h"
 #include "ResourceServer/ResourceServer.h"
 #include "Application/UtilMacro.h"
+#include "Utility/Utility.h"

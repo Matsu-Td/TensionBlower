@@ -43,7 +43,7 @@ void Laser::Initialize() {
 void Laser::Process() {
 
 	// ƒJƒƒ‰‚Ìó‘Ô‚ğæ“¾
-	Camera::STATE camState = Camera::GetInstance()->GetCameraState();
+	Camera::STATE camState = Camera::GetInstance()->GetState();
 	// ƒ{ƒX‚Ìó‘Ô‚ğæ“¾
 	Boss::STATE bsState = Boss::GetInstance()->GetState();
 
