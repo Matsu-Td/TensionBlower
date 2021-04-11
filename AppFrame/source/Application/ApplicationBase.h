@@ -80,16 +80,22 @@ public:
 	 * @brief  キー入力情報取得
 	 * @return キー入力情報
 	 */
-	virtual int GetKey() { return _gKey; }
+	virtual int GetKey() { return _key; }
 
 	/**
 	 * @brief  キーのトリガ情報取得
 	 * @return キーのトリガ情報
 	 */
-	virtual int GetTrg() { return _gTrg; }
+	virtual int GetKeyTrg() { return _keyTrg; }
 
 	/**
-	 * @brief  ゲーム終了フラグ
+	 * @brief  DINPUTコントローラー入力情報取得
+	 * @return DINPUTコントローラー入力情報
+	 */
+	virtual DINPUT_JOYSTATE GetDInputState() { return _dInput; }
+
+	/**
+	 * @brief  ゲーム終了フラグを返す
 	 * @return ゲーム終了フラグ
 	 */
 	bool GameEndFlag() const { return _gameEnd; }
@@ -97,14 +103,15 @@ public:
 	/**
 	 * @brief ゲーム終了フラグを立てる
 	 */
-	void GameEnd() { _gameEnd = true; }
+	void IsGameEnd() { _gameEnd = true; }
 
 protected:
 	static	ApplicationBase	*_pInstance;
 
 	std::unique_ptr<ModeServer> _serverMode;
 
-	int	 _gKey;              // キー入力の情報
-	int  _gTrg;              // キー入力のトリガ情報
-	bool _gameEnd = false;   // ゲーム終了フラグ
+	int	 _key;                // キー入力情報
+	int  _keyTrg;             // キー入力のトリガ情報
+	DINPUT_JOYSTATE _dInput;  // DINPUTコントローラーの入力情報 
+	bool _gameEnd = false;    // ゲーム終了フラグ
 };

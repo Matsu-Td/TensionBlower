@@ -113,7 +113,7 @@ void ShotBase::Render(){
  */
 void ShotBase::Collision(){
 
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {

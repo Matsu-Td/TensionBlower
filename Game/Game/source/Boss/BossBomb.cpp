@@ -53,7 +53,7 @@ void BossBomb::Initialize() {
  */
 void BossBomb::Process() {
 
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
 	// ’e‚ÌˆÚ“®ˆ—(’e–‹‹¤’Êˆ—)
 	ShotBase::Move();

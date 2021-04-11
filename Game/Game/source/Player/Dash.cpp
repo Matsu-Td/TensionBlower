@@ -76,7 +76,7 @@ void Player::LeftAnalogDeg() {
 void Player::Dash() {
 	
 	int key = ApplicationMain::GetInstance()->GetKey();// キー入力情報取得
-	int trg = ApplicationMain::GetInstance()->GetTrg();// キーのトリガ情報取得
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();// キーのトリガ情報取得
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	

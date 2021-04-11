@@ -37,20 +37,13 @@ bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 	}
 	SetDrawScreen(DX_SCREEN_BACK);		// 描画先画面を裏画面にセット
 
-	// Effekseerを初期化する
-	// 引数には画面に表示する最大パーティクル数を設定する
-	if (Effekseer_Init(100000) == -1){
+	// Effekseer初期化
+	if (Effekseer_Init(8000) == -1){
 		DxLib_End();
 		return -1;
 	}
 
-	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ
-	// Effekseerを使用する場合は必ず設定する
 	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
-
-	// DXライブラリのデバイスロストした時のコールバックを設定する
-	// ウインドウとフルスクリーンの切り替えが発生する場合は必ず実行する
-	// ただし、DirectX11を使用する場合は実行する必要はない
 	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
 	// 乱数初期化
@@ -79,9 +72,11 @@ bool ApplicationBase::Terminate() {
  */
 bool ApplicationBase::Input() {
 
-	int keyold = _gKey;
-	_gKey = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-	_gTrg = (_gKey ^ keyold) & _gKey;	// キーのトリガ情報生成
+	int keyold = _key;
+	
+	_key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+	_keyTrg = (_key ^ keyold) & _key;	// キーのトリガ情報生成
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &_dInput);
 
 	return true;
 }

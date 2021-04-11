@@ -38,7 +38,7 @@ bool ModeCredit::Terminate() {
 bool ModeCredit::Process() {
 	base::Process();
 
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
 	// ゲームパッド「A」ボタンでクレジットモードを削除しタイトルモード追加
 	if (trg & PAD_INPUT_1) {

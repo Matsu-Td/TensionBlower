@@ -44,7 +44,7 @@ bool ModePause::Terminate(){
 bool ModePause::Process(){
 	base::Process();
 
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
 	ModeServer::GetInstance()->SkipProcessUnderLayer(); 
 

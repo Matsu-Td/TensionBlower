@@ -17,7 +17,7 @@
 void Player::ReticleGeneration() {
 
 	// キーのトリガ情報取得	
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
 	// ゲームパッド「LBボタン」でマルチロックオンシステム用照準追加
 	if (trg & PAD_INPUT_5) {

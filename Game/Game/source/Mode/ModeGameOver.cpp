@@ -48,7 +48,7 @@ bool ModeGameOver::Terminate(){
 bool ModeGameOver::Process(){
 	base::Process();
 
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
 	ModeServer::GetInstance()->SkipProcessUnderLayer();
 

@@ -39,14 +39,8 @@ bool ModeTitle::Initialize() {
 		PlaySoundMem(gBossVoice._vc["title"], DX_PLAYTYPE_BACK);
 	}
 
-	// 背景用動画読み込み
 	_movieHandle = ResourceServer::LoadGraph("res/movie/title_bg.mp4");
-
-	// タイトルロゴ読み込み
-	_cgtitle = ResourceServer::LoadGraph("res/logo_title.png");
-
-	// 動画再生開始
-	PlayMovieToGraph(_movieHandle);
+	_cgtitle     = ResourceServer::LoadGraph("res/logo_title.png");
 
 	// メニューUI画像読み込み(選択状:ON)
 	for (int i = 0; i < MENU_NUM; i++) {
@@ -57,6 +51,9 @@ bool ModeTitle::Initialize() {
 	for (int i = 0; i < MENU_NUM; i++) {
 		_uiOff[i] = ResourceServer::LoadGraph(_fileNameOff[i]);
 	}
+
+	// 動画再生開始
+	PlayMovieToGraph(_movieHandle);
 
 	// 初期位置
 	_menuPos = MENU::START;
@@ -78,7 +75,7 @@ bool ModeTitle::Terminate() {
  */
 void ModeTitle::MenuSelect() {
 
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
 	// ゲームパッドの左右キー及び左アナログスティック左右でメニュー選択
 	if (trg & PAD_INPUT_RIGHT) {
@@ -107,7 +104,7 @@ void ModeTitle::MenuSelect() {
 
 		case MENU::GAME_END: 
 			ModeServer::GetInstance()->Del(this);
-			ApplicationBase::GetInstance()->GameEnd();
+			ApplicationBase::GetInstance()->IsGameEnd();
 			break;
 		}
 	}

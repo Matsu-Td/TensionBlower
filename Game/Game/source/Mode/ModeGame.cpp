@@ -85,7 +85,7 @@ bool ModeGame::Process() {
 	base::Process();
 
 	// キーのトリガ情報取得
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 	
 	// オブジェクトの処理停止要否
 	if (_stopObjProcess == false) {

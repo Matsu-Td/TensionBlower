@@ -45,7 +45,7 @@ bool ModeResult::Terminate() {
 bool ModeResult::Process() {
 	base::Process();
 
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
 	// ゲームパッド「B」ボタンでリザルトモードを削除し、タイトルモード追加
 	if (trg & PAD_INPUT_2) {

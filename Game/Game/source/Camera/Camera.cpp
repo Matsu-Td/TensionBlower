@@ -46,7 +46,7 @@ void Camera::Initialize(){
 void Camera::Process(){
 
 	int key = ApplicationMain::GetInstance()->GetKey();  // キー入力情報取得
-	int trg = ApplicationMain::GetInstance()->GetTrg();  // キー入力のトリガ情報取得
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();  // キー入力のトリガ情報取得
 
 	int dispSizeW = ApplicationMain::GetInstance()->DispSizeW();  // 画面横幅サイズ取得
 	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();  // 画面縦幅サイズ取得

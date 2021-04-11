@@ -77,7 +77,7 @@ bool ModeTutorial::Terminate() {
 bool ModeTutorial::Process() {
 	base::Process();
 
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
 	// 前のメニュー位置を保存
 	_oldMenuPos = _menuPos;

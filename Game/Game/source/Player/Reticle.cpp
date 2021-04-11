@@ -59,13 +59,12 @@ void Reticle::Process(){
 	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();
 
 	// アナログスティック対応
-	DINPUT_JOYSTATE directInput;
-	GetJoypadDirectInputState(DX_INPUT_PAD1, &directInput);
+	DINPUT_JOYSTATE dInput =  ApplicationMain::GetInstance()->GetDInputState();
 	
 	// 左アナログスティック座標
 	float lx, ly;   
-	lx = static_cast<float>(directInput.X);
-	ly = static_cast<float>(directInput.Y);
+	lx = static_cast<float>(dInput.X);
+	ly = static_cast<float>(dInput.Y);
 
 	// 左アナログスティックを倒したときの最小値
 	float analogMin = 0.3f;

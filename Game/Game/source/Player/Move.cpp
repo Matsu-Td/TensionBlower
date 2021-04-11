@@ -7,6 +7,7 @@
  */
 
 #include "Player.h"
+#include "../Application/ApplicationMain.h"
 #include "../Camera/Camera.h"
 #include "../Mode/ModeGame.h"
 
@@ -16,13 +17,12 @@
 void Player::Move() {
 
 	// アナログスティック対応
-	DINPUT_JOYSTATE directInput;
-	GetJoypadDirectInputState(DX_INPUT_PAD1, &directInput);
+	DINPUT_JOYSTATE dInput = ApplicationMain::GetInstance()->GetDInputState();
 
 	// 左アナログスティック座標
 	float lx, ly;
-	lx = static_cast<float>(directInput.X);
-	ly = static_cast<float>(directInput.Y);
+	lx = static_cast<float>(dInput.X);
+	ly = static_cast<float>(dInput.Y);
 
 	// カメラデータ取得
 	VECTOR camPos = Camera::GetInstance()->GetPos();      // カメラ位置

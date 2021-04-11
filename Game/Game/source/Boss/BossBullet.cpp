@@ -51,7 +51,7 @@ void BossBullet::Repel() {
 void BossBullet::Collision() {
 
 	// キーのトリガ入力取得
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
 	// プレイヤーの位置情報取得
 	VECTOR plPos = Player::GetInstance()->GetPos();

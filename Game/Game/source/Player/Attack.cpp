@@ -102,7 +102,7 @@ void Player::NextWeakAttack(STATE nextState, std::string attackName) {
  */
 void Player::AttackAction() {
 
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	// UŒ‚ƒJƒEƒ“ƒg
@@ -211,7 +211,7 @@ void Player::AttackAction() {
  */
 void Player::FirstAttack() {
 
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	if (_vPos.y == 0.0f && _attackReloadTime == 0) {

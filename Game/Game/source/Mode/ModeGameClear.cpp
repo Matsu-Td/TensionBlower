@@ -51,7 +51,7 @@ bool ModeGameClear::Terminate(){
 bool ModeGameClear::Process(){
 	base::Process();
 
-	int trg = ApplicationMain::GetInstance()->GetTrg();
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
 	ModeServer::GetInstance()->SkipProcessUnderLayer();
 
