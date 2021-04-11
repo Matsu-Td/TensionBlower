@@ -82,7 +82,9 @@ void Player::Initialize(){
  * 重力処理
  */
 void Player::Gravity() {
+
 	_vPos.y -= GRAVITY;
+
 	if (_vPos.y < 0.0f) {
 		_vPos.y = 0.0f;
 	}
@@ -112,8 +114,7 @@ void Player::Process(){
 	// マルチロックシステムが発動していない
 	// 近接攻撃を発動していない
 	// ゲームオーバーになっていない
-	if (camState != Camera::STATE::MLS_LOCK && !_isAttack && !_isGameOver) {
-		
+	if (camState != Camera::STATE::MLS_LOCK && !_isAttack && !_isGameOver) {	
 		// 移動処理
 		Move();
 

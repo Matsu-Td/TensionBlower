@@ -29,9 +29,13 @@ Reticle::~Reticle(){
  */
 void Reticle::Initialize(){
 
-	// 画面の真ん中に画像を配置
-	_scrnPos.x = static_cast<float>(ApplicationMain::GetInstance()->DispSizeW() / 2 - 50);
-	_scrnPos.y = static_cast<float>(ApplicationMain::GetInstance()->DispSizeH() / 2 - 50);
+	// 画像のサイズを取得
+	int graphSizeX, graphSizeY;
+	GetGraphSize(_cg, &graphSizeX, &graphSizeY);
+
+	// 画面の中心に画像を配置
+	_scrnPos.x = static_cast<float>(ApplicationMain::GetInstance()->DispSizeW() / 2 - (graphSizeX / 2));
+	_scrnPos.y = static_cast<float>(ApplicationMain::GetInstance()->DispSizeH() / 2 - (graphSizeY / 2));
 
 	_mvSpd = 16.0f;
 
@@ -55,13 +59,13 @@ void Reticle::Process(){
 	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();
 
 	// アナログスティック対応
-	DINPUT_JOYSTATE dinput;
-	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
+	DINPUT_JOYSTATE directInput;
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &directInput);
 	
 	// 左アナログスティック座標
 	float lx, ly;   
-	lx = static_cast<float>(dinput.X);
-	ly = static_cast<float>(dinput.Y);
+	lx = static_cast<float>(directInput.X);
+	ly = static_cast<float>(directInput.Y);
 
 	// 左アナログスティックを倒したときの最小値
 	float analogMin = 0.3f;

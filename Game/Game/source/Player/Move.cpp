@@ -16,13 +16,13 @@
 void Player::Move() {
 
 	// アナログスティック対応
-	DINPUT_JOYSTATE dinput;
-	GetJoypadDirectInputState(DX_INPUT_PAD1, &dinput);
+	DINPUT_JOYSTATE directInput;
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &directInput);
 
 	// 左アナログスティック座標
 	float lx, ly;
-	lx = static_cast<float>(dinput.X);
-	ly = static_cast<float>(dinput.Y);
+	lx = static_cast<float>(directInput.X);
+	ly = static_cast<float>(directInput.Y);
 
 	// カメラデータ取得
 	VECTOR camPos = Camera::GetInstance()->GetPos();      // カメラ位置
