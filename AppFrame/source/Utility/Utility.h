@@ -33,4 +33,7 @@ namespace Util {
 	 * @return 左スティック角度(degree)
 	 */
 	float GetLeftStickDeg();
+
+	template<typename T>
+	T Sqrt(T x, T y);
 }

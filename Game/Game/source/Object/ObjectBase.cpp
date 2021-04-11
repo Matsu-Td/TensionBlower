@@ -86,7 +86,7 @@ bool ObjectBase::IsDot(ObjectBase& obj) {
 
 	float sx = obj._vPos.x - _vPos.x;
 	float sz = obj._vPos.z - _vPos.z;
-	float length = sqrt(sx * sx + sz * sz);
+	float length = Util::Sqrt(sx, sz);
 
 	VECTOR vec = VSub(obj._vPos, _vPos);
 
@@ -105,7 +105,7 @@ bool ObjectBase::IsHitArc_Sphere(ObjectBase& obj) {
 
 	float sx = obj._vPos.x - _vPos.x;
 	float sz = obj._vPos.z - _vPos.z;
-	float length = sqrt(sx * sx + sz * sz);
+	float length = Util::Sqrt(sx, sz);
 
 	VECTOR dir = VNorm(_vDir);
 	VECTOR vec = VSub(obj._vPos, _vPos);

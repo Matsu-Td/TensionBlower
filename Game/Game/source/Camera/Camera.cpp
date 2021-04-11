@@ -17,6 +17,7 @@ Camera::Camera(){
 
 	_pInstance = this;
 	_lockOn.cg = ResourceServer::LoadGraph("res/ui/player/lockon.png");
+
 	Initialize();
 }
 
@@ -24,6 +25,9 @@ Camera::~Camera(){
 	// 何もしない
 }
 
+/*
+ * カメラの向いている角度(rad)取得
+ */
 float Camera::GetRad() const {
 
 	float disX = _vPos.x - _vTarg.x;
@@ -34,17 +38,78 @@ float Camera::GetRad() const {
 }
 
 /*
+ * カメラの位置設定
+ */
+void Camera::SetPos(float dis, float height) {
+
+	VECTOR bsPos = Boss::GetInstance()->GetPos();       // ボス位置情報取得
+	VECTOR plPos = Player::GetInstance()->GetPos();     // プレイヤー位置情報取得
+
+	float sx = plPos.x - _vTarg.x;
+	float sz = plPos.z - _vTarg.z;
+	float rad = atan2(sz, sx);
+	float length = Util::Sqrt(sx, sz) + dis;
+
+	_vPos.x = bsPos.x + cos(rad) * length;
+	_vPos.z = bsPos.z + sin(rad) * length;
+	_vPos.y = plPos.y + height;
+}
+
+/*
+ * 通常状態の処理
+ */
+void Camera::StateNorm() {
+
+	int key = ApplicationMain::GetInstance()->GetKey(); // キー入力情報取得
+
+	int plEnergy = Player::GetInstance()->GetEnergy();  // プレイヤーエネルギー量取得
+
+	float dis = 25.0f;   // プレイヤーとの距離
+	float height = 15.0f;
+
+	SetPos(dis, height);
+
+	// ゲームパッド「LB」長押しでカメラをFPS視点(マルチロックシステム発動)に切替
+	if (key & PAD_INPUT_5 && plEnergy > 10) {
+		_state = STATE::MLS_LOCK;
+	}
+}
+
+/*
+ * マルチロックオンシステム発生中の処理
+ */
+void Camera::StateMLSLock() {
+
+	int key = ApplicationMain::GetInstance()->GetKey(); // キー入力情報取得
+
+	int plEnergy = Player::GetInstance()->GetEnergy();  // プレイヤーエネルギー量取得
+
+	float dis = -2.5f;   // プレイヤーとの距離
+	float height = 7.0f;
+
+	SetPos(dis, height);
+
+	if (!(key & PAD_INPUT_5)) {
+		_state = STATE::NORMAL;
+	}
+	if (plEnergy < 10) {
+		_state = STATE::NORMAL;
+	}
+}
+
+/*
  * 初期化
  */
 void Camera::Initialize(){
 
 	_vPos = VGet(0.0f, 10.0f, -140.f);
-	_oldvPos = _vPos;
 	_state = STATE::NORMAL;
-	_oldState = _state;
 
-	_lockOn.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - 50;
-	_lockOn.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - 50;
+	int graphSizeX, graphSizeY;
+	GetGraphSize(_lockOn.cg, &graphSizeX, &graphSizeY);
+
+	_lockOn.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - (graphSizeX / 2);
+	_lockOn.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - (graphSizeY / 2);
 }
 
 /*
@@ -52,66 +117,23 @@ void Camera::Initialize(){
  */
 void Camera::Process(){
 
-	int key = ApplicationMain::GetInstance()->GetKey();  // キー入力情報取得
+	VECTOR bsPos = Boss::GetInstance()->GetPos();  // ボス位置情報取得
 
-	int dispSizeW = ApplicationMain::GetInstance()->DispSizeW();  // 画面横幅サイズ取得
-	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();  // 画面縦幅サイズ取得
-
-	VECTOR plPos = Player::GetInstance()->GetPos();     // プレイヤー位置情報取得
-	int plEnergy = Player::GetInstance()->GetEnergy();  // プレイヤーエネルギー量取得
-
-	VECTOR bsPos = Boss::GetInstance()->GetPos();       // ボス位置情報取得
-
-	float camDis = 25.0f;   // プレイヤーとの距離
-	float camSpd = 4.0f;    // カメラ移動速度
+	// 注視点はボスに固定
+	_vTarg = bsPos;
+	_vTarg.y = 8.5f;
 
     // カメラ切替
 	switch (_state) {
-	// ボスへカメラロックオン状態
 	case STATE::NORMAL:
-	{
-		_oldState = _state;
+		StateNorm();
 
-		_vTarg = bsPos;
-		_vTarg.y = 8.5f;
-		float sx = plPos.x - _vTarg.x;
-		float sz = plPos.z - _vTarg.z;
-		float rad = atan2(sz, sx);
-		float length = sqrt(sx * sx + sz * sz) + camDis;
-
-		_vPos.x = bsPos.x + cos(rad) * length;
-		_vPos.z = bsPos.z + sin(rad) * length;
-		_vPos.y = plPos.y + 15.0f; 
-		
-		// ゲームパッド「LB」長押しでカメラをFPS視点(マルチロックシステム発動)に切替
-		if (key & PAD_INPUT_5 && plEnergy > 10) {
-			_state = STATE::MLS_LOCK;
-		}
 		break;
-	}
 
-	// マルチロックオンシステム発動状態
 	case STATE::MLS_LOCK:
-	{
-		_vTarg = bsPos;
-		_vTarg.y = 8.5f;
-		float sx = plPos.x - _vTarg.x;
-		float sz = plPos.z - _vTarg.z;
-		float rad = atan2(sz, sx);
-		float length = sqrt(sx * sx + sz * sz) - 2.5f;
+		StateMLSLock();
 
-		_vPos.x = cos(rad) * length;
-		_vPos.z = sin(rad) * length;
-		_vPos.y = plPos.y + 7.0f;
-
-		if (!(key & PAD_INPUT_5)) { 
-			_state = STATE::NORMAL; 
-		}
-		if (plEnergy < 10) { 
-			_state = STATE::NORMAL;
-		}
 		break;
-	}
 	}
 }
 
@@ -121,7 +143,7 @@ void Camera::Process(){
 void Camera::Render(){
 
 	SetCameraPositionAndTarget_UpVecY(_vPos, _vTarg);
-	SetCameraNearFar(NearClip, FarClip);
+	SetCameraNearFar(NEAR_CLIP, FAR_CLIP);
 
 	if (_state == STATE::NORMAL) {
 		DrawGraph(_lockOn.x, _lockOn.y, _lockOn.cg, TRUE);
@@ -130,7 +152,7 @@ void Camera::Render(){
 #ifdef _DEBUG
 	// カメラターゲットを中心に短い線を引く
 	{
-		float linelength = 2.f;
+		float linelength = 2.0f;
 		VECTOR vec = _vTarg;
 		DrawLine3D(VAdd(vec, VGet(-linelength, 0, 0)), VAdd(vec, VGet(linelength, 0, 0)), GetColor(255, 0, 0));
 		DrawLine3D(VAdd(vec, VGet(0, -linelength, 0)), VAdd(vec, VGet(0, linelength, 0)), GetColor(0, 255, 0));
@@ -143,12 +165,12 @@ void Camera::Render(){
 		DrawFormatString(x, y, fontColor, "Camera:"); y += fontSize;
 		DrawFormatString(x, y, fontColor, "  target = (%5.2f, %5.2f, %5.2f)", _vTarg.x, _vTarg.y, _vTarg.z); y += fontSize;
 		DrawFormatString(x, y, fontColor, "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += fontSize;
-		float disX = _vPos.x - _vTarg.x;
-		float disZ = _vPos.z - _vTarg.z;
-		float rLength = sqrt(disZ * disZ + disX * disX);
-		float rad = atan2(disZ, disX);
+		float sx = _vPos.x - _vTarg.x;
+		float sz = _vPos.z - _vTarg.z;
+		float length = Util::Sqrt(sx, sz);
+		float rad = atan2(sz, sx);
 		float deg = Util::RadToDeg(rad);
-		DrawFormatString(x, y, GetColor(255, 0, 0), "  len = %5.2f, rad = %5.2f, deg = %5.2f", rLength, rad, deg); y += fontSize;
+		DrawFormatString(x, y, GetColor(255, 0, 0), "  len = %5.2f, rad = %5.2f, deg = %5.2f", length, rad, deg); y += fontSize;
 		switch (_state) {
 		case STATE::NORMAL:
 			DrawString(x, y, "　状態：TARGET_LOCK", fontColor); break;

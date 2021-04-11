@@ -28,12 +28,12 @@ void Player::CheckDistanceToBoss() {
 
 	// ボス位置情報取得
 	VECTOR bsPos = Boss::GetInstance()->GetPos();
-	float dx = _vPos.x - bsPos.x;
-	float dz = _vPos.z - bsPos.z;
-	float len = sqrt(dx * dx + dz * dz);
-	_bsAngle = atan2(dz, dx);
+	float sx = _vPos.x - bsPos.x;
+	float sz = _vPos.z - bsPos.z;
+	float length = Util::Sqrt(sx, sz);
+	_bsAngle = atan2(sz, sx);
 	// ボスとの距離が50m以下かどうか
-	if (len <= 50) {
+	if (length <= 50) {
 		_isNearBoss = true;
 	}
 	else {

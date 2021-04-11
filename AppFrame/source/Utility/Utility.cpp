@@ -7,7 +7,7 @@
  */
 
 #include "Utility.h"
-#include "../Application/UtilMacro.h"
+#include "UtilMacro.h"
 #include "../Application/ApplicationBase.h"
 #include <iostream>
 
@@ -28,7 +28,7 @@ namespace Util {
 		float paramX, paramY;
 		GetLeftStickParamXY(paramX, paramY);
 
-		float length = sqrt(std::pow(paramX, 2.0) + std::pow(paramY, 2.0));
+		float length = Sqrt(paramX, paramY);
 
 		return length;
 	}
@@ -51,5 +51,10 @@ namespace Util {
 		float deg = Util::RadToDeg(rad);
 
 		return deg;
+	}
+
+	template<typename T>
+	T Sqrt(T x, T y) {
+		return static_cast<T>(sqrt(std::pow(x, 2.0) + std::pow(y, 2.0)));
 	}
 }

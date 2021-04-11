@@ -61,7 +61,7 @@ public:
 	 * @brief カメラの状態
 	 */
 	enum class STATE { 
-		NORMAL,    // 敵ターゲットロック状態(デフォルト)
+		NORMAL,    // 通常状態
 		MLS_LOCK,  // マルチロックシステム発動状態(FPS視点)
 	};
 	STATE _state;  // カメラ状態
@@ -75,11 +75,25 @@ public:
 	static Camera* _pInstance;
 
 private:
-	VECTOR _vPos;    // 位置
-	VECTOR _oldvPos; // 処理前の位置
-	VECTOR _vTarg;   // 注視点
+	/**
+	 * @brief カメラの位置を設定
+	 * @param dis プレイヤーからの距離
+	 * @param height プレイヤーからの高さ
+	 */
+	void SetPos(float dis, float height);
 
-	STATE _oldState; // 処理前の状態
+	/**
+	 * @brief 通常状態の処理
+	 */
+	void StateNorm();
+
+	/**
+	 * @brief マルチロックオンシステム発生中の処理
+	 */
+	void StateMLSLock();
+
+	VECTOR _vPos;    // 位置
+	VECTOR _vTarg;   // 注視点
 
 	struct LOCK_ON { // 構造体：ロックオン状態
 		int x, y;  // スクリーン座標
@@ -87,6 +101,6 @@ private:
 	};
 	LOCK_ON _lockOn;
 
-	const float NearClip = 0.1f;
-	const float FarClip  = 5000.0f;
+	const float NEAR_CLIP = 0.1f;    // 手前クリップ距離
+	const float FAR_CLIP  = 5000.0f; // 奥クリップ距離
 };

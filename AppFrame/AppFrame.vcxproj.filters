@@ -44,9 +44,6 @@
     <ClInclude Include="source\Application\ApplicationBase.h">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="source\Application\UtilMacro.h">
-      <Filter>Application</Filter>
-    </ClInclude>
     <ClInclude Include="source\appframe.h" />
     <ClInclude Include="source\Mode\ModeBase.h">
       <Filter>ModeServer</Filter>
@@ -61,6 +58,9 @@
       <Filter>ResourceServer</Filter>
     </ClInclude>
     <ClInclude Include="source\Utility\Utility.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Utility\UtilMacro.h">
       <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
