@@ -44,14 +44,20 @@ public:
 	void Render() override;
 
 private:
+	/**
+	 * @brief レーザーを削除する
+	 */
+	void Deletion();
+
 	int	  _effectHandle;  // エフェクトファイルをロードするハンドル
-	int	  _playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
+	int	  _playingHandle; // ロードしたエフェクトファイルから、エフェクトを生成したもの
 
 	float _roteAngle; // 回転角度
 	float _roteSpd;   // 回転速度
 	float _radius;    // ボスからの半径
-	int _effectCnt;   // エフェクト再生カウント
-	int _mlsCnt;      // マルチロックオンシステム発動中のカウント
+	int   _effectCnt; // エフェクト再生カウント
+	int   _mlsCnt;    // マルチロックオンシステム発動中のカウント
 
-	const float MLS_SPD = 0.01f; // マルチロックオンシステム中の速度計算(通常の1/100に)
+	const float MLS_SPD      = 0.01f;  // マルチロックオンシステム中の速度計算(通常の1/100に)
+	const float LASER_LENGTH = 125.0f; // レーザーの全長
 };

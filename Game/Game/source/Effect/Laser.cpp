@@ -28,6 +28,29 @@ Laser::~Laser() {
 }
 
 /*
+ * 削除処理
+ */
+void Laser::Deletion() {
+
+	// ボスの状態を取得
+	Boss::STATE bsState = Boss::GetInstance()->GetState();
+
+	// ボスがダウンしたらレーザー削除
+	if (bsState == Boss::STATE::DOWN) {
+		StopEffekseer3DEffect(_playingHandle);
+		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		modeGame->_objServer.Del(this);
+	}
+
+	_effectCnt--;
+	// 再生カウントが「0」になればレーザーを削除する
+	if (_effectCnt <= 0) {
+		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		modeGame->_objServer.Del(this);
+	}
+}
+
+/*
  * 初期化
  */
 void Laser::Initialize() {
@@ -44,15 +67,6 @@ void Laser::Process() {
 
 	// カメラの状態を取得
 	Camera::STATE camState = Camera::GetInstance()->GetState();
-	// ボスの状態を取得
-	Boss::STATE bsState = Boss::GetInstance()->GetState();
-
-	// ボスがダウンしたらレーザー削除
-	if (bsState == Boss::STATE::DOWN) {
-		StopEffekseer3DEffect(_playingHandle);
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-		modeGame->_objServer.Del(this);
-	}
 
 	// マルチロックオンシステム発動中の回転速度を1/100にする
 	if (camState == Camera::STATE::MLS_LOCK) {
@@ -62,38 +76,29 @@ void Laser::Process() {
 		_roteAngle += _roteSpd;
 	}
 
-	// レーザー当たり判定の長さ指定
-	float length = 125.0f;
-
 	// 発射位置
 	_vPos.x = cos(Util::DegToRad(_roteAngle)) * _radius;
 	_vPos.z = sin(Util::DegToRad(_roteAngle)) * _radius;
 
 	// レーザーの先端(ステージ外側)の座標
-	VECTOR tipPos;
-	tipPos.x = cos(Util::DegToRad(_roteAngle)) * length;
-	tipPos.y = 0.0f;
-	tipPos.z = sin(Util::DegToRad(_roteAngle)) * length;
+	VECTOR tmpPos;
+	tmpPos.x = cos(Util::DegToRad(_roteAngle)) * LASER_LENGTH;
+	tmpPos.y = 0.0f;
+	tmpPos.z = sin(Util::DegToRad(_roteAngle)) * LASER_LENGTH;
 
 	// 当たり判定用カプセル
 	_capsulePos1 = _vPos;
-	_capsulePos2 = VAdd(_vPos, tipPos);
+	_capsulePos2 = VAdd(_vPos, tmpPos);
 	
 	// 向き調整
-	float angle = (-_roteAngle + 90.0f) / 180.0f * DX_PI_F;
+	float angle = Util::DegToRad(-_roteAngle + 90.0f);
 
 	// 位置と向き計算
 	SetPosPlayingEffekseer3DEffect(_playingHandle, _vPos.x, _vPos.y, _vPos.z);
 	SetRotationPlayingEffekseer3DEffect(_playingHandle, 0.0f, angle, 0.0f);
 
-	_effectCnt--;
-	// 再生カウントが「0」になればレーザーを削除する
-	if (_effectCnt <= 0) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-		modeGame->_objServer.Del(this);
-	}
-	
-
+	// 削除処理
+	Deletion();
 }
 
 /*
