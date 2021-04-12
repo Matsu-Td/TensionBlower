@@ -30,6 +30,7 @@ BossAimShot::BossAimShot(VECTOR pos, float shotSpd, float shotAngle){
 
 	// èâä˙âª
 	ShotBase::Initialize();
+
 }
 
 BossAimShot::~BossAimShot() {
