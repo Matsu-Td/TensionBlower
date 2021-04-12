@@ -35,6 +35,137 @@ BossBomb::~BossBomb() {
 }
 
 /*
+ * 上昇処理
+ */
+void BossBomb::StateUp() {
+
+	if (_state == STATE::UP) {
+		_vPos.y += _upSpd;
+		if (_shotCnt >= UP_CNT) {
+			_shotCnt = 0;          // カウントリセット
+			_state = STATE::STOP;  // 停止状態に移行
+		}
+	}
+}
+
+/*
+ * 停止処理
+ */
+void BossBomb::StateStop() {
+
+	if (_state == STATE::STOP) {
+		if (_shotCnt >= STOP_CNT) {
+			_shotCnt = 0;
+			// プレイヤー位置情報取得
+			VECTOR plPos = Player::GetInstance()->GetPos();
+			plPos.y = 0.0f;          // プレイヤーの足元(ステージ上)をターゲットとする
+			_vTarg = plPos;          // プレイヤーをターゲットとする
+			_state = STATE::SNIPER;  // 射撃状態に移行
+		}
+	}
+}
+
+/*
+ * 狙撃処理
+ */
+void BossBomb::StateSniper() {
+
+	if (_state == STATE::SNIPER) {
+		// ターゲットに向かってボムを発射する
+		VECTOR targ = VSub(_vTarg, _vPos);
+		targ = VNorm(targ);
+		targ = VScale(targ, _mvSpd);
+		_vPos = VAdd(_vPos, targ);
+	}
+}
+
+/*
+ * ボムの削除、爆発エフェクト生成
+ */
+void BossBomb::BombDelete() {
+
+	if (_vPos.y <= 0.0f) {
+		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
+		modeGame->_objServer.Add(explosion);
+		modeGame->_objServer.Del(this);
+	}
+}
+
+/*
+ * 各種当たり判定呼び出し
+ */
+void BossBomb::CollisionCall() {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
+	for (auto itr : *modeGame->_objServer.List()) {
+		CollisionToPlayer(itr);
+		CollisionToBoss(itr);
+		CollisionToReticle(itr);
+	}
+}
+
+/*
+ * 当たり判定：プレイヤー
+ */
+void BossBomb::CollisionToPlayer(ObjectBase* obj) {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
+	if (obj->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
+		if (IsHitLineSegment(*obj, _r)) {
+			Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
+			modeGame->_objServer.Add(explosion);
+			modeGame->_objServer.Del(this);
+		}
+		if (IsDot(*obj) == true && _camStateMLS) {
+			_canLockFlag = true;
+		}
+		else {
+			_canLockFlag = false;
+		}
+	}
+}
+
+/*
+ * 当たり判定：照準
+ */
+void BossBomb::CollisionToReticle(ObjectBase* obj) {
+
+	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
+
+	if (obj->GetType() == ObjectBase::OBJECTTYPE::RETICLE) {
+		if (IsHitScrnPos(*obj) == true) {
+			if (_canLockFlag) {
+				if (trg & PAD_INPUT_2) {
+					_state = STATE::REPEL;
+					gGlobal._totalRepelCnt++;    // 弾き返し回数カウント(スコア計算用)
+				}
+			}
+		}
+	}
+}
+
+/*
+ * 当たり判定：ボス
+ */
+void BossBomb::CollisionToBoss(ObjectBase* obj) {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
+	if (_state == STATE::REPEL) {
+		if (obj->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
+			if (IsHitLineSegment(*obj, obj->_r)) {
+				Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
+				modeGame->_objServer.Add(explosion);
+				modeGame->_objServer.Del(this);
+			}
+		}
+	}
+}
+
+/*
  * 初期化
  */
 void BossBomb::Initialize() {
@@ -53,8 +184,6 @@ void BossBomb::Initialize() {
  */
 void BossBomb::Process() {
 
-	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
-
 	// 弾の移動処理(弾幕共通処理)
 	ShotBase::Move();
 
@@ -62,80 +191,17 @@ void BossBomb::Process() {
 	_shotCnt++;
 
 	// 上昇処理
-	if (_state == STATE::UP) {
-		_vPos.y += _upSpd;
-		if (_shotCnt >= UP_CNT) {
-			_shotCnt = 0;          // カウントリセット
-			_state = STATE::STOP;  // 停止状態に移行
-		}
-	}
+	StateUp();
 
 	// 停止処理
-	if (_state == STATE::STOP) {
-		if (_shotCnt >= STOP_CNT) {
-			_shotCnt = 0;
-			// プレイヤー位置情報取得
-			VECTOR plPos = Player::GetInstance()->GetPos();
-			plPos.y = 0.0f;          // プレイヤーの足元(ステージ上)をターゲットとする
-			_vTarg = plPos;          // プレイヤーをターゲットとする
-			_state = STATE::SNIPER;  // 射撃状態に移行
-		}
-	}
+	StateStop();
 
 	// 狙撃処理
-	if (_state == STATE::SNIPER) {
-		// ターゲットに向かってボムを発射する
-		VECTOR targ = VSub(_vTarg, _vPos);
-		targ = VNorm(targ);
-		targ = VScale(targ, _mvSpd);
-		_vPos = VAdd(_vPos, targ);
-	}
+	StateSniper();
 
 	// ステージ床まで下降したらボムを削除
-	if (_vPos.y <= 0.0f) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-		Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
-		modeGame->_objServer.Add(explosion);
-		modeGame->_objServer.Del(this);
-	}
+	BombDelete();
 
-
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-		// プレイヤーとの当たり判定(当たった時点で爆発する)
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
-			if (IsHitLineSegment(*(*itr), _r)) {
-				Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
-				modeGame->_objServer.Add(explosion);
-				modeGame->_objServer.Del(this);
-			}
-			if (IsDot(*(*itr)) == true && _camStateMLS) {
-				_canLockFlag = true;
-			}
-			else {
-				_canLockFlag = false;
-			}	
-		}
-		// 照準
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::RETICLE) {
-			if (IsHitScrnPos(*(*itr)) == true) {
-				if (_canLockFlag) {
-					if (trg & PAD_INPUT_2) {
-						_state = STATE::REPEL;
-						gGlobal._totalRepelCnt++;    // 弾き返し回数カウント(スコア計算用)
-					}
-				}
-			}
-		}
-		// ボス（弾き返された弾のみ当たり判定発生）
-		if (_state == STATE::REPEL) {
-			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
-				if (IsHitLineSegment(*(*itr), (*itr)->_r)) {
-					Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
-					modeGame->_objServer.Add(explosion);
-					modeGame->_objServer.Del(this);
-				}
-			}
-		}
-	}
+	// 当たり判定
+	CollisionCall();
 }

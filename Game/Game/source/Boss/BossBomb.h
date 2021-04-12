@@ -35,6 +35,49 @@ public:
 	void Process() override;
 
 private:
-	const int UP_CNT = 24;    // 上昇カウント
+	/**
+	 * @brief 上昇処理
+	 */
+	void StateUp();
+
+	/**
+	 * @brief 停止処理
+	 */
+	void StateStop();
+
+	/**
+	 * @brief 狙撃処理
+	 */
+	void StateSniper();
+
+	/**
+	 * @brief ボムの削除、爆発エフェクト生成
+	 */
+	void BombDelete();
+
+	/**
+	 * @brief 各種当たり判定呼び出し
+	 */
+	void CollisionCall();
+
+	/**
+	 * @brief 当たり判定：プレイヤー
+	 * @param obj オブジェクトのポインタ
+	 */
+	void CollisionToPlayer(ObjectBase* obj);
+
+	/**
+	 * @brief 当たり判定：照準
+	 * @param obj オブジェクトのポインタ
+	 */
+	void CollisionToReticle(ObjectBase* obj);
+
+	/**
+	 * @brief 当たり判定：ボス
+	 * @param obj オブジェクトのポインタ
+	 */
+	void CollisionToBoss(ObjectBase* obj);
+
+	const int UP_CNT   = 24;  // 上昇カウント
 	const int STOP_CNT = 24;  // 停止カウント
 };
