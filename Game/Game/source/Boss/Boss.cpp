@@ -68,38 +68,25 @@ void Boss::Initialize() {
 }
 
 /*
- * フレーム処理：計算
+ * 通常状態の処理
  */
-void Boss::Process(){
+void Boss::StateReturn() {
 
-	// カメラの状態を取得
-	Camera::STATE camState = Camera::GetInstance()->GetState();
-	
-	// 処理前の状態を保存
-	_oldState = _state;
-
-	// 当たり判定用カプセル
-	_capsulePos1 = _vPos;
-	_capsulePos1.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
-	_capsulePos2 = _vPos;
-	_capsulePos2.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
-
-    // 死亡処理
-	Death();
-
-	// 死亡したら以降の処理は行わない
-	if (_deathFlag) {
-		return;
-	}
-
-	// 復帰
 	if (_state == STATE::RETURN) {
 		if (_playTime == _totalTime) {
 			_state = STATE::NORMAL;
 		}
 	}
+}
 
-	// 通常状態
+/*
+ * 復帰状態の処理
+ */
+void Boss::StateNormal() {
+
+	// カメラの状態を取得
+	Camera::STATE camState = Camera::GetInstance()->GetState();
+
 	if (_state == STATE::NORMAL) {
 		// ボスの回転速度切替用
 		float rotSpdChange = 1.0f;
@@ -126,17 +113,43 @@ void Boss::Process(){
 
 		// プレイヤーがいる方向にボスの正面を向ける
 		DirectionalRotation(rotSpdChange);
-		
 	}
+}
 
-	// フェーズ切替
-	FhaseChange();
-	
-	// ダウン処理
-	StateDown();
+/*
+ * フレーム処理：計算
+ */
+void Boss::Process(){
 
-	// モーション切替
-	MotionSwitch();
+	// 処理前の状態を保存
+	_oldState = _state;
+
+	// 当たり判定用カプセル
+	_capsulePos1 = _vPos;
+	_capsulePos1.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
+	_capsulePos2 = _vPos;
+	_capsulePos2.y = _vPos.y + ADD_POS_Y;   // y座標(高さ)のみ加算
+
+    // 死亡処理
+	Death();
+
+	// 死亡したら以降の処理は行わない
+	if (!_deathFlag) {	
+		// 復帰処理
+		StateReturn();
+
+		// 通常状態
+		StateNormal();
+
+		// フェーズ切替
+		FhaseChange();
+
+		// ダウン処理
+		StateDown();
+
+		// モーション切替
+		MotionSwitch();
+	}
 }
 
 /*

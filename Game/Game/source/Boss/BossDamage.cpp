@@ -16,6 +16,7 @@
 void Boss::RepelDamage() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
 	PlaySoundMem(gSound._se["hit"], DX_PLAYTYPE_BACK);
 	// ƒV[ƒ‹ƒh‚ª‚ ‚é‚Æ‚«
 	if (_shield > 0) {

@@ -97,6 +97,16 @@ public:
 
 private:
 	/**
+	 * @brief 通常状態の処理
+	 */
+	void StateNormal();
+
+	/**
+	 * @brief 復帰状態の処理
+	 */
+	void StateReturn();
+
+	/**
      * モーション切替
      * @param  oldState 処理前の状態
      */
