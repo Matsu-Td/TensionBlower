@@ -16,7 +16,7 @@
 void Boss::Death() {
 
 	// ボスを削除
-	if (_deathFlag) {
+	if (_state == STATE::DEATH) {
 		_deathCnt--;
 		if (_deathCnt == 0) {
 			MV1DeleteModel(_mh); // ボスモデルを削除する
@@ -29,12 +29,13 @@ void Boss::Death() {
 			PlayVoice("gekiha");
 			VECTOR tmpPos = _vPos;
 			tmpPos.y = 8.5f;
+
 			Destruction* destruction = NEW Destruction(tmpPos);
+
 			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 			modeGame->_objServer.Add(destruction);
-
 		}
 		_hitpoint = 0;
-		_deathFlag = true;
+		_state = STATE::DEATH;
 	}
 }

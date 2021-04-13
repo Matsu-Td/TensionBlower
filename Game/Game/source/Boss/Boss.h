@@ -92,17 +92,23 @@ public:
 		NORMAL,  // 通常
 		DOWN,    // ダウン
 		RETURN,  // 復帰
+		DEATH,   // 死亡
 	};
 	STATE GetState() const { return _state; };
 
 private:
 	/**
-	 * @brief 通常状態の処理
+	 * @brief 通常状態処理
 	 */
 	void StateNormal();
 
 	/**
-	 * @brief 復帰状態の処理
+	 * @brief ダウン状態処理
+	 */
+	void StateDown();
+
+	/**
+	 * @brief 復帰状態処理
 	 */
 	void StateReturn();
 
@@ -205,11 +211,6 @@ private:
 	void FhaseChange();
 
 	/**
-	 * @brief ダウン状態処理
-	 */
-	void StateDown();
-
-	/**
 	 * @brief 6種類の声データをランダムで再生
 	 */
 	void PlayAttackVoiceChange();
@@ -245,7 +246,6 @@ private:
 	float _laserAngle;   // レーザーの発射角度
 
 	int  _deathCnt;  // 死亡カウント
-	bool _deathFlag; // 死亡フラグ
 
 	static const int ATTACK_VOICE_NUM = 6;     // 攻撃時の声データ総数
 	std::string _attackNameNo[ATTACK_VOICE_NUM] =  // 攻撃時の声データの名前を格納

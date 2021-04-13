@@ -62,7 +62,6 @@ void Boss::Initialize() {
 	_phaseNo = 0;
 
 	_deathCnt = 140;
-	_deathFlag = false;
 
 	_r = 10.0f;
 }
@@ -72,6 +71,7 @@ void Boss::Initialize() {
  */
 void Boss::StateReturn() {
 
+	// 復帰モーション後、通常状態へ遷移
 	if (_state == STATE::RETURN) {
 		if (_playTime == _totalTime) {
 			_state = STATE::NORMAL;
@@ -133,8 +133,7 @@ void Boss::Process(){
     // 死亡処理
 	Death();
 
-	// 死亡したら以降の処理は行わない
-	if (!_deathFlag) {	
+	if (_state != STATE::DEATH) {
 		// 復帰処理
 		StateReturn();
 
