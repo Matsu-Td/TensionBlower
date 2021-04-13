@@ -228,24 +228,23 @@ private:
 	void DirectionalRotation(float rotSpdChange);
 
 private:
-	int   _hitpoint;     // ヒットポイント値
-	int   _shield;       // シールド値
-	int   _downTime;     // ダウン時間
-	bool  _stateDown;    // ダウン状態か(true:ダウン状態)
-	float _sinCnt;       // 上下運動用サイン波カウント
+	int   _hitpoint;      // ヒットポイント値
+	int   _shield;        // シールド値
+	int   _downTime;      // ダウン時間
+	int   _deathCnt;       // 死亡カウント
+	bool  _stateDown;     // ダウン状態か(true:ダウン状態)
+	float _sinCnt;        // 上下運動用サイン波カウント
 
-	int   _shotCnt;      // 弾幕発射タイミングカウント
-	int   _mlsCnt;       // マルチロックオンシステム発動時のカウント
-	int   _reverseCnt;   // 弾幕回転方向が反転するカウント
-	float _shotAngle;    // 弾幕の発射角度
-	float _shotAngleUp;  // 通常の弾幕の上側に発生する弾幕の発射角度(弾幕パターン4用)
-	float _setRotAngle;  // 発射一定角度セット
-	int   _patternRandom;// 弾幕パターン3種ランダムで切替
-	int   _phaseNo;      // フェーズ：HP残量で変化
-	float _shotHeight;   // 弾幕を発射する高さ
-	float _laserAngle;   // レーザーの発射角度
-
-	int  _deathCnt;  // 死亡カウント
+	int   _shotCnt;       // 弾幕発射タイミングカウント
+	int   _mlsCnt;        // マルチロックオンシステム発動時のカウント
+	int   _reverseCnt;    // 弾幕回転方向が反転するカウント
+	int   _patternRandom; // 弾幕パターン3種ランダムで切替
+	int   _phaseNo;       // フェーズ：HP残量で変化
+	float _shotAngle;     // 弾幕の発射角度
+	float _shotAngleUp;   // 通常の弾幕の上側に発生する弾幕の発射角度(弾幕パターン4用)
+	float _setRotAngle;   // 発射一定角度セット
+	float _shotHeight;    // 弾幕を発射する高さ
+	float _laserAngle;    // レーザーの発射角度
 
 	static const int ATTACK_VOICE_NUM = 6;     // 攻撃時の声データ総数
 	std::string _attackNameNo[ATTACK_VOICE_NUM] =  // 攻撃時の声データの名前を格納
