@@ -26,6 +26,21 @@ Camera::~Camera(){
 }
 
 /*
+ * ‰Šú‰»
+ */
+void Camera::Initialize(){
+
+	_vPos = VGet(0.0f, 10.0f, -140.f);
+	_state = STATE::NORMAL;
+
+	int graphSizeX, graphSizeY;
+	GetGraphSize(_lockOn.cg, &graphSizeX, &graphSizeY);
+
+	_lockOn.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - (graphSizeX / 2);
+	_lockOn.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - (graphSizeY / 2);
+}
+
+/*
  * ƒJƒƒ‰‚ÌŒü‚¢‚Ä‚¢‚éŠp“x(rad)æ“¾
  */
 float Camera::GetRad() const {
@@ -95,21 +110,6 @@ void Camera::StateMLSLock() {
 	if (plEnergy < 10) {
 		_state = STATE::NORMAL;
 	}
-}
-
-/*
- * ‰Šú‰»
- */
-void Camera::Initialize(){
-
-	_vPos = VGet(0.0f, 10.0f, -140.f);
-	_state = STATE::NORMAL;
-
-	int graphSizeX, graphSizeY;
-	GetGraphSize(_lockOn.cg, &graphSizeX, &graphSizeY);
-
-	_lockOn.x = ApplicationMain::GetInstance()->DispSizeW() / 2 - (graphSizeX / 2);
-	_lockOn.y = ApplicationMain::GetInstance()->DispSizeH() / 2 - (graphSizeY / 2);
 }
 
 /*

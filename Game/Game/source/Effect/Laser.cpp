@@ -28,6 +28,16 @@ Laser::~Laser() {
 }
 
 /*
+ * 初期化
+ */
+void Laser::Initialize() {
+
+	_r = 5.0f;
+	_effectCnt = 240;
+	_mlsCnt = 0;
+}
+
+/*
  * 削除処理
  */
 void Laser::Deletion() {
@@ -38,6 +48,7 @@ void Laser::Deletion() {
 	// ボスがダウンしたらレーザー削除
 	if (bsState == Boss::STATE::DOWN) {
 		StopEffekseer3DEffect(_playingHandle);
+
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}
@@ -48,16 +59,6 @@ void Laser::Deletion() {
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}
-}
-
-/*
- * 初期化
- */
-void Laser::Initialize() {
-
-	_r = 5.0f;
-	_effectCnt = 240;
-	_mlsCnt = 0;
 }
 
 /*

@@ -14,7 +14,7 @@
  */
 void Player::AttachAnim(const TCHAR* animName) {
 
-	_attachIndex = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, animName), -1, FALSE);
+	_attachIndex       = MV1AttachAnim(_mh, MV1GetAnimIndex(_mh, animName), -1, FALSE);
 	_attachIndexShadow = MV1AttachAnim(_shadowModel, MV1GetAnimIndex(_shadowModel, animName), -1, FALSE);
 }
 
