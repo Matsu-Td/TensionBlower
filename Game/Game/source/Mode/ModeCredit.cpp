@@ -43,6 +43,7 @@ bool ModeCredit::Process() {
 	// ゲームパッド「A」ボタンでクレジットモードを削除しタイトルモード追加
 	if (trg & PAD_INPUT_1) {
 		PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
+
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 	}

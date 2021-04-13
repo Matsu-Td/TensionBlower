@@ -72,6 +72,7 @@ bool ModePause::Process(){
 		if (trg & PAD_INPUT_2) {  
 			PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
 			StopSoundMem(gSound._bgm["boss"]);
+
 			ModeServer::GetInstance()->Del(this);
 			ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 
@@ -95,7 +96,6 @@ bool ModePause::Render(){
 
 	DrawGraph(0, 0, _cg, TRUE);
 
-	// ‰¼ŽÀ‘•
 	if (_menuPos == 0) {
 		DrawGraph(786, 380, _ui[0], TRUE);
 		DrawGraph(786, 580, _ui[3], TRUE);

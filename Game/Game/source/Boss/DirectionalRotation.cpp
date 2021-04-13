@@ -27,6 +27,7 @@ void Boss::DirectionalRotation(float rotSpdChange) {
 
 	// 外積でプレイヤーの位置を左右判定し、ボスの向きを回転させる
 	_cross = VCross(forward, dis);
+
 	if (_cross.y > 0.0f) {
 		_angle += ROT_SPD * rotSpdChange;
 	}

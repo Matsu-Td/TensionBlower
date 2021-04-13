@@ -50,6 +50,7 @@ void Boss::AttackDamage() {
 	int dmgHP = Player::GetInstance()->GetNowDmgHP();
 	int dmgSld = Player::GetInstance()->GetNowDmgSld();
 	int dmgNorm = Player::GetInstance()->GetNowDmgNorm();
+
 	// ƒV[ƒ‹ƒh‚ª‚ ‚é‚Æ‚«
 	if (_shield > 0) {
 		_hitpoint -= dmgHP;

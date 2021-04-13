@@ -59,6 +59,7 @@ bool ModeGameClear::Process(){
 	// リザルトモード追加
 	if (trg & PAD_INPUT_2) {  
 		StopSoundMem(gSound._se["win"]);
+
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
 
