@@ -13,15 +13,6 @@
 #include "../Sound/Sound.h"
 
 /*
- * ライトのディフューズカラーを設定する
- */
-void ModeGame::SetLightColorHandle(int lightHandle) {
-	SetLightDifColorHandle(lightHandle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
-	SetLightSpcColorHandle(lightHandle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
-	SetLightAmbColorHandle(lightHandle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
-}
-
-/*
  * 初期化
  */
 bool ModeGame::Initialize() {
@@ -48,20 +39,7 @@ bool ModeGame::Initialize() {
 	_stopObjProcess = true;
 
 	// ライトの設定
-	SetLightEnable(FALSE);
-	SetGlobalAmbientLight(GetColorF(0.164f, 0.164f, 0.164f, 0.0f));
-
-	int Light0Handle = CreateDirLightHandle(VGet(0.062f, -0.479f, 0.875f));
-	SetLightColorHandle(Light0Handle);
-
-	int Light1Handle = CreateDirLightHandle(VGet(-0.878f, 0.479f, 0.000f));
-	SetLightColorHandle(Light1Handle);
-
-	int Light2Handle = CreateDirLightHandle(VGet(0.878f, 0.479f, 0.000f));
-    SetLightColorHandle(Light2Handle);
-
-	int Light3Handle = CreateDirLightHandle(VGet(0.062f, 0.479f, -0.875f));
-    SetLightColorHandle(Light3Handle);
+	SetLight();
 
 	return true;
 }
@@ -76,6 +54,36 @@ bool ModeGame::Terminate() {
 	DeleteLightHandleAll();
 
 	return true;
+}
+
+/*
+ * ライトの設定
+ */
+void ModeGame::SetLight() {
+
+	SetLightEnable(FALSE);
+	SetGlobalAmbientLight(GetColorF(0.164f, 0.164f, 0.164f, 0.0f));
+
+	int Light0Handle = CreateDirLightHandle(VGet(0.062f, -0.479f, 0.875f));
+	SetLightColorHandle(Light0Handle);
+
+	int Light1Handle = CreateDirLightHandle(VGet(-0.878f, 0.479f, 0.000f));
+	SetLightColorHandle(Light1Handle);
+
+	int Light2Handle = CreateDirLightHandle(VGet(0.878f, 0.479f, 0.000f));
+	SetLightColorHandle(Light2Handle);
+
+	int Light3Handle = CreateDirLightHandle(VGet(0.062f, 0.479f, -0.875f));
+	SetLightColorHandle(Light3Handle);
+}
+
+/*
+ * ライトのディフューズカラーを設定する
+ */
+void ModeGame::SetLightColorHandle(int lightHandle) {
+	SetLightDifColorHandle(lightHandle, GetColorF(1.000f, 1.000f, 1.000f, 1.000f));
+	SetLightSpcColorHandle(lightHandle, GetColorF(0.500f, 0.500f, 0.500f, 0.000f));
+	SetLightAmbColorHandle(lightHandle, GetColorF(0.000f, 0.000f, 0.000f, 0.000f));
 }
 
 /*

@@ -39,7 +39,9 @@ void Player::CollisionToStage(ObjectBase* obj) {
 			VECTOR slideVec;
 			slideVec = VCross(_vDir, obj->_hitPolyDim.Dim->Normal);
 			slideVec = VCross(obj->_hitPolyDim.Dim->Normal, slideVec);
+
 			_vPos = VAdd(_oldPos, slideVec);
+
 			MV1CollResultPolyDimTerminate(obj->_hitPolyDim);
 
 			while (1) {
@@ -50,6 +52,7 @@ void Player::CollisionToStage(ObjectBase* obj) {
 				if (IsHitStage(*obj, 2.0f) == false) { break; }
 
 				_vPos = VAdd(_vPos, VScale(obj->_hitPolyDim.Dim->Normal, 0.001f));
+	
 				MV1CollResultPolyDimTerminate(obj->_hitPolyDim);
 			}
 		}
@@ -77,10 +80,13 @@ void Player::CollisionToBossBullet(ObjectBase* obj) {
 					PlaySoundMem(gPlayerVoice._vc["hukki"], DX_PLAYTYPE_BACK);
 				}
 				PlaySoundMem(gSound._se["hit_player"], DX_PLAYTYPE_BACK);
+
 				_hitpoint -= modeGame->_charaData->_boss.shotDmg;
+
 				// ヒットエフェクト生成
 				VECTOR tmpPos = _vPos;
 				tmpPos.y = 4.0f;
+
 				HitEffect* hitEffect = NEW HitEffect(tmpPos);
 				modeGame->_objServer.Add(hitEffect);
 			}
@@ -107,8 +113,10 @@ void Player::CollisionToBoss(ObjectBase* obj) {
 		if (IsHitArc_Sphere(*obj) == true) {
 			if (_canHitFlag && !_hitFlag) {
 				_hitFlag = true;
+	
 				Boss::GetInstance()->AttackDamage();
 				VECTOR tmpPos = MV1GetFramePosition(_mh, MV1SearchFrame(_mh, "weapon3"));
+
 				// ヒットエフェクト生成
 				HitEffect* hitEffect = NEW HitEffect(tmpPos);
 
@@ -130,6 +138,7 @@ void Player::CollisionToLaser(ObjectBase* obj) {
 	if (obj->GetType() == ObjectBase::OBJECTTYPE::LASER) {
 		if (IsHitLineSegment(*obj, obj->_r) == true) {
 			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
 			_hitpoint -= modeGame->_charaData->_boss.laserDmg;
 		}
 	}

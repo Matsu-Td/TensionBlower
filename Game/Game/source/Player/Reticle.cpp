@@ -27,7 +27,7 @@ Reticle::~Reticle(){
 /*
  * 初期化
  */
-void Reticle::Initialize(){
+void Reticle::Initialize() {
 
 	// 画像のサイズを取得
 	int graphSizeX, graphSizeY;
@@ -47,23 +47,16 @@ void Reticle::Initialize(){
 }
 
 /*
- * フレーム処理：計算
+ * 移動処理
  */
-void Reticle::Process(){
-
-	// カメラの状態取得
-	Camera::STATE camState = Camera::GetInstance()->GetState();
-
-	// 画面サイズ取得
-	int dispSizeW = ApplicationMain::GetInstance()->DispSizeW();
-	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();
+void Reticle::Move() {
 
 	float lx, ly;
 	Util::GetLeftStickParamXY(lx, ly);
 
 	float rad = atan2(ly, lx);                  // 左スティックの角度(rad)
 	float length = Util::GetLeftStickLength(); 	// 左スティックの移動量
-	
+
 	VECTOR vec = { 0.0f,0.0f,0.0f };
 
 	// 移動処理
@@ -80,22 +73,55 @@ void Reticle::Process(){
 
 	// vecの分移動
 	_scrnPos = VAdd(_scrnPos, vec);
+}
+
+/*
+ * 画像が画面外に出るのを防止
+ */
+void Reticle::PreventOffScreen() {
+
+	// 画面サイズ取得
+	int dispSizeW = ApplicationMain::GetInstance()->DispSizeW();
+	int dispSizeH = ApplicationMain::GetInstance()->DispSizeH();
 
 	// 画像のサイズを取得
 	int graphSizeX, graphSizeY;
 	GetGraphSize(_cg, &graphSizeX, &graphSizeY);
 
-	// 画面外に画像が出るのを防止
 	if (_scrnPos.x < 0) { _scrnPos.x = 0; }
 	if (_scrnPos.x + graphSizeX > dispSizeW) { _scrnPos.x = static_cast<float>(dispSizeW - graphSizeX); }
 	if (_scrnPos.y < 0.0f) { _scrnPos.y = 0.0f; }
 	if (_scrnPos.y + graphSizeY > dispSizeH) { _scrnPos.y = static_cast<float>(dispSizeH - graphSizeY); }
 
+}
+
+/*
+ * 削除処理
+ */
+void Reticle::Deletion() {
+	// カメラの状態取得
+	Camera::STATE camState = Camera::GetInstance()->GetState();
+
 	// カメラの状態がマルチロックオンシステムではなくなる
-	if (camState != Camera::STATE::MLS_LOCK){
+	if (camState != Camera::STATE::MLS_LOCK) {
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}
+}
+
+/*
+ * フレーム処理：計算
+ */
+void Reticle::Process(){
+
+	// 移動処理
+	Move();
+
+	// 画面外に画像が出るのを防止
+	PreventOffScreen();
+
+	// 削除処理
+	Deletion();
 }
 
 /*

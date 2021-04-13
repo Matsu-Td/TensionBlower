@@ -73,7 +73,9 @@ void Player::NextStrongAttack(int attackEnergy, STATE nextState, std::string att
 	if (_energy < attackEnergy) {                      // エネルギー残量チェック
 		return;
 	}
+
 	PlaySoundMem(gSound._se["h_attack"], DX_PLAYTYPE_BACK);
+
 	_state = std::move(nextState);                  // 次の攻撃の状態へ遷移
 	_energy -= std::move(attackEnergy);             // エネルギー消費
 	_canAutoCharge = false;                         // 強近接攻撃時はエネルギー自動回復停止
@@ -81,6 +83,7 @@ void Player::NextStrongAttack(int attackEnergy, STATE nextState, std::string att
 	_attackCnt = _mapAttackTotalTime[attackName];   // 攻撃モーション時間セット
 	_receptionTime = RECEPTION_TIME;                // 次攻撃受付時間セット
 	_hitFlag = false;                               // ボスに攻撃が当たっていない
+
 	SwitchAttackDamage();                           // 現在の近接攻撃のボスへのダメージ量をセット
 }
 
@@ -90,10 +93,12 @@ void Player::NextStrongAttack(int attackEnergy, STATE nextState, std::string att
 void Player::NextWeakAttack(STATE nextState, std::string attackName) {
 
 	PlaySoundMem(gSound._se["l_attack"], DX_PLAYTYPE_BACK);
+
 	_state = std::move(nextState);                  // 次の攻撃の状態へ遷移
 	_attackCnt = _mapAttackTotalTime[attackName];   // 攻撃モーション時間セット
 	_receptionTime = RECEPTION_TIME;			    // 次攻撃受付時間セット
 	_hitFlag = false;                               // ボスに攻撃が当たっていない
+
 	SwitchAttackDamage();                           // 現在の近接攻撃のボスへのダメージ量をセット
 }
 
@@ -133,6 +138,7 @@ void Player::AttackAction() {
 			if (trg & PAD_INPUT_4) {
 				// 強近接攻撃の声データ再生
 				PlayAttackVoice("strong");
+
 				NextStrongAttack(modeGame->_charaData->_egAtck2, Player::STATE::STRG_ATCK2, "slash_h");
 				SetStrongHitTime();
 			}
@@ -140,6 +146,7 @@ void Player::AttackAction() {
 			else if (trg & PAD_INPUT_B) {
 				// 弱近接攻撃2の声データ再生
 				PlayAttackVoice("weak2");
+
 				NextWeakAttack(STATE::WEAK_ATCK2, "slash_l");
 				SetWeakHitTime();
 			}
@@ -151,6 +158,7 @@ void Player::AttackAction() {
 			if (trg & PAD_INPUT_4) {
 				// 強近接攻撃の声データ再生
 				PlayAttackVoice("strong");
+
 				NextStrongAttack(modeGame->_charaData->_egAtck3, Player::STATE::STRG_ATCK3, "slash_h");
 				SetStrongHitTime();
 			}
@@ -158,6 +166,7 @@ void Player::AttackAction() {
 			else if (trg & PAD_INPUT_B) {
 				// 弱近接攻撃3の声データ再生
 				PlayAttackVoice("weak3");
+
 				NextWeakAttack(STATE::WEAK_ATCK3, "slash_l");
 				SetWeakHitTime();
 			}
@@ -169,6 +178,7 @@ void Player::AttackAction() {
 			if (trg & PAD_INPUT_4) {
 				// 強近接攻撃の声データ再生
 				PlayAttackVoice("strong");
+
 				NextStrongAttack(modeGame->_charaData->_egAtck4, Player::STATE::STRG_ATCK4, "slash_h");
 				SetStrongHitTime();
 			}
@@ -176,6 +186,7 @@ void Player::AttackAction() {
 			else if (trg & PAD_INPUT_B) {
 				// 弱近接攻撃4の声データ再生
 				PlayAttackVoice("weak4");
+
 				NextWeakAttack(STATE::WEAK_ATCK4, "slash_l");
 				SetWeakHitTime();
 			}
@@ -212,7 +223,6 @@ void Player::AttackAction() {
 void Player::FirstAttack() {
 
 	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	if (_vPos.y == 0.0f && _attackReloadTime == 0) {
 		if (trg & PAD_INPUT_2 && !_isAttack) {
@@ -229,6 +239,9 @@ void Player::FirstAttack() {
 			PlayAttackVoice("strong");
 
 			_isAttack = true;
+
+			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		
 			NextStrongAttack(modeGame->_charaData->_egAtck1, STATE::STRG_ATCK1, "slash_h");
 			SetStrongHitTime();
 		}
@@ -253,7 +266,7 @@ void Player::SecondAttack() {
  */
 void Player::SetWeakHitTime() {
 	_hitStartCnt = 35;
-	_hitEndCnt = 20;
+	_hitEndCnt   = 20;
 }
 
 /*
@@ -261,5 +274,5 @@ void Player::SetWeakHitTime() {
  */
 void Player::SetStrongHitTime() {
 	_hitStartCnt = 60;
-	_hitEndCnt = 50;
+	_hitEndCnt   = 50;
 }

@@ -33,7 +33,9 @@ Player::~Player(){
  * 初期化
  */
 void Player::Initialize(){
+
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	
 	_vPos = VGet(0.0f, 0.0f, -115.0f);
 	_vDir = VGet(0, 0, 1);
 	_mvSpd = modeGame->_charaData->_mvSpdNorm;
@@ -86,6 +88,18 @@ void Player::Gravity() {
 
 	if (_vPos.y < 0.0f) {
 		_vPos.y = 0.0f;
+	}
+}
+
+/*
+ * ボムの爆発ダメージ
+ */
+void Player::ExplosionDamage() {
+
+	if (_hitpoint > 0) {
+		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+
+		_hitpoint -= modeGame->_charaData->_boss.explosionDmg;
 	}
 }
 
@@ -184,44 +198,45 @@ void Player::Render(){
 	int y = 340;
 	int fontSize = 24;
 	int fontColor = GetColor(255, 0, 0);
+
 	SetFontSize(fontSize);
 	DrawFormatString(0, y, fontColor, "Player:"); y += fontSize;
 	DrawFormatString(0, y, fontColor, "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += fontSize;
 	DrawFormatString(0, y, fontColor, "  dir    = (%5.2f, %5.2f, %5.2f)", _vDir.x, _vDir.y, _vDir.z); y += fontSize;
-	DrawFormatString(0, y, fontColor, "  deg    = %5.1f", deg); y += fontSize;
-	DrawFormatString(0, y, fontColor, "  spd    = %3.1f", _mvSpd); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  deg    = %5.1f", deg);      y += fontSize;
+	DrawFormatString(0, y, fontColor, "  spd    = %3.1f", _mvSpd);   y += fontSize;
 	DrawFormatString(0, y, fontColor, "  charge = %d", _isCharging); y += fontSize;
-	DrawFormatString(0, y, fontColor, "  dash   = %d", _isDash); y += fontSize;
-	DrawFormatString(0, y, fontColor, "  HP     = %d", _hitpoint); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  dash   = %d", _isDash);     y += fontSize;
+	DrawFormatString(0, y, fontColor, "  HP     = %d", _hitpoint);   y += fontSize;
 
-	DrawFormatString(0, y, fontColor, "  攻撃カウント = %d", _attackCnt); y += fontSize;
-	DrawFormatString(0, y, fontColor, "  攻撃受付時間 = %d", _receptionTime); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  攻撃カウント = %d", _attackCnt);         y += fontSize;
+	DrawFormatString(0, y, fontColor, "  攻撃受付時間 = %d", _receptionTime);     y += fontSize;
 	DrawFormatString(0, y, fontColor, "  攻撃ﾘﾛｰﾄﾞ時間 = %d", _attackReloadTime); y += fontSize;
-	DrawFormatString(0, y, fontColor, "  ダメージHP = %d", _nowDmgHP); y += fontSize;
-	DrawFormatString(0, y, fontColor, "  ダメージSLD= %d", _nowDmgSld); y += fontSize;
-	DrawFormatString(0, y, fontColor, "  ダメージ通常 = %d", _nowDmgNorm); y += fontSize;
+	DrawFormatString(0, y, fontColor, "  ダメージHP = %d", _nowDmgHP);            y += fontSize;
+	DrawFormatString(0, y, fontColor, "  ダメージSLD= %d", _nowDmgSld);           y += fontSize;
+	DrawFormatString(0, y, fontColor, "  ダメージ通常 = %d", _nowDmgNorm);        y += fontSize;
 	DrawString(0, y, "　状態：", fontColor);
 	switch (_state) {
 	case STATE::WAIT:
-		DrawString(x, y, "WAIT", fontColor); break;
+		DrawString(x, y, "WAIT", fontColor);         break;
 	case STATE::WALK:
-		DrawString(x, y, "WALK", fontColor); break;
+		DrawString(x, y, "WALK", fontColor);         break;
 	case STATE::FOR_DASH:
-		DrawString(x, y, "FOR DASH", fontColor); break;
+		DrawString(x, y, "FOR DASH", fontColor);     break;
 	case STATE::JUMP:
-		DrawString(x, y, "JUMP", fontColor); break;
+		DrawString(x, y, "JUMP", fontColor);         break;
 	case STATE::LEFT_MOVE:
-		DrawString(x, y, "LEFT MOVE", fontColor); break;
+		DrawString(x, y, "LEFT MOVE", fontColor);    break;
 	case STATE::RIGHT_MOVE:
-		DrawString(x, y, "RIGHT MOVE", fontColor); break;
+		DrawString(x, y, "RIGHT MOVE", fontColor);   break;
 	case STATE::BACK_MOVE:
-		DrawString(x, y, "BACK MOVE", fontColor); break;
+		DrawString(x, y, "BACK MOVE", fontColor);    break;
 	case STATE::LEFT_DASH:
-		DrawString(x, y, "LEFT DASH", fontColor); break;
+		DrawString(x, y, "LEFT DASH", fontColor);    break;
 	case STATE::RIGHT_DASH:
-		DrawString(x, y, "RIGHT DASH", fontColor); break;
+		DrawString(x, y, "RIGHT DASH", fontColor);   break;
 	case STATE::BACK_DASH:
-		DrawString(x, y, "BACK DASH", fontColor); break;
+		DrawString(x, y, "BACK DASH", fontColor);    break;
 	case STATE::WEAK_ATCK1:
 		DrawString(x, y, "WEAK ATTACK1", fontColor); break;
 	case STATE::WEAK_ATCK2:
@@ -239,14 +254,5 @@ void Player::Render(){
 	case STATE::STRG_ATCK4:
 		DrawString(x, y, "STRG ATTACK4", fontColor); break;
 	}
-
 #endif
-}
-
-void Player::ExplosionDamage(){
-	
-	if (_hitpoint > 0) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-		_hitpoint -= modeGame->_charaData->_boss.explosionDmg;
-	}
 }

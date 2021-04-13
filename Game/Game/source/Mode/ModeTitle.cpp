@@ -80,19 +80,23 @@ void ModeTitle::MenuSelect() {
 	// ゲームパッドの左右キー及び左アナログスティック左右でメニュー選択
 	if (trg & PAD_INPUT_RIGHT) {
 		PlaySoundMem(gSound._se["select"], DX_PLAYTYPE_BACK);
+	
 		_menuPos++;
 	}
 	if (trg & PAD_INPUT_LEFT) {
 		PlaySoundMem(gSound._se["select"], DX_PLAYTYPE_BACK);
+	
 		_menuPos--;
 	}
 
 	if (trg & PAD_INPUT_2) {
 		PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
+
 		switch (_menuPos) {
 		case MENU::START:
 			// BGM再生停止
 			StopSoundMem(gSound._bgm["titlebgm"]);
+	
 			ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("titlebgm"));
 			ModeChange(NEW ModeGame(),   1, "game");   
 			break;

@@ -31,7 +31,9 @@ void Player::CheckDistanceToBoss() {
 	float sx = _vPos.x - bsPos.x;
 	float sz = _vPos.z - bsPos.z;
 	float length = Util::Sqrt(sx, sz);
+
 	_bsAngle = atan2(sz, sx);
+
 	// ボスとの距離が50m以下かどうか
 	if (length <= 50) {
 		_isNearBoss = true;
@@ -51,12 +53,11 @@ void Player::EnergyManager() {
 	
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	
-	int addEne;
-	
 	// ボスとの距離を確認
 	CheckDistanceToBoss();
 
 	if (_energy > 0 || _energy < modeGame->_charaData->_maxEnergy) {
+		int addEne;
 
 		if (_oldState != _state) {
 			// ジャンプ(消費)

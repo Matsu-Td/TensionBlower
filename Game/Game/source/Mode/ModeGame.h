@@ -48,20 +48,25 @@ public:
 	 */
 	bool Render() override;
 
-	/**
-	 * @brief ライトのディフューズカラーを設定する
-	 * @param lightHandle ライトハンドル
-	 */
-	void SetLightColorHandle(int lightHandle);
-
 	Camera       _cam;
 	ObjectServer _objServer;
 
 	std::unique_ptr<CharaData> _charaData; // JSONファイルからキャラデータ読み込み
+
 	bool _stopObjProcess;       // オブジェクト処理をストップ
-	int _shadowMapHandle;
+
 private:
+	/**
+	 * @brief ライトの設定
+	 */
+	void SetLight();
+
+	/**
+     * @brief ライトのディフューズカラーを設定する
+     * @param lightHandle ライトハンドル
+     */
+	void SetLightColorHandle(int lightHandle);
+
 	PlayerStatus _playerStatus;
 	BossStatus   _bossStatus;
-	
 }; 

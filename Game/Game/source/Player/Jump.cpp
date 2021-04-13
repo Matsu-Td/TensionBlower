@@ -16,6 +16,7 @@
 void Player::Jump() {
 
 	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
+
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	// エネルギー量確認

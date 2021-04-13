@@ -35,4 +35,20 @@ public:
 	 * @brief フレーム処理：描画
 	 */
 	void Render() override;
+
+private:
+	/**
+	 * @brief 移動処理
+	 */
+	void Move();
+
+	/**
+	 * @brief 画像が画面外に出るのを防ぐ
+	 */
+	void PreventOffScreen();
+
+	/**
+	 * @brief 削除処理
+	 */
+	void Deletion();
 };

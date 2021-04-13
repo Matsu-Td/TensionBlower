@@ -105,6 +105,7 @@ void Player::Dash() {
 		if (_shortDashTime > 0) {
 			_isDash = true;  // ダッシュスタート
 			_isCharging = false;   // ダッシュ中溜め行動不可
+
 			// キー入力があるとき入力方向にダッシュする
 			if (camState != Camera::STATE::NORMAL) {
 				_state = Player::STATE::FOR_DASH;

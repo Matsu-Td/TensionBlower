@@ -36,8 +36,14 @@ void PlayerStatus::Render() {
 
 	DrawGraph(STATUS_FRAME_POS, STATUS_FRAME_POS, _cgFrameBg, TRUE);
 
-	DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_L + (HP_BAR_SIZE * hitpoint / modeGame->_charaData->_maxHP), HP_POS_Y_R, _cgBarHP, TRUE);
-	DrawExtendGraph(ENERGY_POS_X_L, ENERGY_POS_Y_L, ENERGY_POS_X_L + (ENERGY_BAR_SIZE * energy / modeGame->_charaData->_maxEnergy), ENERGY_POS_Y_R, _cgBarEnergy, TRUE);
+	DrawExtendGraph(HP_POS_X_L, HP_POS_Y_L, HP_POS_X_L + 
+		           (HP_BAR_SIZE * hitpoint / modeGame->_charaData->_maxHP),
+		            HP_POS_Y_R, _cgBarHP, TRUE);
+
+	DrawExtendGraph(ENERGY_POS_X_L, ENERGY_POS_Y_L, ENERGY_POS_X_L + 
+		           (ENERGY_BAR_SIZE * energy / modeGame->_charaData->_maxEnergy),
+		            ENERGY_POS_Y_R, _cgBarEnergy, TRUE);
+
 	DrawGraph(STATUS_FRAME_POS, STATUS_FRAME_POS, _cgFrame, TRUE);
 	DrawGraph(NAME_POS_X, NAME_POS_Y, _cgName, TRUE);
 }
