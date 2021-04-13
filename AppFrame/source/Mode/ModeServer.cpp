@@ -75,6 +75,7 @@ void ModeServer::Clear() {
 		(*itr)->Terminate();
 		delete (*itr);
 	}
+
 	lstModeBase::iterator itrAdd = _vModeAdd.begin();
 	for (; itrAdd != _vModeAdd.end(); ++itrAdd) {
 		(*itrAdd)->Terminate();
@@ -108,6 +109,7 @@ bool ModeServer::IsAdd(ModeBase *mode) {
 	for (; itr != _vMode.end(); ++itr) {
 		if (!IsDelRegist((*itr)) && (*itr) == mode) { return true; }
 	}
+
 	itr = _vModeAdd.begin();
 	for (; itr != _vModeAdd.end(); ++itr) {
 		if (!IsDelRegist((*itr)) && (*itr) == mode) { return true; }
@@ -125,6 +127,7 @@ ModeBase *ModeServer::Get(int uid) {
 	for (; itr != _vMode.end(); ++itr) {
 		if (!IsDelRegist((*itr)) && (*itr)->_uid == uid) { return (*itr); }
 	}
+
 	itr = _vModeAdd.begin();
 	for (; itr != _vModeAdd.end(); ++itr) {
 		if (!IsDelRegist((*itr)) && (*itr)->_uid == uid) { return (*itr); }
@@ -142,6 +145,7 @@ ModeBase *ModeServer::Get(const char *name) {
 	for (; itr != _vMode.end(); ++itr) {
 		if (!IsDelRegist((*itr)) && (*itr)->_szName == name) { return (*itr); }
 	}
+
 	itr = _vModeAdd.begin();
 	for (; itr != _vModeAdd.end(); ++itr) {
 		if (!IsDelRegist((*itr)) && (*itr)->_szName == name) { return (*itr); }
