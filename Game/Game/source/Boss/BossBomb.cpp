@@ -112,11 +112,11 @@ void BossBomb::CollisionCall() {
  */
 void BossBomb::CollisionToPlayer(ObjectBase* obj) {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-
 	if (obj->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
 		if (IsHitLineSegment(*obj, _r)) {
 			Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
+
+			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 			modeGame->_objServer.Add(explosion);
 			modeGame->_objServer.Del(this);
 		}
