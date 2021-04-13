@@ -24,7 +24,7 @@ void Boss::Death() {
 	}
 	// ヒットポイントゼロでゲームクリアフラグを立てる
 	if (_hitpoint <= 0) {
-		if (!_deathFlag) {
+		if(_state != STATE::DEATH){
 			// 撃破時の声データ再生
 			PlayVoice("gekiha");
 			VECTOR tmpPos = _vPos;

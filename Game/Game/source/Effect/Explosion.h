@@ -40,17 +40,22 @@ public:
 	 */
 	void Render() override;
 
+private:
 	/**
-	 * @brief ボスとの当たり判定
+	 * @brief 各種当たり判定呼び出し
 	 */
-	void CollisionToBoss();
+	void CollisionCall();
+
+	/**
+     * @brief ボスとの当たり判定
+     */
+	void CollisionToBoss(ObjectBase* obj);
 
 	/**
 	 * @brief プレイヤーとの当たり判定
 	 */
-	void CollisionToPlayer();
+	void CollisionToPlayer(ObjectBase* obj);
 
-private:
 	int _effectCnt;     // エフェクトカウント
 	int _repelFlag;     // 弾き返された弾かどうか(true:弾き返された弾)
 	int	_effectHandle;  // エフェクトファイルをロードするハンドル

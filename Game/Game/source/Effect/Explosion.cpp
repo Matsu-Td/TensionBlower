@@ -43,18 +43,16 @@ void Explosion::Initialize() {
 /*
  * ボスとの当たり判定
  */
-void Explosion::CollisionToBoss() {
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
-			if (IsHitLineSegment(*(*itr), _r)) {
-				// ヒットポイントへのダメージ：6フレーム毎にダメージ判定
-				if (_effectCnt % 6 == 0) {
-					Boss::GetInstance()->ExplosionDamageHP();
-				}
-				// シールドへのダメージ：毎フレームダメージ判定
-				Boss::GetInstance()->ExplosionDamageShield();
+void Explosion::CollisionToBoss(ObjectBase* obj) {
+
+	if (obj->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
+		if (IsHitLineSegment(*obj, _r)) {
+			// ヒットポイントへのダメージ：6フレーム毎にダメージ判定
+			if (_effectCnt % 6 == 0) {
+				Boss::GetInstance()->ExplosionDamageHP();
 			}
+			// シールドへのダメージ：毎フレームダメージ判定
+			Boss::GetInstance()->ExplosionDamageShield();
 		}
 	}
 }
@@ -62,14 +60,31 @@ void Explosion::CollisionToBoss() {
 /*
  * プレイヤーとの当たり判定
  */
-void Explosion::CollisionToPlayer() {
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-		if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
-			if (IsHitLineSegment(*(*itr), _r)) {
-				Player::GetInstance()->ExplosionDamage();
+void Explosion::CollisionToPlayer(ObjectBase* obj) {
 
-			}
+	if (obj->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
+		if (IsHitLineSegment(*obj, _r)) {
+			Player::GetInstance()->ExplosionDamage();
+		}
+	}
+}
+
+/*
+ * 各種当たり判定呼び出し
+ */
+void Explosion::CollisionCall() {
+
+	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	
+	for (auto itr : *modeGame->_objServer.List()) {
+		// プレイヤーに弾き返された弾かどうか
+		if (_repelFlag) {
+			// ボスにのみ当たり判定
+			CollisionToBoss(itr);
+		}
+		else {
+			// プレイヤーのみ当たり判定
+			CollisionToPlayer(itr);
 		}
 	}
 }
@@ -99,15 +114,8 @@ void Explosion::Process(){
 		modeGame->_objServer.Del(this);
 	}
 
-	// プレイヤーに弾き返された弾かどうか
-	if (_repelFlag) {
-		// ボスにのみ当たり判定
-		CollisionToBoss();
-	}
-	else {
-		// プレイヤーのみ当たり判定
-		CollisionToPlayer();
-	}
+	// 各種当たり判定呼び出し
+	CollisionCall();
 }
 
 /*
