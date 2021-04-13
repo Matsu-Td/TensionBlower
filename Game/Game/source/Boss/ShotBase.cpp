@@ -78,43 +78,13 @@ void ShotBase::Move() {
 	}
 }
 
-void ShotBase::Process(){
-	// 何もしない
-}
-
 /*
- * フレーム処理：描画
+ * 各種当たり判定呼び出し
  */
-void ShotBase::Render(){
-
-	float modelSize = 0.005f;
-	ObjectBase::ShadowRender(modelSize);
-	MV1SetScale(_mh, VGet(modelSize, modelSize, modelSize));
-	MV1SetPosition(_mh, _vPos);
-	MV1DrawModel(_mh);
-	
-	float graphSizeX = 40.0f;   // 画像サイズX
-	float graphSizeY = 35.0f;   // 画像サイズY
-	
-	// マルチロックオンが可能か
-	if (_canLockFlag) {
-		// 弾き返されたかどうか
-		if (_repelFlag) {
-			DrawGraph(static_cast<int>(_scrnPos.x - graphSizeX), static_cast<int>(_scrnPos.y - graphSizeY), _cg[1], TRUE);
-		}
-		else {
-			DrawGraph(static_cast<int>(_scrnPos.x - graphSizeX), static_cast<int>(_scrnPos.y - graphSizeY), _cg[0], TRUE);
-		}
-	}
-}
-
-/*
- * 各所当たり判定
- */
-void ShotBase::Collision(){
+void ShotBase::CollisionCall() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	
+
 	for (auto itr : *modeGame->_objServer.List()) {
 		CollisionToStage(itr);
 		CollisionToBoss(itr);
@@ -126,7 +96,7 @@ void ShotBase::Collision(){
 /*
  * 当たり判定：ステージ
  */
-void ShotBase::CollisionToStage(ObjectBase* obj){
+void ShotBase::CollisionToStage(ObjectBase* obj) {
 
 	if (obj->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
 		if (IsHitStage(*obj, 0.8f) == true) {
@@ -159,7 +129,7 @@ void ShotBase::CollisionToBoss(ObjectBase* obj) {
  * 当たり判定：プレイヤー
  */
 void ShotBase::CollisionToPlayer(ObjectBase* obj) {
-	
+
 	if (obj->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
 		// マルチロックオンシステムによる弾き返し可能かどうか
 		if (IsDot(*obj) == true && _camStateMLS) {
@@ -188,6 +158,42 @@ void ShotBase::CollisionToReticle(ObjectBase* obj) {
 					gGlobal._totalRepelCnt++; // 弾き返し回数カウント(スコア計算用)
 				}
 			}
+		}
+	}
+}
+
+/*
+ * フレーム処理：計算
+ */
+void ShotBase::Process(){
+
+	Move();
+
+	CollisionCall();
+}
+
+/*
+ * フレーム処理：描画
+ */
+void ShotBase::Render(){
+
+	float modelSize = 0.005f;
+	ObjectBase::ShadowRender(modelSize);
+	MV1SetScale(_mh, VGet(modelSize, modelSize, modelSize));
+	MV1SetPosition(_mh, _vPos);
+	MV1DrawModel(_mh);
+	
+	float graphSizeX = 40.0f;   // 画像サイズX
+	float graphSizeY = 35.0f;   // 画像サイズY
+	
+	// マルチロックオンが可能か
+	if (_canLockFlag) {
+		// 弾き返されたかどうか
+		if (_repelFlag) {
+			DrawGraph(static_cast<int>(_scrnPos.x - graphSizeX), static_cast<int>(_scrnPos.y - graphSizeY), _cg[1], TRUE);
+		}
+		else {
+			DrawGraph(static_cast<int>(_scrnPos.x - graphSizeX), static_cast<int>(_scrnPos.y - graphSizeY), _cg[0], TRUE);
 		}
 	}
 }

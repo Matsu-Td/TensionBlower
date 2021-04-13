@@ -31,13 +31,14 @@ public:
 	 */
 	void Process() override;
 
+private:
 	/**
 	 * @brief 弾き返し処理
 	 */
 	void Repel();
 
 	/**
-	 * @brief 当たり判定
+	 * @brief 当たり判定：プレイヤーの近接攻撃
 	 */
-	void Collision() override;
+	void CollisionToPlayerAttack();
 };

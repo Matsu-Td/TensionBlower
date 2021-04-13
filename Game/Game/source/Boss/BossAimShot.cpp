@@ -30,11 +30,10 @@ BossAimShot::BossAimShot(VECTOR pos, float shotSpd, float shotAngle){
 
 	// ‰Šú‰»
 	ShotBase::Initialize();
-
 }
 
 BossAimShot::~BossAimShot() {
-
+	// ‰½‚à‚µ‚È‚¢
 }
 
 /*
@@ -42,12 +41,5 @@ BossAimShot::~BossAimShot() {
  */
 void BossAimShot::Process() {
 
-	// ƒL[‚ÌƒgƒŠƒK“ü—Íæ“¾
-	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
-
-	// ’e‚ÌˆÚ“®ˆ—
-	ShotBase::Move();
-		
-	// “–‚½‚è”»’è
-	ShotBase::Collision();
+	ShotBase::Process();
 }

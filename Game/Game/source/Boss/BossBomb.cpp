@@ -84,9 +84,10 @@ void BossBomb::StateSniper() {
  */
 void BossBomb::BombDelete() {
 
-	if (_vPos.y <= 0.0f) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	if (_vPos.y <= 0.0f) {	
 		Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
+
+		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Add(explosion);
 		modeGame->_objServer.Del(this);
 	}
@@ -152,12 +153,12 @@ void BossBomb::CollisionToReticle(ObjectBase* obj) {
  */
 void BossBomb::CollisionToBoss(ObjectBase* obj) {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-
 	if (_state == STATE::REPEL) {
 		if (obj->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
 			if (IsHitLineSegment(*obj, obj->_r)) {
 				Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
+
+				ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 				modeGame->_objServer.Add(explosion);
 				modeGame->_objServer.Del(this);
 			}
@@ -184,8 +185,7 @@ void BossBomb::Initialize() {
  */
 void BossBomb::Process() {
 
-	// 弾の移動処理(弾幕共通処理)
-	ShotBase::Move();
+	ShotBase::Process();
 
 	// 狙撃までのカウント
 	_shotCnt++;
@@ -201,7 +201,4 @@ void BossBomb::Process() {
 
 	// ステージ床まで下降したらボムを削除
 	BombDelete();
-
-	// 当たり判定
-	CollisionCall();
 }

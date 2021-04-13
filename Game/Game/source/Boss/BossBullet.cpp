@@ -46,12 +46,9 @@ void BossBullet::Repel() {
 }
 
 /*
- * 当たり判定
+ * 当たり判定：プレイヤーの近接攻撃
  */
-void BossBullet::Collision() {
-
-	// キーのトリガ入力取得
-	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
+void BossBullet::CollisionToPlayerAttack() {
 
 	// プレイヤーの位置情報取得
 	VECTOR plPos = Player::GetInstance()->GetPos();
@@ -59,17 +56,14 @@ void BossBullet::Collision() {
 	float sz = plPos.z - _vPos.z;
 	float length = Util::Sqrt(sx, sz);  // プレイヤーとの距離計算
 
-	// 当たり判定
-	ShotBase::Collision();
-
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
-	for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
+	for (auto itr : *modeGame->_objServer.List()) {
 		// プレイヤーの近接攻撃による弾き返し
-		if (Player::GetInstance()->_canHitFlag && !(*itr)->_hitFlag) {
+		if (Player::GetInstance()->_canHitFlag && !itr->_hitFlag) {
 			if (length < 4.0f) {
 				_state = STATE::REPEL;
 				Repel(); // 弾き返し処理
-				(*itr)->_hitFlag = true;
+				itr->_hitFlag = true;
 			}
 		}
 	}
@@ -81,8 +75,8 @@ void BossBullet::Collision() {
 void BossBullet::Process(){
 
 	// 弾の移動処理
-	ShotBase::Move();
+	ShotBase::Process();
 	
 	// 当たり判定
-	Collision();
+	CollisionToPlayerAttack();
 }

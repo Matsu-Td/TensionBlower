@@ -32,14 +32,9 @@ public:
 	virtual void Render();
 
 	/**
-	 * @brief 弾の移動処理
+	 * @brief 各種当たり判定呼び出し
 	 */
-	virtual void Move();
-
-	/**
-	 * @brief 各所当たり判定
-	 */
-	virtual void Collision();
+	virtual void CollisionCall();
 
 protected:
 	int _cg[2];            // 画像
@@ -69,6 +64,11 @@ protected:
 	const float MLS_SPD = 0.01f;  // マルチロックオンシステム中の速度計算(通常の1/100に)
 
 private:
+	/**
+	 * @brief 弾の移動処理
+	 */
+	void Move();
+
 	/**
 	 * @brief 当たり判定：ステージ
 	 * @param obj オブジェクトのポインタ
