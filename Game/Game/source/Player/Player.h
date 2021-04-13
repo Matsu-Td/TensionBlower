@@ -109,7 +109,7 @@ private:
 	/**
      * @brief 各種当たり判定処理実行
      */
-	void AllCollision();
+	void CollisionCall();
 
 	/**
 	 * @brief 当たり判定：ステージ

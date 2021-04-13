@@ -34,6 +34,7 @@ void Destruction::Process(){
 	if (_gameClearCnt <= 0) {
 		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
+
 		ModeGameClear* modeGameClear = NEW ModeGameClear();
 		ModeServer::GetInstance()->Add(modeGameClear, 2, "clear");
 	}

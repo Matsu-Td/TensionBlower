@@ -145,7 +145,7 @@ void Player::Process(){
 	EnergyManager();
 
 	// “–‚½‚è”»’è
-	AllCollision();
+	CollisionCall();
 
 	// ƒ‚ƒfƒ‹ƒ‚[ƒVƒ‡ƒ“Ø‘Ö
 	MotionSwitching();

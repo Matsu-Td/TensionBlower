@@ -16,7 +16,7 @@
 /*
  * Šeí“–‚½‚è”»’èˆ—Às 
  */
-void Player::AllCollision() {
+void Player::CollisionCall() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
