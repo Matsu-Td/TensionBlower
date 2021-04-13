@@ -25,8 +25,8 @@ ObjectServer::~ObjectServer() {
  */
 void ObjectServer::Clear() {
 
-	for (auto itr = _vObject.begin(); itr != _vObject.end(); itr++) {
-		delete(*itr);
+	for (auto itr : _vObject) {
+		delete itr;
 	}
 	_vObject.clear();
 }
@@ -52,8 +52,8 @@ void ObjectServer::Del(ObjectBase* obj) {
  */
 void ObjectServer::AddListObjects() {
 
-	for (auto itrAdd = _vAdd.begin(); itrAdd != _vAdd.end(); itrAdd++) {
-		_vObject.push_back((*itrAdd));
+	for (auto itrAdd : _vAdd) {
+		_vObject.push_back(itrAdd);
 	}
 	_vAdd.clear();
 }
@@ -63,9 +63,9 @@ void ObjectServer::AddListObjects() {
  */
 void ObjectServer::DelListObjects() {
 
-	for (auto itrDel = _vDel.begin(); itrDel != _vDel.end(); ++itrDel) {
+	for (auto itrDel : _vDel) {
 		for (auto itr = _vObject.begin(); itr != _vObject.end();) {
-			if ((*itr) == (*itrDel)) {
+			if ((*itr) == itrDel) {
 				delete (*itr);
 				itr = _vObject.erase(itr);
 			}
@@ -85,8 +85,8 @@ void ObjectServer::Process() {
 	AddListObjects();
 
 	// Process()を呼び出し
-	for (auto itr = _vObject.begin(); itr != _vObject.end(); itr++) {
-		(*itr)->Process();
+	for (auto itr : _vObject) {
+		itr->Process();
 	}
 
 	// Delリストにあるオブジェクトをリストから削除する
@@ -98,7 +98,7 @@ void ObjectServer::Process() {
  */
 void ObjectServer::Render() {
 
-	for (auto itr = _vObject.begin(); itr != _vObject.end(); itr++) {
-		(*itr)->Render();
+	for (auto itr : _vObject) {
+		itr->Render();
 	}
 }

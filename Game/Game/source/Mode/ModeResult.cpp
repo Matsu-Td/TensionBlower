@@ -50,6 +50,7 @@ bool ModeResult::Process() {
 	// ゲームパッド「B」ボタンでリザルトモードを削除し、タイトルモード追加
 	if (trg & PAD_INPUT_2) {
 		PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
+
 		ModeServer::GetInstance()->Del(this);
 		ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 	}
@@ -87,22 +88,24 @@ bool ModeResult::Render() {
 	int x = 800;
 	int y = 90;
 	int size = 200;
-	int color = GetColor(0, 0, 0);
+	int fontColor = GetColor(0, 0, 0);
+
 	SetFontSize(56);
 	ChangeFontType(DX_FONTTYPE_ANTIALIASING);
-	DrawFormatString(x, y, color, "%4d", gGlobal._gameTime / MMSEC2SEC); y += size;
-	DrawFormatString(x, y, color, "%4d", gGlobal._remainingHP); y += size;
-	DrawFormatString(x, y, color, "%4d", gGlobal._totalRepelCnt); y += size;
-	DrawFormatString(x, y, color, "%5d", gGlobal._totalGetEnergy); y += size;
+	DrawFormatString(x, y, fontColor, "%4d", gGlobal._gameTime / MMSEC2SEC); y += size;
+	DrawFormatString(x, y, fontColor, "%4d", gGlobal._remainingHP);          y += size;
+	DrawFormatString(x, y, fontColor, "%4d", gGlobal._totalRepelCnt);        y += size;
+	DrawFormatString(x, y, fontColor, "%5d", gGlobal._totalGetEnergy);       y += size;
 	SetFontSize(80);
 
 	x = 1500;
 	y = 100;
-	DrawFormatString(x, y, color, "%6d", _timeScore); y += size;
-	DrawFormatString(x, y, color, "%6d", _hpScore); y += size;
-	DrawFormatString(x, y, color, "%6d", _repelScore); y += size;
-	DrawFormatString(x, y, color, "%6d", _energyScore); y += size;
-	DrawFormatString(x, y, color, "%6d", _allScore);
+
+	DrawFormatString(x, y, fontColor, "%6d", _timeScore);   y += size;
+	DrawFormatString(x, y, fontColor, "%6d", _hpScore);     y += size;
+	DrawFormatString(x, y, fontColor, "%6d", _repelScore);  y += size;
+	DrawFormatString(x, y, fontColor, "%6d", _energyScore); y += size;
+	DrawFormatString(x, y, fontColor, "%6d", _allScore);
 
 	return true;
 }
