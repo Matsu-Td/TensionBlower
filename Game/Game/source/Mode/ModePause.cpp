@@ -52,18 +52,21 @@ bool ModePause::Process(){
 	if (_menuPos == 0) {
 		if (trg & PAD_INPUT_DOWN) {
 			PlaySoundMem(gSound._se["select"], DX_PLAYTYPE_BACK);
+
 			_menuPos++;
 		}
 
 		// ゲームパッド「B」ボタンでポーズモード削除⇒ゲームモードへ戻る
 		if (trg & PAD_INPUT_2) { 
 			PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
+
 			ModeServer::GetInstance()->Del(this);
 		}
 	}
 	if (_menuPos == 1) {
 		if (trg & PAD_INPUT_UP) {
 			PlaySoundMem(gSound._se["select"], DX_PLAYTYPE_BACK);
+
 			_menuPos--;
 		}
 
@@ -97,12 +100,12 @@ bool ModePause::Render(){
 	DrawGraph(0, 0, _cg, TRUE);
 
 	if (_menuPos == 0) {
-		DrawGraph(786, 380, _ui[0], TRUE);
-		DrawGraph(786, 580, _ui[3], TRUE);
+		DrawGraph(POS_X, POS_Y_UP,    _ui[0], TRUE);
+		DrawGraph(POS_X, POS_Y_UNDER, _ui[3], TRUE);
 	}
 	if (_menuPos == 1) {
-		DrawGraph(786, 380, _ui[2], TRUE);
-		DrawGraph(786, 580, _ui[1], TRUE);
+		DrawGraph(POS_X, POS_Y_UP,    _ui[2], TRUE);
+		DrawGraph(POS_X, POS_Y_UNDER, _ui[1], TRUE);
 	}
 	return true;
 }
