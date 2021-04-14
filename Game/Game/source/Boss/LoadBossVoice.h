@@ -1,5 +1,5 @@
 /**
- * @file   BossVoice.h
+ * @file   LoadBossVoice.h
  * @brief  ボス声優 声データ読み込み処理
  * 
  * @author matsuo tadahiko

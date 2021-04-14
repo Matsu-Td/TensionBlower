@@ -11,16 +11,8 @@
 #include "../Mode/ModeGame.h"
 #include "Player.h"
 #include "../Sound/Sound.h"
-#include "LoadPlayerVoice.h"
 
 using namespace tensionblower::player;
-
-/*
- * 攻撃発生時の声データを再生する
- */
-void Player::PlayAttackVoice(std::string voiceName) {
-	PlaySoundMem(gPlayerVoice._vc[voiceName], DX_PLAYTYPE_BACK);
-}
 
 /*
  * 現在発生中の近接攻撃ダメージ量をセットする
@@ -139,7 +131,7 @@ void Player::AttackAction() {
 			// 強近接攻撃2へ派生
 			if (trg & PAD_INPUT_4) {
 				// 強近接攻撃の声データ再生
-				PlayAttackVoice("strong");
+				PlayVoice("strong");
 
 				NextStrongAttack(modeGame->_charaData->_egAtck2, Player::STATE::STRG_ATCK2, "slash_h");
 				SetStrongHitTime();
@@ -147,7 +139,7 @@ void Player::AttackAction() {
 			// 弱近接攻撃2へ派生
 			else if (trg & PAD_INPUT_B) {
 				// 弱近接攻撃2の声データ再生
-				PlayAttackVoice("weak2");
+				PlayVoice("weak2");
 
 				NextWeakAttack(STATE::WEAK_ATCK2, "slash_l");
 				SetWeakHitTime();
@@ -159,7 +151,7 @@ void Player::AttackAction() {
 			// 強近接攻撃3へ派生
 			if (trg & PAD_INPUT_4) {
 				// 強近接攻撃の声データ再生
-				PlayAttackVoice("strong");
+				PlayVoice("strong");
 
 				NextStrongAttack(modeGame->_charaData->_egAtck3, Player::STATE::STRG_ATCK3, "slash_h");
 				SetStrongHitTime();
@@ -167,7 +159,7 @@ void Player::AttackAction() {
 			// 弱近接攻撃3へ派生
 			else if (trg & PAD_INPUT_B) {
 				// 弱近接攻撃3の声データ再生
-				PlayAttackVoice("weak3");
+				PlayVoice("weak3");
 
 				NextWeakAttack(STATE::WEAK_ATCK3, "slash_l");
 				SetWeakHitTime();
@@ -179,7 +171,7 @@ void Player::AttackAction() {
 			// 強近接攻撃4へ派生
 			if (trg & PAD_INPUT_4) {
 				// 強近接攻撃の声データ再生
-				PlayAttackVoice("strong");
+				PlayVoice("strong");
 
 				NextStrongAttack(modeGame->_charaData->_egAtck4, Player::STATE::STRG_ATCK4, "slash_h");
 				SetStrongHitTime();
@@ -187,7 +179,7 @@ void Player::AttackAction() {
 			// 弱近接攻撃4へ派生
 			else if (trg & PAD_INPUT_B) {
 				// 弱近接攻撃4の声データ再生
-				PlayAttackVoice("weak4");
+				PlayVoice("weak4");
 
 				NextWeakAttack(STATE::WEAK_ATCK4, "slash_l");
 				SetWeakHitTime();
@@ -229,7 +221,7 @@ void Player::FirstAttack() {
 	if (_vPos.y == 0.0f && _attackReloadTime == 0) {
 		if (trg & PAD_INPUT_2 && !_isAttack) {
 			// 弱近接攻撃1の声データ再生
-			PlayAttackVoice("weak1");
+			PlayVoice("weak1");
 
 			_isAttack = true;
 			NextWeakAttack(STATE::WEAK_ATCK1, "slash_l");
@@ -238,7 +230,7 @@ void Player::FirstAttack() {
 		}
 		if (trg & PAD_INPUT_4 && !_isAttack) {
 			// 強近接攻撃の声データ再生
-			PlayAttackVoice("strong");
+			PlayVoice("strong");
 
 			_isAttack = true;
 

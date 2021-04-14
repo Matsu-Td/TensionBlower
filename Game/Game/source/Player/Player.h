@@ -213,10 +213,10 @@ namespace tensionblower {
 			void SecondAttack();
 
 			/**
-			 * @brief 攻撃発生時の声データを再生する
+			 * @brief 声データを再生する
 			 * @param voiceName 再生する声データの名前
 			 */
-			void PlayAttackVoice(std::string voiceName);
+			void PlayVoice(std::string voiceName);
 
 			/**
 			 * @brief 弱近接攻撃のヒット判定時間を設定する

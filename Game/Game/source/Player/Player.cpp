@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "../Camera/Camera.h"
 #include "../Mode/ModeGame.h"
+#include "LoadPlayerVoice.h"
 
 using namespace tensionblower::player;
 
@@ -103,6 +104,13 @@ void Player::ExplosionDamage() {
 
 		_hitpoint -= modeGame->_charaData->_boss.explosionDmg;
 	}
+}
+
+/*
+ * ºƒf[ƒ^‚ğÄ¶‚·‚é
+ */
+void Player::PlayVoice(std::string voiceName) {
+	PlaySoundMem(gPlayerVoice._vc[voiceName], DX_PLAYTYPE_BACK);
 }
 
 /*

@@ -1,5 +1,5 @@
 /**
- * @file   PlayerVoice.h
+ * @file   LoadPlayerVoice.h
  * @brief  プレイヤー声優 声データ読み込み処理
  * 
  * @author matsuo tadahiko

@@ -76,12 +76,12 @@ void Player::CollisionToBossBullet(ObjectBase* obj) {
 				// 声データ再生(2種類をランダムで再生)
 				int voiceNo = rand() % 2;
 				if (voiceNo == 0) {
-					PlaySoundMem(gPlayerVoice._vc["hidan"], DX_PLAYTYPE_BACK);
+					PlayVoice("hidan");
 				}
 				else {
-					PlaySoundMem(gPlayerVoice._vc["hukki"], DX_PLAYTYPE_BACK);
+					PlayVoice("hukki");
 				}
-				PlaySoundMem(gSound._se["hit_player"], DX_PLAYTYPE_BACK);
+				PlayVoice("hit_player");
 
 				_hitpoint -= modeGame->_charaData->_boss.shotDmg;
 
