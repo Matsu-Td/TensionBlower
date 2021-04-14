@@ -8,39 +8,45 @@
 
 #include "appframe.h"
 
-/**
- * @brief MISSION START画像描画処理
- */
-class ModeGameStart : public ModeBase{
-	using base = ModeBase;
+namespace tensionblower {
 
-public:
-	/**
-	 * @brief  初期化
-	 * @return 処理の成否
-	 */
-	bool Initialize() override;
+	namespace mode {
 
-	/**
-	 * @brief  解放
-	 * @return 処理の成否
-	 */
-	bool Terminate() override;
+		/**
+		 * @brief MISSION START画像描画処理
+		 */
+		class ModeGameStart : public ModeBase {
+			using base = ModeBase;
 
-	/**
-	 * @brief  フレーム処理：計算
-	 * @return 処理の成否
-	 */
-	bool Process() override;
+		public:
+			/**
+			 * @brief  初期化
+			 * @return 処理の成否
+			 */
+			bool Initialize() override;
 
-	/**
-	 * @brief  フレーム処理：描画
-	 * @return 処理の成否
-	 */
-	bool Render() override;
+			/**
+			 * @brief  解放
+			 * @return 処理の成否
+			 */
+			bool Terminate() override;
 
-private:
-	int _cg[2];   // 画像
+			/**
+			 * @brief  フレーム処理：計算
+			 * @return 処理の成否
+			 */
+			bool Process() override;
 
-	const int POS_Y = 390;  // 画像描画位置：Y座標
-};
+			/**
+			 * @brief  フレーム処理：描画
+			 * @return 処理の成否
+			 */
+			bool Render() override;
+
+		private:
+			int _cg[2];   // 画像
+
+			const int POS_Y = 390;  // 画像描画位置：Y座標
+		};
+	}
+}

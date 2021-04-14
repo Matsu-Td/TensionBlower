@@ -8,11 +8,17 @@
 
 #include "appframe.h"
 
-/**
- * @brief アウトゲーム用BGM再生処理
- */
-class TitleBGM : public ModeBase {
-public:
-	TitleBGM();
-	~TitleBGM();
-};
+namespace tensionblower {
+
+	namespace mode {
+
+		/**
+		 * @brief アウトゲーム用BGM再生処理
+		 */
+		class TitleBGM : public ModeBase {
+		public:
+			TitleBGM();
+			~TitleBGM();
+		};
+	}
+}

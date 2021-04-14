@@ -10,12 +10,14 @@
 #include "../Mode/ModeGame.h"
 #include "../Sound/Sound.h"
 
+using namespace tensionblower;
+
 /*
  * ダウン処理
  */
 void Boss::StateDown() {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	// 復帰
 	if (_state == STATE::DOWN) {
@@ -38,8 +40,9 @@ void Boss::StateDown() {
 	// ダウン
 	if (_state == STATE::NORMAL) {
 		PlaySoundMem(gSound._se["down"], DX_PLAYTYPE_BACK);
-		for (auto itr = modeGame->_objServer.List()->begin(); itr != modeGame->_objServer.List()->end(); itr++) {
-			if ((*itr)->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
+
+		for (auto&& itr : *modeGame->_objServer.List()) {
+			if (itr->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
 				_bulletNum++;   // ダウン直前に出現していた弾の数をカウント
 			}
 			int plEnergy = Player::GetInstance()->GetEnergy();            // プレイヤーのエネルギー情報取得

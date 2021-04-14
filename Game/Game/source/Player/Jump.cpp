@@ -10,6 +10,8 @@
 #include "Player.h"
 #include "../Mode/ModeGame.h"
 
+using namespace tensionblower;
+
 /*
  * ジャンプ処理
  */
@@ -17,7 +19,7 @@ void Player::Jump() {
 
 	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	// エネルギー量確認
 	if (_energy >= modeGame->_charaData->_egJump) {

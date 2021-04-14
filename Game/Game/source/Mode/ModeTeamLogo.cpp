@@ -9,6 +9,8 @@
 #include "ModeTeamLogo.h"
 #include "ModeTitle.h"
 
+using namespace tensionblower::mode;
+
 /*
  * ‰Šú‰» 
  */

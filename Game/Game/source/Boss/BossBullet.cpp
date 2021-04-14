@@ -15,6 +15,8 @@
 #include "../Camera/Camera.h"
 #include "../Mode/ModeGame.h"
 
+using namespace tensionblower;
+
 BossBullet::BossBullet(VECTOR pos, float shotSpd, float shotAngle){
 
 	_mh = ResourceServer::MV1LoadModel("res/model/boss/bullet.mv1");
@@ -56,7 +58,7 @@ void BossBullet::CollisionToPlayerAttack() {
 	float sz = plPos.z - _vPos.z;
 	float length = Util::Sqrt(sx, sz);  // プレイヤーとの距離計算
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	for (auto&& itr : *modeGame->_objServer.List()) {
 		// プレイヤーの近接攻撃による弾き返し

@@ -17,6 +17,8 @@
 #include "../Mode/ModeAmgLogo.h"
 #include "../Mode/ModeTeamLogo.h"
 
+using namespace tensionblower;
+
 // ŽÀ‘Ì
 ApplicationMain	g_oApplicationMain;
 
@@ -33,7 +35,7 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	gBossVoice.Initialize();
 
 	// ƒ‚[ƒh‚Ì“o˜^
-	ModeServer::GetInstance()->Add(NEW ModeAmgLogo(), 1, "amglogo");
+	ModeServer::GetInstance()->Add(NEW mode::ModeAmgLogo(), 1, "amglogo");
 
 	return true;
 }

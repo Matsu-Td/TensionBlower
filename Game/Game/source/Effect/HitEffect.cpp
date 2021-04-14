@@ -9,6 +9,8 @@
 #include "HitEffect.h"
 #include "../Mode/ModeGame.h"
 
+using namespace tensionblower;
+
 HitEffect::HitEffect(VECTOR pos) {
 
 	_effectHandle = ResourceServer::LoadEffekseerEffect("res/effect/hit/hit.efkefc", 1.5f);
@@ -42,7 +44,7 @@ void HitEffect::Process() {
 
 	// 総再生時間を迎えたらエフェクト削除
 	if (_effectCnt >= ALL_EFFECT_TIME) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}
 }

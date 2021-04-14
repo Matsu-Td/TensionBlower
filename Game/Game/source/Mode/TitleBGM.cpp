@@ -9,6 +9,8 @@
 #include "TitleBGM.h"
 #include "../Sound/Sound.h"
 
+using namespace tensionblower::mode;
+
 TitleBGM::TitleBGM() {
 	// BGMçƒê∂äJén
 	PlaySoundMem(gSound._bgm["titlebgm"], DX_PLAYTYPE_LOOP);

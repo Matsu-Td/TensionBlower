@@ -12,6 +12,8 @@
 #include "../Mode/ModeGame.h"
 #include "../Sound/Sound.h"
 
+using namespace tensionblower;
+
 Reticle::Reticle(){
 
 	_cg = ResourceServer::LoadGraph("res/ui/player/mls_reticle.png");
@@ -104,7 +106,7 @@ void Reticle::Deletion() {
 
 	// カメラの状態がマルチロックオンシステムではなくなる
 	if (camState != Camera::STATE::MLS_LOCK) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}
 }

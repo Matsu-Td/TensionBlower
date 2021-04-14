@@ -9,6 +9,8 @@
 #include "Boss.h"
 #include "../Mode/ModeGame.h"
 
+using namespace tensionblower;
+
 Boss* Boss::_pInstance = nullptr;
 
 Boss::Boss(){
@@ -30,7 +32,7 @@ Boss::~Boss(){
  */
 void Boss::Initialize() {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame* > (ModeServer::GetInstance()->Get("game"));
 
 	_vPos = VGet(0.0f, 0.0f, 0.0f);
 	_vDir = VGet(0.0f, 0.0f, 0.0f);

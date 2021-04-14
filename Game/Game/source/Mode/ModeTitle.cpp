@@ -17,6 +17,8 @@
 #include "../Player/LoadPlayerVoice.h"
 #include "../Boss/LoadBossVoice.h"
 
+using namespace tensionblower::mode;
+
 /*
  * ‰Šú‰»
  */

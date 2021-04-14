@@ -10,6 +10,8 @@
 #include "PlayerStatus.h"
 #include "../Mode/ModeGame.h"
 
+using namespace tensionblower;
+
 PlayerStatus::PlayerStatus() {
 
 	_cgName        = ResourceServer::LoadGraph("res/ui/player/player_name.png");
@@ -28,7 +30,7 @@ PlayerStatus::~PlayerStatus() {
  */
 void PlayerStatus::Render() {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	// ƒvƒŒƒCƒ„[î•ñŽæ“¾
 	int hitpoint  = Player::GetInstance()->GetHitPoint();

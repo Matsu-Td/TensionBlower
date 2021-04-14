@@ -11,6 +11,8 @@
 #include "ModeTitle.h"
 #include "../Sound/Sound.h"
 
+using namespace tensionblower::mode;
+
 /*
  * ‰Šú‰»
  */

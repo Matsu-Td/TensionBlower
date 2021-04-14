@@ -11,6 +11,8 @@
 #include "../Mode/ModeGame.h"
 #include "Reticle.h"
 
+using namespace tensionblower;
+
 /*
  * マルチロックオンシステム用照準追加
  */
@@ -21,7 +23,7 @@ void Player::ReticleGeneration() {
 
 	// ゲームパッド「LBボタン」でマルチロックオンシステム用照準追加
 	if (trg & PAD_INPUT_5) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		Reticle* reticle = NEW Reticle();
 		modeGame->_objServer.Add(reticle);
 	}

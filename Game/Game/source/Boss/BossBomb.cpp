@@ -17,6 +17,8 @@
 #include "../Effect/Explosion.h"
 #include "../Sound/Sound.h"
 
+using namespace tensionblower;
+
 BossBomb::BossBomb(VECTOR pos) {
 
 	_mh = ResourceServer::MV1LoadModel("res/model/boss/bomb.mv1");
@@ -87,7 +89,7 @@ void BossBomb::BombDelete() {
 	if (_vPos.y <= 0.0f) {	
 		Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
 
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Add(explosion);
 		modeGame->_objServer.Del(this);
 	}
@@ -98,7 +100,7 @@ void BossBomb::BombDelete() {
  */
 void BossBomb::CollisionCall() {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	for (auto&& itr : *modeGame->_objServer.List()) {
 		CollisionToPlayer(itr);
@@ -116,7 +118,7 @@ void BossBomb::CollisionToPlayer(ObjectBase* obj) {
 		if (IsHitLineSegment(*obj, _r)) {
 			Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
 
-			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 			modeGame->_objServer.Add(explosion);
 			modeGame->_objServer.Del(this);
 		}
@@ -158,7 +160,7 @@ void BossBomb::CollisionToBoss(ObjectBase* obj) {
 			if (IsHitLineSegment(*obj, obj->_r)) {
 				Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
 
-				ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+				mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 				modeGame->_objServer.Add(explosion);
 				modeGame->_objServer.Del(this);
 			}

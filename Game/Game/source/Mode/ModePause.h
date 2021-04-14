@@ -8,43 +8,49 @@
 
 #include "appframe.h"
 
-/**
- * @brief ポーズモードクラス
- */
-class ModePause : public ModeBase{
-	using base = ModeBase;
+namespace tensionblower {
 
-public:
-	/**
-	 * @brief  初期化
-	 * @return 処理の成否
-	 */
-	bool Initialize() override;
+	namespace mode {
 
-	/**
-	 * @brief  解放
-	 * @return 処理の成否
-	 */
-	bool Terminate() override;
+		/**
+		 * @brief ポーズモードクラス
+		 */
+		class ModePause : public ModeBase {
+			using base = ModeBase;
 
-	/**
-	 * @brief  フレーム処理：計算
-	 * @return 処理の成否
-	 */
-	bool Process() override;
+		public:
+			/**
+			 * @brief  初期化
+			 * @return 処理の成否
+			 */
+			bool Initialize() override;
 
-	/**
-	 * @brief  フレーム処理：描画
-	 * @return 処理の成否
-	 */
-	bool Render() override;
+			/**
+			 * @brief  解放
+			 * @return 処理の成否
+			 */
+			bool Terminate() override;
 
-private:
-	int _cg;      // 画像
-	int _ui[4];   // UI画像
-	int _menuPos; // 選択位置
+			/**
+			 * @brief  フレーム処理：計算
+			 * @return 処理の成否
+			 */
+			bool Process() override;
 
-	const int POS_X       = 786; // 画像描画位置：X座標(共通)
-	const int POS_Y_UP    = 380; // 画像描画位置：Y座標(上側)
-	const int POS_Y_UNDER = 580; // 画像描画位置：Y座標(下側)
-};
+			/**
+			 * @brief  フレーム処理：描画
+			 * @return 処理の成否
+			 */
+			bool Render() override;
+
+		private:
+			int _cg;      // 画像
+			int _ui[4];   // UI画像
+			int _menuPos; // 選択位置
+
+			const int POS_X = 786; // 画像描画位置：X座標(共通)
+			const int POS_Y_UP = 380; // 画像描画位置：Y座標(上側)
+			const int POS_Y_UNDER = 580; // 画像描画位置：Y座標(下側)
+		};
+	}
+}

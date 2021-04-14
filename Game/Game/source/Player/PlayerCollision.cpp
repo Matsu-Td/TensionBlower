@@ -13,12 +13,14 @@
 #include "../Effect/HitEffect.h"
 #include "../Sound/Sound.h"
 
+using namespace tensionblower;
+
 /*
  * 各種当たり判定処理実行 
  */
 void Player::CollisionCall() {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	for (auto&& itr : *modeGame->_objServer.List()) {
 		CollisionToStage(itr);
@@ -65,7 +67,7 @@ void Player::CollisionToStage(ObjectBase* obj) {
 void Player::CollisionToBossBullet(ObjectBase* obj) {
 
 	if (obj->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 		// 着弾
 		if (IsHitLineSegment(*obj, obj->_r)) {
@@ -120,7 +122,7 @@ void Player::CollisionToBoss(ObjectBase* obj) {
 				// ヒットエフェクト生成
 				HitEffect* hitEffect = NEW HitEffect(tmpPos);
 
-				ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+				mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 				modeGame->_objServer.Add(hitEffect);
 			}
 		}
@@ -137,7 +139,7 @@ void Player::CollisionToLaser(ObjectBase* obj) {
 
 	if (obj->GetType() == ObjectBase::OBJECTTYPE::LASER) {
 		if (IsHitLineSegment(*obj, obj->_r) == true) {
-			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 			_hitpoint -= modeGame->_charaData->_boss.laserDmg;
 		}

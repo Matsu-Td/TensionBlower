@@ -10,6 +10,8 @@
 #include "../Effect/Destruction.h"
 #include "../Mode/ModeGame.h"
 
+using namespace tensionblower;
+
  /*
   * éÄñSèàóù
   */
@@ -32,7 +34,7 @@ void Boss::Death() {
 
 			Destruction* destruction = NEW Destruction(tmpPos);
 
-			ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 			modeGame->_objServer.Add(destruction);
 		}
 		_hitpoint = 0;

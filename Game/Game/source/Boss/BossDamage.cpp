@@ -10,12 +10,14 @@
 #include "../Mode/ModeGame.h"
 #include "../Sound/Sound.h"
 
+using namespace tensionblower;
+
   /*
    * プレイヤーに弾き返された弾によるダメージ処理
    */
 void Boss::RepelDamage() {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	PlaySoundMem(gSound._se["hit"], DX_PLAYTYPE_BACK);
 	// シールドがあるとき

@@ -10,6 +10,8 @@
 #include "../Mode/ModeGame.h"
 #include "../Boss/Boss.h"
 
+using namespace tensionblower;
+
 Laser::Laser(VECTOR pos, float radius, float angle, float roteSpd) {
 
 	_effectHandle = ResourceServer::LoadEffekseerEffect("res/effect/beam/effect_beam.efkefc", 1.0f);
@@ -49,14 +51,14 @@ void Laser::Deletion() {
 	if (bsState == Boss::STATE::DOWN) {
 		StopEffekseer3DEffect(_playingHandle);
 
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}
 
 	_effectCnt--;
 	// 再生カウントが「0」になればレーザーを削除する
 	if (_effectCnt <= 0) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}
 }

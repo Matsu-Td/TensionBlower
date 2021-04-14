@@ -10,6 +10,8 @@
 #include "../Mode/ModeGameClear.h"
 #include "Destruction.h"
 
+using namespace tensionblower;
+
 Destruction::Destruction(VECTOR pos){
 
 	_effectHandle = ResourceServer::LoadEffekseerEffect("res/effect/destruction/effect_explosion_2.efkefc", 1.0f);
@@ -32,10 +34,10 @@ void Destruction::Process(){
 
 	// ゲームクリアカウント「0」でエフェクト削除し、ゲームクリアに移行
 	if (_gameClearCnt <= 0) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 
-		ModeGameClear* modeGameClear = NEW ModeGameClear();
+		mode::ModeGameClear* modeGameClear = NEW mode::ModeGameClear();
 		ModeServer::GetInstance()->Add(modeGameClear, 2, "clear");
 	}
 	SetPosPlayingEffekseer3DEffect(_playingHandle, _vPos.x, _vPos.y, _vPos.z);

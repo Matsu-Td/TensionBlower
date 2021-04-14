@@ -13,6 +13,7 @@
 #include "../Sound/Sound.h"
 #include "../Camera/Camera.h"
 
+using namespace tensionblower;
 
 Explosion::Explosion(VECTOR pos, bool repelFlag) {
 	// 生成時、爆発音再生
@@ -74,7 +75,7 @@ void Explosion::CollisionToPlayer(ObjectBase* obj) {
  */
 void Explosion::CollisionCall() {
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	
 	for (auto&& itr : *modeGame->_objServer.List()) {
 		// プレイヤーに弾き返された弾かどうか
@@ -110,7 +111,7 @@ void Explosion::Process(){
 
 	// 総再生時間を迎えたらエフェクト削除
 	if (_effectCnt >= ALL_EFFECT_TIME) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}
 

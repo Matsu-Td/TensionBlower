@@ -11,6 +11,8 @@
 #include "../Mode/ModeGame.h"
 #include "Player.h"
 
+using namespace tensionblower;
+
 /*
  * エネルギー消費処理
  */
@@ -51,7 +53,7 @@ void Player::EnergyManager() {
 	// カメラの状態取得
 	Camera::STATE camState = Camera::GetInstance()->GetState();
 	
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	
 	// ボスとの距離を確認
 	CheckDistanceToBoss();

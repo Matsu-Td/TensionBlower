@@ -12,6 +12,8 @@
 #include "../Camera/Camera.h"
 #include "../Mode/ModeGame.h"
 
+using namespace tensionblower;
+
 Player* Player::_pInstance = nullptr;
 
 Player::Player(){
@@ -34,7 +36,7 @@ Player::~Player(){
  */
 void Player::Initialize(){
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	
 	_vPos = VGet(0.0f, 0.0f, -115.0f);
 	_vDir = VGet(0, 0, 1);
@@ -97,7 +99,7 @@ void Player::Gravity() {
 void Player::ExplosionDamage() {
 
 	if (_hitpoint > 0) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 		_hitpoint -= modeGame->_charaData->_boss.explosionDmg;
 	}

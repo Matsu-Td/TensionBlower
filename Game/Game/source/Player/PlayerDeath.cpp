@@ -9,6 +9,8 @@
 #include "Player.h"
 #include "../Mode/ModeGameOver.h"
 
+using namespace tensionblower;
+
  /*
   * 死亡処理＆ゲームオーバーへ移行
   */
@@ -18,7 +20,7 @@ void Player::Death() {
 	if (_isGameOver) {
 		_gameOverCnt--;
 		if (_gameOverCnt == 0) {
-			ModeGameOver* modeGameOver = NEW ModeGameOver();
+			mode::ModeGameOver* modeGameOver = NEW mode::ModeGameOver();
 			ModeServer::GetInstance()->Add(modeGameOver, 2, "over");
 		}
 	}

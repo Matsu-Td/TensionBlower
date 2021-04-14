@@ -11,6 +11,8 @@
 #include "../Mode/ModeGame.h"
 #include "Player.h"
 
+using namespace tensionblower;
+
 /*
  * 移動、ダッシュモーション切替処理
  */
@@ -20,7 +22,7 @@ void Player::MoveAndDashMotionSwitch() {
 		return;
 	}
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	float stickDeg = Util::GetLeftStickDeg();
 	float stickLength = Util::GetLeftStickLength();
@@ -81,7 +83,7 @@ void Player::Dash() {
 	int key = ApplicationMain::GetInstance()->GetKey();// キー入力情報取得
 	int trg = ApplicationMain::GetInstance()->GetKeyTrg();// キーのトリガ情報取得
 
-	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	
 	Camera::STATE camState = Camera::GetInstance()->GetState();  // カメラの状態
 

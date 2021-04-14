@@ -14,6 +14,8 @@
 #include "../Sound/Sound.h"
 #include "../Player/LoadPlayerVoice.h"
 
+using namespace tensionblower::mode;
+
 /*
  * ‰Šú‰»
  */

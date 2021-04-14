@@ -17,56 +17,62 @@
 #include "../Player/PlayerStatus.h"
 #include "../Boss/BossStatus.h"
 
-/**
- * @brief ゲームモードクラス
- */
-class ModeGame : public ModeBase{
-	using base = ModeBase;
+namespace tensionblower {
 
-public:
-	/**
-	 * @brief  初期化
-	 * @return 処理の成否
-	 */
-	bool Initialize() override;
+	namespace mode {
 
-	/**
-	 * @brief  解放 
-	 * @return 処理の成否
-	 */
-	bool Terminate() override;
+		/**
+		 * @brief ゲームモードクラス
+		 */
+		class ModeGame : public ModeBase {
+			using base = ModeBase;
 
-	/**
-	 * @brief  フレーム処理：計算
-	 * @return 処理の成否 
-	 */
-	bool Process() override;
+		public:
+			/**
+			 * @brief  初期化
+			 * @return 処理の成否
+			 */
+			bool Initialize() override;
 
-	/**
-	 * @brief  フレーム処理：描画
-	 * @return 処理の成否 
-	 */
-	bool Render() override;
+			/**
+			 * @brief  解放
+			 * @return 処理の成否
+			 */
+			bool Terminate() override;
 
-	Camera       _cam;
-	ObjectServer _objServer;
+			/**
+			 * @brief  フレーム処理：計算
+			 * @return 処理の成否
+			 */
+			bool Process() override;
 
-	std::unique_ptr<CharaData> _charaData; // JSONファイルからキャラデータ読み込み
+			/**
+			 * @brief  フレーム処理：描画
+			 * @return 処理の成否
+			 */
+			bool Render() override;
 
-	bool _stopObjProcess;       // オブジェクト処理をストップ
+			Camera       _cam;
+			ObjectServer _objServer;
 
-private:
-	/**
-	 * @brief ライトの設定
-	 */
-	void SetLight();
+			std::unique_ptr<CharaData> _charaData; // JSONファイルからキャラデータ読み込み
 
-	/**
-     * @brief ライトのディフューズカラーを設定する
-     * @param lightHandle ライトハンドル
-     */
-	void SetLightColorHandle(int lightHandle);
+			bool _stopObjProcess;       // オブジェクト処理をストップ
 
-	PlayerStatus _playerStatus;
-	BossStatus   _bossStatus;
-}; 
+		private:
+			/**
+			 * @brief ライトの設定
+			 */
+			void SetLight();
+
+			/**
+			 * @brief ライトのディフューズカラーを設定する
+			 * @param lightHandle ライトハンドル
+			 */
+			void SetLightColorHandle(int lightHandle);
+
+			PlayerStatus _playerStatus;
+			BossStatus   _bossStatus;
+		};
+	}
+}

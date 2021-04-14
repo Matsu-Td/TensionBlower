@@ -12,6 +12,8 @@
 #include "ModeGameStart.h"
 #include "../Player/LoadPlayerVoice.h"
 
+using namespace tensionblower::mode;
+
 /*
  * ‰Šú‰»
  */
