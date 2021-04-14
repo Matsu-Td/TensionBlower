@@ -59,7 +59,7 @@ float Camera::GetRad() const {
  */
 void Camera::SetPos(float dis, float height) {
 
-	VECTOR bsPos = Boss::GetInstance()->GetPos();       // ボス位置情報取得
+	VECTOR bsPos = boss::Boss::GetInstance()->GetPos();       // ボス位置情報取得
 	VECTOR plPos = player::Player::GetInstance()->GetPos();     // プレイヤー位置情報取得
 
 	float sx = plPos.x - _vTarg.x;
@@ -119,7 +119,7 @@ void Camera::StateMLSLock() {
  */
 void Camera::Process(){
 
-	VECTOR bsPos = Boss::GetInstance()->GetPos();  // ボス位置情報取得
+	VECTOR bsPos = boss::Boss::GetInstance()->GetPos();  // ボス位置情報取得
 
 	// 注視点はボスに固定
 	_vTarg = bsPos;

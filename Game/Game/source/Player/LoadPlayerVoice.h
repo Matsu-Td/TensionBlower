@@ -11,29 +11,23 @@
 #include "appframe.h"
 #include <unordered_map>
 
-namespace tensionblower {
+/**
+ * @brief プレイヤー声優 声データ読み込み処理
+ */
+class LoadPlayerVoice {
+public:
+	/**
+	 * @brief 声データ読み込み
+	 */
+	void Initialize();
 
-	namespace player {
+	/**
+	 * @brief 声データ読み込み
+	 * @param filePath ファイルパス指定
+	 * @return 読み込んだデータのハンドル
+	 */
+	int LoadVoice(const TCHAR* filePath);
 
-		/**
-		 * @brief プレイヤー声優 声データ読み込み処理
-		 */
-		class LoadPlayerVoice {
-		public:
-			/**
-			 * @brief 声データ読み込み
-			 */
-			void Initialize();
-
-			/**
-			 * @brief 声データ読み込み
-			 * @param filePath ファイルパス指定
-			 * @return 読み込んだデータのハンドル
-			 */
-			int LoadVoice(const TCHAR* filePath);
-
-			std::unordered_map<std::string, int> _vc;  // 声データ
-		};
-		extern LoadPlayerVoice gPlayerVoice;
-	}
-}
+	std::unordered_map<std::string, int> _vc;  // 声データ
+};
+extern LoadPlayerVoice gPlayerVoice;

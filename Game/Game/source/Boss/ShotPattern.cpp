@@ -172,7 +172,7 @@ void Boss::LaserGeneration(float laserAngle, float roteSpd) {
 	tmpPos.y = LESER_POS_Y;
 	tmpPos.z = _vPos.z + sin(Util::DegToRad(0)) * SHOT_DISTANCE;
 
-	Laser* laser = NEW Laser(tmpPos, SHOT_DISTANCE, laserAngle, roteSpd);
+	effect::Laser* laser = NEW effect::Laser(tmpPos, SHOT_DISTANCE, laserAngle, roteSpd);
 	modeGame->_objServer.Add(laser);
 }
 

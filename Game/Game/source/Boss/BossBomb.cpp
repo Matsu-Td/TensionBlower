@@ -87,7 +87,7 @@ void BossBomb::StateSniper() {
 void BossBomb::BombDelete() {
 
 	if (_vPos.y <= 0.0f) {	
-		Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
+		effect::Explosion* explosion = NEW effect::Explosion(_vPos, _repelFlag);
 
 		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Add(explosion);
@@ -116,7 +116,7 @@ void BossBomb::CollisionToPlayer(ObjectBase* obj) {
 
 	if (obj->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
 		if (IsHitLineSegment(*obj, _r)) {
-			Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
+			effect::Explosion* explosion = NEW effect::Explosion(_vPos, _repelFlag);
 
 			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 			modeGame->_objServer.Add(explosion);
@@ -158,7 +158,7 @@ void BossBomb::CollisionToBoss(ObjectBase* obj) {
 	if (_state == STATE::REPEL) {
 		if (obj->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
 			if (IsHitLineSegment(*obj, obj->_r)) {
-				Explosion* explosion = NEW Explosion(_vPos, _repelFlag);
+				effect::Explosion* explosion = NEW effect::Explosion(_vPos, _repelFlag);
 
 				mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 				modeGame->_objServer.Add(explosion);

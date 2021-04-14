@@ -25,10 +25,10 @@ void Player::AttachAnim(const TCHAR* animName) {
  */
 void Player::MotionSwitching() {
 
-	Camera::STATE camState = Camera::GetInstance()->GetState();
+	camera::Camera::STATE camState = camera::Camera::GetInstance()->GetState();
 
 	// マルチロックオンシステム発動したらモーションを「WAIT」にする
-	if (camState == Camera::STATE::MLS_LOCK) {
+	if (camState == camera::Camera::STATE::MLS_LOCK) {
 		_state = STATE::WAIT;
 	}
 

@@ -29,7 +29,7 @@ void Player::CostEnergy(int costEnergy) {
 void Player::CheckDistanceToBoss() {
 
 	// ボス位置情報取得
-	VECTOR bsPos = Boss::GetInstance()->GetPos();
+	VECTOR bsPos = boss::Boss::GetInstance()->GetPos();
 	float sx = _vPos.x - bsPos.x;
 	float sz = _vPos.z - bsPos.z;
 	float length = Util::Sqrt(sx, sz);
@@ -51,7 +51,7 @@ void Player::CheckDistanceToBoss() {
 void Player::EnergyManager() {
 
 	// カメラの状態取得
-	Camera::STATE camState = Camera::GetInstance()->GetState();
+	camera::Camera::STATE camState = camera::Camera::GetInstance()->GetState();
 	
 	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	
@@ -78,7 +78,7 @@ void Player::EnergyManager() {
 		}
 
 		// マルチロックオンシステム(消費)
-		if (camState == Camera::STATE::MLS_LOCK) {
+		if (camState == camera::Camera::STATE::MLS_LOCK) {
 			CostEnergy(modeGame->_charaData->_egMLS);
 		}
 
@@ -117,9 +117,9 @@ void Player::EnergyManager() {
 	}
 
 	// MLSによる弾き返しでシールド破壊した場合、[ボスの弾の数 * 指定のエネルギー量]分回復する
-	if (Boss::GetInstance()->_mlsDownFlag) {
-		_energy += (modeGame->_charaData->_egShotNum * Boss::GetInstance()->_bulletNum);
-		gGlobal._totalGetEnergy += (modeGame->_charaData->_egShotNum * Boss::GetInstance()->_bulletNum);
+	if (boss::Boss::GetInstance()->_mlsDownFlag) {
+		_energy += (modeGame->_charaData->_egShotNum * boss::Boss::GetInstance()->_bulletNum);
+		gGlobal._totalGetEnergy += (modeGame->_charaData->_egShotNum * boss::Boss::GetInstance()->_bulletNum);
 	}
 
 	//最小エネルギー値オーバー防止

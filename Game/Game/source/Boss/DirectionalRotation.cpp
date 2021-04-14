@@ -17,7 +17,7 @@ using namespace tensionblower::boss;
 void Boss::DirectionalRotation(float rotSpdChange) {
 
 	// プレイヤーの位置情報取得
-	VECTOR plPos = Player::GetInstance()->GetPos();
+	VECTOR plPos = player::Player::GetInstance()->GetPos();
 
 	// ボスのフォワードベクトル
 	VECTOR forward = { cos(_angle),0.0f,sin(_angle) };

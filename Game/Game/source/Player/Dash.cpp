@@ -85,7 +85,7 @@ void Player::Dash() {
 
 	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	
-	Camera::STATE camState = Camera::GetInstance()->GetState();  // カメラの状態
+	camera::Camera::STATE camState = camera::Camera::GetInstance()->GetState();  // カメラの状態
 
 	float stickLength = Util::GetLeftStickLength();
 
@@ -109,12 +109,12 @@ void Player::Dash() {
 			_isCharging = false;   // ダッシュ中溜め行動不可
 
 			// キー入力があるとき入力方向にダッシュする
-			if (camState != Camera::STATE::NORMAL) {
+			if (camState != camera::Camera::STATE::NORMAL) {
 				_state = Player::STATE::FOR_DASH;
 			}
 			// キー入力がないとき向いている方向に直線でダッシュする
 			if (stickLength < Util::ANALOG_MIN) {
-				if (camState == Camera::STATE::NORMAL) {
+				if (camState == camera::Camera::STATE::NORMAL) {
 					MoveAndDashMotionSwitch();
 					vDash.x = -cos(_bsAngle) * _mvSpd;
 					vDash.z = -sin(_bsAngle) * _mvSpd;
@@ -141,12 +141,12 @@ void Player::Dash() {
 			_isCharging = false;  // ダッシュ中溜め行動不可
 
 			// キー入力があるときが入力方向にダッシュする
-			if (camState != Camera::STATE::NORMAL) {
+			if (camState != camera::Camera::STATE::NORMAL) {
 				_state = Player::STATE::FOR_DASH;
 			}
 			// キー入力がないとき：向いている方向に直線でダッシュする
 			if (stickLength < Util::ANALOG_MIN) {
-				if (camState == Camera::STATE::NORMAL) {
+				if (camState == camera::Camera::STATE::NORMAL) {
 					MoveAndDashMotionSwitch();
 					vDash.x = -cos(_bsAngle) * _mvSpd;
 					vDash.z = -sin(_bsAngle) * _mvSpd;

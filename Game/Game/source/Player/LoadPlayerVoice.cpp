@@ -8,8 +8,6 @@
 
 #include "LoadPlayerVoice.h"
 
-using namespace tensionblower::player;
-
 // 実体：声データ呼び出し
 LoadPlayerVoice gPlayerVoice;
 

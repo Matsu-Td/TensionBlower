@@ -8,7 +8,7 @@
 
 #include "Sound.h"
 
- // 実体：BGM,SE呼び出し
+// 実体：BGM,SE呼び出し
 Sound gSound; 
 
 /*

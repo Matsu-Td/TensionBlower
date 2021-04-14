@@ -102,10 +102,10 @@ void Reticle::PreventOffScreen() {
  */
 void Reticle::Deletion() {
 	// カメラの状態取得
-	Camera::STATE camState = Camera::GetInstance()->GetState();
+	camera::Camera::STATE camState = camera::Camera::GetInstance()->GetState();
 
 	// カメラの状態がマルチロックオンシステムではなくなる
-	if (camState != Camera::STATE::MLS_LOCK) {
+	if (camState != camera::Camera::STATE::MLS_LOCK) {
 		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}

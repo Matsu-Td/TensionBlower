@@ -8,9 +8,7 @@
 
 #include "LoadBossVoice.h"
 
-using namespace tensionblower::boss;
-
- // 実体：声データ呼び出し
+// 実体：声データ呼び出し
 LoadBossVoice gBossVoice;
 
 int LoadBossVoice::LoadVoice(const TCHAR* filePath) {

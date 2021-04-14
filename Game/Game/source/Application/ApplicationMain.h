@@ -8,60 +8,63 @@
 
 #include "appframe.h"
 
-/**
- * @brief プロジェクトのメイン処理
- */
-class ApplicationMain : public ApplicationBase{
-	using base = ApplicationBase;
-
-public:
-	/**
-	 * @brief 初期化
-	 * @param hInstance WinMain第一引数
-	 * @return 処理の成否
-	 */
-	virtual bool Initialize(HINSTANCE hInstance);
+namespace tensionblower {
 
 	/**
-	 * @brief  解放
-	 * @return 処理の成否 
+	 * @brief プロジェクトのメイン処理
 	 */
-	virtual bool Terminate();
+	class ApplicationMain : public ApplicationBase {
+		using base = ApplicationBase;
 
-	/**
-	 * @brief  入力
-	 * @return 処理の成否
-	 */
-	virtual bool Input();
+	public:
+		/**
+		 * @brief 初期化
+		 * @param hInstance WinMain第一引数
+		 * @return 処理の成否
+		 */
+		virtual bool Initialize(HINSTANCE hInstance);
 
-	/**
-	 * @brief  フレーム処理：計算
-	 * @return 処理の成否
-	 */
-	virtual bool Process();
+		/**
+		 * @brief  解放
+		 * @return 処理の成否
+		 */
+		virtual bool Terminate();
 
-	/**
-	 * @brief  フレーム処理：描画
-	 * @return 処理の成否
-	 */
-	virtual bool Render();
+		/**
+		 * @brief  入力
+		 * @return 処理の成否
+		 */
+		virtual bool Input();
 
-	/**
-	 * @brief  ウィンドウモード、フルスクリーンモード指定
-	 * @return true
-	 */
-	virtual bool AppWindowed() { return true; }
+		/**
+		 * @brief  フレーム処理：計算
+		 * @return 処理の成否
+		 */
+		virtual bool Process();
 
-	/**
-	 * @brief  表示するウィンドウの横幅
-	 * @return サイズ
-	 */
-	virtual int DispSizeW() { return 1920; }
+		/**
+		 * @brief  フレーム処理：描画
+		 * @return 処理の成否
+		 */
+		virtual bool Render();
 
-	/**
-	 * @brief  表示するウィンドウの縦幅
-	 * @return サイズ
-	 */
-	virtual int DispSizeH() { return 1080; }
+		/**
+		 * @brief  ウィンドウモード、フルスクリーンモード指定
+		 * @return true
+		 */
+		virtual bool AppWindowed() { return true; }
 
-}; 
+		/**
+		 * @brief  表示するウィンドウの横幅
+		 * @return サイズ
+		 */
+		virtual int DispSizeW() { return 1920; }
+
+		/**
+		 * @brief  表示するウィンドウの縦幅
+		 * @return サイズ
+		 */
+		virtual int DispSizeH() { return 1080; }
+
+	};
+}

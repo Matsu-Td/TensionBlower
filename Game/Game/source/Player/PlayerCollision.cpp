@@ -89,7 +89,7 @@ void Player::CollisionToBossBullet(ObjectBase* obj) {
 				VECTOR tmpPos = _vPos;
 				tmpPos.y = 4.0f;
 
-				HitEffect* hitEffect = NEW HitEffect(tmpPos);
+				effect::HitEffect* hitEffect = NEW effect::HitEffect(tmpPos);
 				modeGame->_objServer.Add(hitEffect);
 			}
 		}
@@ -100,7 +100,7 @@ void Player::CollisionToBossBullet(ObjectBase* obj) {
 			}
 			gGlobal._totalGetEnergy += modeGame->_charaData->_egAvoid;
 		}
-		if (Boss::GetInstance()->_mlsDownFlag) {
+		if (boss::Boss::GetInstance()->_mlsDownFlag) {
 			modeGame->_objServer.Del(obj);
 		}
 	}
@@ -116,11 +116,11 @@ void Player::CollisionToBoss(ObjectBase* obj) {
 			if (_canHitFlag && !_hitFlag) {
 				_hitFlag = true;
 	
-				Boss::GetInstance()->AttackDamage();
+				boss::Boss::GetInstance()->AttackDamage();
 				VECTOR tmpPos = MV1GetFramePosition(_mh, MV1SearchFrame(_mh, "weapon3"));
 
 				// ヒットエフェクト生成
-				HitEffect* hitEffect = NEW HitEffect(tmpPos);
+				effect::HitEffect* hitEffect = NEW effect::HitEffect(tmpPos);
 
 				mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 				modeGame->_objServer.Add(hitEffect);

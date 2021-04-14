@@ -10,6 +10,8 @@
 #include "picojson/picojson.h"
 #include "CharaData.h"
 
+using namespace tensionblower::charadata;
+
 /*
  * コンストラクタで読み込むJSONファイル指定
  */

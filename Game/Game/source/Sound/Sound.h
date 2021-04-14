@@ -17,11 +17,11 @@
 class Sound {
 public:
 	/**
-     * @brief BGM,SE“Ç‚İ‚İˆ—
-     */
+	 * @brief BGM,SE“Ç‚İ‚İˆ—
+	 */
 	void Initialize();
 
 	std::unordered_map<std::string, int> _bgm;  // BGM
 	std::unordered_map<std::string, int> _se;   // SE
 };
-extern Sound gSound;  
+extern Sound gSound;

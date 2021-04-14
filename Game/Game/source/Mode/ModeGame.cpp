@@ -23,12 +23,12 @@ bool ModeGame::Initialize() {
 	PlaySoundMem(gSound._bgm["boss"], DX_PLAYTYPE_LOOP);
 
 	// JSONファイルからキャラデータ読み込み
-	_charaData = std::make_unique<CharaData>("res/json/", "CharaData");
+	_charaData = std::make_unique<charadata::CharaData>("res/json/", "CharaData");
 
 	// オブジェクトサーバーに登録
-	_objServer.Add(NEW Stage()); 
-	_objServer.Add(NEW Player()); 
-	_objServer.Add(NEW Boss());
+	_objServer.Add(NEW stage::Stage()); 
+	_objServer.Add(NEW player::Player()); 
+	_objServer.Add(NEW boss::Boss());
 	
 	// グローバル変数初期化(リザルト画面、スコア計算用)
 	gGlobal._remainingHP = 0;

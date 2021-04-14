@@ -124,12 +124,12 @@ void Player::Process(){
 	Death();
 
 	// カメラ状態取得
-	Camera::STATE camState = Camera::GetInstance()->GetState();
+	camera::Camera::STATE camState = camera::Camera::GetInstance()->GetState();
 
 	// マルチロックシステムが発動していない
 	// 近接攻撃を発動していない
 	// ゲームオーバーになっていない
-	if (camState != Camera::STATE::MLS_LOCK && !_isAttack && !_isGameOver) {	
+	if (camState != camera::Camera::STATE::MLS_LOCK && !_isAttack && !_isGameOver) {	
 		// 移動処理
 		Move();
 

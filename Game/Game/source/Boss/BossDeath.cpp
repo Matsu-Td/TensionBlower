@@ -32,7 +32,7 @@ void Boss::Death() {
 			VECTOR tmpPos = _vPos;
 			tmpPos.y = 8.5f;
 
-			Destruction* destruction = NEW Destruction(tmpPos);
+			effect::Destruction* destruction = NEW effect::Destruction(tmpPos);
 
 			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 			modeGame->_objServer.Add(destruction);

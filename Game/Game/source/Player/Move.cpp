@@ -18,9 +18,9 @@ using namespace tensionblower::player;
  */
 void Player::Move() {
 
-	VECTOR camPos  = Camera::GetInstance()->GetPos();   // カメラ位置
-	VECTOR camTarg = Camera::GetInstance()->GetTarg();  // カメラの注視点
-	float camRad   = Camera::GetInstance()->GetRad();   // カメラの向いている角度取得
+	VECTOR camPos  = camera::Camera::GetInstance()->GetPos();   // カメラ位置
+	VECTOR camTarg = camera::Camera::GetInstance()->GetTarg();  // カメラの注視点
+	float camRad   = camera::Camera::GetInstance()->GetRad();   // カメラの向いている角度取得
 
 	float length = Util::GetLeftStickLength(); 	// 左スティックの移動量
 	float rad    = Util::GetLeftStickRad();     // 左スティックの角度(rad)
