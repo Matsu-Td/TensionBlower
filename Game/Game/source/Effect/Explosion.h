@@ -10,57 +10,63 @@
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
-/**
- * @brief ボム攻撃の爆発エフェクトクラス
- */
-class Explosion : public ObjectBase{
-public:
-	/**
-	 * @brief ボム攻撃の爆発エフェクト生成
-	 * @param pos 爆発発生位置
-	 * @param repelFlag 弾き返された弾かどうか
-	 */
-	Explosion(VECTOR pos, bool repelFlag);
-	~Explosion();
+namespace tensionblower {
 
-	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::EXPLOSION; }
+	namespace effect {
 
-	/**
-	 * @brief 初期化
-	 */
-	void Initialize() override;
+		/**
+		 * @brief ボム攻撃の爆発エフェクトクラス
+		 */
+		class Explosion : public ObjectBase {
+		public:
+			/**
+			 * @brief ボム攻撃の爆発エフェクト生成
+			 * @param pos 爆発発生位置
+			 * @param repelFlag 弾き返された弾かどうか
+			 */
+			Explosion(VECTOR pos, bool repelFlag);
+			~Explosion();
 
-	/**
-	 * @brief フレーム処理：計算
-	 */
-	void Process() override;
+			OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::EXPLOSION; }
 
-	/**
-	 * @brief フレーム処理：描画
-	 */
-	void Render() override;
+			/**
+			 * @brief 初期化
+			 */
+			void Initialize() override;
 
-private:
-	/**
-	 * @brief 各種当たり判定呼び出し
-	 */
-	void CollisionCall();
+			/**
+			 * @brief フレーム処理：計算
+			 */
+			void Process() override;
 
-	/**
-     * @brief ボスとの当たり判定
-     */
-	void CollisionToBoss(ObjectBase* obj);
+			/**
+			 * @brief フレーム処理：描画
+			 */
+			void Render() override;
 
-	/**
-	 * @brief プレイヤーとの当たり判定
-	 */
-	void CollisionToPlayer(ObjectBase* obj);
+		private:
+			/**
+			 * @brief 各種当たり判定呼び出し
+			 */
+			void CollisionCall();
 
-	int _effectCnt;     // エフェクトカウント
-	int _repelFlag;     // 弾き返された弾かどうか(true:弾き返された弾)
-	int	_effectHandle;  // エフェクトファイルをロードするハンドル
-	int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
+			/**
+			 * @brief ボスとの当たり判定
+			 */
+			void CollisionToBoss(ObjectBase* obj);
 
-	const int ALL_EFFECT_TIME = 180;   // エフェクト総再生時間
-	const float MAX_RADIUS    = 10.0f; // 最大半径サイズ
-};
+			/**
+			 * @brief プレイヤーとの当たり判定
+			 */
+			void CollisionToPlayer(ObjectBase* obj);
+
+			int _effectCnt;     // エフェクトカウント
+			int _repelFlag;     // 弾き返された弾かどうか(true:弾き返された弾)
+			int	_effectHandle;  // エフェクトファイルをロードするハンドル
+			int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
+
+			const int ALL_EFFECT_TIME = 180;   // エフェクト総再生時間
+			const float MAX_RADIUS = 10.0f; // 最大半径サイズ
+		};
+	}
+}

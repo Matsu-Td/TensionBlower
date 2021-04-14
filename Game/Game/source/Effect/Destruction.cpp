@@ -10,7 +10,7 @@
 #include "../Mode/ModeGameClear.h"
 #include "Destruction.h"
 
-using namespace tensionblower;
+using namespace tensionblower::effect;
 
 Destruction::Destruction(VECTOR pos){
 

@@ -13,7 +13,7 @@
 #include "../Sound/Sound.h"
 #include "../Camera/Camera.h"
 
-using namespace tensionblower;
+using namespace tensionblower::effect;
 
 Explosion::Explosion(VECTOR pos, bool repelFlag) {
 	// 生成時、爆発音再生
@@ -50,10 +50,10 @@ void Explosion::CollisionToBoss(ObjectBase* obj) {
 		if (IsHitLineSegment(*obj, _r)) {
 			// ヒットポイントへのダメージ：6フレーム毎にダメージ判定
 			if (_effectCnt % 6 == 0) {
-				Boss::GetInstance()->ExplosionDamageHP();
+				boss::Boss::GetInstance()->ExplosionDamageHP();
 			}
 			// シールドへのダメージ：毎フレームダメージ判定
-			Boss::GetInstance()->ExplosionDamageShield();
+			boss::Boss::GetInstance()->ExplosionDamageShield();
 		}
 	}
 }
@@ -65,7 +65,7 @@ void Explosion::CollisionToPlayer(ObjectBase* obj) {
 
 	if (obj->GetType() == ObjectBase::OBJECTTYPE::PLAYER) {
 		if (IsHitLineSegment(*obj, _r)) {
-			Player::GetInstance()->ExplosionDamage();
+			player::Player::GetInstance()->ExplosionDamage();
 		}
 	}
 }

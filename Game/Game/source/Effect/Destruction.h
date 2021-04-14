@@ -10,32 +10,38 @@
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
-/**
- * @brief ボスの死亡爆発エフェクトクラス
- */
-class Destruction : public ObjectBase{
-public:
-	/**
-	 * @brief ボスの死亡エフェクト生成
-	 * @param pos エフェクト生成位置
-	 */
-	Destruction(VECTOR pos);
-	~Destruction();
+namespace tensionblower {
 
-	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::DESTRUCTION; }
+	namespace effect {
 
-	/**
-	 * @brief フレーム処理：計算
-	 */
-	void Process() override;
+		/**
+		 * @brief ボスの死亡爆発エフェクトクラス
+		 */
+		class Destruction : public ObjectBase {
+		public:
+			/**
+			 * @brief ボスの死亡エフェクト生成
+			 * @param pos エフェクト生成位置
+			 */
+			Destruction(VECTOR pos);
+			~Destruction();
 
-	/**
-	 * @brief フレーム処理：描画
-	 */
-	void Render() override;
+			OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::DESTRUCTION; }
 
-private:
-	int _gameClearCnt;  // ゲームクリア表示までのカウント
-	int	_effectHandle;  // エフェクトファイルをロードするハンドル
-	int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
-};
+			/**
+			 * @brief フレーム処理：計算
+			 */
+			void Process() override;
+
+			/**
+			 * @brief フレーム処理：描画
+			 */
+			void Render() override;
+
+		private:
+			int _gameClearCnt;  // ゲームクリア表示までのカウント
+			int	_effectHandle;  // エフェクトファイルをロードするハンドル
+			int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
+		};
+	}
+}

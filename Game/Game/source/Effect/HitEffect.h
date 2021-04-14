@@ -10,39 +10,45 @@
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
-/**
- * @brief 近接攻撃のヒットエフェクトクラス
- */
-class HitEffect : public ObjectBase {
-public:
-	/**
-	 * @brief ボスへのヒットエフェクト生成
-	 * @param 生成位置
-	 */
-	HitEffect(VECTOR pos);
-	~HitEffect();
+namespace tensionblower {
 
-	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::HIT_EFFECT; }
+	namespace effect {
 
-	/**
-	 * @brief 初期化
-	 */
-	void Initialize() override;
+		/**
+		 * @brief 近接攻撃のヒットエフェクトクラス
+		 */
+		class HitEffect : public ObjectBase {
+		public:
+			/**
+			 * @brief ボスへのヒットエフェクト生成
+			 * @param 生成位置
+			 */
+			HitEffect(VECTOR pos);
+			~HitEffect();
 
-	/**
-	 * @brief フレーム処理：計算
-	 */
-	void Process() override;
+			OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::HIT_EFFECT; }
 
-	/**
-	 * @brief フレーム処理：描画
-	 */
-	void Render() override;
+			/**
+			 * @brief 初期化
+			 */
+			void Initialize() override;
 
-private:
-	int _effectCnt;     // エフェクトカウント
-	int	_effectHandle;  // エフェクトファイルをロードするハンドル
-	int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
+			/**
+			 * @brief フレーム処理：計算
+			 */
+			void Process() override;
 
-	const int ALL_EFFECT_TIME = 30;  // エフェクト総再生時間
-};
+			/**
+			 * @brief フレーム処理：描画
+			 */
+			void Render() override;
+
+		private:
+			int _effectCnt;     // エフェクトカウント
+			int	_effectHandle;  // エフェクトファイルをロードするハンドル
+			int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
+
+			const int ALL_EFFECT_TIME = 30;  // エフェクト総再生時間
+		};
+	}
+}

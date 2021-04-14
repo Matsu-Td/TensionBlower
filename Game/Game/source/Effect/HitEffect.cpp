@@ -9,7 +9,7 @@
 #include "HitEffect.h"
 #include "../Mode/ModeGame.h"
 
-using namespace tensionblower;
+using namespace tensionblower::effect;
 
 HitEffect::HitEffect(VECTOR pos) {
 

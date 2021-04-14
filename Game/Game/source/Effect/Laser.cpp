@@ -10,7 +10,7 @@
 #include "../Mode/ModeGame.h"
 #include "../Boss/Boss.h"
 
-using namespace tensionblower;
+using namespace tensionblower::effect;
 
 Laser::Laser(VECTOR pos, float radius, float angle, float roteSpd) {
 
@@ -45,10 +45,10 @@ void Laser::Initialize() {
 void Laser::Deletion() {
 
 	// ボスの状態を取得
-	Boss::STATE bsState = Boss::GetInstance()->GetState();
+	boss::Boss::STATE bsState = boss::Boss::GetInstance()->GetState();
 
 	// ボスがダウンしたらレーザー削除
-	if (bsState == Boss::STATE::DOWN) {
+	if (bsState == boss::Boss::STATE::DOWN) {
 		StopEffekseer3DEffect(_playingHandle);
 
 		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
@@ -69,10 +69,10 @@ void Laser::Deletion() {
 void Laser::Process() {
 
 	// カメラの状態を取得
-	Camera::STATE camState = Camera::GetInstance()->GetState();
+	camera::Camera::STATE camState = camera::Camera::GetInstance()->GetState();
 
 	// マルチロックオンシステム発動中の回転速度を1/100にする
-	if (camState == Camera::STATE::MLS_LOCK) {
+	if (camState == camera::Camera::STATE::MLS_LOCK) {
 		_roteAngle += _roteSpd * MLS_SPD;
 	}
 	else {
