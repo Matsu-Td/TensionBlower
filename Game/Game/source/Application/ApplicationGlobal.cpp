@@ -9,6 +9,8 @@
 #include "appFrame.h"
 #include "ApplicationGlobal.h"
 
+using namespace tensionblower;
+
 // ŽÀ‘Ì
 ApplicationGlobal	gGlobal;
 

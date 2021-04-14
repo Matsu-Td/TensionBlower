@@ -11,17 +11,22 @@
 #include "appframe.h"
 #include <unordered_map>
 
-/**
- * @brief BGM,SE“Ç‚İ‚İˆ—
- */
-class Sound {
-public:
-	/**
-	 * @brief BGM,SE“Ç‚İ‚İˆ—
-	 */
-	void Initialize();
+namespace tensionblower {
 
-	std::unordered_map<std::string, int> _bgm;  // BGM
-	std::unordered_map<std::string, int> _se;   // SE
-};
-extern Sound gSound;
+	namespace sound {
+		/**
+		 * @brief BGM,SE“Ç‚İ‚İˆ—
+		 */
+		class Sound {
+		public:
+			/**
+			 * @brief BGM,SE“Ç‚İ‚İˆ—
+			 */
+			void Initialize();
+
+			std::unordered_map<std::string, int> _bgm;  // BGM
+			std::unordered_map<std::string, int> _se;   // SE
+		};
+	}
+}
+extern tensionblower::sound::Sound gSound;

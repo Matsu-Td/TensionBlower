@@ -65,6 +65,5 @@ namespace tensionblower {
 		 * @return ÉTÉCÉY
 		 */
 		virtual int DispSizeH() { return 1080; }
-
 	};
 }

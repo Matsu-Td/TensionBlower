@@ -8,6 +8,8 @@
 
 #include "appframe.h"
 
+namespace tensionblower {
+
 	/**
 	 * @brief グローバル変数定義
 	 */
@@ -29,5 +31,5 @@
 		int  _totalGetEnergy; // 総エネルギー回収量
 		int  _totalRepelCnt;  // 合計弾き返し回数
 	};
-
-	extern ApplicationGlobal gGlobal;
+}
+extern tensionblower::ApplicationGlobal gGlobal;

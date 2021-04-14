@@ -8,6 +8,8 @@
 
 #include "Sound.h"
 
+using namespace tensionblower::sound;
+
 // À‘ÌFBGM,SEŒÄ‚Ño‚µ
 Sound gSound; 
 
