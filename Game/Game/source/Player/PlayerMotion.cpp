@@ -9,6 +9,8 @@
 #include "Player.h"
 #include "../Camera/Camera.h"
 
+using namespace tensionblower::player;
+
 /*
  * モーション名で指定したモデルのモーションをアタッチする
  */

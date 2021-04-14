@@ -9,7 +9,7 @@
 #include "Player.h"
 #include "../Mode/ModeGameOver.h"
 
-using namespace tensionblower;
+using namespace tensionblower::player;
 
  /*
   * 死亡処理＆ゲームオーバーへ移行

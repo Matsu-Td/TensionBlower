@@ -13,7 +13,7 @@
 #include "../Sound/Sound.h"
 #include "LoadPlayerVoice.h"
 
-using namespace tensionblower;
+using namespace tensionblower::player;
 
 /*
  * UŒ‚”­¶‚Ìºƒf[ƒ^‚ğÄ¶‚·‚é

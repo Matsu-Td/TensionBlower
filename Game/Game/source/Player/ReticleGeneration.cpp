@@ -11,7 +11,7 @@
 #include "../Mode/ModeGame.h"
 #include "Reticle.h"
 
-using namespace tensionblower;
+using namespace tensionblower::player;
 
 /*
  * マルチロックオンシステム用照準追加

@@ -11,7 +11,7 @@
 #include "../Mode/ModeGame.h"
 #include "Player.h"
 
-using namespace tensionblower;
+using namespace tensionblower::player;
 
 /*
  * 移動、ダッシュモーション切替処理

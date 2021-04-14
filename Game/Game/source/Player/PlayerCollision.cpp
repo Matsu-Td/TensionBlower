@@ -13,7 +13,7 @@
 #include "../Effect/HitEffect.h"
 #include "../Sound/Sound.h"
 
-using namespace tensionblower;
+using namespace tensionblower::player;
 
 /*
  * Šeí“–‚½‚è”»’èˆ—Às 

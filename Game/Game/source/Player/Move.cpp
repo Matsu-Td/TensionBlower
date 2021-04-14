@@ -11,7 +11,7 @@
 #include "../Camera/Camera.h"
 #include "../Mode/ModeGame.h"
 
-using namespace tensionblower;
+using namespace tensionblower::player;
 
 /*
  * ˆÚ“®ˆ—

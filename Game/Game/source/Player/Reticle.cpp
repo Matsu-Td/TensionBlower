@@ -12,7 +12,7 @@
 #include "../Mode/ModeGame.h"
 #include "../Sound/Sound.h"
 
-using namespace tensionblower;
+using namespace tensionblower::player;
 
 Reticle::Reticle(){
 

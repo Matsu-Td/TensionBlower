@@ -10,7 +10,7 @@
 #include "../Application/ApplicationMain.h"
 #include "../Mode/ModeGame.h"
 
-using namespace tensionblower;
+using namespace tensionblower::player;
 
 /*
  * ƒGƒlƒ‹ƒM[—­‚ßˆ—

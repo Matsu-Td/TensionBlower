@@ -10,7 +10,7 @@
 #include "PlayerStatus.h"
 #include "../Mode/ModeGame.h"
 
-using namespace tensionblower;
+using namespace tensionblower::player;
 
 PlayerStatus::PlayerStatus() {
 

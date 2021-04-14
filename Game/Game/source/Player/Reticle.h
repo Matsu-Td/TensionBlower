@@ -11,44 +11,49 @@
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
-/**
- * @brief プレイヤー照準処理
- */
-class Reticle : public ObjectBase{
-public:
-	Reticle();
-	~Reticle();
+namespace tensionblower {
 
-	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::RETICLE; }
+	namespace player {
+		/**
+		 * @brief プレイヤー照準処理
+		 */
+		class Reticle : public ObjectBase {
+		public:
+			Reticle();
+			~Reticle();
 
-	/**
-	 * @brief 初期化
-	 */
-	void Initialize() override;
+			OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::RETICLE; }
 
-	/**
-	 * @brief フレーム処理：計算
-	 */
-	void Process() override;
+			/**
+			 * @brief 初期化
+			 */
+			void Initialize() override;
 
-	/**
-	 * @brief フレーム処理：描画
-	 */
-	void Render() override;
+			/**
+			 * @brief フレーム処理：計算
+			 */
+			void Process() override;
 
-private:
-	/**
-	 * @brief 移動処理
-	 */
-	void Move();
+			/**
+			 * @brief フレーム処理：描画
+			 */
+			void Render() override;
 
-	/**
-	 * @brief 画像が画面外に出るのを防ぐ
-	 */
-	void PreventOffScreen();
+		private:
+			/**
+			 * @brief 移動処理
+			 */
+			void Move();
 
-	/**
-	 * @brief 削除処理
-	 */
-	void Deletion();
-};
+			/**
+			 * @brief 画像が画面外に出るのを防ぐ
+			 */
+			void PreventOffScreen();
+
+			/**
+			 * @brief 削除処理
+			 */
+			void Deletion();
+		};
+	}
+}
