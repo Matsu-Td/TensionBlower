@@ -20,7 +20,7 @@ void Player::CollisionCall() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
-	for (auto itr : *modeGame->_objServer.List()) {
+	for (auto&& itr : *modeGame->_objServer.List()) {
 		CollisionToStage(itr);
 		CollisionToBossBullet(itr);
 		CollisionToBoss(itr);

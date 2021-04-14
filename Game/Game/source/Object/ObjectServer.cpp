@@ -25,7 +25,7 @@ ObjectServer::~ObjectServer() {
  */
 void ObjectServer::Clear() {
 
-	for (auto itr : _vObject) {
+	for (auto&& itr : _vObject) {
 		delete itr;
 	}
 	_vObject.clear();
@@ -52,7 +52,7 @@ void ObjectServer::Del(ObjectBase* obj) {
  */
 void ObjectServer::AddListObjects() {
 
-	for (auto itrAdd : _vAdd) {
+	for (auto&& itrAdd : _vAdd) {
 		_vObject.push_back(itrAdd);
 	}
 	_vAdd.clear();
@@ -63,7 +63,7 @@ void ObjectServer::AddListObjects() {
  */
 void ObjectServer::DelListObjects() {
 
-	for (auto itrDel : _vDel) {
+	for (auto&& itrDel : _vDel) {
 		for (auto itr = _vObject.begin(); itr != _vObject.end();) {
 			if ((*itr) == itrDel) {
 				delete (*itr);
@@ -85,7 +85,7 @@ void ObjectServer::Process() {
 	AddListObjects();
 
 	// Process()‚ğŒÄ‚Ño‚µ
-	for (auto itr : _vObject) {
+	for (auto&& itr : _vObject) {
 		itr->Process();
 	}
 
@@ -98,7 +98,7 @@ void ObjectServer::Process() {
  */
 void ObjectServer::Render() {
 
-	for (auto itr : _vObject) {
+	for (auto&& itr : _vObject) {
 		itr->Render();
 	}
 }

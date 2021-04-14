@@ -76,7 +76,7 @@ void Explosion::CollisionCall() {
 
 	ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
 	
-	for (auto itr : *modeGame->_objServer.List()) {
+	for (auto&& itr : *modeGame->_objServer.List()) {
 		// プレイヤーに弾き返された弾かどうか
 		if (_repelFlag) {
 			// ボスにのみ当たり判定
