@@ -10,6 +10,8 @@
 #include "BossStatus.h"
 #include "../Mode/ModeGame.h"
 
+using namespace tensionblower::boss;
+
 BossStatus::BossStatus() {
 
 	_cgName    = ResourceServer::LoadGraph("res/ui/boss/enemy_name.png");

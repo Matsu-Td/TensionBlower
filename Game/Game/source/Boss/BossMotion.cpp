@@ -8,6 +8,8 @@
 
 #include "Boss.h"
 
+using namespace tensionblower::boss;
+
 /*
  * ƒ‚[ƒVƒ‡ƒ“Ø‘Öˆ—
  */

@@ -15,6 +15,8 @@
 #include "../Camera/Camera.h"
 #include "../Mode/ModeGame.h"
 
+using namespace tensionblower::boss;
+
 BossAimShot::BossAimShot(VECTOR pos, float shotSpd, float shotAngle){
 
 	_mh = ResourceServer::MV1LoadModel("res/model/boss/bomb.mv1");

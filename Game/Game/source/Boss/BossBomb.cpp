@@ -17,7 +17,7 @@
 #include "../Effect/Explosion.h"
 #include "../Sound/Sound.h"
 
-using namespace tensionblower;
+using namespace tensionblower::boss;
 
 BossBomb::BossBomb(VECTOR pos) {
 
@@ -59,7 +59,7 @@ void BossBomb::StateStop() {
 		if (_shotCnt >= STOP_CNT) {
 			_shotCnt = 0;
 			// プレイヤー位置情報取得
-			VECTOR plPos = Player::GetInstance()->GetPos();
+			VECTOR plPos = player::Player::GetInstance()->GetPos();
 			plPos.y = 0.0f;          // プレイヤーの足元(ステージ上)をターゲットとする
 			_vTarg = plPos;          // プレイヤーをターゲットとする
 			_state = STATE::SNIPER;  // 射撃状態に移行

@@ -15,7 +15,7 @@
 #include "../Camera/Camera.h"
 #include "../Mode/ModeGame.h"
 
-using namespace tensionblower;
+using namespace tensionblower::boss;
 
 BossBullet::BossBullet(VECTOR pos, float shotSpd, float shotAngle){
 
@@ -53,7 +53,7 @@ void BossBullet::Repel() {
 void BossBullet::CollisionToPlayerAttack() {
 
 	// プレイヤーの位置情報取得
-	VECTOR plPos = Player::GetInstance()->GetPos();
+	VECTOR plPos = player::Player::GetInstance()->GetPos();
 	float sx = plPos.x - _vPos.x;
 	float sz = plPos.z - _vPos.z;
 	float length = Util::Sqrt(sx, sz);  // プレイヤーとの距離計算
@@ -62,7 +62,7 @@ void BossBullet::CollisionToPlayerAttack() {
 
 	for (auto&& itr : *modeGame->_objServer.List()) {
 		// プレイヤーの近接攻撃による弾き返し
-		if (Player::GetInstance()->_canHitFlag && !itr->_hitFlag) {
+		if (player::Player::GetInstance()->_canHitFlag && !itr->_hitFlag) {
 			if (length < 4.0f) {
 				_state = STATE::REPEL;
 				Repel(); // 弾き返し処理

@@ -10,7 +10,7 @@
 #include "../Mode/ModeGame.h"
 #include "../Sound/Sound.h"
 
-using namespace tensionblower;
+using namespace tensionblower::boss;
 
 /*
  * ダウン処理
@@ -45,7 +45,7 @@ void Boss::StateDown() {
 			if (itr->GetType() == ObjectBase::OBJECTTYPE::BOSS_BULLET) {
 				_bulletNum++;   // ダウン直前に出現していた弾の数をカウント
 			}
-			int plEnergy = Player::GetInstance()->GetEnergy();            // プレイヤーのエネルギー情報取得
+			int plEnergy = player::Player::GetInstance()->GetEnergy();            // プレイヤーのエネルギー情報取得
 			_downTime = MIN_DOWN_TIME + plEnergy / 20 + _bulletNum;       // ダウン時間計算                                           // ダウン状態にする
 			_state = STATE::DOWN;
 		}

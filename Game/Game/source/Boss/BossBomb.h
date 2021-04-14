@@ -10,74 +10,80 @@
 
 #include "ShotBase.h"
 
-/**
- * @brief ボスのボム攻撃処理
- */
-class BossBomb : public ShotBase {
-public:
-	/**
-	 * @brief ボム生成
-	 * @param pos ボムの発生位置
-	 */
-	BossBomb(VECTOR pos);
-	~BossBomb();
+namespace tensionblower {
 
-	OBJECTTYPE GetType()  override { return ObjectBase::OBJECTTYPE::BOSS_BOMB; }
+	namespace boss {
 
-	/**
-	 * @brief 初期化
-	 */
-	void Initialize() override;
+		/**
+		 * @brief ボスのボム攻撃処理
+		 */
+		class BossBomb : public ShotBase {
+		public:
+			/**
+			 * @brief ボム生成
+			 * @param pos ボムの発生位置
+			 */
+			BossBomb(VECTOR pos);
+			~BossBomb();
 
-	/**
-	 * @brief フレーム処理：計算
-	 */
-	void Process() override;
+			OBJECTTYPE GetType()  override { return ObjectBase::OBJECTTYPE::BOSS_BOMB; }
 
-private:
-	/**
-	 * @brief 上昇処理
-	 */
-	void StateUp();
+			/**
+			 * @brief 初期化
+			 */
+			void Initialize() override;
 
-	/**
-	 * @brief 停止処理
-	 */
-	void StateStop();
+			/**
+			 * @brief フレーム処理：計算
+			 */
+			void Process() override;
 
-	/**
-	 * @brief 狙撃処理
-	 */
-	void StateSniper();
+		private:
+			/**
+			 * @brief 上昇処理
+			 */
+			void StateUp();
 
-	/**
-	 * @brief ボムの削除、爆発エフェクト生成
-	 */
-	void BombDelete();
+			/**
+			 * @brief 停止処理
+			 */
+			void StateStop();
 
-	/**
-	 * @brief 各種当たり判定呼び出し
-	 */
-	void CollisionCall();
+			/**
+			 * @brief 狙撃処理
+			 */
+			void StateSniper();
 
-	/**
-	 * @brief 当たり判定：プレイヤー
-	 * @param obj オブジェクトのポインタ
-	 */
-	void CollisionToPlayer(ObjectBase* obj);
+			/**
+			 * @brief ボムの削除、爆発エフェクト生成
+			 */
+			void BombDelete();
 
-	/**
-	 * @brief 当たり判定：照準
-	 * @param obj オブジェクトのポインタ
-	 */
-	void CollisionToReticle(ObjectBase* obj);
+			/**
+			 * @brief 各種当たり判定呼び出し
+			 */
+			void CollisionCall();
 
-	/**
-	 * @brief 当たり判定：ボス
-	 * @param obj オブジェクトのポインタ
-	 */
-	void CollisionToBoss(ObjectBase* obj);
+			/**
+			 * @brief 当たり判定：プレイヤー
+			 * @param obj オブジェクトのポインタ
+			 */
+			void CollisionToPlayer(ObjectBase* obj);
 
-	const int UP_CNT   = 24;  // 上昇カウント
-	const int STOP_CNT = 24;  // 停止カウント
-};
+			/**
+			 * @brief 当たり判定：照準
+			 * @param obj オブジェクトのポインタ
+			 */
+			void CollisionToReticle(ObjectBase* obj);
+
+			/**
+			 * @brief 当たり判定：ボス
+			 * @param obj オブジェクトのポインタ
+			 */
+			void CollisionToBoss(ObjectBase* obj);
+
+			const int UP_CNT = 24;  // 上昇カウント
+			const int STOP_CNT = 24;  // 停止カウント
+		};
+	}
+}

@@ -9,7 +9,7 @@
 #include "Boss.h"
 #include "../Mode/ModeGame.h"
 
-using namespace tensionblower;
+using namespace tensionblower::boss;
 
 Boss* Boss::_pInstance = nullptr;
 
@@ -87,7 +87,7 @@ void Boss::StateReturn() {
 void Boss::StateNormal() {
 
 	// カメラの状態を取得
-	Camera::STATE camState = Camera::GetInstance()->GetState();
+	camera::Camera::STATE camState = camera::Camera::GetInstance()->GetState();
 
 	if (_state == STATE::NORMAL) {
 		// ボスの回転速度切替用
@@ -96,7 +96,7 @@ void Boss::StateNormal() {
 		// 弾幕攻撃処理
 		if (_shield > 0) {
 			// マルチロックオンシステム発動中は行動と弾の発射速度を遅くする
-			if (camState == Camera::STATE::MLS_LOCK) {
+			if (camState == camera::Camera::STATE::MLS_LOCK) {
 				_mlsCnt++;
 				rotSpdChange = 0.01f;
 				if (_mlsCnt % 100 == 0) {

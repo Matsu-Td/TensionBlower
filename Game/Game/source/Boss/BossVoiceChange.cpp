@@ -9,6 +9,8 @@
 #include "Boss.h"
 #include "LoadBossVoice.h"
 
+using namespace tensionblower::boss;
+
 /*
  * ºƒf[ƒ^Ä¶
  */

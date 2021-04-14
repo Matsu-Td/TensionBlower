@@ -9,6 +9,8 @@
 #include "Stage.h"
 #include "../Application/ApplicationMain.h"
 
+using namespace tensionblower::stage;
+
 Stage::Stage(){
 	
 	_mh    = ResourceServer::MV1LoadModel("res/model/stage/stage_collision.mv1");

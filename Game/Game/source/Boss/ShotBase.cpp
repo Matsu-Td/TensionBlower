@@ -15,7 +15,7 @@
 #include "../Camera/Camera.h"
 #include "../Mode/ModeGame.h"
 
-using namespace tensionblower;
+using namespace tensionblower::boss;
 
 /*
  * 初期化
@@ -38,7 +38,7 @@ void ShotBase::Initialize() {
 void ShotBase::Move() {
 
 	// カメラの状態を取得
-	Camera::STATE camState = Camera::GetInstance()->GetState();
+	camera::Camera::STATE camState = camera::Camera::GetInstance()->GetState();
 
 	// ワールド座標 ⇒ スクリーン座標へ変換
 	_scrnPos = ConvWorldPosToScreenPos(_vPos);
@@ -48,7 +48,7 @@ void ShotBase::Move() {
 	_capsulePos2 = _vPos;
 
 	// マルチロックオンシステム発動時
-	if (camState == Camera::STATE::MLS_LOCK) {
+	if (camState == camera::Camera::STATE::MLS_LOCK) {
 		_mvSpd = _shotSpd * MLS_SPD; // マルチロックオンシステム中は速度0.01倍
 		_camStateMLS = true;
 	}

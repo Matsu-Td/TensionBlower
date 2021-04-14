@@ -13,7 +13,7 @@
 #include "../Effect/Laser.h"
 #include "../Mode/ModeGame.h"
 
-using namespace tensionblower;
+using namespace tensionblower::boss;
 
 /*
  * フェーズ変更処理
@@ -262,7 +262,7 @@ void Boss::BarragePattern5() {
 	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
 
 	// プレイヤー位置取得
-	VECTOR plPos = Player::GetInstance()->GetPos();
+	VECTOR plPos = player::Player::GetInstance()->GetPos();
 
 	// 同時に7発弾を発射する
 	if (_shotCnt % 8 == 0) {
@@ -306,7 +306,7 @@ void Boss::BarragePattern5() {
  */
 void Boss::BarragePattern6() {
 
-	VECTOR plPos = Player::GetInstance()->GetPos();
+	VECTOR plPos = player::Player::GetInstance()->GetPos();
 	if (_shotCnt % 48 == 0) {
 		float angleSide = -10.0f;      // 弾3発中の両サイドの弾発射角度をずらす
 		for (int i = 0; i < 3; i++) {

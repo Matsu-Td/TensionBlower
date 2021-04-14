@@ -11,20 +11,26 @@
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
-/**
- * @brief ステージクラス
- */
-class Stage : public ObjectBase{
-public:
-	Stage();
-	~Stage();
+namespace tensionblower {
 
-	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::STAGE; }
+	namespace stage {
 
-	/**
-	 * @brief フレーム処理：描画
-	 */
-	void Render() override;
-private:
-	int _mhMap; // ステージモデル
-};
+		/**
+		 * @brief ステージクラス
+		 */
+		class Stage : public ObjectBase {
+		public:
+			Stage();
+			~Stage();
+
+			OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::STAGE; }
+
+			/**
+			 * @brief フレーム処理：描画
+			 */
+			void Render() override;
+		private:
+			int _mhMap; // ステージモデル
+		};
+	}
+}

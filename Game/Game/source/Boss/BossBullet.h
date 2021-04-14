@@ -10,35 +10,41 @@
 
 #include "ShotBase.h"
 
-/**
- * @brief ボスの弾幕処理
- */
-class BossBullet : public ShotBase {
-public:
-	/**
-	 * @brief 弾幕用弾生成
-	 * @param pos 弾生成位置
-	 * @param shotSpd 弾の移動速度
-	 * @param shotAngle 弾の移動角度
-	 */
-	BossBullet(VECTOR pos, float shotSpd, float shotAngle);
-    ~BossBullet();
+namespace tensionblower {
 
-	OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_BULLET; }
+	namespace boss {
 
-	/**
-	 * @brief フレーム処理：計算
-	 */
-	void Process() override;
+		/**
+		 * @brief ボスの弾幕処理
+		 */
+		class BossBullet : public ShotBase {
+		public:
+			/**
+			 * @brief 弾幕用弾生成
+			 * @param pos 弾生成位置
+			 * @param shotSpd 弾の移動速度
+			 * @param shotAngle 弾の移動角度
+			 */
+			BossBullet(VECTOR pos, float shotSpd, float shotAngle);
+			~BossBullet();
 
-private:
-	/**
-	 * @brief 弾き返し処理
-	 */
-	void Repel();
+			OBJECTTYPE GetType() { return ObjectBase::OBJECTTYPE::BOSS_BULLET; }
 
-	/**
-	 * @brief 当たり判定：プレイヤーの近接攻撃
-	 */
-	void CollisionToPlayerAttack();
-};
+			/**
+			 * @brief フレーム処理：計算
+			 */
+			void Process() override;
+
+		private:
+			/**
+			 * @brief 弾き返し処理
+			 */
+			void Repel();
+
+			/**
+			 * @brief 当たり判定：プレイヤーの近接攻撃
+			 */
+			void CollisionToPlayerAttack();
+		};
+	}
+}

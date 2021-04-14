@@ -10,7 +10,7 @@
 #include "../Mode/ModeGame.h"
 #include "../Sound/Sound.h"
 
-using namespace tensionblower;
+using namespace tensionblower::boss;
 
   /*
    * プレイヤーに弾き返された弾によるダメージ処理
@@ -49,9 +49,9 @@ void Boss::AttackDamage() {
 	PlaySoundMem(gSound._se["hit_boss"], DX_PLAYTYPE_BACK);
 
 	// ダメージ量格納
-	int dmgHP = Player::GetInstance()->GetNowDmgHP();
-	int dmgSld = Player::GetInstance()->GetNowDmgSld();
-	int dmgNorm = Player::GetInstance()->GetNowDmgNorm();
+	int dmgHP   = player::Player::GetInstance()->GetNowDmgHP();
+	int dmgSld  = player::Player::GetInstance()->GetNowDmgSld();
+	int dmgNorm = player::Player::GetInstance()->GetNowDmgNorm();
 
 	// シールドがあるとき
 	if (_shield > 0) {

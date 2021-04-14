@@ -9,6 +9,8 @@
 #include "Boss.h"
 #include "../Player/Player.h"
 
+using namespace tensionblower::boss;
+
 /*
  * ƒ{ƒX³–Ê•ûŒü‰ñ“]ˆ—
  */

@@ -10,7 +10,7 @@
 #include "../Effect/Destruction.h"
 #include "../Mode/ModeGame.h"
 
-using namespace tensionblower;
+using namespace tensionblower::boss;
 
  /*
   * €–Sˆ—
