@@ -11,6 +11,8 @@
 #include "../Player/Player.h"
 #include "../Boss/Boss.h"
 
+using namespace tensionblower::camera;
+
 Camera* Camera::_pInstance = nullptr;
 
 Camera::Camera(){
@@ -58,7 +60,7 @@ float Camera::GetRad() const {
 void Camera::SetPos(float dis, float height) {
 
 	VECTOR bsPos = Boss::GetInstance()->GetPos();       // ボス位置情報取得
-	VECTOR plPos = Player::GetInstance()->GetPos();     // プレイヤー位置情報取得
+	VECTOR plPos = player::Player::GetInstance()->GetPos();     // プレイヤー位置情報取得
 
 	float sx = plPos.x - _vTarg.x;
 	float sz = plPos.z - _vTarg.z;
@@ -77,7 +79,7 @@ void Camera::StateNorm() {
 
 	int key = ApplicationMain::GetInstance()->GetKey(); // キー入力情報取得
 
-	int plEnergy = Player::GetInstance()->GetEnergy();  // プレイヤーエネルギー量取得
+	int plEnergy = player::Player::GetInstance()->GetEnergy();  // プレイヤーエネルギー量取得
 
 	float dis = 25.0f;   // プレイヤーとの距離
 	float height = 15.0f;
@@ -97,7 +99,7 @@ void Camera::StateMLSLock() {
 
 	int key = ApplicationMain::GetInstance()->GetKey(); // キー入力情報取得
 
-	int plEnergy = Player::GetInstance()->GetEnergy();  // プレイヤーエネルギー量取得
+	int plEnergy = player::Player::GetInstance()->GetEnergy();  // プレイヤーエネルギー量取得
 
 	float dis = -2.5f;   // プレイヤーとの距離
 	float height = 7.0f;
