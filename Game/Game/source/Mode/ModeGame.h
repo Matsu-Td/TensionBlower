@@ -6,6 +6,8 @@
  * @date   2020/12/18
  */
 
+#pragma once
+
 #include "appframe.h"
 #include "../Object/ObjectServer.h"
 #include "../Camera/Camera.h"
@@ -51,6 +53,14 @@ namespace tensionblower {
 			 * @return 処理の成否
 			 */
 			bool Render() override;
+
+			/**
+			 * @brief  ゲームモードを取得
+			 * @return ゲームモードのインスタンス
+			 */
+			static ModeGame* GetModeGame() {
+				return static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
+			}
 
 			camera::Camera     _cam;  // カメラ
 			ObjectServer _objServer;  // オブジェクト管理サーバー
