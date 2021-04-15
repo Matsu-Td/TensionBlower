@@ -16,7 +16,7 @@ using namespace resource;
 // 静的メンバ実体
 std::unordered_map<std::string, int> ResourceServer::_mapGraph;  // 画像データ
 std::unordered_map<std::string, ResourceServer::DIVGRAPH> ResourceServer::_mapDivGraph;  // 分割画像データ
-std::unordered_map<std::string, int> ResourceServer::_mapSound;  // 音データ
+std::unordered_map<std::string, int> ResourceServer::_mapSound;  // 音声データ
 std::unordered_map<std::string, int> ResourceServer::_mapModel;  // モデルデータ
 std::unordered_map<std::string, int> ResourceServer::_mapEffect; // エフェクトデータ
 
@@ -44,35 +44,35 @@ void ResourceServer::Release(){
  */
 void ResourceServer::ClearGraph(){
     // 画像データ削除
-    for (auto itr = _mapGraph.begin(); itr != _mapGraph.end(); itr++){
-        DeleteGraph(itr->second);
+    for (auto&& itr : _mapGraph){
+        DeleteGraph(itr.second);
     }
     _mapGraph.clear();
 
     // 分割画像データ削除
-    for (auto itr = _mapDivGraph.begin(); itr != _mapDivGraph.end(); itr++){
-        for (int i = 0; i < itr->second.allNum; i++) {
-            DeleteGraph(itr->second.handle[i]);
+    for (auto itr : _mapDivGraph){
+        for (int i = 0; i < itr.second.allNum; i++) {
+            DeleteGraph(itr.second.handle[i]);
         }
-        delete[] itr->second.handle;
+        delete[] itr.second.handle;
     }
     _mapDivGraph.clear();
 
     // 音声データ削除
-    for (auto itr = _mapSound.begin(); itr != _mapSound.end(); itr++){
-        DeleteSoundMem(itr->second);
+    for (auto&& itr : _mapSound){
+        DeleteSoundMem(itr.second);
     }
     _mapSound.clear();
 
     // モデルデータ削除
-    for (auto itr = _mapModel.begin(); itr != _mapModel.end(); itr++){
-        MV1DeleteModel(itr->second);
+    for (auto&& itr : _mapModel){
+        MV1DeleteModel(itr.second);
     }
     _mapModel.clear();
 
     // エフェクトデータ削除
-    for (auto itr = _mapEffect.begin(); itr != _mapEffect.end(); itr++) {
-        DeleteEffekseerEffect(itr->second);
+    for (auto&& itr : _mapEffect) {
+        DeleteEffekseerEffect(itr.second);
     }
     _mapEffect.clear();
 }

@@ -22,7 +22,7 @@ void Player::MoveAndDashMotionSwitch() {
 		return;
 	}
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = mode::ModeGame::GetModeGame();
 
 	float stickDeg = util::GetLeftStickDeg();
 	float stickLength = util::GetLeftStickLength();
@@ -83,7 +83,7 @@ void Player::Dash() {
 	int key = ApplicationMain::GetInstance()->GetKey();// キー入力情報取得
 	int trg = ApplicationMain::GetInstance()->GetKeyTrg();// キーのトリガ情報取得
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = mode::ModeGame::GetModeGame();
 	
 	camera::Camera::STATE camState = camera::Camera::GetInstance()->GetState();  // カメラの状態
 

@@ -20,7 +20,7 @@ void Player::Charge() {
 	// キー入力情報取得
 	int key = ApplicationMain::GetInstance()->GetKey();
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = mode::ModeGame::GetModeGame();
 	
 	if (key & PAD_INPUT_3 && !(key & PAD_INPUT_5) && _energy < modeGame->_charaData->_maxEnergy) {
 		if (_state != STATE::JUMP) {  // ジャンプしてなければ溜め可能

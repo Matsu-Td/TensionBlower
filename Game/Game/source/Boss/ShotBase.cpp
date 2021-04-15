@@ -85,7 +85,7 @@ void ShotBase::Move() {
  */
 void ShotBase::CollisionCall() {
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = mode::ModeGame::GetModeGame();
 
 	for (auto&& itr : *modeGame->_objServer.List()) {
 		CollisionToStage(itr);
@@ -102,7 +102,7 @@ void ShotBase::CollisionToStage(ObjectBase* obj) {
 
 	if (obj->GetType() == ObjectBase::OBJECTTYPE::STAGE) {
 		if (IsHitStage(*obj, 0.8f) == true) {
-			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
+			mode::ModeGame* modeGame = mode::ModeGame::GetModeGame();
 			modeGame->_objServer.Del(this);
 
 			MV1CollResultPolyDimTerminate(obj->_hitPolyDim);
@@ -118,7 +118,7 @@ void ShotBase::CollisionToBoss(ObjectBase* obj) {
 	if (_state == STATE::REPEL) {
 		if (obj->GetType() == ObjectBase::OBJECTTYPE::BOSS) {
 			if (IsHitLineSegment(*obj, obj->_r) == true) {
-				mode::ModeGame* modeGame = static_cast<mode::ModeGame*> (::mode::ModeServer::GetInstance()->Get("game"));
+				mode::ModeGame* modeGame = mode::ModeGame::GetModeGame();
 				modeGame->_objServer.Del(this);
 
 				Boss::GetInstance()->RepelDamage();

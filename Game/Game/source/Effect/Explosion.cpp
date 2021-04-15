@@ -75,7 +75,7 @@ void Explosion::CollisionToPlayer(ObjectBase* obj) {
  */
 void Explosion::CollisionCall() {
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = mode::ModeGame::GetModeGame();
 	
 	for (auto&& itr : *modeGame->_objServer.List()) {
 		// プレイヤーに弾き返された弾かどうか
@@ -111,7 +111,7 @@ void Explosion::Process(){
 
 	// 総再生時間を迎えたらエフェクト削除
 	if (_effectCnt >= ALL_EFFECT_TIME) {
-		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = mode::ModeGame::GetModeGame();
 		modeGame->_objServer.Del(this);
 	}
 

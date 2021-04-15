@@ -6,6 +6,8 @@
  * @date   2021/01/26
  */
 
+#pragma once
+
 #include "appframe.h"
 
 namespace tensionblower {

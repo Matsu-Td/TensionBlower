@@ -58,7 +58,7 @@ void BossBullet::CollisionToPlayerAttack() {
 	float sz = plPos.z - _vPos.z;
 	float length = util::Sqrt(sx, sz);  // プレイヤーとの距離計算
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = mode::ModeGame::GetModeGame();
 
 	for (auto&& itr : *modeGame->_objServer.List()) {
 		// プレイヤーの近接攻撃による弾き返し

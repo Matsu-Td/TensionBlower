@@ -34,7 +34,7 @@ void Destruction::Process(){
 
 	// ゲームクリアカウント「0」でエフェクト削除し、ゲームクリアに移行
 	if (_gameClearCnt <= 0) {
-		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = mode::ModeGame::GetModeGame();
 		modeGame->_objServer.Del(this);
 
 		mode::ModeGameClear* modeGameClear = NEW mode::ModeGameClear();
