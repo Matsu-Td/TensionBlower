@@ -17,7 +17,7 @@ using namespace tensionblower::boss;
    */
 void Boss::RepelDamage() {
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = mode::ModeGame::GetModeGame();
 
 	PlaySoundMem(gSound._se["hit"], DX_PLAYTYPE_BACK);
 	// ƒV[ƒ‹ƒh‚ª‚ ‚é‚Æ‚«

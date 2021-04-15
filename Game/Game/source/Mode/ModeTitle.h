@@ -6,6 +6,8 @@
  * @date   2020/12/18
  */
 
+#pragma once
+
 #include "appframe.h"
 #include <string>
 

@@ -5,6 +5,7 @@
  * @author matsuo tadahiko
  * @date   2021/03/15
  */
+
 #pragma once
 
 #include "appframe.h"

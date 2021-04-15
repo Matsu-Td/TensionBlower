@@ -7,6 +7,7 @@
  */
 
 #pragma once
+
 #include "appframe.h"
 #include "../Object/ObjectBase.h"
 
