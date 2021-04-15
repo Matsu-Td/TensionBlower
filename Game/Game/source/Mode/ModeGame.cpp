@@ -52,6 +52,8 @@ bool ModeGame::Initialize() {
 bool ModeGame::Terminate() {
 	base::Terminate();
 
+	_objServer.Clear();
+
 	// ライトハンドル削除
 	DeleteLightHandleAll();
 
