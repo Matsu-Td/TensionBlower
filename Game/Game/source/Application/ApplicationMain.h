@@ -13,8 +13,8 @@ namespace tensionblower {
 	/**
 	 * @brief プロジェクトのメイン処理
 	 */
-	class ApplicationMain : public ApplicationBase {
-		using base = ApplicationBase;
+	class ApplicationMain : public appframe::ApplicationBase {
+		using base = appframe::ApplicationBase;
 
 	public:
 		/**

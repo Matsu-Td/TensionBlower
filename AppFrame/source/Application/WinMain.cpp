@@ -16,7 +16,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// メモリリークのレポートを表示させる
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	ApplicationBase *appBase = ApplicationBase::GetInstance();
+	appframe::ApplicationBase *appBase = appframe::ApplicationBase::GetInstance();
 	if (!appBase) { return 0; }
 
 	if (!appBase->Initialize(hInstance)) {

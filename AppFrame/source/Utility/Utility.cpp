@@ -14,7 +14,7 @@ namespace Util {
 
 	void GetLeftStickParamXY(float& paramX, float& paramY) {
 
-		DINPUT_JOYSTATE dInput = ApplicationBase::GetInstance()->GetDInputState();
+		DINPUT_JOYSTATE dInput = appframe::ApplicationBase::GetInstance()->GetDInputState();
 
 		paramX = static_cast<float>(dInput.X);
 		paramY = static_cast<float>(dInput.Y);
@@ -22,7 +22,7 @@ namespace Util {
 
 	float GetLeftStickLength() {
 
-		DINPUT_JOYSTATE dInput = ApplicationBase::GetInstance()->GetDInputState();
+		DINPUT_JOYSTATE dInput = appframe::ApplicationBase::GetInstance()->GetDInputState();
 
 		float paramX, paramY;
 		GetLeftStickParamXY(paramX, paramY);
@@ -34,7 +34,7 @@ namespace Util {
 
 	float GetLeftStickRad() {
 
-		DINPUT_JOYSTATE dInput = ApplicationBase::GetInstance()->GetDInputState();
+		DINPUT_JOYSTATE dInput = appframe::ApplicationBase::GetInstance()->GetDInputState();
 
 		float paramX, paramY;
 		GetLeftStickParamXY(paramX, paramY);

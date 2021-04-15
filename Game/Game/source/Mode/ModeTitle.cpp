@@ -110,7 +110,7 @@ void ModeTitle::MenuSelect() {
 
 		case MENU::GAME_END: 
 			ModeServer::GetInstance()->Del(this);
-			ApplicationBase::GetInstance()->IsGameEnd();
+			appframe::ApplicationBase::GetInstance()->IsGameEnd();
 			break;
 		}
 	}

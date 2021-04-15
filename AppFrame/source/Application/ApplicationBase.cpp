@@ -8,10 +8,12 @@
 
 #include "ApplicationBase.h"
 
+using namespace appframe;
+
 ApplicationBase	*ApplicationBase::_pInstance = nullptr;
 
 
-ApplicationBase::ApplicationBase() {
+ApplicationBase::ApplicationBase() :_key(0), _keyTrg(0), _dInput({0}) {
 	_pInstance = this;
 }
 
