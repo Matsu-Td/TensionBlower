@@ -298,18 +298,18 @@ namespace tensionblower {
 			STATE _state;    // プレイヤーの状態
 			STATE _oldState; // 処理前のプレイヤーの状態
 
-			const float GROUND_Y = 0.0f; // 地上のY座標
-			const float GRAVITY = 0.9f; // 重力加速度値
-			const float IN_VEL = 5.0f; // 初速
+			const float GROUND_Y  = 0.0f; // 地上のY座標
+			const float GRAVITY   = 0.9f; // 重力加速度値
+			const float IN_VEL    = 5.0f; // 初速
 			const float MULT_HALF = 0.5f; // 1/2乗算
-			const float JUMP_CNT = 0.2f; // ジャンプ時間
+			const float JUMP_CNT  = 0.2f; // ジャンプ時間
 
-			const int SHORT_DASH_CNT = 10;  // 短押しダッシュ移動時間
-			const int AUTO_CHARGE_CNT = 120; // エネルギー自動回復開始カウント
-			const int RELOAD_TIME = 90;  // 近接・射撃攻撃リロード時間
-			const int ANALOG_REG_FOR = 120; // 左アナログスティックを倒す前方向判定の角度範囲(ターゲットロック中のみ使用)
+			const int SHORT_DASH_CNT   = 10;  // 短押しダッシュ移動時間
+			const int AUTO_CHARGE_CNT  = 120; // エネルギー自動回復開始カウント
+			const int RELOAD_TIME      = 90;  // 近接・射撃攻撃リロード時間
+			const int ANALOG_REG_FOR   = 120; // 左アナログスティックを倒す前方向判定の角度範囲(ターゲットロック中のみ使用)
 			const int ANALOG_REG_OTHER = 45;  // 左アナログスティックを倒す前方向以外の角度範囲(ターゲットロック中のみ使用)
-			const int RECEPTION_TIME = 30;  // 次近接攻撃受付時間
+			const int RECEPTION_TIME   = 30;  // 次近接攻撃受付時間
 			const int ATTACK_RELOAD_TIME = 90;  // 近接・射撃攻撃リロード時間
 
 			/**

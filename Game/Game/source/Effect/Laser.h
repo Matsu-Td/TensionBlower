@@ -62,7 +62,7 @@ namespace tensionblower {
 			float _roteSpd;   // 回転速度
 			float _radius;    // ボスからの半径
 
-			const float MLS_SPD = 0.01f;  // マルチロックオンシステム中の速度計算(通常の1/100に)
+			const float MLS_SPD      = 0.01f;  // マルチロックオンシステム中の速度計算(通常の1/100に)
 			const float LASER_LENGTH = 125.0f; // レーザーの全長
 		};
 	}
