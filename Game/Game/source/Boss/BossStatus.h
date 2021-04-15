@@ -62,7 +62,7 @@ namespace tensionblower {
 			const int NAME_POS_Y = 130;   // ボス名Y座標
 
 			const int HP_ONE = 1000;      // HPバー1本当たりのHP量
-			const int HP_SIZE = 750;       // HPバー横幅
+			const int HP_SIZE = 750;      // HPバー横幅
 			const int HP_POS_X_L = 1113;  // HPバー左上X座標
 			const int HP_POS_Y_L = 45;    // HPバー左上Y座標
 			const int HP_POS_X_R = 1853;  // HPバー右下X座標

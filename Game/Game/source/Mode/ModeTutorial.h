@@ -53,10 +53,10 @@ namespace tensionblower {
 
 			std::unordered_map<std::string, int> _mapUi;  // UI用コンテナ
 
-			const int ALL_MENU_NUM = 20;  // メニューUI画像総数
-			static const int MENU_NUM = 10;		 // メニューUI画像数(ON,OFF別)
-			int _cg[MENU_NUM];                       // 説明画像
-			int _movieHandle[MENU_NUM];              // 動画
+			const int ALL_MENU_NUM = 20;     // メニューUI画像総数
+			static const int MENU_NUM = 10;  // メニューUI画像数(ON,OFF別)
+			int _cg[MENU_NUM];               // 説明画像
+			int _movieHandle[MENU_NUM];      // 動画
 
 			// メニューUI画像ファイル名(選択状態:ON)
 			const TCHAR* _fileNameOn[MENU_NUM] =
@@ -95,8 +95,8 @@ namespace tensionblower {
 			const int MENU_POS_Y[MENU_NUM] =
 			{ 50,145,240,335,430,525,620,715,810,905 };
 
-			const int MOVIE_POS_X = 120;   // 動画を描画するX座標
-			const int MOVIE_POS_Y = 130;   // 動画を描画するY座標
+			const int MOVIE_POS_X  = 120;  // 動画を描画するX座標
+			const int MOVIE_POS_Y  = 130;  // 動画を描画するY座標
 			const int SETSUMEI_POS = 50;   // 説明画像を描画する座標
 		};
 	}

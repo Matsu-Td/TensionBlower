@@ -106,7 +106,7 @@ namespace tensionblower {
 			LOCK_ON _lockOn;
 
 			const float NEAR_CLIP = 0.1f;    // 手前クリップ距離
-			const float FAR_CLIP = 5000.0f; // 奥クリップ距離
+			const float FAR_CLIP  = 5000.0f; // 奥クリップ距離
 		};
 	}
 }

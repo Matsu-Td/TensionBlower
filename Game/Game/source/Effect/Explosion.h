@@ -67,7 +67,7 @@ namespace tensionblower {
 			int	_playingHandle;	// ロードしたエフェクトファイルから、エフェクトを生成したもの
 
 			const int ALL_EFFECT_TIME = 180;   // エフェクト総再生時間
-			const float MAX_RADIUS = 10.0f; // 最大半径サイズ
+			const float MAX_RADIUS    = 10.0f; // 最大半径サイズ
 		};
 	}
 }

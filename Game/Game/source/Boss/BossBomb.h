@@ -82,7 +82,7 @@ namespace tensionblower {
 			 */
 			void CollisionToBoss(ObjectBase* obj);
 
-			const int UP_CNT = 24;  // 上昇カウント
+			const int UP_CNT   = 24;  // 上昇カウント
 			const int STOP_CNT = 24;  // 停止カウント
 		};
 	}

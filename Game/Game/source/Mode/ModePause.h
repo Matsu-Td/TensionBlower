@@ -50,9 +50,9 @@ namespace tensionblower {
 			int _ui[4];   // UI画像
 			int _menuPos; // 選択位置
 
-			const int POS_X = 786; // 画像描画位置：X座標(共通)
-			const int POS_Y_UP = 380; // 画像描画位置：Y座標(上側)
-			const int POS_Y_UNDER = 580; // 画像描画位置：Y座標(下側)
+			const int POS_X       = 786;  // 画像描画位置：X座標(共通)
+			const int POS_Y_UP    = 380;  // 画像描画位置：Y座標(上側)
+			const int POS_Y_UNDER = 580;  // 画像描画位置：Y座標(下側)
 		};
 	}
 }
