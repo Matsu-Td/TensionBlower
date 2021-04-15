@@ -80,21 +80,21 @@ void Laser::Process() {
 	}
 
 	// 発射位置
-	_vPos.x = cos(Util::DegToRad(_roteAngle)) * _radius;
-	_vPos.z = sin(Util::DegToRad(_roteAngle)) * _radius;
+	_vPos.x = cos(util::DegToRad(_roteAngle)) * _radius;
+	_vPos.z = sin(util::DegToRad(_roteAngle)) * _radius;
 
 	// レーザーの先端(ステージ外側)の座標
 	VECTOR tmpPos;
-	tmpPos.x = cos(Util::DegToRad(_roteAngle)) * LASER_LENGTH;
+	tmpPos.x = cos(util::DegToRad(_roteAngle)) * LASER_LENGTH;
 	tmpPos.y = 0.0f;
-	tmpPos.z = sin(Util::DegToRad(_roteAngle)) * LASER_LENGTH;
+	tmpPos.z = sin(util::DegToRad(_roteAngle)) * LASER_LENGTH;
 
 	// 当たり判定用カプセル
 	_capsulePos1 = _vPos;
 	_capsulePos2 = VAdd(_vPos, tmpPos);
 	
 	// 向き調整
-	float angle = Util::DegToRad(-_roteAngle + 90.0f);
+	float angle = util::DegToRad(-_roteAngle + 90.0f);
 
 	// 位置と向き計算
 	SetPosPlayingEffekseer3DEffect(_playingHandle, _vPos.x, _vPos.y, _vPos.z);

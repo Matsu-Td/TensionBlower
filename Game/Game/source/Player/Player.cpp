@@ -203,7 +203,7 @@ void Player::Render(){
 
 #ifdef _DEBUG
 	float rad = atan2(_vDir.z ,_vDir.x);
-	float deg = Util::RadToDeg(rad);
+	float deg = util::RadToDeg(rad);
 	int x = 100;
 	int y = 340;
 	int fontSize = 24;

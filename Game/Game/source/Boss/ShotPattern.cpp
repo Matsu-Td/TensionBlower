@@ -151,9 +151,9 @@ void Boss::ShotGeneration(float posY, float shotSpd, float shotAngle) {
 	
 	VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 	
-	tmpPos.x = _vPos.x + cos(Util::DegToRad(shotAngle)) * SHOT_DISTANCE;
+	tmpPos.x = _vPos.x + cos(util::DegToRad(shotAngle)) * SHOT_DISTANCE;
 	tmpPos.y = posY;
-	tmpPos.z = _vPos.z + sin(Util::DegToRad(shotAngle)) * SHOT_DISTANCE;
+	tmpPos.z = _vPos.z + sin(util::DegToRad(shotAngle)) * SHOT_DISTANCE;
 
 	BossBullet* bullet = NEW BossBullet(tmpPos, shotSpd, shotAngle);
 	modeGame->_objServer.Add(bullet); // ’e¶¬
@@ -168,9 +168,9 @@ void Boss::LaserGeneration(float laserAngle, float roteSpd) {
 	
 	VECTOR tmpPos = _vPos;
 	
-	tmpPos.x = _vPos.x + cos(Util::DegToRad(0)) * SHOT_DISTANCE;
+	tmpPos.x = _vPos.x + cos(util::DegToRad(0)) * SHOT_DISTANCE;
 	tmpPos.y = LESER_POS_Y;
-	tmpPos.z = _vPos.z + sin(Util::DegToRad(0)) * SHOT_DISTANCE;
+	tmpPos.z = _vPos.z + sin(util::DegToRad(0)) * SHOT_DISTANCE;
 
 	effect::Laser* laser = NEW effect::Laser(tmpPos, SHOT_DISTANCE, laserAngle, roteSpd);
 	modeGame->_objServer.Add(laser);
@@ -273,7 +273,7 @@ void Boss::BarragePattern5() {
 			float sx  = plPos.x - _vPos.x;
 			float sz  = plPos.z - _vPos.z;
 			float rad = atan2(sz, sx);
-			float deg = Util::RadToDeg(rad);
+			float deg = util::RadToDeg(rad);
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			
 			tmpPos = _vPos;
@@ -313,7 +313,7 @@ void Boss::BarragePattern6() {
 			float sx  = plPos.x - _vPos.x;
 			float sz  = plPos.z - _vPos.z;
 			float rad = atan2(sz, sx);
-			float deg = Util::RadToDeg(rad);
+			float deg = util::RadToDeg(rad);
 			VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 			
 			tmpPos = _vPos;

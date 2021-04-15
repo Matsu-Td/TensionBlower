@@ -8,7 +8,8 @@
 
 #include "Dxlib.h"
 
-namespace Util {
+namespace util {
+
 	/**
 	 * @brief 左スティック X,Y軸パラメータ取得
 	 * @param paramX X軸パラメータ

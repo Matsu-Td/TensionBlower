@@ -65,7 +65,7 @@ void Camera::SetPos(float dis, float height) {
 	float sx = plPos.x - _vTarg.x;
 	float sz = plPos.z - _vTarg.z;
 	float rad = atan2(sz, sx);
-	float length = Util::Sqrt(sx, sz) + dis;
+	float length = util::Sqrt(sx, sz) + dis;
 
 	_vPos.x = bsPos.x + cos(rad) * length;
 	_vPos.z = bsPos.z + sin(rad) * length;
@@ -169,9 +169,9 @@ void Camera::Render(){
 		DrawFormatString(x, y, fontColor, "  pos    = (%5.2f, %5.2f, %5.2f)", _vPos.x, _vPos.y, _vPos.z); y += fontSize;
 		float sx = _vPos.x - _vTarg.x;
 		float sz = _vPos.z - _vTarg.z;
-		float length = Util::Sqrt(sx, sz);
+		float length = util::Sqrt(sx, sz);
 		float rad = atan2(sz, sx);
-		float deg = Util::RadToDeg(rad);
+		float deg = util::RadToDeg(rad);
 		DrawFormatString(x, y, GetColor(255, 0, 0), "  len = %5.2f, rad = %5.2f, deg = %5.2f", length, rad, deg); y += fontSize;
 		switch (_state) {
 		case STATE::NORMAL:

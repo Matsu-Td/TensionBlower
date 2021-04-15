@@ -56,7 +56,7 @@ void BossBullet::CollisionToPlayerAttack() {
 	VECTOR plPos = player::Player::GetInstance()->GetPos();
 	float sx = plPos.x - _vPos.x;
 	float sz = plPos.z - _vPos.z;
-	float length = Util::Sqrt(sx, sz);  // プレイヤーとの距離計算
+	float length = util::Sqrt(sx, sz);  // プレイヤーとの距離計算
 
 	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 

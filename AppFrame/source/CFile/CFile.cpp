@@ -11,6 +11,8 @@
 #include "CFile.h"
 #include "../Utility/UtilMacro.h"
 
+using namespace cfile;
+
  /*
 　* ファイル読み込み
 　*/

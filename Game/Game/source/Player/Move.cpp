@@ -22,13 +22,13 @@ void Player::Move() {
 	VECTOR camTarg = camera::Camera::GetInstance()->GetTarg();  // カメラの注視点
 	float camRad   = camera::Camera::GetInstance()->GetRad();   // カメラの向いている角度取得
 
-	float length = Util::GetLeftStickLength(); 	// 左スティックの移動量
-	float rad    = Util::GetLeftStickRad();     // 左スティックの角度(rad)
+	float length = util::GetLeftStickLength(); 	// 左スティックの移動量
+	float rad    = util::GetLeftStickRad();     // 左スティックの角度(rad)
 
 	VECTOR vec = { 0.0f,0.0f,0.0f };
 
 	// 移動処理
-	if (length < Util::ANALOG_MIN) {
+	if (length < util::ANALOG_MIN) {
 		length = 0.0f;
 	}
 	else {

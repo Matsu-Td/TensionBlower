@@ -60,8 +60,8 @@ void ShotBase::Move() {
 	// í èÌèÛë‘Ç≈ÇÃà⁄ìÆ
 	if (_state == STATE::NORMAL) {
 		float vx, vz;
-		vx = cos(Util::DegToRad(_shotAngle)) * _mvSpd;
-		vz = sin(Util::DegToRad(_shotAngle)) * _mvSpd;
+		vx = cos(util::DegToRad(_shotAngle)) * _mvSpd;
+		vz = sin(util::DegToRad(_shotAngle)) * _mvSpd;
 		_vPos.x += vx;
 		_vPos.z += vz;
 	}

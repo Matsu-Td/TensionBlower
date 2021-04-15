@@ -10,7 +10,7 @@
 #include "../Application/ApplicationBase.h"
 #include <iostream>
 
-namespace Util {
+namespace util {
 
 	void GetLeftStickParamXY(float& paramX, float& paramY) {
 
@@ -47,7 +47,7 @@ namespace Util {
 	float GetLeftStickDeg() {
 
 		float rad = GetLeftStickRad();
-		float deg = Util::RadToDeg(rad);
+		float deg = util::RadToDeg(rad);
 
 		return deg;
 	}

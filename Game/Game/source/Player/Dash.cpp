@@ -24,8 +24,8 @@ void Player::MoveAndDashMotionSwitch() {
 
 	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 
-	float stickDeg = Util::GetLeftStickDeg();
-	float stickLength = Util::GetLeftStickLength();
+	float stickDeg = util::GetLeftStickDeg();
+	float stickLength = util::GetLeftStickLength();
 
 	if (_isDash) {
 		// ダッシュ用移動速度セット
@@ -45,7 +45,7 @@ void Player::MoveAndDashMotionSwitch() {
 
 		}
 		// 後方向ダッシュ移動
-		else if (stickDeg >= -ANALOG_REG_OTHER && stickDeg <= ANALOG_REG_OTHER && stickLength >= Util::ANALOG_MIN) {
+		else if (stickDeg >= -ANALOG_REG_OTHER && stickDeg <= ANALOG_REG_OTHER && stickLength >= util::ANALOG_MIN) {
 			_state = Player::STATE::BACK_DASH;
 		}
 		// 入力がゲームパッド「RB」のみ場合は前方向ダッシュ移動
@@ -87,7 +87,7 @@ void Player::Dash() {
 	
 	camera::Camera::STATE camState = camera::Camera::GetInstance()->GetState();  // カメラの状態
 
-	float stickLength = Util::GetLeftStickLength();
+	float stickLength = util::GetLeftStickLength();
 
 	// 現在のプレイヤーの正面角度
 	float nowAngle = atan2(_vDir.z, _vDir.x);
@@ -113,7 +113,7 @@ void Player::Dash() {
 				_state = Player::STATE::FOR_DASH;
 			}
 			// キー入力がないとき向いている方向に直線でダッシュする
-			if (stickLength < Util::ANALOG_MIN) {
+			if (stickLength < util::ANALOG_MIN) {
 				if (camState == camera::Camera::STATE::NORMAL) {
 					MoveAndDashMotionSwitch();
 					vDash.x = -cos(_bsAngle) * _mvSpd;
@@ -145,7 +145,7 @@ void Player::Dash() {
 				_state = Player::STATE::FOR_DASH;
 			}
 			// キー入力がないとき：向いている方向に直線でダッシュする
-			if (stickLength < Util::ANALOG_MIN) {
+			if (stickLength < util::ANALOG_MIN) {
 				if (camState == camera::Camera::STATE::NORMAL) {
 					MoveAndDashMotionSwitch();
 					vDash.x = -cos(_bsAngle) * _mvSpd;

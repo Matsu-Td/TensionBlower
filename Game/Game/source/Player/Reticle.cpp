@@ -54,15 +54,15 @@ void Reticle::Initialize() {
 void Reticle::Move() {
 
 	float lx, ly;
-	Util::GetLeftStickParamXY(lx, ly);
+	util::GetLeftStickParamXY(lx, ly);
 
 	float rad = atan2(ly, lx);                  // 左スティックの角度(rad)
-	float length = Util::GetLeftStickLength(); 	// 左スティックの移動量
+	float length = util::GetLeftStickLength(); 	// 左スティックの移動量
 
 	VECTOR vec = { 0.0f,0.0f,0.0f };
 
 	// 移動処理
-	if (length < Util::ANALOG_MIN) {
+	if (length < util::ANALOG_MIN) {
 		length = 0.0f;
 	}
 	else {

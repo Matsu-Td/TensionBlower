@@ -32,7 +32,7 @@ void Player::CheckDistanceToBoss() {
 	VECTOR bsPos = boss::Boss::GetInstance()->GetPos();
 	float sx = _vPos.x - bsPos.x;
 	float sz = _vPos.z - bsPos.z;
-	float length = Util::Sqrt(sx, sz);
+	float length = util::Sqrt(sx, sz);
 
 	_bsAngle = atan2(sz, sx);
 
