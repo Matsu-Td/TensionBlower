@@ -52,8 +52,8 @@ namespace tensionblower {
 			 */
 			bool Render() override;
 
-			camera::Camera     _cam;
-			ObjectServer _objServer;
+			camera::Camera     _cam;  // カメラ
+			ObjectServer _objServer;  // オブジェクト管理サーバー
 
 			std::unique_ptr<charadata::CharaData> _charaData; // JSONファイルからキャラデータ読み込み
 
@@ -71,8 +71,8 @@ namespace tensionblower {
 			 */
 			void SetLightColorHandle(int lightHandle);
 
-			player::PlayerStatus _playerStatus;
-			boss::BossStatus     _bossStatus;
+			player::PlayerStatus _playerStatus;  // プレイヤーのステータス
+			boss::BossStatus     _bossStatus;    // ボスのステータス
 		};
 	}
 }

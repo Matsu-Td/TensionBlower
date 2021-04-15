@@ -235,7 +235,7 @@ namespace tensionblower {
 			int   _hitpoint;      // ヒットポイント値
 			int   _shield;        // シールド値
 			int   _downTime;      // ダウン時間
-			int   _deathCnt;       // 死亡カウント
+			int   _deathCnt;      // 死亡カウント
 			bool  _stateDown;     // ダウン状態か(true:ダウン状態)
 			float _sinCnt;        // 上下運動用サイン波カウント
 
@@ -250,29 +250,30 @@ namespace tensionblower {
 			float _shotHeight;    // 弾幕を発射する高さ
 			float _laserAngle;    // レーザーの発射角度
 
-			static const int ATTACK_VOICE_NUM = 6;     // 攻撃時の声データ総数
-			std::string _attackNameNo[ATTACK_VOICE_NUM] =  // 攻撃時の声データの名前を格納
+			static const int ATTACK_VOICE_NUM = 6;        // 攻撃時の声データ総数
+			std::string _attackNameNo[ATTACK_VOICE_NUM] = // 攻撃時の声データの名前を格納
 			{ "attack1","attack1" ,"attack2" ,"attack4" ,"attack5" ,"attack6" };
 
 			STATE  _state;    // 状態
 			STATE  _oldState; // 処理前の状態
 			VECTOR _cross;    // 外積(ボスの向き回転計算用)
 
-			const float ADD_POS_Y = 9.0f;      // 当たり判定用Y座標加算値
-			const float ROT_SPD = 0.01f;     // ボスの向き回転用角速度
-			const int PHASE_ONE_HP = 4000;      // フェーズ1へ移行する残りHP量
-			const int PHASE_TWO_HP = 3000;      // フェーズ2へ移行する残りHP量
-			const int PHASE_THREE_HP = 2000;      // フェーズ3へ移行する残りHP量
-			const int PHASE_FOUR_HP = 1000;      // フェーズ4へ移行する残りHP量
-			const int MIN_DOWN_TIME = 180;       // ダウン時間最小値(ダウン時間計算用)
-			const int PATTERN_CHANGE_CNT = 240;   // 弾幕パターンを変化させるカウント最大値
-			const int SHOT_REVERSE_CNT = 90;    // 弾幕回転方向を変化させるカウント最大値
-			const float SHOT_DISTANCE = 10.0f; // 弾幕を発生させる位置(ボス中心からの距離)
-			const float LESER_POS_Y = 4.5f;  // レーザーを発射する位置Y座標(高さ)
-			const float SHOT_Y_MAX = 12.0f; // 弾幕の高さ上限
-			const int EXPLOSION_DMG_NORM = 2;     // 爆発HPダメージ量：通常時(シールド無)
-			const int EXPLOSION_DMG_HP = 1;     // 爆発HPダメージ量(シールド有)
-			const int EXPLOSION_DMG_SLD = 2;     // 爆発シールドダメージ量(シールド有)
+			const int PHASE_ONE_HP       = 4000; // フェーズ1へ移行する残りHP量
+			const int PHASE_TWO_HP       = 3000; // フェーズ2へ移行する残りHP量
+			const int PHASE_THREE_HP     = 2000; // フェーズ3へ移行する残りHP量
+			const int PHASE_FOUR_HP      = 1000; // フェーズ4へ移行する残りHP量
+			const int MIN_DOWN_TIME      = 180;  // ダウン時間最小値(ダウン時間計算用)
+			const int PATTERN_CHANGE_CNT = 240;  // 弾幕パターンを変化させるカウント最大値
+			const int SHOT_REVERSE_CNT   = 90;   // 弾幕回転方向を変化させるカウント最大値
+			const int EXPLOSION_DMG_NORM = 2;    // 爆発HPダメージ量：通常時(シールド無)
+			const int EXPLOSION_DMG_HP   = 1;    // 爆発HPダメージ量(シールド有)
+			const int EXPLOSION_DMG_SLD  = 2;    // 爆発シールドダメージ量(シールド有)
+		
+			const float ADD_POS_Y     = 9.0f;    // 当たり判定用Y座標加算値
+			const float ROT_SPD       = 0.01f;   // ボスの向き回転用角速度
+			const float SHOT_DISTANCE = 10.0f;   // 弾幕を発生させる位置(ボス中心からの距離)
+			const float LESER_POS_Y   = 4.5f;    // レーザーを発射する位置Y座標(高さ)
+			const float SHOT_Y_MAX    = 12.0f;   // 弾幕の高さ上限
 		};
 	}
 }
