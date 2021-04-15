@@ -16,7 +16,7 @@ using namespace resource;
 // 静的メンバ実体
 std::unordered_map<std::string, int> ResourceServer::_mapGraph;  // 画像データ
 std::unordered_map<std::string, ResourceServer::DIVGRAPH> ResourceServer::_mapDivGraph;  // 分割画像データ
-std::unordered_map<std::string, int> ResourceServer::_mapSound;  // 音データ
+std::unordered_map<std::string, int> ResourceServer::_mapSound;  // 音声データ
 std::unordered_map<std::string, int> ResourceServer::_mapModel;  // モデルデータ
 std::unordered_map<std::string, int> ResourceServer::_mapEffect; // エフェクトデータ
 
