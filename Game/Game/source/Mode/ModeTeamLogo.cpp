@@ -17,8 +17,8 @@ using namespace tensionblower::mode;
 bool ModeTeamLogo::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-	_bg = ResourceServer::LoadGraph("res/logo_bg.png");
-	_cg = ResourceServer::LoadGraph("res/team_logo.png");
+	_bg = resource::ResourceServer::LoadGraph("res/logo_bg.png");
+	_cg = resource::ResourceServer::LoadGraph("res/team_logo.png");
 
 	_alpha = 0;
 	_fadeCnt = 0;

@@ -14,7 +14,7 @@ using namespace tensionblower::effect;
 
 Destruction::Destruction(VECTOR pos){
 
-	_effectHandle = ResourceServer::LoadEffekseerEffect("res/effect/destruction/effect_explosion_2.efkefc", 1.0f);
+	_effectHandle  = resource::ResourceServer::LoadEffekseerEffect("res/effect/destruction/effect_explosion_2.efkefc", 1.0f);
 	_playingHandle = PlayEffekseer3DEffect(_effectHandle);
 
 	_vPos = pos;

@@ -14,7 +14,7 @@ using namespace tensionblower::effect;
 
 Laser::Laser(VECTOR pos, float radius, float angle, float roteSpd) {
 
-	_effectHandle = ResourceServer::LoadEffekseerEffect("res/effect/beam/effect_beam.efkefc", 1.0f);
+	_effectHandle  = resource::ResourceServer::LoadEffekseerEffect("res/effect/beam/effect_beam.efkefc", 1.0f);
 	_playingHandle = PlayEffekseer3DEffect(_effectHandle);
 
 	_vPos = pos;

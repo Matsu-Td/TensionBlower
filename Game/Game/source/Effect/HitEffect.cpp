@@ -13,7 +13,7 @@ using namespace tensionblower::effect;
 
 HitEffect::HitEffect(VECTOR pos) {
 
-	_effectHandle = ResourceServer::LoadEffekseerEffect("res/effect/hit/hit.efkefc", 1.5f);
+	_effectHandle  = resource::ResourceServer::LoadEffekseerEffect("res/effect/hit/hit.efkefc", 1.5f);
 	_playingHandle = PlayEffekseer3DEffect(_effectHandle);
 
 	_vPos = pos;

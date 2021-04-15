@@ -11,6 +11,8 @@
 #include "ResourceServer.h"
 #include "EffekseerForDXLib.h"
 
+using namespace resource;
+
 // 静的メンバ実体
 std::unordered_map<std::string, int> ResourceServer::_mapGraph;  // 画像データ
 std::unordered_map<std::string, ResourceServer::DIVGRAPH> ResourceServer::_mapDivGraph;  // 分割画像データ

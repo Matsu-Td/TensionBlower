@@ -19,7 +19,7 @@ Explosion::Explosion(VECTOR pos, bool repelFlag) {
 	// ê∂ê¨éûÅAîöî≠âπçƒê∂
 	PlaySoundMem(gSound._se["explosion1"], DX_PLAYTYPE_BACK);
 
-	_effectHandle = ResourceServer::LoadEffekseerEffect("res/effect/explosion/explosion.efkefc", 1.0f);
+	_effectHandle  = resource::ResourceServer::LoadEffekseerEffect("res/effect/explosion/explosion.efkefc", 1.0f);
 	_playingHandle = PlayEffekseer3DEffect(_effectHandle);
 
 	_vPos = pos;

@@ -29,8 +29,8 @@ bool ModeGameOver::Initialize() {
 	// ゲームオーバー時の声データ再生
 	PlaySoundMem(gPlayerVoice._vc["gameover"], DX_PLAYTYPE_BACK);
 
-	_cg[0] = ResourceServer::LoadGraph("res/band.png");
-	_cg[1] = ResourceServer::LoadGraph("res/gameover.png");
+	_cg[0] = resource::ResourceServer::LoadGraph("res/band.png");
+	_cg[1] = resource::ResourceServer::LoadGraph("res/gameover.png");
 
 	return true;
 }

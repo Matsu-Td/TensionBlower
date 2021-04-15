@@ -19,11 +19,11 @@ using namespace tensionblower::boss;
 
 BossBullet::BossBullet(VECTOR pos, float shotSpd, float shotAngle){
 
-	_mh = ResourceServer::MV1LoadModel("res/model/boss/bullet.mv1");
-	_shadowModel = ResourceServer::MV1LoadModel("res/model/boss/bullet_shadow.mv1");
+	_mh = resource::ResourceServer::MV1LoadModel("res/model/boss/bullet.mv1");
+	_shadowModel = resource::ResourceServer::MV1LoadModel("res/model/boss/bullet_shadow.mv1");
 
-	_cg[0] = ResourceServer::LoadGraph("res/ui/lock_ok.png");
-	_cg[1] = ResourceServer::LoadGraph("res/ui/lock_end.png");
+	_cg[0] = resource::ResourceServer::LoadGraph("res/ui/lock_ok.png");
+	_cg[1] = resource::ResourceServer::LoadGraph("res/ui/lock_end.png");
 
 	_vPos = pos;
 	_shotSpd = shotSpd;

@@ -10,11 +10,11 @@
     <Filter Include="CFile">
       <UniqueIdentifier>{8fbd5843-f112-4047-a7f8-83460621436b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceServer">
-      <UniqueIdentifier>{c93aa2ee-8ff3-48cf-9c51-1a0f26c2b845}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{7a67b18e-198e-4622-ad83-1499606e254c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{c93aa2ee-8ff3-48cf-9c51-1a0f26c2b845}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -34,7 +34,7 @@
       <Filter>CFile</Filter>
     </ClCompile>
     <ClCompile Include="source\ResourceServer\ResourceServer.cpp">
-      <Filter>ResourceServer</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="source\Utility\Utility.cpp">
       <Filter>Utility</Filter>
@@ -55,7 +55,7 @@
       <Filter>CFile</Filter>
     </ClInclude>
     <ClInclude Include="source\ResourceServer\ResourceServer.h">
-      <Filter>ResourceServer</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="source\Utility\Utility.h">
       <Filter>Utility</Filter>

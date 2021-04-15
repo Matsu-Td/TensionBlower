@@ -19,12 +19,12 @@ using namespace tensionblower::mode;
 bool ModePause::Initialize(){
 	if (!base::Initialize()) { return false; }
 
-	_cg = ResourceServer::LoadGraph("res/pause.png");
+	_cg = resource::ResourceServer::LoadGraph("res/pause.png");
 
-	_ui[0] = ResourceServer::LoadGraph("res/ui/pause/pause_on_01.png");
-	_ui[1] = ResourceServer::LoadGraph("res/ui/pause/pause_on_02.png");
-	_ui[2] = ResourceServer::LoadGraph("res/ui/pause/pause_off_01.png");
-	_ui[3] = ResourceServer::LoadGraph("res/ui/pause/pause_off_02.png");
+	_ui[0] = resource::ResourceServer::LoadGraph("res/ui/pause/pause_on_01.png");
+	_ui[1] = resource::ResourceServer::LoadGraph("res/ui/pause/pause_on_02.png");
+	_ui[2] = resource::ResourceServer::LoadGraph("res/ui/pause/pause_off_01.png");
+	_ui[3] = resource::ResourceServer::LoadGraph("res/ui/pause/pause_off_02.png");
 
 	_menuPos = 0;
 

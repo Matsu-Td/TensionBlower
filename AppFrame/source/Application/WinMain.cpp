@@ -23,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;
 	}
 	// リソースサーバ初期化
-	ResourceServer::Init();
+	resource::ResourceServer::Init();
 
 	while (ProcessMessage() == 0)
 	{
@@ -40,7 +40,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ScreenFlip();	
 	}
 
-	ResourceServer::Release();
+	resource::ResourceServer::Release();
 	appBase->Terminate();
 
 	return 0;

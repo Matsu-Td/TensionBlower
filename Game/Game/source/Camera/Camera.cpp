@@ -18,7 +18,7 @@ Camera* Camera::_pInstance = nullptr;
 Camera::Camera(){
 
 	_pInstance = this;
-	_lockOn.cg = ResourceServer::LoadGraph("res/ui/player/lockon.png");
+	_lockOn.cg = resource::ResourceServer::LoadGraph("res/ui/player/lockon.png");
 
 	Initialize();
 }

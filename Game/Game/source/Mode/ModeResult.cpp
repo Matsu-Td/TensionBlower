@@ -21,7 +21,7 @@ using namespace tensionblower::mode;
 bool ModeResult::Initialize() {
 	if (!base::Initialize()) { return false; }
 
-	_cg = ResourceServer::LoadGraph("res/result.png");
+	_cg = resource::ResourceServer::LoadGraph("res/result.png");
 
 	_allScore = 0;
 	_timeScore = MAX_SCORE;

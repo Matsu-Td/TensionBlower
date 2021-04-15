@@ -14,7 +14,7 @@ using namespace tensionblower::boss;
 LoadBossVoice gBossVoice;
 
 int LoadBossVoice::LoadVoice(const TCHAR* filePath) {
-	return ResourceServer::LoadSoundMem(filePath);
+	return resource::ResourceServer::LoadSoundMem(filePath);
 }
 
 /*

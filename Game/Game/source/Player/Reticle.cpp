@@ -16,7 +16,7 @@ using namespace tensionblower::player;
 
 Reticle::Reticle(){
 
-	_cg = ResourceServer::LoadGraph("res/ui/player/mls_reticle.png");
+	_cg = resource::ResourceServer::LoadGraph("res/ui/player/mls_reticle.png");
 
 	Initialize();
 }

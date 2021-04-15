@@ -41,17 +41,17 @@ bool ModeTitle::Initialize() {
 		PlaySoundMem(gBossVoice._vc["title"], DX_PLAYTYPE_BACK);
 	}
 
-	_movieHandle = ResourceServer::LoadGraph("res/movie/title_bg.mp4");
-	_cgtitle     = ResourceServer::LoadGraph("res/logo_title.png");
+	_movieHandle = resource::ResourceServer::LoadGraph("res/movie/title_bg.mp4");
+	_cgtitle     = resource::ResourceServer::LoadGraph("res/logo_title.png");
 
 	// メニューUI画像読み込み(選択状:ON)
 	for (int i = 0; i < MENU_NUM; i++) {
-		_uiOn[i] = ResourceServer::LoadGraph(_fileNameOn[i]);
+		_uiOn[i] = resource::ResourceServer::LoadGraph(_fileNameOn[i]);
 	}
 
 	// メニューUI画像読み込み(未選択状態:OFF)
 	for (int i = 0; i < MENU_NUM; i++) {
-		_uiOff[i] = ResourceServer::LoadGraph(_fileNameOff[i]);
+		_uiOff[i] = resource::ResourceServer::LoadGraph(_fileNameOff[i]);
 	}
 
 	// 動画再生開始

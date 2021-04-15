@@ -21,37 +21,37 @@ bool ModeTutorial::Initialize() {
 	if (!base::Initialize()) { return false; }
 
 	// 背景読み込み
-	_bg    = ResourceServer::LoadGraph("res/title_back.png");
+	_bg    = resource::ResourceServer::LoadGraph("res/title_back.png");
 
 	// 画像読み込み
-	_cg[0] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei11.png");
-	_cg[1] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei12.png");
-	_cg[2] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei1.png");
-	_cg[3] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei2.png");
-	_cg[4] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei3.png");
-	_cg[5] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei5.png");
-	_cg[6] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei7.png");
-	_cg[7] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei8.png");
-	_cg[8] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei9.png");
-	_cg[9] = ResourceServer::LoadGraph("res/ui/tutorial/setsumei10.png");
+	_cg[0] = resource::ResourceServer::LoadGraph("res/ui/tutorial/setsumei11.png");
+	_cg[1] = resource::ResourceServer::LoadGraph("res/ui/tutorial/setsumei12.png");
+	_cg[2] = resource::ResourceServer::LoadGraph("res/ui/tutorial/setsumei1.png");
+	_cg[3] = resource::ResourceServer::LoadGraph("res/ui/tutorial/setsumei2.png");
+	_cg[4] = resource::ResourceServer::LoadGraph("res/ui/tutorial/setsumei3.png");
+	_cg[5] = resource::ResourceServer::LoadGraph("res/ui/tutorial/setsumei5.png");
+	_cg[6] = resource::ResourceServer::LoadGraph("res/ui/tutorial/setsumei7.png");
+	_cg[7] = resource::ResourceServer::LoadGraph("res/ui/tutorial/setsumei8.png");
+	_cg[8] = resource::ResourceServer::LoadGraph("res/ui/tutorial/setsumei9.png");
+	_cg[9] = resource::ResourceServer::LoadGraph("res/ui/tutorial/setsumei10.png");
 
 	// 動画読み込み
-	_movieHandle[2] = ResourceServer::LoadGraph("res/movie/move.mp4");
-	_movieHandle[3] = ResourceServer::LoadGraph("res/movie/dash.mp4");
-	_movieHandle[4] = ResourceServer::LoadGraph("res/movie/jump.mp4");
-	_movieHandle[5] = ResourceServer::LoadGraph("res/movie/MLS.mp4");
-	_movieHandle[6] = ResourceServer::LoadGraph("res/movie/lattack.mp4");
-	_movieHandle[7] = ResourceServer::LoadGraph("res/movie/hattack.mp4");
-	_movieHandle[8] = ResourceServer::LoadGraph("res/movie/charge.mp4");
+	_movieHandle[2] = resource::ResourceServer::LoadGraph("res/movie/move.mp4");
+	_movieHandle[3] = resource::ResourceServer::LoadGraph("res/movie/dash.mp4");
+	_movieHandle[4] = resource::ResourceServer::LoadGraph("res/movie/jump.mp4");
+	_movieHandle[5] = resource::ResourceServer::LoadGraph("res/movie/MLS.mp4");
+	_movieHandle[6] = resource::ResourceServer::LoadGraph("res/movie/lattack.mp4");
+	_movieHandle[7] = resource::ResourceServer::LoadGraph("res/movie/hattack.mp4");
+	_movieHandle[8] = resource::ResourceServer::LoadGraph("res/movie/charge.mp4");
 	
 	// メニューUI画像読み込み(選択状態:ON)
 	for (int i = 0; i < MENU_NUM; i++) {
-		_uiOn[i] = ResourceServer::LoadGraph(_fileNameOn[i]);
+		_uiOn[i] = resource::ResourceServer::LoadGraph(_fileNameOn[i]);
 	}
 
 	// メニューUI画像読み込み(未選択状態:OFF)
 	for (int i = 0; i < MENU_NUM; i++) {
-		_uiOff[i] = ResourceServer::LoadGraph(_fileNameOff[i]);
+		_uiOff[i] = resource::ResourceServer::LoadGraph(_fileNameOff[i]);
 	}
 
 	_menuPos = 0;

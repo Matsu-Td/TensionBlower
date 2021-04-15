@@ -23,8 +23,8 @@ bool ModeGameStart::Initialize() {
 	// クリア時の声データ再生
 	PlaySoundMem(gPlayerVoice._vc["gamestart"], DX_PLAYTYPE_BACK);
 
-	_cg[0] = ResourceServer::LoadGraph("res/band.png");
-	_cg[1] = ResourceServer::LoadGraph("res/missionstart.png");
+	_cg[0] = resource::ResourceServer::LoadGraph("res/band.png");
+	_cg[1] = resource::ResourceServer::LoadGraph("res/missionstart.png");
 
 	return true;
 }

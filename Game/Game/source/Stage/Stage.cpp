@@ -13,8 +13,8 @@ using namespace tensionblower::stage;
 
 Stage::Stage(){
 	
-	_mh    = ResourceServer::MV1LoadModel("res/model/stage/stage_collision.mv1");
-	_mhMap = ResourceServer::MV1LoadModel("res/model/stage/stage.mv1");
+	_mh    = resource::ResourceServer::MV1LoadModel("res/model/stage/stage_collision.mv1");
+	_mhMap = resource::ResourceServer::MV1LoadModel("res/model/stage/stage.mv1");
 	
 	MV1SetupCollInfo(_mh, -1, 8, 8, 8);
 }

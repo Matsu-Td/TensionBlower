@@ -14,11 +14,11 @@ using namespace tensionblower::player;
 
 PlayerStatus::PlayerStatus() {
 
-	_cgName        = ResourceServer::LoadGraph("res/ui/player/player_name.png");
-	_cgFrame       = ResourceServer::LoadGraph("res/ui/player/player_status.png");
-	_cgFrameBg     = ResourceServer::LoadGraph("res/ui/player/player_status_2.png");
-	_cgBarHP       = ResourceServer::LoadGraph("res/ui/player/player_hp.png");
-	_cgBarEnergy   = ResourceServer::LoadGraph("res/ui/player/player_energy.png");
+	_cgName        = resource::ResourceServer::LoadGraph("res/ui/player/player_name.png");
+	_cgFrame       = resource::ResourceServer::LoadGraph("res/ui/player/player_status.png");
+	_cgFrameBg     = resource::ResourceServer::LoadGraph("res/ui/player/player_status_2.png");
+	_cgBarHP       = resource::ResourceServer::LoadGraph("res/ui/player/player_hp.png");
+	_cgBarEnergy   = resource::ResourceServer::LoadGraph("res/ui/player/player_energy.png");
 }
 
 PlayerStatus::~PlayerStatus() {

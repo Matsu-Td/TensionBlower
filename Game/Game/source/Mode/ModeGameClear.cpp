@@ -29,8 +29,8 @@ bool ModeGameClear::Initialize(){
 	// クリア時の声データ再生
 	PlaySoundMem(gPlayerVoice._vc["clear"], DX_PLAYTYPE_BACK);
 
-	_cg[0] = ResourceServer::LoadGraph("res/band.png");
-	_cg[1] = ResourceServer::LoadGraph("res/missionclear.png");
+	_cg[0] = resource::ResourceServer::LoadGraph("res/band.png");
+	_cg[1] = resource::ResourceServer::LoadGraph("res/missionclear.png");
 
 	// クリアするまでの経過時間を格納
 	gGlobal._gameTime = GetNowCount() - gGlobal._gameTime;

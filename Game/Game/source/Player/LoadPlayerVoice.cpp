@@ -17,7 +17,7 @@ LoadPlayerVoice gPlayerVoice;
  * ê∫ÉfÅ[É^ì«Ç›çûÇ›
  */
 int LoadPlayerVoice::LoadVoice(const TCHAR* filePath) {
-	return ResourceServer::LoadSoundMem(filePath);
+	return resource::ResourceServer::LoadSoundMem(filePath);
 }
 
 /*
