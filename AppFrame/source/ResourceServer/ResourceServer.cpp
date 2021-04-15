@@ -50,7 +50,7 @@ void ResourceServer::ClearGraph(){
     _mapGraph.clear();
 
     // •ªŠ„‰æ‘œƒf[ƒ^íœ
-    for (auto itr : _mapDivGraph){
+    for (auto&& itr : _mapDivGraph){
         for (int i = 0; i < itr.second.allNum; i++) {
             DeleteGraph(itr.second.handle[i]);
         }
