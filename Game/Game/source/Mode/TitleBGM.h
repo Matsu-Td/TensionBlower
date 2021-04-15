@@ -15,7 +15,7 @@ namespace tensionblower {
 		/**
 		 * @brief アウトゲーム用BGM再生処理
 		 */
-		class TitleBGM : public ModeBase {
+		class TitleBGM : public ::mode::ModeBase {
 		public:
 			TitleBGM();
 			~TitleBGM();

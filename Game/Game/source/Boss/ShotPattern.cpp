@@ -147,7 +147,7 @@ void Boss::BarragePatternSwitch() {
  */
 void Boss::ShotGeneration(float posY, float shotSpd, float shotAngle) {
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame* > (ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame* > (::mode::ModeServer::GetInstance()->Get("game"));
 	
 	VECTOR tmpPos = { 0.0f,0.0f,0.0f };
 	
@@ -164,7 +164,7 @@ void Boss::ShotGeneration(float posY, float shotSpd, float shotAngle) {
  */
 void Boss::LaserGeneration(float laserAngle, float roteSpd) {
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 	
 	VECTOR tmpPos = _vPos;
 	
@@ -259,7 +259,7 @@ void Boss::BarragePattern4_2() {
  */
 void Boss::BarragePattern5() {
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 
 	// プレイヤー位置取得
 	VECTOR plPos = player::Player::GetInstance()->GetPos();
@@ -320,7 +320,7 @@ void Boss::BarragePattern6() {
 			tmpPos.y = 3.5f;
 			
 			BossAimShot* bossAimShot = NEW BossAimShot(tmpPos, 1.5f, deg + angleSide);
-			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 			modeGame->_objServer.Add(bossAimShot); // 弾生成
 			angleSide += 10.0f;                    // 発射角度を10°ずつずらす
 		}
@@ -338,7 +338,7 @@ void Boss::BarragePattern7() {
 		tmpPos.y = _vPos.y + 12.0f;
 		
 		BossBomb* bomb = NEW BossBomb(tmpPos);
-		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Add(bomb);
 	}
 }

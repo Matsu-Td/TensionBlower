@@ -52,7 +52,7 @@ bool ApplicationBase::Initialize(HINSTANCE hInstance) {
 	srand((unsigned int)time(NULL));
 
 	// モードサーバの初期化
-	_serverMode = std::make_unique<ModeServer>();
+	_serverMode = std::make_unique<mode::ModeServer>();
 	
 	return true;
 }

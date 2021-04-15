@@ -36,7 +36,7 @@ bool ModeGame::Initialize() {
 	gGlobal._totalGetEnergy = 0;
 
 	// ゲームスタート表示
-	ModeServer::GetInstance()->Add(NEW ModeGameStart, 2, "start");
+	::mode::ModeServer::GetInstance()->Add(NEW ModeGameStart, 2, "start");
 	_objServer.Process();
 	_stopObjProcess = true;
 
@@ -109,7 +109,7 @@ bool ModeGame::Process() {
 	// ゲームパッド「START」ボタンでポーズモード追加
 	if (trg & PAD_INPUT_8) { 
 		ModePause* modePause = NEW ModePause();
-		ModeServer::GetInstance()->Add(modePause, 99, "pause");
+		::mode::ModeServer::GetInstance()->Add(modePause, 99, "pause");
 	}
 
 	return true;

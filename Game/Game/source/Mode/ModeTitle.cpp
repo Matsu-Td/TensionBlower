@@ -27,7 +27,7 @@ bool ModeTitle::Initialize() {
 
 	// BGM再生(再生していない時)
 	if (!CheckSoundMem(gSound._bgm["titlebgm"])) {
-		ModeServer::GetInstance()->Add(NEW TitleBGM(), 0, "titlebgm");
+		::mode::ModeServer::GetInstance()->Add(NEW TitleBGM(), 0, "titlebgm");
 	}
 
 	// プレイヤーorボスの声でタイトルコールする(ランダム)
@@ -99,7 +99,7 @@ void ModeTitle::MenuSelect() {
 			// BGM再生停止
 			StopSoundMem(gSound._bgm["titlebgm"]);
 	
-			ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("titlebgm"));
+			::mode::ModeServer::GetInstance()->Del(::mode::ModeServer::GetInstance()->Get("titlebgm"));
 			ModeChange(NEW ModeGame(),   1, "game");   
 			break;
 		case MENU::TUTORIAL:
@@ -109,7 +109,7 @@ void ModeTitle::MenuSelect() {
 			ModeChange(NEW ModeCredit(),   1, "credit");   break;
 
 		case MENU::GAME_END: 
-			ModeServer::GetInstance()->Del(this);
+			::mode::ModeServer::GetInstance()->Del(this);
 			appframe::ApplicationBase::GetInstance()->IsGameEnd();
 			break;
 		}
@@ -127,9 +127,9 @@ void ModeTitle::MenuSelect() {
  */
 void ModeTitle::ModeChange(ModeBase* nextMode, int layer, const char* modeName) {
 	// タイトルモードを削除
-	ModeServer::GetInstance()->Del(this);
+	::mode::ModeServer::GetInstance()->Del(this);
 	// 次のモードを登録
-	ModeServer::GetInstance()->Add(nextMode, layer, modeName);
+	::mode::ModeServer::GetInstance()->Add(nextMode, layer, modeName);
 }
 
 /*

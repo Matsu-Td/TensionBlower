@@ -17,7 +17,7 @@ using namespace tensionblower::boss;
  */
 void Boss::StateDown() {
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 
 	// •œ‹A
 	if (_state == STATE::DOWN) {

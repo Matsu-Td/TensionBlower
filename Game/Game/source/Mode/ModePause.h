@@ -15,7 +15,7 @@ namespace tensionblower {
 		/**
 		 * @brief ポーズモードクラス
 		 */
-		class ModePause : public ModeBase {
+		class ModePause : public ::mode::ModeBase {
 			using base = ModeBase;
 
 		public:

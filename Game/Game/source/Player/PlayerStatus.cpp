@@ -30,7 +30,7 @@ PlayerStatus::~PlayerStatus() {
  */
 void PlayerStatus::Render() {
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 
 	// ƒvƒŒƒCƒ„[î•ñŽæ“¾
 	int hitpoint  = Player::GetInstance()->GetHitPoint();

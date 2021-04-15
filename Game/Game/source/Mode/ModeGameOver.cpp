@@ -52,17 +52,17 @@ bool ModeGameOver::Process(){
 
 	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
-	ModeServer::GetInstance()->SkipProcessUnderLayer();
+	::mode::ModeServer::GetInstance()->SkipProcessUnderLayer();
 
 	// ゲームパッド「B」ボタンでゲームオーバーモードとゲームモードを削除し、
 	// タイトルモードを追加
 	if (trg & PAD_INPUT_2) {
 		StopSoundMem(gSound._se["lose"]);
 
-		ModeServer::GetInstance()->Del(this);
-		ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
+		::mode::ModeServer::GetInstance()->Del(this);
+		::mode::ModeServer::GetInstance()->Del(::mode::ModeServer::GetInstance()->Get("game"));
 
-		ModeServer::GetInstance()->Add(NEW ModeTitle, 1, "title");
+		::mode::ModeServer::GetInstance()->Add(NEW ModeTitle, 1, "title");
 	}
 
 	return true;

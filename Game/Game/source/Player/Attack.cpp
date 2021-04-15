@@ -29,7 +29,7 @@ void Player::SetAttackDamage(int dmgHP, int dmgSld, int dmgNorm) {
  */
 void Player::SwitchAttackDamage() {
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 
 	switch (_state) {
 	case Player::STATE::WEAK_ATCK1:
@@ -102,7 +102,7 @@ void Player::NextWeakAttack(STATE nextState, std::string attackName) {
 void Player::AttackAction() {
 
 	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 
 	// çUåÇÉJÉEÉìÉg
 	if (_attackCnt <= 0) {
@@ -234,7 +234,7 @@ void Player::FirstAttack() {
 
 			_isAttack = true;
 
-			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 		
 			NextStrongAttack(modeGame->_charaData->_egAtck1, STATE::STRG_ATCK1, "slash_h");
 			SetStrongHitTime();

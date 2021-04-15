@@ -110,7 +110,7 @@ namespace appframe {
 	protected:
 		static	ApplicationBase* _pInstance;
 
-		std::unique_ptr<ModeServer> _serverMode;
+		std::unique_ptr<mode::ModeServer> _serverMode;
 
 		int	 _key;                // キー入力情報
 		int  _keyTrg;             // キー入力のトリガ情報

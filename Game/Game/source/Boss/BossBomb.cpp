@@ -89,7 +89,7 @@ void BossBomb::BombDelete() {
 	if (_vPos.y <= 0.0f) {	
 		effect::Explosion* explosion = NEW effect::Explosion(_vPos, _repelFlag);
 
-		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Add(explosion);
 		modeGame->_objServer.Del(this);
 	}
@@ -100,7 +100,7 @@ void BossBomb::BombDelete() {
  */
 void BossBomb::CollisionCall() {
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 
 	for (auto&& itr : *modeGame->_objServer.List()) {
 		CollisionToPlayer(itr);
@@ -118,7 +118,7 @@ void BossBomb::CollisionToPlayer(ObjectBase* obj) {
 		if (IsHitLineSegment(*obj, _r)) {
 			effect::Explosion* explosion = NEW effect::Explosion(_vPos, _repelFlag);
 
-			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 			modeGame->_objServer.Add(explosion);
 			modeGame->_objServer.Del(this);
 		}
@@ -160,7 +160,7 @@ void BossBomb::CollisionToBoss(ObjectBase* obj) {
 			if (IsHitLineSegment(*obj, obj->_r)) {
 				effect::Explosion* explosion = NEW effect::Explosion(_vPos, _repelFlag);
 
-				mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+				mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 				modeGame->_objServer.Add(explosion);
 				modeGame->_objServer.Del(this);
 			}

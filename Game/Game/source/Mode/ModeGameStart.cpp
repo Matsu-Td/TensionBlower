@@ -46,14 +46,14 @@ bool ModeGameStart::Process() {
 
 	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
-	ModeServer::GetInstance()->SkipProcessUnderLayer();
+	::mode::ModeServer::GetInstance()->SkipProcessUnderLayer();
 
 	if (trg & PAD_INPUT_2) {
-		ModeGame* modeGame = static_cast<ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		ModeGame* modeGame = static_cast<ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 		modeGame->_stopObjProcess = false;
 		// 「MISSION START」 表示が消えてからクリアタイムカウントスタート
 		gGlobal._gameTime = GetNowCount();
-		ModeServer::GetInstance()->Del(this);
+		::mode::ModeServer::GetInstance()->Del(this);
 	}
 
 	return true;

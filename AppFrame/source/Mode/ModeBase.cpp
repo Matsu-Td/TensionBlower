@@ -8,6 +8,8 @@
 
 #include "ModeBase.h"
 
+using namespace mode;
+
 ModeBase::ModeBase() {
 	_szName = "";
 	_uid = 1;

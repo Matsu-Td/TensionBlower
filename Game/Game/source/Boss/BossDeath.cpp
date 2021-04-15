@@ -34,7 +34,7 @@ void Boss::Death() {
 
 			effect::Destruction* destruction = NEW effect::Destruction(tmpPos);
 
-			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+			mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 			modeGame->_objServer.Add(destruction);
 		}
 		_hitpoint = 0;

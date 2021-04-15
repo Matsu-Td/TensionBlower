@@ -15,7 +15,7 @@ namespace tensionblower {
 		/**
 		 * @brief クレジットモードクラス
 		 */
-		class ModeCredit : public ModeBase {
+		class ModeCredit : public ::mode::ModeBase {
 			using base = ModeBase;
 
 		public:

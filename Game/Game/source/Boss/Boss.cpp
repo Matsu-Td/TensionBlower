@@ -32,7 +32,7 @@ Boss::~Boss(){
  */
 void Boss::Initialize() {
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame* > (ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame* > (::mode::ModeServer::GetInstance()->Get("game"));
 
 	_vPos = VGet(0.0f, 0.0f, 0.0f);
 	_vDir = VGet(0.0f, 0.0f, 0.0f);

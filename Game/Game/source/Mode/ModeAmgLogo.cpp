@@ -66,8 +66,8 @@ bool ModeAmgLogo::Process() {
 		if (_fadeCnt <= 0) {
 			_fadeCnt = 0;
 
-			ModeServer::GetInstance()->Del(this);
-			ModeServer::GetInstance()->Add(NEW ModeTeamLogo(), 1, "teamlogo");
+			::mode::ModeServer::GetInstance()->Del(this);
+			::mode::ModeServer::GetInstance()->Add(NEW ModeTeamLogo(), 1, "teamlogo");
 		}
 	}
 

@@ -10,6 +10,8 @@
 #include "DxLib.h"
 #include "ModeServer.h"
 
+using namespace mode;
+
 ModeServer	*ModeServer::_pInstance = nullptr;
 
 ModeServer::ModeServer(){

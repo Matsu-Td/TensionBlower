@@ -48,7 +48,7 @@ bool ModePause::Process(){
 
 	int trg = ApplicationMain::GetInstance()->GetKeyTrg();
 
-	ModeServer::GetInstance()->SkipProcessUnderLayer(); 
+	::mode::ModeServer::GetInstance()->SkipProcessUnderLayer();
 
 	// ゲームパッドの上下キー及び左アナログスティック上下でメニュー選択
 	if (_menuPos == 0) {
@@ -62,7 +62,7 @@ bool ModePause::Process(){
 		if (trg & PAD_INPUT_2) { 
 			PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
 
-			ModeServer::GetInstance()->Del(this);
+			::mode::ModeServer::GetInstance()->Del(this);
 		}
 	}
 	if (_menuPos == 1) {
@@ -78,16 +78,16 @@ bool ModePause::Process(){
 			PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
 			StopSoundMem(gSound._bgm["boss"]);
 
-			ModeServer::GetInstance()->Del(this);
-			ModeServer::GetInstance()->Del(ModeServer::GetInstance()->Get("game"));
+			::mode::ModeServer::GetInstance()->Del(this);
+			::mode::ModeServer::GetInstance()->Del(::mode::ModeServer::GetInstance()->Get("game"));
 
-			ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
+			::mode::ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 		}
 	}
 
 	// ゲームパッド「START」ボタンでポーズモード削除⇒ゲームモードへ戻る
 	if (trg & PAD_INPUT_8) { 
-		ModeServer::GetInstance()->Del(this);
+		::mode::ModeServer::GetInstance()->Del(this);
 	}
 
 	return true;

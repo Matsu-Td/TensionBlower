@@ -53,7 +53,7 @@ void Player::EnergyManager() {
 	// カメラの状態取得
 	camera::Camera::STATE camState = camera::Camera::GetInstance()->GetState();
 	
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 	
 	// ボスとの距離を確認
 	CheckDistanceToBoss();

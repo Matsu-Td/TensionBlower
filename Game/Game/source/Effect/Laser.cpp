@@ -51,14 +51,14 @@ void Laser::Deletion() {
 	if (bsState == boss::Boss::STATE::DOWN) {
 		StopEffekseer3DEffect(_playingHandle);
 
-		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}
 
 	_effectCnt--;
 	// 再生カウントが「0」になればレーザーを削除する
 	if (_effectCnt <= 0) {
-		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}
 }

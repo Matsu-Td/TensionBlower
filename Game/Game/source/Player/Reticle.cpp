@@ -106,7 +106,7 @@ void Reticle::Deletion() {
 
 	// カメラの状態がマルチロックオンシステムではなくなる
 	if (camState != camera::Camera::STATE::MLS_LOCK) {
-		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 		modeGame->_objServer.Del(this);
 	}
 }

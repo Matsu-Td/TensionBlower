@@ -24,7 +24,7 @@ namespace tensionblower {
 		/**
 		 * @brief ゲームモードクラス
 		 */
-		class ModeGame : public ModeBase {
+		class ModeGame : public ::mode::ModeBase {
 			using base = ModeBase;
 
 		public:

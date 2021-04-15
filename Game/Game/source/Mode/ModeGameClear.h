@@ -15,7 +15,7 @@ namespace tensionblower {
 		/**
 		 * @brief ゲームクリアモードクラス
 		 */
-		class ModeGameClear : public ModeBase {
+		class ModeGameClear : public ::mode::ModeBase {
 			using base = ModeBase;
 
 		public:

@@ -35,7 +35,7 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	gBossVoice.Initialize();
 
 	// ƒ‚[ƒh‚Ì“o˜^
-	ModeServer::GetInstance()->Add(NEW mode::ModeAmgLogo(), 1, "amglogo");
+	::mode::ModeServer::GetInstance()->Add(NEW mode::ModeAmgLogo(), 1, "amglogo");
 
 	return true;
 }
@@ -45,6 +45,7 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
  */
 bool ApplicationMain::Terminate() {
 	base::Terminate();
+
 	return true;
 }
 
@@ -53,6 +54,7 @@ bool ApplicationMain::Terminate() {
  */
 bool ApplicationMain::Input() {
 	base::Input();
+
 	return true;
 }
 
@@ -61,6 +63,7 @@ bool ApplicationMain::Input() {
  */
 bool ApplicationMain::Process() {
 	base::Process();
+
 	return true;
 }
 
@@ -69,6 +72,7 @@ bool ApplicationMain::Process() {
  */
 bool ApplicationMain::Render() {
 	base::Render();
+
 	return true;
 }
 

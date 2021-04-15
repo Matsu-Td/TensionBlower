@@ -37,7 +37,7 @@ Player::~Player(){
  */
 void Player::Initialize(){
 
-	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+	mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 	
 	_vPos = VGet(0.0f, 0.0f, -115.0f);
 	_vDir = VGet(0, 0, 1);
@@ -100,7 +100,7 @@ void Player::Gravity() {
 void Player::ExplosionDamage() {
 
 	if (_hitpoint > 0) {
-		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 
 		_hitpoint -= modeGame->_charaData->_boss.explosionDmg;
 	}

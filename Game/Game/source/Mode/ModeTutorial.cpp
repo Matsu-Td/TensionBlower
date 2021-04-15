@@ -117,8 +117,8 @@ bool ModeTutorial::Process() {
 		if (trg & PAD_INPUT_2) {
 			// Œˆ’è‰¹Ä¶
 			PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
-			ModeServer::GetInstance()->Del(this);
-			ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
+			::mode::ModeServer::GetInstance()->Del(this);
+			::mode::ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 		}
 	}
 

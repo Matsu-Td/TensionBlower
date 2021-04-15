@@ -16,7 +16,7 @@ namespace tensionblower {
 		/**
 		 * @brief ƒ`[ƒ€ƒƒS•`‰æˆ—
 		 */
-		class ModeTeamLogo :public ModeBase {
+		class ModeTeamLogo :public ::mode::ModeBase {
 			using base = ModeBase;
 
 		public:

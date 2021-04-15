@@ -23,7 +23,7 @@ void Player::ReticleGeneration() {
 
 	// ゲームパッド「LBボタン」でマルチロックオンシステム用照準追加
 	if (trg & PAD_INPUT_5) {
-		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(ModeServer::GetInstance()->Get("game"));
+		mode::ModeGame* modeGame = static_cast<mode::ModeGame*>(::mode::ModeServer::GetInstance()->Get("game"));
 		Reticle* reticle = NEW Reticle();
 		modeGame->_objServer.Add(reticle);
 	}

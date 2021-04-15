@@ -15,7 +15,7 @@ namespace tensionblower {
 		/**
 		 * @brief ゲームオーバークラス
 		 */
-		class ModeGameOver : public ModeBase {
+		class ModeGameOver : public ::mode::ModeBase {
 			using base = ModeBase;
 
 		public:

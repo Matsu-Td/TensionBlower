@@ -21,7 +21,7 @@ void Player::Death() {
 		_gameOverCnt--;
 		if (_gameOverCnt == 0) {
 			mode::ModeGameOver* modeGameOver = NEW mode::ModeGameOver();
-			ModeServer::GetInstance()->Add(modeGameOver, 2, "over");
+			::mode::ModeServer::GetInstance()->Add(modeGameOver, 2, "over");
 		}
 	}
 	// ヒットポイント 0 でゲームオーバー

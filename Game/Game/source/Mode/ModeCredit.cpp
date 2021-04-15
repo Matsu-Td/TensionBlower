@@ -46,8 +46,8 @@ bool ModeCredit::Process() {
 	if (trg & PAD_INPUT_1) {
 		PlaySoundMem(gSound._se["decision"], DX_PLAYTYPE_BACK);
 
-		ModeServer::GetInstance()->Del(this);
-		ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
+		::mode::ModeServer::GetInstance()->Del(this);
+		::mode::ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 	}
 
 	return true;

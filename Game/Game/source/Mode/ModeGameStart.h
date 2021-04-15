@@ -15,7 +15,7 @@ namespace tensionblower {
 		/**
 		 * @brief MISSION START‰æ‘œ•`‰æˆ—
 		 */
-		class ModeGameStart : public ModeBase {
+		class ModeGameStart : public ::mode::ModeBase {
 			using base = ModeBase;
 
 		public:

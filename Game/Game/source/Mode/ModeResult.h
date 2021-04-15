@@ -15,7 +15,7 @@ namespace tensionblower {
 		/**
 		 * @brief リザルトモードクラス
 		 */
-		class ModeResult : public ModeBase {
+		class ModeResult : public ::mode::ModeBase {
 			using base = ModeBase;
 
 		public:

@@ -66,8 +66,8 @@ bool ModeTeamLogo::Process() {
 		if (_fadeCnt <= 0) {
 			_fadeCnt = 0;
 	
-			ModeServer::GetInstance()->Del(this);
-			ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
+			::mode::ModeServer::GetInstance()->Del(this);
+			::mode::ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "title");
 		}
 	}
 
