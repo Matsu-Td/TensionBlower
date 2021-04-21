@@ -7,7 +7,6 @@
  */
 
 #define	_CRT_SECURE_NO_WARNINGS
-//#include "picojson/picojson.h"
 #include "CharaData.h"
 
 using namespace tensionblower::charadata;
