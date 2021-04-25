@@ -18,7 +18,7 @@ namespace tensionblower {
 		/**
 		 * @brief ボスのレーザー攻撃クラス
 		 */
-		class Laser : public ObjectBase {
+		class Laser : public object::ObjectBase {
 		public:
 			/**
 			 * @brief レーザー生成

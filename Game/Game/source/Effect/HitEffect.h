@@ -18,7 +18,7 @@ namespace tensionblower {
 		/**
 		 * @brief 近接攻撃のヒットエフェクトクラス
 		 */
-		class HitEffect : public ObjectBase {
+		class HitEffect : public object::ObjectBase {
 		public:
 			/**
 			 * @brief ボスへのヒットエフェクト生成

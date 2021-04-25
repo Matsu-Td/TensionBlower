@@ -18,7 +18,7 @@ namespace tensionblower {
 		/**
 		 * @brief プレイヤークラス
 		 */
-		class Player : public ObjectBase {
+		class Player : public object::ObjectBase {
 		public:
 			Player();
 			virtual ~Player();

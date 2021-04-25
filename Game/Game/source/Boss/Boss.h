@@ -18,7 +18,7 @@ namespace tensionblower {
 		/**
 		 * @brief ボスクラス
 		 */
-		class Boss : public ObjectBase {
+		class Boss : public object::ObjectBase {
 		public:
 			Boss();
 			~Boss();

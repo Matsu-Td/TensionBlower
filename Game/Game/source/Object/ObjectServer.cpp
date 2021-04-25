@@ -8,6 +8,8 @@
 #include "DxLib.h"
 #include "ObjectServer.h"
 
+using namespace tensionblower::object;
+
 ObjectServer::ObjectServer() {
 
 	_vObject.clear();

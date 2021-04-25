@@ -17,7 +17,7 @@ namespace tensionblower {
 		/**
 		 * @brief ƒvƒŒƒCƒ„[Æ€ˆ—
 		 */
-		class Reticle : public ObjectBase {
+		class Reticle : public object::ObjectBase {
 		public:
 			Reticle();
 			~Reticle();
