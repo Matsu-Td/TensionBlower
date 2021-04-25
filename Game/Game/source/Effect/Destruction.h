@@ -18,7 +18,7 @@ namespace tensionblower {
 		/**
 		 * @brief ボスの死亡爆発エフェクトクラス
 		 */
-		class Destruction : public ObjectBase {
+		class Destruction : public object::ObjectBase {
 		public:
 			/**
 			 * @brief ボスの死亡エフェクト生成

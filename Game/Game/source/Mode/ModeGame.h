@@ -63,7 +63,7 @@ namespace tensionblower {
 			}
 
 			camera::Camera     _cam;  // カメラ
-			ObjectServer _objServer;  // オブジェクト管理サーバー
+			object::ObjectServer _objServer;  // オブジェクト管理サーバー
 
 			std::unique_ptr<charadata::CharaData> _charaData; // JSONファイルからキャラデータ読み込み
 

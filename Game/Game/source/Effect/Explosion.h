@@ -18,7 +18,7 @@ namespace tensionblower {
 		/**
 		 * @brief ボム攻撃の爆発エフェクトクラス
 		 */
-		class Explosion : public ObjectBase {
+		class Explosion : public object::ObjectBase {
 		public:
 			/**
 			 * @brief ボム攻撃の爆発エフェクト生成

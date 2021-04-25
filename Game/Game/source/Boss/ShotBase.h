@@ -18,7 +18,7 @@ namespace tensionblower {
 		/**
 		 * @brief 弾幕系処理クラスの基底クラス
 		 */
-		class ShotBase : public ObjectBase {
+		class ShotBase : public object::ObjectBase {
 		public:
 			/**
 			 * @brief 初期化

@@ -18,7 +18,7 @@ namespace tensionblower {
 		/**
 		 * @brief ステージクラス
 		 */
-		class Stage : public ObjectBase {
+		class Stage : public object::ObjectBase {
 		public:
 			Stage();
 			~Stage();

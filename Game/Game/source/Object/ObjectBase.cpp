@@ -8,6 +8,8 @@
 #include "DxLib.h"
 #include "ObjectBase.h"
 
+using namespace tensionblower::object;
+
 ObjectBase::ObjectBase() {
 
 	Initialize();
