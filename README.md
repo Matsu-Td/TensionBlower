@@ -1,6 +1,6 @@
 # テンションブロワー
 ## 実行ファイル
-ダウンロードは[***こちら***](https://drive.google.com/file/d/12Ni6fhAgCIjYRqUVXbTWHPSvwZv-YUrP/view?usp=sharing)👈***クリック***
+ダウンロードは[***こちら***](https://drive.google.com/file/d/1vuRZGz-neB6-LOW-JDhEBnDd87m-EzNx/view?usp=sharing)👈***クリック***
 ## ジャンル
 3D弾幕アクション
 ## プレイ人数
